@@ -3008,7 +3008,8 @@ function ShowError(data) {
 
 	};
 
-	$.fn.inboxShowcaseVideoTextButton = function (options) {
+	//$.fn.inboxShowcaseVideoTextButton = function (options) {
+	function inboxShowcaseVideoTextButton() {
 		settings = $.extend({
 			'contact-toggle': { 'file-value': '',
 				'subject-value': '',
