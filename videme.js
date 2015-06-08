@@ -34,9 +34,8 @@
 					 */
 					$.fn.showcaseVideoTextButton({
 						"showcaseVideo": {
-							videmeVideo: file,
+							videmeVideo: data[0].href,
 							miniVideo: true
-							//miniVideo: false
 						},
 						"showcaseText": {
 							Subject: Subject,
@@ -377,7 +376,7 @@
 	$.fn.showcaseVideoTextButton = function (options) {
 	//function inboxShowcaseVideoTextButton() {
 		settings = $.extend({
-			"showcaseVideo": {
+/*			"showcaseVideo": {
 				videmeVideo: file,
 				miniVideo: true
 				//miniVideo: false
@@ -401,7 +400,7 @@
 					'file-value': file,
 					'messageid-value': messageid
 				}
-			}
+			}*/
 		}, options);
 
 		//console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings));
