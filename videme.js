@@ -15,10 +15,10 @@
 		$(this).html(VidemeProgress);
 
 		return this.each(function () {
-			var TempObject = $(this);
+			var tempObject = $(this);
 			$.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
 				function (data) {
-					TempObject.html(showFile(parseFileInbox(data), TempObject));
+					tempObject.html(showFile(parseFileInbox(data), tempObject));
 				})
 				.done(function (data) {
 					//console.log("File stringify --- " + JSON.stringify(data));
@@ -67,6 +67,7 @@
 							}
 						}
 					});*/
+					//data.showcaseButton = {
 					data.showcaseButton = {
 						'contact-toggle': {
 							'file-value': data[0].file,
@@ -78,10 +79,12 @@
 								'messageid-value': data[0].messageid
 						}
 					};
+					console.log("$.fn.fileInbox data.showcaseButton ---> " + JSON.stringify(data.showcaseButton));
+
 					$.fn.showcaseVideoTextButton(data[0]);
 				})
 				.fail(function (data) {
-					TempObject.html(showError(data));
+					tempObject.html(showError(data));
 				})
 				.always(function () {
 				});
@@ -424,7 +427,7 @@
 			}*/
 		}, options);
 
-		//console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settings));
+		console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settings));
 		//console.log("$.fn.showcaseVideoTextButton settings.showcaseText.Message ---> " + JSON.stringify(settings.showcaseText.Message));
 var settingsFunc = settings;
 /*
@@ -477,17 +480,7 @@ var settingsFunc = settings;
 			href: settingsFunc.href
 		});
 
-		$.fn.showcaseButton({
-			'contact-toggle': {
-				'file-value': settingsFunc.showcaseButton.File,
-				'subject-value': settingsFunc.showcaseButton.Subject,
-				'message-value': settingsFunc.showcaseButton.Message
-			},
-			'del-inbox-toggle': {
-				'file-value': settingsFunc.showcaseButton.file,
-				'messageid-value': settingsFunc.showcaseButton.messageid
-			}
-		});
+		$.fn.showcaseButton(settingsFunc.showcaseButton);
 	};
 
 	$.fn.articleShowNew = function (options) {
