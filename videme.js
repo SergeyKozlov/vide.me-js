@@ -41,7 +41,7 @@
 					 'updatedAt': value.updatedAt,
 					 'File': value.File,
 					 'objectId': value.objectId*/
-					$.fn.showcaseVideoTextButton({
+/*					$.fn.showcaseVideoTextButton({
 						"showcaseVideo": {
 							videmeVideo: data[0].File,
 							miniVideo: true
@@ -66,7 +66,19 @@
 								'messageid-value': data[0].messageid
 							}
 						}
-					});
+					});*/
+					data.showcaseButton = {
+						'contact-toggle': {
+							'file-value': data[0].file,
+								'subject-value': data[0].Subject,
+								'message-value': data[0].Message
+						},
+						'del-inbox-toggle': {
+							'file-value': data[0].file,
+								'messageid-value': data[0].messageid
+						}
+					};
+					$.fn.showcaseVideoTextButton(data[0]);
 				})
 				.fail(function (data) {
 					TempObject.html(showError(data));
@@ -415,6 +427,7 @@
 		//console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settings));
 		//console.log("$.fn.showcaseVideoTextButton settings.showcaseText.Message ---> " + JSON.stringify(settings.showcaseText.Message));
 var settingsFunc = settings;
+/*
 		$("#videme-showcase-video").showcaseVideo({
 			videmeVideo: settingsFunc.showcaseVideo.videmeVideo,
 			miniVideo: settingsFunc.showcaseVideo.miniVideo
@@ -441,7 +454,40 @@ var settingsFunc = settings;
 				'messageid-value': settingsFunc.showcaseText.messageid
 			}
 		});
+*/
+		/*				'img': value.File,
+		 'href': value.File,
+		 'FromUserName': value.FromUserName,
+		 'Subject': value.Subject,
+		 'Message': value.Message,
+		 'updatedAt': value.updatedAt,
+		 'File': value.File,
+		 'objectId': value.objectId*/
+		$("#videme-showcase-video").showcaseVideo({
+			videmeVideo: settingsFunc.File,
+		});
 
+		$.fn.showcaseText({
+			Subject: settingsFunc.Subject,
+			Message: settingsFunc.Message,
+			updatedAt: settingsFunc.updatedAt,
+			FromUserName: settingsFunc.FromUserName,
+			messageid: settingsFunc.messageid,
+			file: settingsFunc.file,
+			href: settingsFunc.href
+		});
+
+		$.fn.showcaseButton({
+			'contact-toggle': {
+				'file-value': settingsFunc.showcaseButton.File,
+				'subject-value': settingsFunc.showcaseButton.Subject,
+				'message-value': settingsFunc.showcaseButton.Message
+			},
+			'del-inbox-toggle': {
+				'file-value': settingsFunc.showcaseButton.file,
+				'messageid-value': settingsFunc.showcaseButton.messageid
+			}
+		});
 	};
 
 	$.fn.articleShowNew = function (options) {
