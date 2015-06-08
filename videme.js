@@ -5,7 +5,7 @@
 
 (function ($) {
 
-	$.fn.FileInbox = function (options) {
+	$.fn.fileInbox = function (options) {
 		settings = $.extend({
 			// TODO: добавить limit в NAD
 			limit: 6,
@@ -18,27 +18,27 @@
 			var TempObject = $(this);
 			$.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
 				function (data) {
-					TempObject.html(ShowFile(ParseFileInbox(data), TempObject));
+					TempObject.html(showFile(parseFileInbox(data), TempObject));
 				})
 				.done(function (data) {
 					//console.log("File stringify --- " + JSON.stringify(data));
-					console.log("$.fn.FileInbox File href ---> " + data[0].href);
-					//$.fn.ShowcaseVideo({
+					console.log("$.fn.fileInbox File href ---> " + data[0].href);
+					//$.fn.showcaseVideo({
 					/*
-					 $("#" + settings.showcaseVideo).ShowcaseVideo({
-					 //$("#videme-showcase-video").ShowcaseVideo({
+					 $("#" + settings.showcaseVideo).showcaseVideo({
+					 //$("#videme-showcase-video").showcaseVideo({
 					 videmeVideo: data[0].href,
 					 miniVideo: true
 					 //miniVideo: false
 					 });
 					 */
 					$.fn.showcaseVideoTextButton({
-						'ShowcaseVideo': {
+						"showcaseVideo": {
 							videmeVideo: file,
 							miniVideo: true
 							//miniVideo: false
 						},
-						'ShowcaseText': {
+						"showcaseText": {
 							Subject: Subject,
 							Message: Message,
 							updatedAt: updatedAt,
@@ -47,7 +47,7 @@
 							file: file,
 							href: href
 						},
-						'ShowcaseButton': {
+						"showcaseButton": {
 							'contact-toggle': {
 								'file-value': file,
 								'subject-value': Subject,
@@ -61,24 +61,24 @@
 					});
 				})
 				.fail(function (data) {
-					TempObject.html(ShowError(data));
+					TempObject.html(showError(data));
 				})
 				.always(function () {
 				});
 		});
 	};
 
-	function ShowFile(ShowFile, TempObject) {
-		if (TempObject.width() < 500) {
-			var TempObjectClass = " videme-narrow-tile";
+	function showFile(showFile, tempObject) {
+		if (tempObject.width() < 500) {
+			var tempObjectClass = " videme-narrow-tile";
 		} else {
-			var TempObjectClass = "";
+			var tempObjectClass = "";
 		}
 		var html = [];
-		$.each(ShowFile, function (key, value) {
+		$.each(showFile, function (key, value) {
 			//console.log("value.Message --- " + JSON.stringify(value.Message));
 			html.push("\
-				<div class='box" + TempObjectClass + "'>\
+				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
 					<div class='titleTop'>\
 						 " + value.a + "<br>\
@@ -103,12 +103,12 @@
 		return html;
 	}
 
-	function ParseFileInbox(ParseFileInbox) {
-		$.each(ParseFileInbox.results, function (key, value) {
+	function parseFileInbox(parseFileInbox) {
+		$.each(parseFileInbox.results, function (key, value) {
 			//var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
 			//console.log("obj.value.Message ---" + obj.value.Message);
 
-			ParseFileInbox[key] = {
+			parseFileInbox[key] = {
 				'a': value.FromUserName,
 				'b': value.Subject,
 				'c': value.Message,
@@ -123,10 +123,10 @@
 				'objectId': value.objectId
 			};
 		});
-		return ParseFileInbox;
+		return parseFileInbox;
 	}
 
-	$.fn.ShowcaseVideo = function (options) {
+	$.fn.showcaseVideo = function (options) {
 		settings = $.extend({
 			videmeVideo: "9566b5a3475c25aa",
 			miniVideo: true
@@ -134,28 +134,28 @@
 
 		$(this).html(VidemeProgress);
 
-		//console.log("$.fn.ShowcaseVideo ---> start");
+		//console.log("$.fn.showcaseVideo ---> start");
 
 		return this.each(function () {
 
-			//console.log("$.fn.ShowcaseVideo settings.videmeVideo ---> " + settings.videmeVideo);
+			//console.log("$.fn.showcaseVideo settings.videmeVideo ---> " + settings.videmeVideo);
 
-			var TempObject = $(this);
+			var tempObject = $(this);
 
-			TempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
+			tempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
 				"<div id=\"videme-minivideo\"><div>");
-			var oldPlayer1 = document.getElementById('my_video1');
+			var oldShowcasePlayer = document.getElementById('my_video1');
 			//var oldPlayer1 = $('#my_video1');
-			videojs(oldPlayer1).dispose();
-			TempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
+			videojs(oldShowcasePlayer).dispose();
+			tempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
 				"<div id=\"videme-minivideo\"><div>");
 
 			if ($('#my_video1').length) {
-				console.log("$.fn.ShowcaseVideo (\"#my_video1\").length) ---> yes " + $("#my_video1").length);
+				console.log("$.fn.showcaseVideo (\"#my_video1\").length) ---> yes " + $("#my_video1").length);
 				//var oldPlayer1 = document.getElementById('my_video1');
 				//videojs(oldPlayer1).dispose();
 			} else {
-				console.log("$.fn.ShowcaseVideo (\"#my_video1\").length) ---> nooo! " + $("#my_video1").length);
+				console.log("$.fn.showcaseVideo (\"#my_video1\").length) ---> nooo! " + $("#my_video1").length);
 				//TempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
 				//	"<div id=\"videme-minivideo\"><div>");
 			}
@@ -163,22 +163,22 @@
 			var showcasePlayer = videojs('my_video1', {
 				/* Options */
 			}, function () {
-				var myPlayer = this;
-				resizeVideoJS(myPlayer);
-				myPlayer.src({
+				var showcasePlayerFunc = this;
+				resizeVideoJS(showcasePlayerFunc);
+				showcasePlayerFunc.src({
 					type: "video/mp4",
 					src: "http://gu.vide.me/vi?m=" + settings.videmeVideo
 				});
-				myPlayer.controls(true);
-				myPlayer.load();
-				myPlayer.play();
-				myPlayer.on('ended', function () {
-					myPlayer.src({
+				showcasePlayerFunc.controls(true);
+				showcasePlayerFunc.load();
+				showcasePlayerFunc.play();
+				showcasePlayerFunc.on('ended', function () {
+					showcasePlayerFunc.src({
 						type: "video/mp4",
 						src: "http://7652b4c7a21e4ee2c1c0-b1986b3a7e22b6d15c9fa96ff70c1457.r7.cf1.rackcdn.com/07aebdc55f2163de.mp4"
 					});
-					myPlayer.load();
-					myPlayer.play();
+					showcasePlayerFunc.load();
+					showcasePlayerFunc.play();
 				});
 			});
 
@@ -186,7 +186,7 @@
 				resizeVideoJS(showcasePlayer);
 			});
 
-			console.log("$.fn.ShowcaseVideo settings.miniVideo ---> " + settings.miniVideo);
+			console.log("$.fn.showcaseVideo settings.miniVideo ---> " + settings.miniVideo);
 
 			if (settings.miniVideo) {
 				/*
@@ -211,22 +211,22 @@
 			");
 
 
-				var oldPlayer2 = document.getElementById('my_video2');
-				console.log("$.fn.ShowcaseVideo var oldPlayer2 ---> " + oldPlayer2);
+				var oldMiniPlayer = document.getElementById('my_video2');
+				console.log("$.fn.showcaseVideo var oldPlayer2 ---> " + oldMiniPlayer);
 
-				videojs(oldPlayer2).dispose();
+				videojs(oldMiniPlayer).dispose();
 
-				console.log("$.fn.ShowcaseVideo settings.videmeVideo ---> " + settings.videmeVideo);
+				console.log("$.fn.showcaseVideo settings.videmeVideo ---> " + settings.videmeVideo);
 
 
 				/*				if ($('#my_video2').length) {
-				 console.log("$.fn.ShowcaseVideo (\"#my_video2\").length) ---> yes " + $("#my_video2").length);
+				 console.log("$.fn.showcaseVideo (\"#my_video2\").length) ---> yes " + $("#my_video2").length);
 				 var oldPlayer2 = document.getElementById('my_video2');
-				 console.log("$.fn.ShowcaseVideo var oldPlayer2 ---> " + oldPlayer2);
+				 console.log("$.fn.showcaseVideo var oldPlayer2 ---> " + oldPlayer2);
 
 				 videojs(oldPlayer2).dispose();
 				 } else {
-				 console.log("$.fn.ShowcaseVideo (\"#my_video2\").length) ---> nooo! " + $("#my_video2").length);
+				 console.log("$.fn.showcaseVideo (\"#my_video2\").length) ---> nooo! " + $("#my_video2").length);
 				 $("#videme-minivideo").html("<video id=\"my_video2\" class=\"video-js vjs-default-skin video-down\"></video> \
 				 <button id=\"closevideo\" type=\"button\" class=\"close closevideo hidden\" aria-label=\"Close\"> \
 				 <span aria-hidden=\"true\">&times;</span> \
@@ -301,7 +301,7 @@
 				});
 
 			} else {
-				console.log("$.fn.ShowcaseVideo ---> no miniVideo");
+				console.log("$.fn.showcaseVideo ---> no miniVideo");
 			}
 
 			function checkPausePlay(myPlayer) {
@@ -340,7 +340,7 @@
 		});
 	};
 
-	$.fn.ShowcaseText = function (options) {
+	$.fn.showcaseText = function (options) {
 		settings = $.extend({
 			Subject: "Subject",
 			Message: "Message",
@@ -356,7 +356,7 @@
 		//console.log("settings.Subject " + settings.Subject);
 	};
 
-	$.fn.ShowcaseButton = function (options) {
+	$.fn.showcaseButton = function (options) {
 		settings = $.extend({
 			'contact-toggle': { 'file-value': '',
 				'subject-value': '',
@@ -367,7 +367,7 @@
 			}
 		}, options);
 
-		//console.log("$.fn.ShowcaseButton ---> " + JSON.stringify(settings));
+		//console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings));
 
 		if (settings['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings['del-inbox-toggle']);
 		if (settings['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings['contact-toggle']);
@@ -377,23 +377,41 @@
 	$.fn.showcaseVideoTextButton = function (options) {
 	//function inboxShowcaseVideoTextButton() {
 		settings = $.extend({
-			'contact-toggle': { 'file-value': '',
-				'subject-value': '',
-				'message-value': ''
+			"showcaseVideo": {
+				videmeVideo: file,
+				miniVideo: true
+				//miniVideo: false
 			},
-			'del-inbox-toggle': { 'file-value': '',
-				'messageid-value': ''
+			"showcaseText": {
+				Subject: Subject,
+				Message: Message,
+				updatedAt: updatedAt,
+				FromUserName: FromUserName,
+				messageid: messageid,
+				file: file,
+				href: href
+			},
+			"showcaseButton": {
+				'contact-toggle': {
+					'file-value': file,
+					'subject-value': Subject,
+					'message-value': Message
+				},
+				'del-inbox-toggle': {
+					'file-value': file,
+					'messageid-value': messageid
+				}
 			}
 		}, options);
 
-		//console.log("$.fn.ShowcaseButton ---> " + JSON.stringify(settings));
-		$("#videme-showcase-video").ShowcaseVideo({
+		//console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings));
+		$("#videme-showcase-video").showcaseVideo({
 			videmeVideo: file,
 			miniVideo: true
 			//miniVideo: false
 		});
 
-		$.fn.ShowcaseText({
+		$.fn.showcaseText({
 			Subject: Subject,
 			Message: Message,
 			updatedAt: updatedAt,
@@ -403,7 +421,7 @@
 			href: href
 		});
 
-		$.fn.ShowcaseButton({
+		$.fn.showcaseButton({
 			'contact-toggle': { 'file-value': file,
 				'subject-value': Subject,
 				'message-value': Message
@@ -415,7 +433,7 @@
 
 	};
 
-	$.fn.ArticleShowNew = function (options) {
+	$.fn.articleShowNew = function (options) {
 		settings = $.extend({
 			limit: 3
 		}, options);
@@ -426,29 +444,29 @@
 			var TempObject = $(this);
 			$.getJSON("http://api.vide.me/article/shownew/?limit=" + settings.limit + "&videmecallback=?",
 				function (data) {
-					TempObject.html(ShowArticle(ParseArticleShowNew(data), TempObject));
+					TempObject.html(showArticle(parseArticleShowNew(data), TempObject));
 				})
 				.done(function () {
 				})
 				.fail(function (data) {
 					// Внещгяя функция
-					TempObject.html(ShowError(data));
+					TempObject.html(showError(data));
 				})
 				.always(function () {
 				});
 		});
 	};
 
-	function ShowArticle(ShowArticle, TempObject) {
-		if (TempObject.width() < 500) {
-			var TempObjectClass = " videme-narrow-tile";
+	function showArticle(showArticle, tempObject) {
+		if (tempObject.width() < 500) {
+			var tempObjectClass = " videme-narrow-tile";
 		} else {
-			var TempObjectClass = "";
+			var tempObjectClass = "";
 		}
 		var html = [];
-		$.each(ShowArticle, function (key, value) {
+		$.each(showArticle, function (key, value) {
 			html.push("\
-				<div class='box" + TempObjectClass + "'>\
+				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
 					<div class='titleTop'>\
 						 " + value.a + "<br>\
@@ -465,9 +483,9 @@
 		return html;
 	}
 
-	function ParseArticleShowNew(ParseArticleShowNew) {
-		$.each(ParseArticleShowNew, function (key, value) {
-			ParseArticleShowNew[key] = {
+	function parseArticleShowNew(parseArticleShowNew) {
+		$.each(parseArticleShowNew, function (key, value) {
+			parseArticleShowNew[key] = {
 				'a': value.value.date,
 				'b': value.value.username,
 				'c': value.value.title,
@@ -475,7 +493,7 @@
 				'href': value.id
 			};
 		});
-		return ParseArticleShowNew;
+		return parseArticleShowNew;
 	}
 
 })(jQuery);
@@ -931,14 +949,14 @@ data-target='#modal-del'> \
 		console.log("a.file-inbox-url2 Subject ---> " + Subject);
 		//console.log("Subject1 " + $(this).attr('Subject-value'));
 
-		//$.fn.ShowcaseVideo({
-		$("#videme-showcase-video").ShowcaseVideo({
+		//$.fn.showcaseVideo({
+		$("#videme-showcase-video").showcaseVideo({
 			videmeVideo: file,
 			miniVideo: true
 			//miniVideo: false
 		});
 
-		$.fn.ShowcaseText({
+		$.fn.showcaseText({
 			Subject: Subject,
 			Message: Message,
 			updatedAt: updatedAt,
@@ -948,7 +966,7 @@ data-target='#modal-del'> \
 			href: href
 		});
 
-		$.fn.ShowcaseButton({
+		$.fn.showcaseButton({
 			'contact-toggle': { 'file-value': file,
 								'subject-value': Subject,
 								'message-value': Message
@@ -3133,7 +3151,7 @@ $(document).on('click', '.del_file_form', function(event) {
 * Функции Vide.me
  ***************************************************************************/
 
-function ShowError(data) {
+function showError(data) {
 	var html = [];
 	html.push("\
 			<div class=\"alert alert-warning alert-dismissible\" role=\"alert\">\
