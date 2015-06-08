@@ -32,29 +32,38 @@
 					 //miniVideo: false
 					 });
 					 */
+					/*
+					 'img': value.File,
+					 'href': value.File,
+					 'FromUserName': value.FromUserName,
+					 'Subject': value.Subject,
+					 'Message': value.Message,
+					 'updatedAt': value.updatedAt,
+					 'File': value.File,
+					 'objectId': value.objectId*/
 					$.fn.showcaseVideoTextButton({
 						"showcaseVideo": {
-							videmeVideo: data[0].href,
+							videmeVideo: data[0].File,
 							miniVideo: true
 						},
 						"showcaseText": {
-							Subject: Subject,
-							Message: Message,
-							updatedAt: updatedAt,
-							FromUserName: FromUserName,
-							messageid: messageid,
-							file: file,
-							href: href
+							Subject: data[0].Subject,
+							Message: data[0].Message,
+							updatedAt: data[0].updatedAt,
+							FromUserName: data[0].FromUserName,
+							messageid: data[0].messageid,
+							file: data[0].file,
+							href: data[0].href
 						},
 						"showcaseButton": {
 							'contact-toggle': {
-								'file-value': file,
-								'subject-value': Subject,
-								'message-value': Message
+								'file-value': data[0].file,
+								'subject-value': data[0].Subject,
+								'message-value': data[0].Message
 							},
 							'del-inbox-toggle': {
-								'file-value': file,
-								'messageid-value': messageid
+								'file-value': data[0].file,
+								'messageid-value': data[0].messageid
 							}
 						}
 					});
@@ -403,30 +412,35 @@
 			}*/
 		}, options);
 
-		//console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings));
-		$("#videme-showcase-video").showcaseVideo({
-			videmeVideo: file,
+		console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settings));
+		console.log("$.fn.showcaseVideoTextButton settings.showcaseText.Message ---> " + JSON.stringify(settings.showcaseText.Message));
+var settingsFunc = settings;
+		$("#videme-showcase-video").showcaseVideo(		console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settingsFunc)),
+		{
+			videmeVideo: settings.file,
 			miniVideo: true
 			//miniVideo: false
 		});
 
 		$.fn.showcaseText({
-			Subject: Subject,
-			Message: Message,
-			updatedAt: updatedAt,
-			FromUserName: FromUserName,
-			messageid: messageid,
-			file: file,
-			href: href
+			Subject: settingsFunc.showcaseText.Subject,
+			Message: settingsFunc.showcaseText.Message,
+			updatedAt: settingsFunc.showcaseText.updatedAt,
+			FromUserName: settingsFunc.showcaseText.FromUserName,
+			messageid: settingsFunc.showcaseText.messageid,
+			file: settingsFunc.showcaseText.file,
+			href: settingsFunc.showcaseText.href
 		});
 
 		$.fn.showcaseButton({
-			'contact-toggle': { 'file-value': file,
-				'subject-value': Subject,
-				'message-value': Message
+			'contact-toggle': {
+				'file-value': settings.showcaseText.file,
+				'subject-value': settings.showcaseText.Subject,
+				'message-value': settings.showcaseText.Message
 			},
-			'del-inbox-toggle': { 'file-value': file,
-				'messageid-value': messageid
+			'del-inbox-toggle': {
+				'file-value': settings.showcaseText.file,
+				'messageid-value': settings.showcaseText.messageid
 			}
 		});
 
