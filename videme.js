@@ -4,7 +4,17 @@
  * *************************************************************************/
 
 (function ($) {
+	$.fn.getAttributes = function() {
+		var attributes = {};
 
+		if( this.length ) {
+			$.each( this[0].attributes, function( index, attr ) {
+				attributes[ attr.name ] = attr.value;
+			} );
+		}
+
+		return attributes;
+	};
 	$.fn.fileInbox = function (options) {
 		settings = $.extend({
 			// TODO: добавить limit в NAD
@@ -69,6 +79,7 @@
 					});*/
 
 					data.showcaseButton = {
+					//data['showcaseButton'] = {
 						'contact-toggle': {
 							'file-value': data[0].file,
 								'subject-value': data[0].Subject,
@@ -80,6 +91,7 @@
 						}
 					};
 					console.log("$.fn.fileInbox data.showcaseButton ---> " + JSON.stringify(data.showcaseButton));
+					console.log("$.fn.fileInbox data ---> " + JSON.stringify(data));
 
 					$.fn.showcaseVideoTextButton(data[0]);
 				})
@@ -467,14 +479,14 @@ var settingsFunc = settings;
 		 'File': value.File,
 		 'objectId': value.objectId*/
 		$("#videme-showcase-video").showcaseVideo({
-			videmeVideo: settingsFunc.File,
+			videmeVideo: settingsFunc.file,
 		});
 
 		$.fn.showcaseText({
-			Subject: settingsFunc.Subject,
-			Message: settingsFunc.Message,
+			subject: settingsFunc.subject,
+			message: settingsFunc.message,
 			updatedAt: settingsFunc.updatedAt,
-			FromUserName: settingsFunc.FromUserName,
+			fromUserName: settingsFunc.fromUserName,
 			messageid: settingsFunc.messageid,
 			file: settingsFunc.file,
 			href: settingsFunc.href
@@ -977,73 +989,91 @@ data-target='#modal-del'> \
 
 		event.preventDefault();
 		//event.stopPropagation();
-		var tempObject = $(this);
+		var tempObject = $(this).data;
 
-		/*
+
                 var $this = $(this);
-                        var file = $this.attr('file-value');
-                var messageid = $this.attr('messageid-value');
-                var FromUserName = $this.attr('FromUserName-value');
-                var updatedAt = $this.attr('updatedAt-value');
-                var Subject = $this.attr('Subject-value');
-                var Message = $this.attr('Message-value');
+                        var file = $this.attr('file');
+                var messageid = $this.attr('messageid');
+                var fromUserName = $this.attr('fromUserName');
+                var updatedAt = $this.attr('updatedAt');
+                var subject = $this.attr('subject');
+                var message = $this.attr('message');
                 var href = $this.attr('href');
 
                 file.replace(/.*(?=#[^\s]+$)/, '');
                 messageid.replace(/.*(?=#[^\s]+$)/, '');
-                FromUserName.replace(/.*(?=#[^\s]+$)/, '');
+                fromUserName.replace(/.*(?=#[^\s]+$)/, '');
                 updatedAt.replace(/.*(?=#[^\s]+$)/, '');
-                Subject.replace(/.*(?=#[^\s]+$)/, '');
-                Message.replace(/.*(?=#[^\s]+$)/, '');
-        */
+                subject.replace(/.*(?=#[^\s]+$)/, '');
+                message.replace(/.*(?=#[^\s]+$)/, '');
+
 
 
 		var nad = $.cookie('vide_nad');
 
-		//console.log("a.file-inbox-url2 tempObject.attr ---> " + Subject);
-		console.log("$.fn.fileInbox $(this).attr) ---> " + JSON.stringify($(this).attr));
+		console.log("a.file-inbox-url2 subject ---> " + subject);
+		console.log("$.file-inbox-url2 tempObject ---> " + JSON.stringify(tempObject));
+		console.log("$.file-inbox-url2  .getAttributes() ---> " + JSON.stringify( $(".file-inbox-url2").getAttributes()));
 
-/*		//$.fn.showcaseVideo({
-		$("#videme-showcase-video").showcaseVideo({
-			videmeVideo: file,
-			miniVideo: true
-			//miniVideo: false
-		});
+/*
+		var elements = $(this);
+		var vals = [];
+		for(var i=0;typeof(elements[i])!='undefined';vals.push(elements[i++].getAttribute('value')));
+		console.log("$.file-inbox-url2 vals ---> " + JSON.stringify(vals));
 
-		$.fn.showcaseText({
-			Subject: Subject,
-			Message: Message,
-			updatedAt: updatedAt,
-			FromUserName: FromUserName,
-			messageid: messageid,
-			file: file,
-			href: href
-		});
+		var el = $(this);
+		console.log("a.file-inbox-url2 el ---> " + el);
+		//var atts = [];
+		var arr = [];
 
-		$.fn.showcaseButton({
-			'contact-toggle': { 'file-value': file,
-								'subject-value': Subject,
-								'message-value': Message
-							},
-			'del-inbox-toggle': { 'file-value': file,
-								'messageid-value': messageid
-					}
-		});
-		data.showcaseButton = {
-			'contact-toggle': {
-				'file-value': data[0].file,
-				'subject-value': data[0].Subject,
-				'message-value': data[0].Message
-			},
-			'del-inbox-toggle': {
-				'file-value': data[0].file,
-				'messageid-value': data[0].messageid
-			}
-		};
-		console.log("$.fn.fileInbox data.showcaseButton ---> " + JSON.stringify(data.showcaseButton));
+		for (var i = 0, atts = el.attributes, n = atts.length, arr = []; i < n; i++){
+			arr.push(atts[i].nodeName);
+		}
+		console.log("$.file-inbox-url2 arr ---> " + JSON.stringify(arr));
+*/
 
-		$.fn.showcaseVideoTextButton(data[0]);
-		*/
+		/*		//$.fn.showcaseVideo({
+                $("#videme-showcase-video").showcaseVideo({
+                    videmeVideo: file,
+                    miniVideo: true
+                    //miniVideo: false
+                });
+
+                $.fn.showcaseText({
+                    Subject: Subject,
+                    Message: Message,
+                    updatedAt: updatedAt,
+                    FromUserName: FromUserName,
+                    messageid: messageid,
+                    file: file,
+                    href: href
+                });
+
+                $.fn.showcaseButton({
+                    'contact-toggle': { 'file-value': file,
+                                        'subject-value': Subject,
+                                        'message-value': Message
+                                    },
+                    'del-inbox-toggle': { 'file-value': file,
+                                        'messageid-value': messageid
+                            }
+                });
+                data.showcaseButton = {
+                    'contact-toggle': {
+                        'file-value': data[0].file,
+                        'subject-value': data[0].Subject,
+                        'message-value': data[0].Message
+                    },
+                    'del-inbox-toggle': {
+                        'file-value': data[0].file,
+                        'messageid-value': data[0].messageid
+                    }
+                };
+                console.log("$.fn.fileInbox data.showcaseButton ---> " + JSON.stringify(data.showcaseButton));
+
+                $.fn.showcaseVideoTextButton(data[0]);
+                */
 /*	$(".contact-toggle").data("file-value", file.substr(1));
 	$(".contact-toggle").data("subject-value", Subject.substr(1));
 	$(".contact-toggle").data("message-value", Message.substr(1));
