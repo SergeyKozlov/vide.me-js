@@ -26,6 +26,8 @@
 
 		return this.each(function () {
 			var tempObject = $(this);
+			var data = [];
+
 			$.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
 				function (data) {
 					tempObject.html(showTile(parseFileInbox(data), tempObject));
@@ -78,20 +80,31 @@
 						}
 					});*/
 
-					data.showcaseButton = {
+					//data.showcaseButton = {
 					//data['showcaseButton'] = {
-						'contact-toggle': {
-							'file-value': data[0].file,
-								'subject-value': data[0].Subject,
-								'message-value': data[0].Message
-						},
-						'del-inbox-toggle': {
-							'file-value': data[0].file,
+					//data[0] = {
+					//var data2 = {};
+					//data2 = data[0];
+					//console.log("$.fn.fileInbox data2] ---> " + JSON.stringify(data2));
+					//data2.push({
+					//var data2 = {
+					//=data[0]['showcaseButton'] = {
+					data[0].showcaseButton = {
+						//'showcaseButton': {
+							'contact-toggle': {
+								'file-value': data[0].file,
+								'subject-value': data[0].subject,
+								'message-value': data[0].message
+							},
+							'del-inbox-toggle': {
+								'file-value': data[0].file,
 								'messageid-value': data[0].messageid
-						}
+							}
+						//}
 					};
-					console.log("$.fn.fileInbox data.showcaseButton ---> " + JSON.stringify(data.showcaseButton));
-					console.log("$.fn.fileInbox data ---> " + JSON.stringify(data));
+					//var children = data2.concat(data[0]);
+					//console.log("$.fn.fileInbox data[0].showcaseButton ---> " + JSON.stringify(data[0].showcaseButton));
+					console.log("$.fn.fileInbox data[0] ---> " + JSON.stringify(data[0]));
 
 					$.fn.showcaseVideoTextButton(data[0]);
 				})
@@ -163,7 +176,7 @@
 
 	$.fn.showcaseVideo = function (options) {
 		settings = $.extend({
-			videmeVideo: "9566b5a3475c25aa",
+			file: "9566b5a3475c25aa",
 			miniVideo: true
 		}, options);
 
@@ -173,7 +186,7 @@
 
 		return this.each(function () {
 
-			//console.log("$.fn.showcaseVideo settings.videmeVideo ---> " + settings.videmeVideo);
+			console.log("$.fn.showcaseVideo settings.file ---> " + settings.file);
 
 			var tempObject = $(this);
 
@@ -202,7 +215,7 @@
 				resizeVideoJS(showcasePlayerFunc);
 				showcasePlayerFunc.src({
 					type: "video/mp4",
-					src: "http://gu.vide.me/vi?m=" + settings.videmeVideo
+					src: "http://gu.vide.me/vi?m=" + settings.file
 				});
 				showcasePlayerFunc.controls(true);
 				showcasePlayerFunc.load();
@@ -245,13 +258,12 @@
 				</button> \
 			");
 
-
 				var oldMiniPlayer = document.getElementById('my_video2');
-				console.log("$.fn.showcaseVideo var oldPlayer2 ---> " + oldMiniPlayer);
+				//console.log("$.fn.showcaseVideo var oldPlayer2 ---> " + oldMiniPlayer);
 
 				videojs(oldMiniPlayer).dispose();
 
-				console.log("$.fn.showcaseVideo settings.videmeVideo ---> " + settings.videmeVideo);
+				console.log("$.fn.showcaseVideo settings.file ---> " + settings.file);
 
 
 				/*				if ($('#my_video2').length) {
@@ -308,7 +320,7 @@
 
 					//miniPlayer.hide();
 					miniPlayerFunc.muted(true);
-					miniPlayerFunc.src({type: "video/mp4", src: "http://gu.vide.me/vi?m=" + settings.videmeVideo});
+					miniPlayerFunc.src({type: "video/mp4", src: "http://gu.vide.me/vi?m=" + settings.file});
 					miniPlayerFunc.load();
 					miniPlayerFunc.play();
 					miniPlayerFunc.on('ended', function () {
@@ -377,18 +389,18 @@
 
 	$.fn.showcaseText = function (options) {
 		settings = $.extend({
-			Subject: "Subject",
-			Message: "Message",
+			subject: "subject",
+			message: "message",
 			updatedAt: "updatedAt",
-			FromUserName: "FromUserName",
+			fromUserName: "fromUserName",
 			messageid: "messageid",
 			file: "file",
 			href: "http://vide.me"
 		}, options);
-		$(".videme-showcase-subject").html(settings.Subject);
-		$(".videme-showcase-message").html(settings.Message);
+		$(".videme-showcase-subject").html(settings.subject);
+		$(".videme-showcase-message").html(settings.message);
 		$(".videme-showcase-updatedat").html(settings.updatedAt);
-		//console.log("settings.Subject " + settings.Subject);
+		//console.log("settings.Subject " + settings.subject);
 	};
 
 	$.fn.showcaseButton = function (options) {
@@ -479,7 +491,7 @@ var settingsFunc = settings;
 		 'File': value.File,
 		 'objectId': value.objectId*/
 		$("#videme-showcase-video").showcaseVideo({
-			videmeVideo: settingsFunc.file,
+			file: settingsFunc.file
 		});
 
 		$.fn.showcaseText({
