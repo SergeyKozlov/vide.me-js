@@ -18,7 +18,7 @@
 			var tempObject = $(this);
 			$.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
 				function (data) {
-					tempObject.html(showFile(parseFileInbox(data), tempObject));
+					tempObject.html(showTile(parseFileInbox(data), tempObject));
 				})
 				.done(function (data) {
 					//console.log("File stringify --- " + JSON.stringify(data));
@@ -67,7 +67,7 @@
 							}
 						}
 					});*/
-					//data.showcaseButton = {
+
 					data.showcaseButton = {
 						'contact-toggle': {
 							'file-value': data[0].file,
@@ -91,7 +91,7 @@
 		});
 	};
 
-	function showFile(showFile, tempObject) {
+	function showTile(showFile, tempObject) {
 		if (tempObject.width() < 500) {
 			var tempObjectClass = " videme-narrow-tile";
 		} else {
@@ -110,12 +110,12 @@
 						 " + value.d + "<br>\
 					</div>\
 					<a class='file-inbox-url2' \
-						file-value='" + value.File + "' \
-						messageid-value='" + value.objectId + "' \
-						FromUserName-value='" + value.FromUserName + "' \
-						updatedAt-value='" + value.updatedAt + "' \
-						Subject-value='" + value.Subject + "' \
-						Message-value='" + value.Message + "' \
+						file='" + value.file + "' \
+						messageid='" + value.objectId + "' \
+						fromUserName='" + value.fromUserName + "' \
+						updatedAt='" + value.updatedAt + "' \
+						subject='" + value.subject + "' \
+						message='" + value.message + "' \
 						href='http://vide.me/v?m=" + value.href + "' target='_blank'>\
 					oooooooooo " + key + "</a>\
 						 <img src='http://img.vide.me/" + value.img + ".jpg' alt=''>\
@@ -138,11 +138,11 @@
 				'd': value.updatedAt,
 				'img': value.File,
 				'href': value.File,
-				'FromUserName': value.FromUserName,
-				'Subject': value.Subject,
-				'Message': value.Message,
+				'fromUserName': value.FromUserName,
+				'subject': value.Subject,
+				'message': value.Message,
 				'updatedAt': value.updatedAt,
-				'File': value.File,
+				'file': value.File,
 				'objectId': value.objectId
 			};
 		});
@@ -977,29 +977,33 @@ data-target='#modal-del'> \
 
 		event.preventDefault();
 		//event.stopPropagation();
+		var tempObject = $(this);
 
-		var $this = $(this);
-		var file = $this.attr('file-value');
-		var messageid = $this.attr('messageid-value');
-		var FromUserName = $this.attr('FromUserName-value');
-		var updatedAt = $this.attr('updatedAt-value');
-		var Subject = $this.attr('Subject-value');
-		var Message = $this.attr('Message-value');
-		var href = $this.attr('href');
+		/*
+                var $this = $(this);
+                        var file = $this.attr('file-value');
+                var messageid = $this.attr('messageid-value');
+                var FromUserName = $this.attr('FromUserName-value');
+                var updatedAt = $this.attr('updatedAt-value');
+                var Subject = $this.attr('Subject-value');
+                var Message = $this.attr('Message-value');
+                var href = $this.attr('href');
 
-		file.replace(/.*(?=#[^\s]+$)/, '');
-		messageid.replace(/.*(?=#[^\s]+$)/, '');
-		FromUserName.replace(/.*(?=#[^\s]+$)/, '');
-		updatedAt.replace(/.*(?=#[^\s]+$)/, '');
-		Subject.replace(/.*(?=#[^\s]+$)/, '');
-		Message.replace(/.*(?=#[^\s]+$)/, '');
+                file.replace(/.*(?=#[^\s]+$)/, '');
+                messageid.replace(/.*(?=#[^\s]+$)/, '');
+                FromUserName.replace(/.*(?=#[^\s]+$)/, '');
+                updatedAt.replace(/.*(?=#[^\s]+$)/, '');
+                Subject.replace(/.*(?=#[^\s]+$)/, '');
+                Message.replace(/.*(?=#[^\s]+$)/, '');
+        */
+
 
 		var nad = $.cookie('vide_nad');
 
-		console.log("a.file-inbox-url2 Subject ---> " + Subject);
-		//console.log("Subject1 " + $(this).attr('Subject-value'));
+		//console.log("a.file-inbox-url2 tempObject.attr ---> " + Subject);
+		console.log("$.fn.fileInbox $(this).attr) ---> " + JSON.stringify($(this).attr));
 
-		//$.fn.showcaseVideo({
+/*		//$.fn.showcaseVideo({
 		$("#videme-showcase-video").showcaseVideo({
 			videmeVideo: file,
 			miniVideo: true
@@ -1025,7 +1029,21 @@ data-target='#modal-del'> \
 								'messageid-value': messageid
 					}
 		});
+		data.showcaseButton = {
+			'contact-toggle': {
+				'file-value': data[0].file,
+				'subject-value': data[0].Subject,
+				'message-value': data[0].Message
+			},
+			'del-inbox-toggle': {
+				'file-value': data[0].file,
+				'messageid-value': data[0].messageid
+			}
+		};
+		console.log("$.fn.fileInbox data.showcaseButton ---> " + JSON.stringify(data.showcaseButton));
 
+		$.fn.showcaseVideoTextButton(data[0]);
+		*/
 /*	$(".contact-toggle").data("file-value", file.substr(1));
 	$(".contact-toggle").data("subject-value", Subject.substr(1));
 	$(".contact-toggle").data("message-value", Message.substr(1));
