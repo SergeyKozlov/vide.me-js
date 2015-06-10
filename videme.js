@@ -15,6 +15,7 @@
 
 		return attributes;
 	};
+
 	$.fn.fileInbox = function (options) {
 		settings = $.extend({
 			// TODO: добавить limit в NAD
@@ -26,98 +27,23 @@
 
 		return this.each(function () {
 			var tempObject = $(this);
-			var data = [];
-
 			$.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
 				function (data) {
 					tempObject.html(showTile(parseFileInbox(data), tempObject));
 				})
 				.done(function (data) {
-					//console.log("File stringify --- " + JSON.stringify(data));
-					console.log("$.fn.fileInbox File href ---> " + data[0].href);
-					//$.fn.showcaseVideo({
-					/*
-					 $("#" + settings.showcaseVideo).showcaseVideo({
-					 //$("#videme-showcase-video").showcaseVideo({
-					 videmeVideo: data[0].href,
-					 miniVideo: true
-					 //miniVideo: false
-					 });
-					 */
-					/*
-					 'img': value.File,
-					 'href': value.File,
-					 'FromUserName': value.FromUserName,
-					 'Subject': value.Subject,
-					 'Message': value.Message,
-					 'updatedAt': value.updatedAt,
-					 'File': value.File,
-					 'objectId': value.objectId*/
-					/*					$.fn.showcaseVideoTextButton({
-					 "showcaseVideo": {
-					 videmeVideo: data[0].File,
-					 miniVideo: true
-					 },
-					 "showcaseText": {
-					 Subject: data[0].Subject,
-					 Message: data[0].Message,
-					 updatedAt: data[0].updatedAt,
-					 FromUserName: data[0].FromUserName,
-					 messageid: data[0].messageid,
-					 file: data[0].file,
-					 href: data[0].href
-					 },
-					 "showcaseButton": {
-					 'contact-toggle': {
-					 'file-value': data[0].file,
-					 'subject-value': data[0].Subject,
-					 'message-value': data[0].Message
-					 },
-					 'del-inbox-toggle': {
-					 'file-value': data[0].file,
-					 'messageid-value': data[0].messageid
-					 }
-					 }
-					 });*/
-
-					//data.showcaseButton = {
-					//data['showcaseButton'] = {
-					//data[0] = {
-					//var data2 = {};
-					//data2 = data[0];
-					//console.log("$.fn.fileInbox data2] ---> " + JSON.stringify(data2));
-					//data2.push({
-					//var data2 = {
-					//=data[0]['showcaseButton'] = {
 					data[0].showcaseButton = {
-						//'showcaseButton': {
 						'contact-toggle': {
-							'file-value': data[0].file,
-							'subject-value': data[0].subject,
-							'message-value': data[0].message
+							'file': data[0].file,
+							'subject': data[0].subject,
+							'message': data[0].message
 						},
 						'del-inbox-toggle': {
-							'file-value': data[0].file,
-							'messageid-value': data[0].messageid
+							'file': data[0].file,
+							'messageid': data[0].messageid
 						}
-						//}
 					};
-					//var children = data2.concat(data[0]);
-					//console.log("$.fn.fileInbox data[0].showcaseButton ---> " + JSON.stringify(data[0].showcaseButton));
 					console.log("$.fn.fileInbox data[0] ---> " + JSON.stringify(data[0]));
-
-
-					/*					$.fn.showcaseVideoTextButton(data[0].showcaseButton = {
-					 'contact-toggle': {
-					 'file-value': data[0].file,
-					 'subject-value': data[0].subject,
-					 'message-value': data[0].message
-					 },
-					 'del-inbox-toggle': {
-					 'file-value': data[0].file,
-					 'messageid-value': data[0].messageid
-					 }
-					 });*/
 					$.fn.showcaseVideoTextButton(data[0]);
 				})
 				.fail(function (data) {
@@ -193,14 +119,31 @@
 		}, options);
 
 		$(this).html(VidemeProgress);
+/*
+		console.log("$.fn.showcaseVideo ---> start");
+		var tempObject = $(this);
+		console.log("$.fn.showcaseVideo tempObject ---> " + tempObject);
+		console.log("$.fn.showcaseVideo tempObject.length ---> " + tempObject.length);
+		console.log("$.fn.showcaseVideo $(this).length ---> " + $(this).length);
+*/
 
-		//console.log("$.fn.showcaseVideo ---> start");
+		if ($(this).length) {
+			console.log("$.fn.showcaseVideo $(this) ---> yes " + $(this).length);
+			var tempObject = $(this);
+		} else {
+			console.log("$.fn.showcaseVideo $(this) ---> nooo! " + $(this).length);
+			var tempObject = $("#videme-showcase-video");
+			//var tempObject = $("#videme-showcase-video").attr('id');
+			console.log("$.fn.showcaseVideo tempObject ---> " + tempObject.length);
+			console.log("$.fn.showcaseVideo JSON.stringify(tempObject) ---> " + JSON.stringify(tempObject.attr()));
+		}
 
 		return this.each(function () {
 
 			console.log("$.fn.showcaseVideo settings.file ---> " + settings.file);
 
-			var tempObject = $(this);
+			//var tempObject = $(this);
+			//console.log("$.fn.showcaseVideo tempObject ---> " + tempObject);
 
 			tempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
 				"<div id=\"videme-minivideo\"><div>");
@@ -428,95 +371,18 @@
 
 		//console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings));
 
-		if (settings['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings['del-inbox-toggle']);
-		if (settings['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings['contact-toggle']);
+		if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
+		if (settings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings.showcaseButton['contact-toggle']);
 
 	};
 
 	$.fn.showcaseVideoTextButton = function (options) {
-	//function inboxShowcaseVideoTextButton() {
-		settings = $.extend({
-/*			"showcaseVideo": {
-				videmeVideo: file,
-				miniVideo: true
-				//miniVideo: false
-			},
-			"showcaseText": {
-				Subject: Subject,
-				Message: Message,
-				updatedAt: updatedAt,
-				FromUserName: FromUserName,
-				messageid: messageid,
-				file: file,
-				href: href
-			},
-			"showcaseButton": {
-				'contact-toggle': {
-					'file-value': file,
-					'subject-value': Subject,
-					'message-value': Message
-				},
-				'del-inbox-toggle': {
-					'file-value': file,
-					'messageid-value': messageid
-				}
-			}*/
-		}, options);
-
-		console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settings));
-		//console.log("$.fn.showcaseVideoTextButton settings.showcaseText.Message ---> " + JSON.stringify(settings.showcaseText.Message));
-var settingsFunc = settings;
-/*
-		$("#videme-showcase-video").showcaseVideo({
-			videmeVideo: settingsFunc.showcaseVideo.videmeVideo,
-			miniVideo: settingsFunc.showcaseVideo.miniVideo
-		});
-
-		$.fn.showcaseText({
-			Subject: settingsFunc.showcaseText.Subject,
-			Message: settingsFunc.showcaseText.Message,
-			updatedAt: settingsFunc.showcaseText.updatedAt,
-			FromUserName: settingsFunc.showcaseText.FromUserName,
-			messageid: settingsFunc.showcaseText.messageid,
-			file: settingsFunc.showcaseText.file,
-			href: settingsFunc.showcaseText.href
-		});
-
-		$.fn.showcaseButton({
-			'contact-toggle': {
-				'file-value': settingsFunc.showcaseText.file,
-				'subject-value': settingsFunc.showcaseText.Subject,
-				'message-value': settingsFunc.showcaseText.Message
-			},
-			'del-inbox-toggle': {
-				'file-value': settingsFunc.showcaseText.file,
-				'messageid-value': settingsFunc.showcaseText.messageid
-			}
-		});
-*/
-		/*				'img': value.File,
-		 'href': value.File,
-		 'FromUserName': value.FromUserName,
-		 'Subject': value.Subject,
-		 'Message': value.Message,
-		 'updatedAt': value.updatedAt,
-		 'File': value.File,
-		 'objectId': value.objectId*/
-		$("#videme-showcase-video").showcaseVideo({
-			file: settingsFunc.file
-		});
-
-		$.fn.showcaseText({
-			subject: settingsFunc.subject,
-			message: settingsFunc.message,
-			updatedAt: settingsFunc.updatedAt,
-			fromUserName: settingsFunc.fromUserName,
-			messageid: settingsFunc.messageid,
-			file: settingsFunc.file,
-			href: settingsFunc.href
-		});
-
-		$.fn.showcaseButton(settingsFunc.showcaseButton);
+		settings = $.extend({}, options);
+		//console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settings));
+		//$("#videme-showcase-video").showcaseVideo(settings);
+		$.fn.showcaseVideo(settings);
+		$.fn.showcaseText(settings);
+		$.fn.showcaseButton(settings);
 	};
 
 	$.fn.articleShowNew = function (options) {
@@ -1010,39 +876,11 @@ data-target='#modal-del'> \
 	 **************************************************************/
 		//$(".file-inbox-url2").click(function(event) {
 	$(document).on('click', 'a.file-inbox-url2', function(event) {
-
 		event.preventDefault();
-		//event.stopPropagation();
-		var tempObject = $(this).data;
-
-
-                var $this = $(this);
-                        var file = $this.attr('file');
-                var messageid = $this.attr('messageid');
-                var fromUserName = $this.attr('fromUserName');
-                var updatedAt = $this.attr('updatedAt');
-                var subject = $this.attr('subject');
-                var message = $this.attr('message');
-                var href = $this.attr('href');
-
-                file.replace(/.*(?=#[^\s]+$)/, '');
-                messageid.replace(/.*(?=#[^\s]+$)/, '');
-                fromUserName.replace(/.*(?=#[^\s]+$)/, '');
-                updatedAt.replace(/.*(?=#[^\s]+$)/, '');
-                subject.replace(/.*(?=#[^\s]+$)/, '');
-                message.replace(/.*(?=#[^\s]+$)/, '');
-
-
-
-		var nad = $.cookie('vide_nad');
-
-		//console.log("a.file-inbox-url2 subject ---> " + subject);
-		//console.log("$.file-inbox-url2 tempObject ---> " + JSON.stringify(tempObject));
-		//console.log("$.file-inbox-url2  --- .getAttributes() ---> " + JSON.stringify($(".file-inbox-url2").getAttributes()));
-		//var tempObject = $(this);
+		//var nad = $.cookie('vide_nad');
 		var attrArray = $(this).getAttributes();
+		// TODO: вместо 'file-value' надо 'file'
 		attrArray.showcaseButton = {
-			//'showcaseButton': {
 			'contact-toggle': {
 				'file-value': $(this).getAttributes().file,
 				'subject-value': $(this).getAttributes().subject,
@@ -1052,139 +890,9 @@ data-target='#modal-del'> \
 				'file-value': $(this).getAttributes().file,
 				'messageid-value': $(this).getAttributes().messageid
 			}
-			//}
 		};
-		console.log("$.file-inbox-url2  this .getAttributes() ---> " + JSON.stringify($(this).getAttributes()));
-		console.log("$.file-inbox-url2  attrArray ---> " + JSON.stringify(attrArray));
+		//console.log("$.file-inbox-url2  attrArray ---> " + JSON.stringify(attrArray));
 		$.fn.showcaseVideoTextButton(attrArray);
-/*
-		var elements = $(this);
-		var vals = [];
-		for(var i=0;typeof(elements[i])!='undefined';vals.push(elements[i++].getAttribute('value')));
-		console.log("$.file-inbox-url2 vals ---> " + JSON.stringify(vals));
-
-		var el = $(this);
-		console.log("a.file-inbox-url2 el ---> " + el);
-		//var atts = [];
-		var arr = [];
-
-		for (var i = 0, atts = el.attributes, n = atts.length, arr = []; i < n; i++){
-			arr.push(atts[i].nodeName);
-		}
-		console.log("$.file-inbox-url2 arr ---> " + JSON.stringify(arr));
-*/
-
-		/*		//$.fn.showcaseVideo({
-                $("#videme-showcase-video").showcaseVideo({
-                    videmeVideo: file,
-                    miniVideo: true
-                    //miniVideo: false
-                });
-
-                $.fn.showcaseText({
-                    Subject: Subject,
-                    Message: Message,
-                    updatedAt: updatedAt,
-                    FromUserName: FromUserName,
-                    messageid: messageid,
-                    file: file,
-                    href: href
-                });
-
-                $.fn.showcaseButton({
-                    'contact-toggle': { 'file-value': file,
-                                        'subject-value': Subject,
-                                        'message-value': Message
-                                    },
-                    'del-inbox-toggle': { 'file-value': file,
-                                        'messageid-value': messageid
-                            }
-                });
-                data.showcaseButton = {
-                    'contact-toggle': {
-                        'file-value': data[0].file,
-                        'subject-value': data[0].Subject,
-                        'message-value': data[0].Message
-                    },
-                    'del-inbox-toggle': {
-                        'file-value': data[0].file,
-                        'messageid-value': data[0].messageid
-                    }
-                };
-                console.log("$.fn.fileInbox data.showcaseButton ---> " + JSON.stringify(data.showcaseButton));
-
-                $.fn.showcaseVideoTextButton(data[0]);
-                */
-/*	$(".contact-toggle").data("file-value", file.substr(1));
-	$(".contact-toggle").data("subject-value", Subject.substr(1));
-	$(".contact-toggle").data("message-value", Message.substr(1));
-	$(".del-inbox-toggle").data("file-value", file.substr(1));
-	$(".del-inbox-toggle").data("messageid-value", messageid.substr(1));*/
-	/*
-	 var attributes = {
-	 'id': id,
-	 'class': 'video-js vjs-default-skin',
-	 'width': width,
-	 'height': height,
-	 'controls': '',
-	 'poster':poster,
-	 'preload':'auto'
-	 };
-	 source = document.createElement('source');
-	 $(source).attr('type','video/mp4');
-	 $(source).attr('src',vidSrc);
-
-	 obj = $('<video />').attr(attributes);
-	 */
-
-/*		_V_('my_video1').dispose();
-		_V_('my_video2').dispose();*/
-		//var player1 = videojs('my_video1');
-		//player1.dispose();
-		//var player2 = videojs('my_video2');
-		//player2.dispose();
-/*		var oldPlayer1 = document.getElementById('my_video1');
-		videojs(oldPlayer1).dispose();
-		var oldPlayer2 = document.getElementById('my_video2');
-		videojs(oldPlayer2).dispose();*/
-
-		 //	$(".video-container").html(VidemeProgress);
-		 //	$(".video-container").html("<img src='http://img.vide.me/" + file.substr(1) + ".jpg'");
-/*
-		 $(".videme-showcase-video").html("\
-		 <video controls autoplay>\
-		 <source src='http://gum.vide.me/vi?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4' autoplay>\
-		 Your browser does not support the <code>video</code> element.\
-		 </video>\
-		 ");
-		 $('.videme-brand-panel-element-left').html("\
-		 <div class='videme-panel-actor'>" + FromUserName.substr(1) + "</div>\
-		 <div class='videme-panel-date'>" + updatedAt.substr(1) + "</div>\
-		 <div class='videme-panel-subject'>" + Subject.substr(1) + "</div>\
-		 <div class='videme-panel-message'>" + Message.substr(1) + "</div>\
-		 ");
-		 $('.videme-brand-panel-element-right').html("\
-		 <div class='videme-panel-message'>Share: </div>\
-		 <br>\
-		 <button type='button' \
-		 class='btn btn-primary contact-toggle' data-toggle='modal' \
-		 data-target='#modal-contact'>\
-		 <span class='glyphicon glyphicon-envelope'></span> contact\
-		 </button>\
-		 <hr class='visible-xs'>\
-		 <button type='button' \
-		 class='btn btn-danger pull-right hidden-xs del-inbox-toggle' data-toggle='modal' \
-		 data-target='#modal-del'> \
-		 <span class='glyphicon glyphicon-remove'></span> delete\
-		 </button>\
-		 <button type='button' \
-		 class='btn btn-danger pull-left visible-xs del-inbox-toggle' data-toggle='modal' \
-		 data-target='#modal-del'> \
-		 <span class='glyphicon glyphicon-remove'></span> delete\
-		 </button>\
-		 ");
-		 */
-
 	});
 
 /*************************************************************
