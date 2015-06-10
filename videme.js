@@ -53,32 +53,32 @@
 					 'updatedAt': value.updatedAt,
 					 'File': value.File,
 					 'objectId': value.objectId*/
-/*					$.fn.showcaseVideoTextButton({
-						"showcaseVideo": {
-							videmeVideo: data[0].File,
-							miniVideo: true
-						},
-						"showcaseText": {
-							Subject: data[0].Subject,
-							Message: data[0].Message,
-							updatedAt: data[0].updatedAt,
-							FromUserName: data[0].FromUserName,
-							messageid: data[0].messageid,
-							file: data[0].file,
-							href: data[0].href
-						},
-						"showcaseButton": {
-							'contact-toggle': {
-								'file-value': data[0].file,
-								'subject-value': data[0].Subject,
-								'message-value': data[0].Message
-							},
-							'del-inbox-toggle': {
-								'file-value': data[0].file,
-								'messageid-value': data[0].messageid
-							}
-						}
-					});*/
+					/*					$.fn.showcaseVideoTextButton({
+					 "showcaseVideo": {
+					 videmeVideo: data[0].File,
+					 miniVideo: true
+					 },
+					 "showcaseText": {
+					 Subject: data[0].Subject,
+					 Message: data[0].Message,
+					 updatedAt: data[0].updatedAt,
+					 FromUserName: data[0].FromUserName,
+					 messageid: data[0].messageid,
+					 file: data[0].file,
+					 href: data[0].href
+					 },
+					 "showcaseButton": {
+					 'contact-toggle': {
+					 'file-value': data[0].file,
+					 'subject-value': data[0].Subject,
+					 'message-value': data[0].Message
+					 },
+					 'del-inbox-toggle': {
+					 'file-value': data[0].file,
+					 'messageid-value': data[0].messageid
+					 }
+					 }
+					 });*/
 
 					//data.showcaseButton = {
 					//data['showcaseButton'] = {
@@ -91,21 +91,33 @@
 					//=data[0]['showcaseButton'] = {
 					data[0].showcaseButton = {
 						//'showcaseButton': {
-							'contact-toggle': {
-								'file-value': data[0].file,
-								'subject-value': data[0].subject,
-								'message-value': data[0].message
-							},
-							'del-inbox-toggle': {
-								'file-value': data[0].file,
-								'messageid-value': data[0].messageid
-							}
+						'contact-toggle': {
+							'file-value': data[0].file,
+							'subject-value': data[0].subject,
+							'message-value': data[0].message
+						},
+						'del-inbox-toggle': {
+							'file-value': data[0].file,
+							'messageid-value': data[0].messageid
+						}
 						//}
 					};
 					//var children = data2.concat(data[0]);
 					//console.log("$.fn.fileInbox data[0].showcaseButton ---> " + JSON.stringify(data[0].showcaseButton));
 					console.log("$.fn.fileInbox data[0] ---> " + JSON.stringify(data[0]));
 
+
+					/*					$.fn.showcaseVideoTextButton(data[0].showcaseButton = {
+					 'contact-toggle': {
+					 'file-value': data[0].file,
+					 'subject-value': data[0].subject,
+					 'message-value': data[0].message
+					 },
+					 'del-inbox-toggle': {
+					 'file-value': data[0].file,
+					 'messageid-value': data[0].messageid
+					 }
+					 });*/
 					$.fn.showcaseVideoTextButton(data[0]);
 				})
 				.fail(function (data) {
@@ -1024,10 +1036,27 @@ data-target='#modal-del'> \
 
 		var nad = $.cookie('vide_nad');
 
-		console.log("a.file-inbox-url2 subject ---> " + subject);
-		console.log("$.file-inbox-url2 tempObject ---> " + JSON.stringify(tempObject));
-		console.log("$.file-inbox-url2  .getAttributes() ---> " + JSON.stringify( $(".file-inbox-url2").getAttributes()));
-
+		//console.log("a.file-inbox-url2 subject ---> " + subject);
+		//console.log("$.file-inbox-url2 tempObject ---> " + JSON.stringify(tempObject));
+		//console.log("$.file-inbox-url2  --- .getAttributes() ---> " + JSON.stringify($(".file-inbox-url2").getAttributes()));
+		//var tempObject = $(this);
+		var attrArray = $(this).getAttributes();
+		attrArray.showcaseButton = {
+			//'showcaseButton': {
+			'contact-toggle': {
+				'file-value': $(this).getAttributes().file,
+				'subject-value': $(this).getAttributes().subject,
+				'message-value': $(this).getAttributes().message
+			},
+			'del-inbox-toggle': {
+				'file-value': $(this).getAttributes().file,
+				'messageid-value': $(this).getAttributes().messageid
+			}
+			//}
+		};
+		console.log("$.file-inbox-url2  this .getAttributes() ---> " + JSON.stringify($(this).getAttributes()));
+		console.log("$.file-inbox-url2  attrArray ---> " + JSON.stringify(attrArray));
+		$.fn.showcaseVideoTextButton(attrArray);
 /*
 		var elements = $(this);
 		var vals = [];
