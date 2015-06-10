@@ -126,19 +126,23 @@
 		console.log("$.fn.showcaseVideo tempObject.length ---> " + tempObject.length);
 		console.log("$.fn.showcaseVideo $(this).length ---> " + $(this).length);
 */
+		//var tempObject = $("#videme-showcase-video");
 
 		if ($(this).length) {
 			console.log("$.fn.showcaseVideo $(this) ---> yes " + $(this).length);
 			var tempObject = $(this);
 		} else {
 			console.log("$.fn.showcaseVideo $(this) ---> nooo! " + $(this).length);
+			//ar this = $("#videme-showcase-video");
 			var tempObject = $("#videme-showcase-video");
 			//var tempObject = $("#videme-showcase-video").attr('id');
 			console.log("$.fn.showcaseVideo tempObject ---> " + tempObject.length);
-			console.log("$.fn.showcaseVideo JSON.stringify(tempObject) ---> " + JSON.stringify(tempObject.attr()));
-		}
+			//console.log("$.fn.showcaseVideo JSON.stringify(tempObject) ---> " + JSON.stringify(tempObject.attr));
 
-		return this.each(function () {
+		}
+/*		tempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
+			"<div id=\"videme-minivideo\"><div>");*/
+		//=return this.each(function () {
 
 			console.log("$.fn.showcaseVideo settings.file ---> " + settings.file);
 
@@ -339,7 +343,7 @@
 				//console.log("scrollSetting ---> OK!!!");
 			}
 
-		});
+		//=});
 	};
 
 	$.fn.showcaseText = function (options) {
