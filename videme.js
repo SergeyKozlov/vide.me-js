@@ -76,6 +76,7 @@
 						file='" + value.file + "' \
 						messageid='" + value.objectId + "' \
 						fromUserName='" + value.fromUserName + "' \
+						toUserName='" + value.toUserName + "' \
 						updatedAt='" + value.updatedAt + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
@@ -347,37 +348,16 @@
 	};
 
 	$.fn.showcaseText = function (options) {
-		settings = $.extend({
-			subject: "subject",
-			message: "message",
-			updatedAt: "updatedAt",
-			fromUserName: "fromUserName",
-			messageid: "messageid",
-			file: "file",
-			href: "http://vide.me"
-		}, options);
+		settings = $.extend({}, options);
 		$(".videme-showcase-subject").html(settings.subject);
 		$(".videme-showcase-message").html(settings.message);
 		$(".videme-showcase-updatedat").html(settings.updatedAt);
-		//console.log("settings.Subject " + settings.subject);
 	};
 
 	$.fn.showcaseButton = function (options) {
-		settings = $.extend({
-			'contact-toggle': { 'file-value': '',
-				'subject-value': '',
-				'message-value': ''
-			},
-			'del-inbox-toggle': { 'file-value': '',
-				'messageid-value': ''
-			}
-		}, options);
-
-		//console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings));
-
+		settings = $.extend({}, options);
 		if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
 		if (settings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings.showcaseButton['contact-toggle']);
-
 	};
 
 	$.fn.showcaseVideoTextButton = function (options) {
@@ -414,6 +394,7 @@
 	};
 
 	function showArticle(showArticle, tempObject) {
+		// TODO: при развороте на большой экран маленькие артикли становятся очень маленькими
 		if (tempObject.width() < 500) {
 			var tempObjectClass = " videme-narrow-tile";
 		} else {
@@ -497,6 +478,9 @@ $(document).ready(function() {
 		$('#nav_no_login').hide('slow');
 	}
 */
+	/*******************************************************************************
+	 Sidebar
+	 *******************************************************************************/
 
 /*******************************************************************************
 Поставить условие если есть кука
@@ -2959,9 +2943,13 @@ $(document).on('click', '.del_file_form', function(event) {
 	 Sidebar
 	 ***************************************************************************/
 
-	$("#sidebar-toggle").on('click', function () {
+	$("#videme-sidebar-button").on('click', function () {
+		sidebarToggleShow();
+		sidebarToggleHidde();
+		sidebarToggleButton()
 		//console.log('click');
 //        $('.videme-content-toggle').removeClass('tmpEvent');
+/*
 
 		$(".videme-content-toggle").animate(
 			{
@@ -2976,6 +2964,10 @@ $(document).on('click', '.del_file_form', function(event) {
 			}
 		);
 
+		// TODO: Добавить событие 222цццйцй22ц	2 перехода в большой экран
+		$('#videme-sidebar-button-icon').toggleClass('glyphicon-menu-hamburger');
+		$('#videme-sidebar-button-icon').toggleClass('glyphicon-menu-left');
+
 		$('.tmpEvent').animate(
 			{
 				right: '0px'
@@ -2987,8 +2979,16 @@ $(document).on('click', '.del_file_form', function(event) {
 				}
 			}
 		);
+*/
 
 
+	});
+
+		// TODO: сделать общий windows resize
+	$(window).resize(function () {
+		//console.log("window).resize ---> tmpEvent').animate");
+		sidebarToggleHidde();
+		sidebarToggleButton();
 	});
 
 /***************************************************************************
@@ -3015,6 +3015,63 @@ function showError(data) {
 			</div>\
 		")
 	return html;
+}
+
+function sidebarToggleShow() {
+	$(".videme-content-toggle").animate(
+		{
+			right: '-150px'
+		}, {
+			duration: 500,
+			easing: 'swing',
+			complete: function () {
+				$('.videme-content-toggle').addClass('tmpEvent');
+				//console.log('pull');
+			}
+		}
+	);
+	$(".videme-sidebar-toggle").animate(
+		{
+			left: '150px'
+		}, {
+			duration: 500,
+			easing: 'swing',
+			complete: function () {
+				$('.videme-sidebar-toggle').addClass('tmpEventSidebarToggle');
+				//console.log('pull');
+			}
+		}
+	);
+}
+
+function sidebarToggleButton() {
+	$('#videme-sidebar-button-icon').toggleClass('glyphicon-menu-hamburger');
+	$('#videme-sidebar-button-icon').toggleClass('glyphicon-menu-left');
+}
+
+function sidebarToggleHidde() {
+	$('.tmpEvent').animate(
+		{
+			right: '0px'
+		}, {
+			duration: 300,
+			easing: 'swing',
+			complete: function () {
+				$(this).removeClass('tmpEvent');
+			}
+		}
+	);
+	$('.tmpEventSidebarToggle').animate(
+		{
+			left: '0px'
+		}, {
+			duration: 300,
+			easing: 'swing',
+			complete: function () {
+				$(this).removeClass('tmpEvent');
+			}
+		}
+	);
 }
 
 /***************************************************************************
