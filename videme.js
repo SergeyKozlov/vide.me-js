@@ -66,13 +66,7 @@
 			html.push("\
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
-					<div class='titleTop'>\
-						 " + value.a + "<br>\
-						 " + value.b + "<br>\
-						 " + value.c + "<br>\
-						 " + value.d + "<br>\
-					</div>\
-					<a class='file-inbox-url2' \
+				<a class='file-inbox-url2' \
 						file='" + value.file + "' \
 						messageid='" + value.objectId + "' \
 						fromUserName='" + value.fromUserName + "' \
@@ -81,12 +75,17 @@
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
 						href='http://vide.me/v?m=" + value.href + "' target='_blank'>\
-					oooooooooo " + key + "</a>\
+			<div class='titleTop'>\
+						 " + value.a + "<br>\
+						 " + value.b + "<br>\
+						 " + value.c + "<br>\
+						 " + value.d + "<br>\
+			</div>\
 						 <img src='http://img.vide.me/" + value.img + ".jpg' alt=''>\
 						 </img>\
-					</a>\
 					<div class='videme-tile-signboard-true'>\
 					</div>\
+			</a>\
 				</div>\
 		 	")
 		});
