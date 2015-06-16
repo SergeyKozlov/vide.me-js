@@ -83,7 +83,10 @@
 						href='http://vide.me/v?m=" + value.href + "' target='_blank'>\
 					oooooooooo " + key + "</a>\
 						 <img src='http://img.vide.me/" + value.img + ".jpg' alt=''>\
-					 <div class='videme-tile-signboard-true'></div>\
+						 </img>\
+					</a>\
+					<div class='videme-tile-signboard-true'>\
+					</div>\
 				</div>\
 		 	")
 		});
