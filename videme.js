@@ -1203,7 +1203,7 @@ data-target='#modal-del'>\
 	 отрисовка текста и кнопок в панель
 	 **************************************************************/
 		//$(".file-inbox-url2").click(function(event) {
-	$(document).on('click', 'a.file-sent-url', function(event) {
+	$(document).on('click', 'a.file-my-url', function(event) {
 		event.preventDefault();
 		//var nad = $.cookie('vide_nad');
 		var attrArray = $(this).getAttributes();
