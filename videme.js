@@ -4,23 +4,11 @@
  * *************************************************************************/
 
 (function ($) {
-	$.fn.getAttributes = function() {
-		var attributes = {};
-
-		if( this.length ) {
-			$.each( this[0].attributes, function( index, attr ) {
-				attributes[ attr.name ] = attr.value;
-			} );
-		}
-
-		return attributes;
-	};
 
 	$.fn.fileInbox = function (options) {
 		settings = $.extend({
 			// TODO: добавить limit в NAD
-			limit: 6,
-			showcaseVideo: "videme-showcase-video"
+			limit: 6
 		}, options);
 
 		$(this).html(VidemeProgress);
@@ -30,6 +18,43 @@
 			$.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
 				function (data) {
 					tempObject.html(showTile(parseFileInbox(data), tempObject));
+				})
+				.done(function (data) {
+					data[0].showcaseButton = {
+						'contact-toggle': {
+							'file': data[0].file,
+							'subject': data[0].subject,
+							'message': data[0].message
+						},
+						'del-inbox-toggle': {
+							'file': data[0].file,
+							'messageid': data[0].messageid
+						}
+					};
+					console.log("$.fn.fileInbox data[0] ---> " + JSON.stringify(data[0]));
+					$.fn.showcaseVideoTextButton(data[0]);
+				})
+				.fail(function (data) {
+					tempObject.html(showError(data));
+				})
+				.always(function () {
+				});
+		});
+	};
+
+	$.fn.fileSent = function (options) {
+		settings = $.extend({
+			// TODO: добавить limit в NAD
+			limit: 6
+		}, options);
+
+		$(this).html(VidemeProgress);
+
+		return this.each(function () {
+			var tempObject = $(this);
+			$.getJSON("http://api.vide.me/file/sent/?limit=" + settings.limit + "&videmecallback=?",
+				function (data) {
+					tempObject.html(showTile(parseFileSent(data), tempObject));
 				})
 				.done(function (data) {
 					data[0].showcaseButton = {
@@ -116,10 +141,34 @@
 		return parseFileInbox;
 	}
 
+	function parseFileSent(parseFileSent) {
+		$.each(parseFileSent.results, function (key, value) {
+			//var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
+			//console.log("obj.value.Message ---" + obj.value.Message);
+
+			parseFileSent[key] = {
+				'a': value.ToUserName,
+				'b': value.Subject,
+				'c': value.Message,
+				'd': value.updatedAt,
+				'img': value.File,
+				'href': value.File,
+				'toUserName': value.ToUserName,
+				'subject': value.Subject,
+				'message': value.Message,
+				'updatedAt': value.updatedAt,
+				'file': value.File,
+				'objectId': value.objectId
+			};
+		});
+		return parseFileSent;
+	}
+
 	$.fn.showcaseVideo = function (options) {
 		settings = $.extend({
 			file: "9566b5a3475c25aa",
-			miniVideo: true
+			miniVideo: true,
+			showcaseVideo: "videme-showcase-video"
 		}, options);
 
 		$(this).html(VidemeProgress);
@@ -138,7 +187,8 @@
 		} else {
 			console.log("$.fn.showcaseVideo $(this) ---> nooo! " + $(this).length);
 			//ar this = $("#videme-showcase-video");
-			var tempObject = $("#videme-showcase-video");
+			//var tempObject = $("#videme-showcase-video");
+			var tempObject = $("#" + settings.showcaseVideo);
 			//var tempObject = $("#videme-showcase-video").attr('id');
 			console.log("$.fn.showcaseVideo tempObject ---> " + tempObject.length);
 			//console.log("$.fn.showcaseVideo JSON.stringify(tempObject) ---> " + JSON.stringify(tempObject.attr));
@@ -394,6 +444,18 @@
 				.always(function () {
 				});
 		});
+	};
+
+	$.fn.getAttributes = function() {
+		var attributes = {};
+
+		if( this.length ) {
+			$.each( this[0].attributes, function( index, attr ) {
+				attributes[ attr.name ] = attr.value;
+			} );
+		}
+
+		return attributes;
 	};
 
 	function showArticle(showArticle, tempObject) {
