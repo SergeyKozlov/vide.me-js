@@ -1425,7 +1425,6 @@ $(document).on('click', 'a.showpop-url', function(event) {
 	var nad = $.cookie('vide_nad');
 
 //	$(".video-container").html(VidemeProgress);
-
 //	$(".video-container").html("<img src='http://img.vide.me/" + file.substr(1) + ".jpg'");
 
 	$('.videme-brand-panel-element-center').html("\
