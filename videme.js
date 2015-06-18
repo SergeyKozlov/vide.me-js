@@ -32,19 +32,7 @@
 					tempObject.html(showTile(parseFileInbox(data), tempObject, "file-inbox-url"));
 				})
 				.done(function (data) {
-					data[0].showcaseButton = {
-						'contact-toggle': {
-							'file': data[0].file,
-							'subject': data[0].subject,
-							'message': data[0].message
-						},
-						'del-inbox-toggle': {
-							'file': data[0].file,
-							'messageid': data[0].messageid
-						}
-					};
-					console.log("$.fn.fileInbox data[0] ---> " + JSON.stringify(data[0]));
-					$.fn.showcaseVideoTextButton(data[0]);
+					$.fn.showcaseVideoTextButton(paddingButtonInbox(data[0]));
 				})
 				.fail(function (data) {
 					tempObject.html(showError(data));
@@ -69,24 +57,7 @@
 					tempObject.html(showTile(parseFileSent(data), tempObject, "file-sent-url"));
 				})
 				.done(function (data) {
-					data[0].showcaseButton = {
-						'contact-toggle': {
-							'file': data[0].file,
-							'subject': data[0].subject,
-							'message': data[0].message
-						},
-						'list-toggle': {
-							'file': data[0].file,
-							'subject': data[0].subject,
-							'message': data[0].message
-						},
-						'del-sent-toggle': {
-							'file': data[0].file,
-							'messageid': data[0].messageid
-						}
-					};
-					console.log("$.fn.fileSent data[0] ---> " + JSON.stringify(data[0]));
-					$.fn.showcaseVideoTextButton(data[0]);
+					$.fn.showcaseVideoTextButton(paddingButtonSent(data[0]));
 				})
 				.fail(function (data) {
 					tempObject.html(showError(data));
@@ -111,23 +82,7 @@
 					tempObject.html(showTile(parseFileMy(data), tempObject, "file-my-url"));
 				})
 				.done(function (data) {
-					data[0].showcaseButton = {
-						'contact-toggle': {
-							'file': data[0].file,
-							'subject': data[0].subject,
-							'message': data[0].message
-						},
-						'list-toggle': {
-							'file': data[0].file,
-							'subject': data[0].subject,
-							'message': data[0].message
-						},
-						'del-my-toggle': {
-							'file': data[0].file
-						}
-					};
-					console.log("$.fn.fileSent data[0] ---> " + JSON.stringify(data[0]));
-					$.fn.showcaseVideoTextButton(data[0]);
+					$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
 				})
 				.fail(function (data) {
 					tempObject.html(showError(data));
@@ -242,6 +197,64 @@
 			};
 		});
 		return parseFileMy;
+	}
+
+	function paddingButtonInbox(paddingButtonInbox) {
+		// TODO: вместо 'file-value' надо 'file'
+		paddingButtonInbox.showcaseButton = {
+			'contact-toggle': {
+				'file': paddingButtonInbox.file,
+				'subject': paddingButtonInbox.subject,
+				'message': paddingButtonInbox.message
+			},
+			'del-Inbox-toggle': {
+				'file': paddingButtonInbox.file,
+				'messageid': paddingButtonInbox.messageid
+			}
+		};
+		return paddingButtonInbox;
+	}
+
+	function paddingButtonSent(paddingButtonSend) {
+		// TODO: вместо 'file-value' надо 'file'
+		paddingButtonSend.showcaseButton = {
+			'contact-toggle': {
+				'file': paddingButtonSend.file,
+				'subject': paddingButtonSend.subject,
+				'message': paddingButtonSend.message
+			},
+			'list-toggle': {
+				'file': paddingButtonSend.file,
+				'subject': paddingButtonSend.subject,
+				'message': paddingButtonSend.message
+			},
+			'del-sent-toggle': {
+				'file': paddingButtonSend.file,
+				'messageid': paddingButtonSend.messageid
+
+			}
+		};
+		return paddingButtonSend;
+	}
+
+	function paddingButtonMy(paddingButtonMy) {
+		// TODO: вместо 'file-value' надо 'file'
+		paddingButtonMy.showcaseButton = {
+			'contact-toggle': {
+				'file': paddingButtonMy.file,
+				'subject': paddingButtonMy.subject,
+				'message': paddingButtonMy.message
+			},
+			'list-toggle': {
+				'file': paddingButtonMy.file,
+				'subject': paddingButtonMy.subject,
+				'message': paddingButtonMy.message
+			},
+			'del-my-toggle': {
+				'file': paddingButtonMy.file
+			}
+		};
+		return paddingButtonMy;
 	}
 
 	$.fn.showcaseVideo = function (options) {
@@ -566,6 +579,156 @@
 		});
 		return parseArticleShowNew;
 	}
+
+	/*************************************************************
+	 v2 Событие 2: нажата ссылка на файл из плитки Inbox,
+	 отрисовка текста и кнопок в панель
+	 **************************************************************/
+		//$(".file-inbox-url2").click(function(event) {
+	$(document).on('click', 'a.file-inbox-url', function(event) {
+		event.preventDefault();
+		$.fn.showcaseVideoTextButton(paddingButtoninbox($(this).getAttributes()));
+	});
+
+	/*************************************************************
+	 v2 Событие 2: нажата ссылка на файл из плитки Sent,
+	 отрисовка текста и кнопок в панель
+	 **************************************************************/
+	$(document).on('click', 'a.file-sent-url', function(event) {
+		event.preventDefault();
+		var attrArray = $(this).getAttributes();
+		$.fn.showcaseVideoTextButton(paddingButtonSent($(this).getAttributes()));
+
+	});
+
+	/*************************************************************
+	 v2 Событие 2: нажата ссылка на файл из плитки My,
+	 отрисовка текста и кнопок в панель
+	 **************************************************************/
+	$(document).on('click', 'a.file-my-url', function(event) {
+		event.preventDefault();
+		$.fn.showcaseVideoTextButton(paddingButtonMy($(this).getAttributes()));
+	});
+
+	/*************************************************************
+	 v2 Событие 3: нажата кнопка вызова и отрисовки контактов
+	 **************************************************************/
+	$(document).on('click', '.contact-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		$(".videme-contact-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress); // TODO: Проверить, может убрать
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.contact-toggle').data('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+		$.getJSON("http://api.vide.me/contact/?videmecallback=?",
+			function(data){
+				//var nad = $.cookie('vide_nad');
+				// TODO: Попробовать без куки nad
+				var results = [];
+				$.each(data['results'], function(i, result) {
+					results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + result.Email + "&file=" + $('.contact-toggle').data('file') + "&subject=Re: " + $('.contact-toggle').data('subject') + "&message=" + $('.contact-toggle').data('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.Email + "</span></a> ");
+				});
+				$('.videme-contact-list').html(results.join(""));
+			}
+		);
+	});
+
+	/*************************************************************
+	 v2 Событие 3: нажата кнопка вызова и отрисовки листов
+	 **************************************************************/
+	$(document).on('click', '.list-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		$(".videme-list-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.list-toggle').data('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+		$(".videme-file-info").html("<b>" + $('.list-toggle').data('subject') + "</b><br>" + $('.list-toggle').data('message') + "<br>" + $('.list-toggle').data('updatedat') + "<br>");
+
+		$('#file').val($('.list-toggle').data('file'));
+
+
+		$.getJSON("http://api.vide.me/list/?videmecallback=?",
+			function(data){
+				//var nad = $.cookie('vide_nad');
+				var results = [];
+				$.each(data['results'], function(i, result) {
+					results.push("<a class='list-url' href='http://api.vide.me/file/share/?file=" + $('.list-toggle').data('file-value') + "&list=" + result.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.ListName + "</span></a> ");
+				});
+				$(".videme-list-list").html("empty");
+				$('.videme-list-list').html(results.join(""));
+			}
+		);
+	});
+
+	/*************************************************************
+	 v2 Событие 3: нажата кнопка вызова и отрисовки
+	 кнопки удалить Inbox в модальном окне
+	 **************************************************************/
+	$(document).on('click', '.del-inbox-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		//var nad = $.cookie('vide_nad');
+		$(".videme-del-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-inbox-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+
+		$('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-inbox-url' file='http://api.vide.me/file/delinbox/?messageid=" + $('.del-inbox-toggle').data('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger videme-progress'>\
+Delete\
+</button>\
+</a>\
+");
+	});
+
+	/*************************************************************
+	 Событие 3: нажата кнопка вызова и отрисовки
+	 кнопки удалить Sent в модальном окне
+	 **************************************************************/
+	$(document).on('click', '.del-sent-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		//var nad = $.cookie('vide_nad');
+		$(".videme-del-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sent-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+
+		$('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-sent-url' file='http://api.vide.me/file/delsent/?messageid=" + $('.del-sent-toggle').data('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger videme-progress'>\
+Delete\
+</button>\
+</a>\
+");
+	});
+
+	/*************************************************************
+	 Событие 3: нажата кнопка вызова и отрисовки
+	 кнопки удалить MY в модальном окне
+	 **************************************************************/
+	$(document).on('click', '.del-my-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		$(".videme-del-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-my-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+		//var nad = $.cookie('vide_nad');
+		$('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-my-url' file='http://api.vide.me/file/delfile/?file=" + $('.del-my-toggle').data('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger videme-progress'>\
+Delete\
+</button>\
+</a>\
+");
+	});
 
 })(jQuery);
 
@@ -993,31 +1156,6 @@ data-target='#modal-del'> \
 });
 */
 
-	/*************************************************************
-	 v2 Событие 2: нажата ссылка на файл из плитки Inbox,
-	 отрисовка текста и кнопок в панель
-	 **************************************************************/
-		//$(".file-inbox-url2").click(function(event) {
-	$(document).on('click', 'a.file-inbox-url', function(event) {
-		event.preventDefault();
-		//var nad = $.cookie('vide_nad');
-		var attrArray = $(this).getAttributes();
-		// TODO: вместо 'file-value' надо 'file'
-		attrArray.showcaseButton = {
-			'contact-toggle': {
-				'file-value': $(this).getAttributes().file,
-				'subject-value': $(this).getAttributes().subject,
-				'message-value': $(this).getAttributes().message
-			},
-			'del-inbox-toggle': {
-				'file-value': $(this).getAttributes().file,
-				'messageid-value': $(this).getAttributes().messageid
-			}
-		};
-		//console.log("$.file-inbox-url2  attrArray ---> " + JSON.stringify(attrArray));
-		$.fn.showcaseVideoTextButton(attrArray);
-	});
-
 /*
 /!*************************************************************
 v1 Событие 2: нажата ссылка на файл из плитки Sent,
@@ -1097,36 +1235,6 @@ data-target='#modal-del'> \
 });
 */
 
-	/*************************************************************
-	 v2 Событие 2: нажата ссылка на файл из плитки Sent,
-	 отрисовка текста и кнопок в панель
-	 **************************************************************/
-		//$(".file-inbox-url2").click(function(event) {
-	$(document).on('click', 'a.file-sent-url', function(event) {
-		event.preventDefault();
-		//var nad = $.cookie('vide_nad');
-		var attrArray = $(this).getAttributes();
-		// TODO: вместо 'file-value' надо 'file'
-		attrArray.showcaseButton = {
-			'contact-toggle': {
-				'file-value': $(this).getAttributes().file,
-				'subject-value': $(this).getAttributes().subject,
-				'message-value': $(this).getAttributes().message
-			},
-			'list-toggle': {
-				'file-value': $(this).getAttributes().file,
-				'subject-value': $(this).getAttributes().subject,
-				'message-value': $(this).getAttributes().message
-			},
-			'del-sent-toggle': {
-				'file-value': $(this).getAttributes().file,
-				'messageid-value': $(this).getAttributes().messageid
-			}
-		};
-		//console.log("$.file-inbox-url2  attrArray ---> " + JSON.stringify(attrArray));
-		$.fn.showcaseVideoTextButton(attrArray);
-	});
-
 /*
 	/!*************************************************************
 v1 Событие 2: нажата ссылка на файл из плитки My,
@@ -1197,35 +1305,6 @@ data-target='#modal-del'>\
 	$(".del-my-toggle").data("messageid-value", messageid.substr(1));
 });
 */
-
-	/*************************************************************
-	 v2 Событие 2: нажата ссылка на файл из плитки My,
-	 отрисовка текста и кнопок в панель
-	 **************************************************************/
-		//$(".file-inbox-url2").click(function(event) {
-	$(document).on('click', 'a.file-my-url', function(event) {
-		event.preventDefault();
-		//var nad = $.cookie('vide_nad');
-		var attrArray = $(this).getAttributes();
-		// TODO: вместо 'file-value' надо 'file'
-		attrArray.showcaseButton = {
-			'contact-toggle': {
-				'file-value': attrArray.file,
-				'subject-value': attrArray.subject,
-				'message-value': attrArray.message
-			},
-			'list-toggle': {
-				'file-value': attrArray.file,
-				'subject-value': attrArray.subject,
-				'message-value': attrArray.message
-			},
-			'del-my-toggle': {
-				'file-value': attrArray.file
-			}
-		};
-		//console.log("$.file-inbox-url2  attrArray ---> " + JSON.stringify(attrArray));
-		$.fn.showcaseVideoTextButton(attrArray);
-	});
 
 	/*************************************************************
 Событие 2: нажата ссылка на файл из плитки MySpring, 
@@ -1528,10 +1607,10 @@ $(document).on('click', '.contact-edit-toggle', function(event) {
 	$('#email').val(email.substr(1));
 	$('#newemail').val(email.substr(1));
 	$(".contact-del-toggle").data("email-value", email.substr(1));
-});
-/*************************************************************
+});/*
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки контактов
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.contact-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1550,9 +1629,9 @@ $(document).on('click', '.contact-toggle', function(event) {
 		}
 	);
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки листов
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.list-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1578,10 +1657,10 @@ $(document).on('click', '.list-toggle', function(event) {
 		}
 	);
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки 
            кнопки удалить Inbox в модальном окне
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.del-inbox-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1602,10 +1681,10 @@ Delete\
 </a>\
 ");
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки 
           кнопки удалить Sent в модальном окне
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.del-sent-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1626,10 +1705,10 @@ Delete\
 </a>\
 ");
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки 
            кнопки удалить MY в модальном окне
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.del-my-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1648,7 +1727,7 @@ Delete\
 </button>\
 </a>\
 ");
-});
+});*/
 /*************************************************************
 Событие 4: нажата кнопка Сохранить Contact в первом модальном окне
 **************************************************************/
