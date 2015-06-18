@@ -762,6 +762,7 @@ $(document).ready(function() {
 	if (theHours >= 22 ) {$('body').css('background-color', '#9baecb');}
 	if (theHours >= 22 ) {$('.navbar-inner').css('background-image', 'url(http://src.vide.me/bgn.png)');}
 */
+
 /*
 	if ($.cookie('vide_nad') == null) {
 		$('#user_brand').hide('slow');
