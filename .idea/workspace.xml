@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5b8fbc24-b1b2-482b-b129-4441419c6a61" name="Default" comment="Jquery plugin">
+    <list default="true" id="5b8fbc24-b1b2-482b-b129-4441419c6a61" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="vide.me-js.iws" />
@@ -27,8 +27,8 @@
       <file leaf-file-name="videme.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/videme.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48214287">
-              <caret line="1426" column="47" selection-start-line="1426" selection-start-column="47" selection-end-line="1426" selection-end-column="47" />
+            <state vertical-scroll-proportion="-1.0334822">
+              <caret line="469" column="0" selection-start-line="469" selection-start-column="0" selection-end-line="469" selection-end-column="0" />
               <folding>
                 <marker date="1434654882784" expanded="true" signature="2774:2790" placeholder="..." />
                 <marker date="1434654882784" expanded="true" signature="3207:3216" placeholder="..." />
@@ -499,7 +499,7 @@
       <workItem from="1434555981825" duration="6068000" />
       <workItem from="1434572531621" duration="661000" />
       <workItem from="1434574187642" duration="86000" />
-      <workItem from="1434653630677" duration="1163000" />
+      <workItem from="1434653630677" duration="2315000" />
     </task>
     <task id="LOCAL-00001" summary="Jquery plugin">
       <created>1433594216220</created>
@@ -573,11 +573,17 @@
       <option name="project" value="LOCAL" />
       <updated>1434654786329</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Jquery plugin">
+      <created>1434654925652</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1434654925652</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48039000" />
+    <option name="totallyTimeSpent" value="49191000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-4" width="1024" height="604" extended-state="6" />
@@ -2400,8 +2406,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/videme.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48214287">
-          <caret line="1426" column="47" selection-start-line="1426" selection-start-column="47" selection-end-line="1426" selection-end-column="47" />
+        <state vertical-scroll-proportion="-1.0334822">
+          <caret line="469" column="0" selection-start-line="469" selection-start-column="0" selection-end-line="469" selection-end-column="0" />
           <folding>
             <marker date="1434654882784" expanded="true" signature="2774:2790" placeholder="..." />
             <marker date="1434654882784" expanded="true" signature="3207:3216" placeholder="..." />
