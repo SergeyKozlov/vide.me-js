@@ -610,6 +610,126 @@
 		$.fn.showcaseVideoTextButton(paddingButtonMy($(this).getAttributes()));
 	});
 
+	/*************************************************************
+	 v2 Событие 3: нажата кнопка вызова и отрисовки контактов
+	 **************************************************************/
+	$(document).on('click', '.contact-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		$(".videme-contact-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress); // TODO: Проверить, может убрать
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.contact-toggle').data('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+		$.getJSON("http://api.vide.me/contact/?videmecallback=?",
+			function(data){
+				//var nad = $.cookie('vide_nad');
+				// TODO: Попробовать без куки nad
+				var results = [];
+				$.each(data['results'], function(i, result) {
+					results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + result.Email + "&file=" + $('.contact-toggle').data('file') + "&subject=Re: " + $('.contact-toggle').data('subject') + "&message=" + $('.contact-toggle').data('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.Email + "</span></a> ");
+				});
+				$('.videme-contact-list').html(results.join(""));
+			}
+		);
+	});
+
+	/*************************************************************
+	 v2 Событие 3: нажата кнопка вызова и отрисовки листов
+	 **************************************************************/
+	$(document).on('click', '.list-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		$(".videme-list-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.list-toggle').data('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+		$(".videme-file-info").html("<b>" + $('.list-toggle').data('subject') + "</b><br>" + $('.list-toggle').data('message') + "<br>" + $('.list-toggle').data('updatedat') + "<br>");
+
+		$('#file').val($('.list-toggle').data('file'));
+
+
+		$.getJSON("http://api.vide.me/list/?videmecallback=?",
+			function(data){
+				//var nad = $.cookie('vide_nad');
+				var results = [];
+				$.each(data['results'], function(i, result) {
+					results.push("<a class='list-url' href='http://api.vide.me/file/share/?file=" + $('.list-toggle').data('file-value') + "&list=" + result.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.ListName + "</span></a> ");
+				});
+				$(".videme-list-list").html("empty");
+				$('.videme-list-list').html(results.join(""));
+			}
+		);
+	});
+
+	/*************************************************************
+	 v2 Событие 3: нажата кнопка вызова и отрисовки
+	 кнопки удалить Inbox в модальном окне
+	 **************************************************************/
+	$(document).on('click', '.del-inbox-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		//var nad = $.cookie('vide_nad');
+		$(".videme-del-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-inbox-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+
+		$('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-inbox-url' file='http://api.vide.me/file/delinbox/?messageid=" + $('.del-inbox-toggle').data('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger videme-progress'>\
+Delete\
+</button>\
+</a>\
+");
+	});
+
+	/*************************************************************
+	 Событие 3: нажата кнопка вызова и отрисовки
+	 кнопки удалить Sent в модальном окне
+	 **************************************************************/
+	$(document).on('click', '.del-sent-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		//var nad = $.cookie('vide_nad');
+		$(".videme-del-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sent-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+
+		$('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-sent-url' file='http://api.vide.me/file/delsent/?messageid=" + $('.del-sent-toggle').data('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger videme-progress'>\
+Delete\
+</button>\
+</a>\
+");
+	});
+
+	/*************************************************************
+	 Событие 3: нажата кнопка вызова и отрисовки
+	 кнопки удалить MY в модальном окне
+	 **************************************************************/
+	$(document).on('click', '.del-my-toggle', function(event) {
+		event.stopPropagation();
+		//var $this = $(this);
+		$(".videme-del-list").html(VidemeProgress);
+		$(".videme-mini-img").html(VidemeProgress);
+		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-my-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+		//var nad = $.cookie('vide_nad');
+		$('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-my-url' file='http://api.vide.me/file/delfile/?file=" + $('.del-my-toggle').data('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger videme-progress'>\
+Delete\
+</button>\
+</a>\
+");
+	});
+
 })(jQuery);
 
 /***************************************************************************
@@ -1487,10 +1607,10 @@ $(document).on('click', '.contact-edit-toggle', function(event) {
 	$('#email').val(email.substr(1));
 	$('#newemail').val(email.substr(1));
 	$(".contact-del-toggle").data("email-value", email.substr(1));
-});
-/*************************************************************
+});/*
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки контактов
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.contact-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1509,9 +1629,9 @@ $(document).on('click', '.contact-toggle', function(event) {
 		}
 	);
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки листов
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.list-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1537,10 +1657,10 @@ $(document).on('click', '.list-toggle', function(event) {
 		}
 	);
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки 
            кнопки удалить Inbox в модальном окне
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.del-inbox-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1561,10 +1681,10 @@ Delete\
 </a>\
 ");
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки 
           кнопки удалить Sent в модальном окне
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.del-sent-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1585,10 +1705,10 @@ Delete\
 </a>\
 ");
 });
-/*************************************************************
+/!*************************************************************
 Событие 3: нажата кнопка вызова и отрисовки 
            кнопки удалить MY в модальном окне
-**************************************************************/
+**************************************************************!/
 $(document).on('click', '.del-my-toggle', function(event) {
 	event.stopPropagation();
 	var $this = $(this);
@@ -1607,7 +1727,7 @@ Delete\
 </button>\
 </a>\
 ");
-});
+});*/
 /*************************************************************
 Событие 4: нажата кнопка Сохранить Contact в первом модальном окне
 **************************************************************/
