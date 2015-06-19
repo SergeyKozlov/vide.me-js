@@ -16,11 +16,22 @@
 		return attributes;
 	};
 
+	$.fn.oneTimeInbox = function (options) {
+		settings = $.extend({}, options);
+
+		//$(this).html(VidemeProgress);
+		$.fn.showcaseVideoTextButton(settings);
+
+/*		return this.each(function () {
+			var tempObject = $(this);
+			//$.fn.showcaseVideoTextButton(paddingButtonInbox(settings));
+		});*/
+	};
+
 	$.fn.fileInbox = function (options) {
 		settings = $.extend({
 			// TODO: добавить limit в NAD
-			limit: 6,
-			showcaseVideo: "videme-showcase-video"
+			limit: 6
 		}, options);
 
 		$(this).html(VidemeProgress);
@@ -106,13 +117,13 @@
 				<div class='boxInner'>\
 				<a class='" + actionUrlClass + "' \
 						file='" + value.file + "' \
-						messageid='" + value.objectId + "' \
+						messageid='" + value.messageid + "' \
 						fromUserName='" + value.fromUserName + "' \
 						toUserName='" + value.toUserName + "' \
 						updatedAt='" + value.updatedAt + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
-						href='http://vide.me/v?m=" + value.href + "' target='_blank'>\
+						href='http://vide.me/v?m=" + value.href + "&messageid=" + value.messageid + "' target='_blank'>\
 			<div class='titleTop'>\
 						 " + value.a + "<br>\
 						 " + value.b + "<br>\
@@ -147,7 +158,7 @@
 				'message': value.Message,
 				'updatedAt': value.updatedAt,
 				'file': value.File,
-				'objectId': value.objectId
+				'messageid': value.objectId
 			};
 		});
 		return parseFileInbox;
@@ -170,7 +181,8 @@
 				'message': value.Message,
 				'updatedAt': value.updatedAt,
 				'file': value.File,
-				'objectId': value.objectId
+				//'objectId': value.objectId
+				'messageid': value.objectId
 			};
 		});
 		return parseFileSent;
@@ -192,8 +204,7 @@
 				'subject': value.Subject,
 				'message': value.Message,
 				'updatedAt': value.updatedAt,
-				'file': value.File,
-				'objectId': value.objectId
+				'file': value.File
 			};
 		});
 		return parseFileMy;
@@ -320,7 +331,7 @@
 				resizeVideoJS(showcasePlayerFunc);
 				showcasePlayerFunc.src({
 					type: "video/mp4",
-					src: "http://gu.vide.me/vi?m=" + settings.file
+					src: "http://gu.vide.me/vi?m=" + settings.file + "&messageid=" + settings.messageid
 				});
 				showcasePlayerFunc.controls(true);
 				showcasePlayerFunc.load();
@@ -587,7 +598,7 @@
 		//$(".file-inbox-url2").click(function(event) {
 	$(document).on('click', 'a.file-inbox-url', function(event) {
 		event.preventDefault();
-		$.fn.showcaseVideoTextButton(paddingButtoninbox($(this).getAttributes()));
+		$.fn.showcaseVideoTextButton(paddingButtonInbox($(this).getAttributes()));
 	});
 
 	/*************************************************************
