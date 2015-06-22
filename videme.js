@@ -337,12 +337,12 @@
 				showcasePlayerFunc.load();
 				showcasePlayerFunc.play();
 				showcasePlayerFunc.on('ended', function () {
-					showcasePlayerFunc.src({
+/*					showcasePlayerFunc.src({
 						type: "video/mp4",
-						src: "http://7652b4c7a21e4ee2c1c0-b1986b3a7e22b6d15c9fa96ff70c1457.r7.cf1.rackcdn.com/07aebdc55f2163de.mp4"
+						src: "http://r7.cf1.rackcdn.com/.mp4"
 					});
 					showcasePlayerFunc.load();
-					showcasePlayerFunc.play();
+					showcasePlayerFunc.play();*/
 				});
 			});
 
@@ -440,12 +440,12 @@
 					miniPlayerFunc.load();
 					miniPlayerFunc.play();
 					miniPlayerFunc.on('ended', function () {
-						miniPlayerFunc.src({
+/*						miniPlayerFunc.src({
 							type: "video/mp4",
-							src: "http://7652b4c7a21e4ee2c1c0-b1986b3a7e22b6d15c9fa96ff70c1457.r7.cf1.rackcdn.com/07aebdc55f2163de.mp4"
+							src: "http://r7.cf1.rackcdn.com/.mp4"
 						});
 						miniPlayerFunc.load();
-						miniPlayerFunc.play();
+						miniPlayerFunc.play();*/
 					});
 				});
 
