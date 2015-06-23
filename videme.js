@@ -103,6 +103,31 @@
 		});
 	};
 
+	$.fn.fileMySpring = function (options) {
+		settings = $.extend({
+			// TODO: добавить limit в NAD
+			limit: 6
+		}, options);
+
+		$(this).html(VidemeProgress);
+
+		return this.each(function () {
+			var tempObject = $(this);
+			$.getJSON("http://api.vide.me/file/myspring/?limit=" + settings.limit + "&videmecallback=?",
+				function (data) {
+					tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-my-url"));
+				})
+				.done(function (data) {
+					$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+				})
+				.fail(function (data) {
+					tempObject.html(showError(data));
+				})
+				.always(function () {
+				});
+		});
+	};
+
 	function showTile(showFile, tempObject, actionUrlClass) {
 		if (tempObject.width() < 500) {
 			var tempObjectClass = " videme-narrow-tile";
@@ -210,8 +235,29 @@
 		return parseFileMy;
 	}
 
+	function parseFileMySpring(parseFileMySpring) {
+		$.each(parseFileMySpring.results, function (key, value) {
+			//var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
+			//console.log("obj.value.Message ---" + obj.value.Message);
+
+			parseFileMySpring[key] = {
+				//'a': value.ToUserName,
+				'a': value.Subject,
+				'b': value.Message,
+				'c': value.updatedAt,
+				'img': value.File,
+				'href': value.File,
+				//'toUserName': value.ToUserName,
+				'subject': value.Subject,
+				'message': value.Message,
+				'updatedAt': value.updatedAt,
+				'file': value.File
+			};
+		});
+		return parseFileMySpring;
+	}
+
 	function paddingButtonInbox(paddingButtonInbox) {
-		// TODO: вместо 'file-value' надо 'file'
 		paddingButtonInbox.showcaseButton = {
 			'contact-toggle': {
 				'file': paddingButtonInbox.file,
@@ -227,7 +273,6 @@
 	}
 
 	function paddingButtonSent(paddingButtonSend) {
-		// TODO: вместо 'file-value' надо 'file'
 		paddingButtonSend.showcaseButton = {
 			'contact-toggle': {
 				'file': paddingButtonSend.file,
@@ -249,7 +294,6 @@
 	}
 
 	function paddingButtonMy(paddingButtonMy) {
-		// TODO: вместо 'file-value' надо 'file'
 		paddingButtonMy.showcaseButton = {
 			'contact-toggle': {
 				'file': paddingButtonMy.file,
@@ -266,6 +310,24 @@
 			}
 		};
 		return paddingButtonMy;
+	}
+
+	function paddingButtonMySpring(paddingButtonMySpring) {
+		paddingButtonMySpring.showcaseButton = {
+			'contact-toggle': {
+				'file': paddingButtonMySpring.file,
+				'subject': paddingButtonMySpring.subject,
+				'message': paddingButtonMySpring.message
+			},
+			'list-toggle': {
+				'file': paddingButtonMySpring.file,
+				'subject': paddingButtonMySpring.subject,
+				'message': paddingButtonMySpring.message
+			},
+			'del-sharefile-toggle': {
+				'file': paddingButtonMySpring.file
+			}
+		};
 	}
 
 	$.fn.showcaseVideo = function (options) {
@@ -517,6 +579,7 @@
 		if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
 		if (settings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sent-toggle']);
 		if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
+		if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
 	};
 
 	$.fn.showcaseVideoTextButton = function (options) {
@@ -622,8 +685,22 @@
 	});
 
 	/*************************************************************
+	 Событие 2: нажата ссылка на файл из плитки MySpring,
+	 отрисовка текста и кнопок в панель
+	 **************************************************************/
+	$(document).on('click', 'a.file-myspring-url', function(event) {
+		event.preventDefault();
+		$.fn.showcaseVideoTextButton(paddingButtonMySpring($(this).getAttributes()));
+	});
+
+	/*************************************************************
 	 v2 Событие 3: нажата кнопка вызова и отрисовки контактов
 	 **************************************************************/
+	$('#myTabs a').click(function (e) {
+		e.preventDefault()
+		$(this).tab('show')
+	})
+
 	$(document).on('click', '.contact-toggle', function(event) {
 		event.stopPropagation();
 		//var $this = $(this);
