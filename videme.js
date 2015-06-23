@@ -331,7 +331,7 @@
 				resizeVideoJS(showcasePlayerFunc);
 				showcasePlayerFunc.src({
 					type: "video/mp4",
-					src: "http://gu.vide.me/vi?m=" + settings.file + "&messageid=" + settings.messageid
+					src: "http://gum.vide.me/vi?m=" + settings.file + "&messageid=" + settings.messageid
 				});
 				showcasePlayerFunc.controls(true);
 				showcasePlayerFunc.load();
@@ -436,7 +436,7 @@
 
 					//miniPlayer.hide();
 					miniPlayerFunc.muted(true);
-					miniPlayerFunc.src({type: "video/mp4", src: "http://gu.vide.me/vi?m=" + settings.file});
+					miniPlayerFunc.src({type: "video/mp4", src: "http://gum.vide.me/vi?m=" + settings.file});
 					miniPlayerFunc.load();
 					miniPlayerFunc.play();
 					miniPlayerFunc.on('ended', function () {
