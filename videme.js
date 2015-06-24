@@ -16,11 +16,22 @@
 		return attributes;
 	};
 
+	$.fn.oneTimeInbox = function (options) {
+		settings = $.extend({}, options);
+
+		//$(this).html(VidemeProgress);
+		$.fn.showcaseVideoTextButton(settings);
+
+/*		return this.each(function () {
+			var tempObject = $(this);
+			//$.fn.showcaseVideoTextButton(paddingButtonInbox(settings));
+		});*/
+	};
+
 	$.fn.fileInbox = function (options) {
 		settings = $.extend({
 			// TODO: добавить limit в NAD
-			limit: 6,
-			showcaseVideo: "videme-showcase-video"
+			limit: 6
 		}, options);
 
 		$(this).html(VidemeProgress);
@@ -92,6 +103,31 @@
 		});
 	};
 
+	$.fn.fileMySpring = function (options) {
+		settings = $.extend({
+			// TODO: добавить limit в NAD
+			limit: 6
+		}, options);
+
+		$(this).html(VidemeProgress);
+
+		return this.each(function () {
+			var tempObject = $(this);
+			$.getJSON("http://api.vide.me/file/myspring/?limit=" + settings.limit + "&videmecallback=?",
+				function (data) {
+					tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-my-url"));
+				})
+				.done(function (data) {
+					$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+				})
+				.fail(function (data) {
+					tempObject.html(showError(data));
+				})
+				.always(function () {
+				});
+		});
+	};
+
 	function showTile(showFile, tempObject, actionUrlClass) {
 		if (tempObject.width() < 500) {
 			var tempObjectClass = " videme-narrow-tile";
@@ -106,13 +142,13 @@
 				<div class='boxInner'>\
 				<a class='" + actionUrlClass + "' \
 						file='" + value.file + "' \
-						messageid='" + value.objectId + "' \
+						messageid='" + value.messageid + "' \
 						fromUserName='" + value.fromUserName + "' \
 						toUserName='" + value.toUserName + "' \
 						updatedAt='" + value.updatedAt + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
-						href='http://vide.me/v?m=" + value.href + "' target='_blank'>\
+						href='http://vide.me/v?m=" + value.href + "&messageid=" + value.messageid + "' target='_blank'>\
 			<div class='titleTop'>\
 						 " + value.a + "<br>\
 						 " + value.b + "<br>\
@@ -147,7 +183,7 @@
 				'message': value.Message,
 				'updatedAt': value.updatedAt,
 				'file': value.File,
-				'objectId': value.objectId
+				'messageid': value.objectId
 			};
 		});
 		return parseFileInbox;
@@ -170,7 +206,8 @@
 				'message': value.Message,
 				'updatedAt': value.updatedAt,
 				'file': value.File,
-				'objectId': value.objectId
+				//'objectId': value.objectId
+				'messageid': value.objectId
 			};
 		});
 		return parseFileSent;
@@ -192,15 +229,35 @@
 				'subject': value.Subject,
 				'message': value.Message,
 				'updatedAt': value.updatedAt,
-				'file': value.File,
-				'objectId': value.objectId
+				'file': value.File
 			};
 		});
 		return parseFileMy;
 	}
 
+	function parseFileMySpring(parseFileMySpring) {
+		$.each(parseFileMySpring.results, function (key, value) {
+			//var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
+			//console.log("obj.value.Message ---" + obj.value.Message);
+
+			parseFileMySpring[key] = {
+				//'a': value.ToUserName,
+				'a': value.Subject,
+				'b': value.Message,
+				'c': value.updatedAt,
+				'img': value.File,
+				'href': value.File,
+				//'toUserName': value.ToUserName,
+				'subject': value.Subject,
+				'message': value.Message,
+				'updatedAt': value.updatedAt,
+				'file': value.File
+			};
+		});
+		return parseFileMySpring;
+	}
+
 	function paddingButtonInbox(paddingButtonInbox) {
-		// TODO: вместо 'file-value' надо 'file'
 		paddingButtonInbox.showcaseButton = {
 			'contact-toggle': {
 				'file': paddingButtonInbox.file,
@@ -216,7 +273,6 @@
 	}
 
 	function paddingButtonSent(paddingButtonSend) {
-		// TODO: вместо 'file-value' надо 'file'
 		paddingButtonSend.showcaseButton = {
 			'contact-toggle': {
 				'file': paddingButtonSend.file,
@@ -238,7 +294,6 @@
 	}
 
 	function paddingButtonMy(paddingButtonMy) {
-		// TODO: вместо 'file-value' надо 'file'
 		paddingButtonMy.showcaseButton = {
 			'contact-toggle': {
 				'file': paddingButtonMy.file,
@@ -257,6 +312,24 @@
 		return paddingButtonMy;
 	}
 
+	function paddingButtonMySpring(paddingButtonMySpring) {
+		paddingButtonMySpring.showcaseButton = {
+			'contact-toggle': {
+				'file': paddingButtonMySpring.file,
+				'subject': paddingButtonMySpring.subject,
+				'message': paddingButtonMySpring.message
+			},
+			'list-toggle': {
+				'file': paddingButtonMySpring.file,
+				'subject': paddingButtonMySpring.subject,
+				'message': paddingButtonMySpring.message
+			},
+			'del-sharefile-toggle': {
+				'file': paddingButtonMySpring.file
+			}
+		};
+	}
+
 	$.fn.showcaseVideo = function (options) {
 		settings = $.extend({
 			file: "9566b5a3475c25aa",
@@ -264,7 +337,7 @@
 			showcaseVideo: "videme-showcase-video"
 		}, options);
 
-		$(this).html(VidemeProgress);
+		//$(this).html(VidemeProgress);
 /*
 		console.log("$.fn.showcaseVideo ---> start");
 		var tempObject = $(this);
@@ -320,18 +393,18 @@
 				resizeVideoJS(showcasePlayerFunc);
 				showcasePlayerFunc.src({
 					type: "video/mp4",
-					src: "http://gu.vide.me/vi?m=" + settings.file
+					src: "http://gum.vide.me/vi?m=" + settings.file + "&messageid=" + settings.messageid
 				});
 				showcasePlayerFunc.controls(true);
 				showcasePlayerFunc.load();
 				showcasePlayerFunc.play();
 				showcasePlayerFunc.on('ended', function () {
-					showcasePlayerFunc.src({
+/*					showcasePlayerFunc.src({
 						type: "video/mp4",
-						src: "http://7652b4c7a21e4ee2c1c0-b1986b3a7e22b6d15c9fa96ff70c1457.r7.cf1.rackcdn.com/07aebdc55f2163de.mp4"
+						src: "http://r7.cf1.rackcdn.com/.mp4"
 					});
 					showcasePlayerFunc.load();
-					showcasePlayerFunc.play();
+					showcasePlayerFunc.play();*/
 				});
 			});
 
@@ -425,16 +498,16 @@
 
 					//miniPlayer.hide();
 					miniPlayerFunc.muted(true);
-					miniPlayerFunc.src({type: "video/mp4", src: "http://gu.vide.me/vi?m=" + settings.file});
+					miniPlayerFunc.src({type: "video/mp4", src: "http://gum.vide.me/vi?m=" + settings.file});
 					miniPlayerFunc.load();
 					miniPlayerFunc.play();
 					miniPlayerFunc.on('ended', function () {
-						miniPlayerFunc.src({
+/*						miniPlayerFunc.src({
 							type: "video/mp4",
-							src: "http://7652b4c7a21e4ee2c1c0-b1986b3a7e22b6d15c9fa96ff70c1457.r7.cf1.rackcdn.com/07aebdc55f2163de.mp4"
+							src: "http://r7.cf1.rackcdn.com/.mp4"
 						});
 						miniPlayerFunc.load();
-						miniPlayerFunc.play();
+						miniPlayerFunc.play();*/
 					});
 				});
 
@@ -506,6 +579,7 @@
 		if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
 		if (settings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sent-toggle']);
 		if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
+		if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
 	};
 
 	$.fn.showcaseVideoTextButton = function (options) {
@@ -587,7 +661,7 @@
 		//$(".file-inbox-url2").click(function(event) {
 	$(document).on('click', 'a.file-inbox-url', function(event) {
 		event.preventDefault();
-		$.fn.showcaseVideoTextButton(paddingButtoninbox($(this).getAttributes()));
+		$.fn.showcaseVideoTextButton(paddingButtonInbox($(this).getAttributes()));
 	});
 
 	/*************************************************************
@@ -611,8 +685,23 @@
 	});
 
 	/*************************************************************
+	 Событие 2: нажата ссылка на файл из плитки MySpring,
+	 отрисовка текста и кнопок в панель
+	 **************************************************************/
+	$(document).on('click', 'a.file-myspring-url', function(event) {
+		event.preventDefault();
+		$.fn.showcaseVideoTextButton(paddingButtonMySpring($(this).getAttributes()));
+	});
+
+	/*************************************************************
 	 v2 Событие 3: нажата кнопка вызова и отрисовки контактов
 	 **************************************************************/
+	// TODO: Попробовать так:
+	$('#myTabs a').click(function (e) {
+		e.preventDefault()
+		$(this).tab('show')
+	})
+
 	$(document).on('click', '.contact-toggle', function(event) {
 		event.stopPropagation();
 		//var $this = $(this);
@@ -623,6 +712,8 @@
 			function(data){
 				//var nad = $.cookie('vide_nad');
 				// TODO: Попробовать без куки nad
+				// TODO: Поставить проверку на присутствие значения у переменных
+				console.log("'click', '.contact-toggle' ---> " + JSON.stringify($('.contact-toggle').attr()));
 				var results = [];
 				$.each(data['results'], function(i, result) {
 					results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + result.Email + "&file=" + $('.contact-toggle').data('file') + "&subject=Re: " + $('.contact-toggle').data('subject') + "&message=" + $('.contact-toggle').data('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.Email + "</span></a> ");
