@@ -264,7 +264,7 @@
 				'subject': paddingButtonInbox.subject,
 				'message': paddingButtonInbox.message
 			},
-			'del-Inbox-toggle': {
+			'del-inbox-toggle': {
 				'file': paddingButtonInbox.file,
 				'messageid': paddingButtonInbox.messageid
 			}
@@ -287,7 +287,6 @@
 			'del-sent-toggle': {
 				'file': paddingButtonSend.file,
 				'messageid': paddingButtonSend.messageid
-
 			}
 		};
 		return paddingButtonSend;
@@ -574,12 +573,24 @@
 
 	$.fn.showcaseButton = function (options) {
 		settings = $.extend({}, options);
+		console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings.showcaseButton));
 		if (settings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings.showcaseButton['contact-toggle']);
 		if (settings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(settings.showcaseButton['list-toggle']);
 		if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
 		if (settings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sent-toggle']);
 		if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
 		if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
+
+		switch (JSON.stringify(settings.showcaseButton)) {
+			case "contact-toggle":
+				console.log("case contact-toggle ---> " + JSON.stringify(settings.showcaseButton));
+				break;
+			case settings.showcaseButton['contact-toggle']:
+				console.log("case contact-toggle ---> " + JSON.stringify(settings.showcaseButton));
+				break;
+			default:
+				//console.log("case contact-toggle default ---> " + JSON.stringify(settings.showcaseButton));
+		}
 	};
 
 	$.fn.showcaseVideoTextButton = function (options) {
@@ -700,128 +711,133 @@
 	$('#myTabs a').click(function (e) {
 		e.preventDefault()
 		$(this).tab('show')
-	})
+	});
 
-	$(document).on('click', '.contact-toggle', function(event) {
+	$(document).on('click', '.contact-toggle', function (event) {
 		event.stopPropagation();
-		//var $this = $(this);
-		$(".videme-contact-list").html(VidemeProgress);
-		$(".videme-mini-img").html(VidemeProgress); // TODO: Проверить, может убрать
-		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.contact-toggle').data('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
-		$.getJSON("http://api.vide.me/contact/?videmecallback=?",
-			function(data){
-				//var nad = $.cookie('vide_nad');
-				// TODO: Попробовать без куки nad
-				// TODO: Поставить проверку на присутствие значения у переменных
-				console.log("'click', '.contact-toggle' $('.contact-toggle').attr ---> " + JSON.stringify($('.contact-toggle').attr));
-				console.log("'click', '.contact-toggle' $('.contact-toggle').data ---> " + JSON.stringify($('.contact-toggle').data));
-				console.log("'click', '.contact-toggle' $('.contact-toggle') ---> " + JSON.stringify($('.contact-toggle')));
-
-				var results = [];
-				$.each(data['results'], function(i, result) {
-					results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + result.Email + "&file=" + $('.contact-toggle').data('file') + "&subject=Re: " + $('.contact-toggle').data('subject') + "&message=" + $('.contact-toggle').data('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.Email + "</span></a> ");
-				});
-				$('.videme-contact-list').html(results.join(""));
-			}
-		);
+		if ($('.contact-toggle').attr('file')) {
+			$(".videme-contact-list").html(VidemeProgress);
+			$(".videme-mini-img").html(VidemeProgress); // TODO: Проверить, может убрать
+			$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.contact-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+			$.getJSON("http://api.vide.me/contact/?videmecallback=?",
+				function (data) {
+					// TODO: Попробовать без куки nad
+					var results = [];
+					$.each(data['results'], function (key, value) {
+								results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + value.Email + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.Email + "</span></a> ");
+					});
+					$('.videme-contact-list').html(results.join(""));
+				}
+			);
+		} else {
+			$('.videme-contact-list').html(showError("No file"));
+		}
 	});
 
 	/*************************************************************
 	 v2 Событие 3: нажата кнопка вызова и отрисовки листов
 	 **************************************************************/
-	$(document).on('click', '.list-toggle', function(event) {
+	$(document).on('click', '.list-toggle', function (event) {
 		event.stopPropagation();
-		//var $this = $(this);
-		$(".videme-list-list").html(VidemeProgress);
-		$(".videme-mini-img").html(VidemeProgress);
-		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.list-toggle').data('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
-		$(".videme-file-info").html("<b>" + $('.list-toggle').data('subject') + "</b><br>" + $('.list-toggle').data('message') + "<br>" + $('.list-toggle').data('updatedat') + "<br>");
+		if ($('.list-toggle').attr('file')) {
+			$(".videme-list-list").html(VidemeProgress);
+			$(".videme-mini-img").html(VidemeProgress);
+			$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.list-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+			$(".videme-file-info").html("<b>" + $('.list-toggle').attr('subject') + "</b><br>" + $('.list-toggle').attr('message') + "<br>" + $('.list-toggle').attr('updatedat') + "<br>");
 
-		$('#file').val($('.list-toggle').data('file'));
+			$('#file').val($('.list-toggle').attr('file'));
 
-
-		$.getJSON("http://api.vide.me/list/?videmecallback=?",
-			function(data){
-				//var nad = $.cookie('vide_nad');
-				var results = [];
-				$.each(data['results'], function(i, result) {
-					results.push("<a class='list-url' href='http://api.vide.me/file/share/?file=" + $('.list-toggle').data('file-value') + "&list=" + result.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.ListName + "</span></a> ");
-				});
-				$(".videme-list-list").html("empty");
-				$('.videme-list-list').html(results.join(""));
-			}
-		);
+			$.getJSON("http://api.vide.me/list/?videmecallback=?",
+				function (data) {
+					var results = [];
+					$.each(data['results'], function (key, value) {
+						results.push("<a class='list-url' href='http://api.vide.me/file/share/?file=" + $('.list-toggle').attr('file-value') + "&list=" + value.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.ListName + "</span></a> ");
+					});
+					$(".videme-list-list").html("empty");
+					$('.videme-list-list').html(results.join(""));
+				}
+			);
+		} else {
+			$('.videme-list-list').html(showError("No file"));
+		}
 	});
 
 	/*************************************************************
 	 v2 Событие 3: нажата кнопка вызова и отрисовки
 	 кнопки удалить Inbox в модальном окне
 	 **************************************************************/
-	$(document).on('click', '.del-inbox-toggle', function(event) {
+	$(document).on('click', '.del-inbox-toggle', function (event) {
 		event.stopPropagation();
-		//var $this = $(this);
-		//var nad = $.cookie('vide_nad');
-		$(".videme-del-list").html(VidemeProgress);
-		$(".videme-mini-img").html(VidemeProgress);
-		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-inbox-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+		if ($('.del-inbox-toggle').attr('file')) {
+			$(".videme-del-list").html(VidemeProgress);
+			$(".videme-mini-img").html(VidemeProgress);
+			$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
 
-		$('.videme-del-list').html("\
+			$('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-inbox-url' file='http://api.vide.me/file/delinbox/?messageid=" + $('.del-inbox-toggle').data('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-inbox-url' file='http://api.vide.me/file/delinbox/?messageid=" + $('.del-inbox-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger videme-progress'>\
 Delete\
 </button>\
 </a>\
 ");
+		} else {
+			$('.videme-del-list').html(showError("No file"));
+		}
 	});
 
 	/*************************************************************
 	 Событие 3: нажата кнопка вызова и отрисовки
 	 кнопки удалить Sent в модальном окне
 	 **************************************************************/
-	$(document).on('click', '.del-sent-toggle', function(event) {
+	$(document).on('click', '.del-sent-toggle', function (event) {
 		event.stopPropagation();
-		//var $this = $(this);
-		//var nad = $.cookie('vide_nad');
-		$(".videme-del-list").html(VidemeProgress);
-		$(".videme-mini-img").html(VidemeProgress);
-		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sent-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+		if ($('.del-sent-toggle').attr('file')) {
+			$(".videme-del-list").html(VidemeProgress);
+			$(".videme-mini-img").html(VidemeProgress);
+			$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
 
-		$('.videme-del-list').html("\
+			$('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-sent-url' file='http://api.vide.me/file/delsent/?messageid=" + $('.del-sent-toggle').data('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-sent-url' file='http://api.vide.me/file/delsent/?messageid=" + $('.del-sent-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger videme-progress'>\
 Delete\
 </button>\
 </a>\
 ");
+		} else {
+			$('.videme-del-list').html(showError("No file"));
+		}
 	});
 
 	/*************************************************************
 	 Событие 3: нажата кнопка вызова и отрисовки
 	 кнопки удалить MY в модальном окне
 	 **************************************************************/
-	$(document).on('click', '.del-my-toggle', function(event) {
+	$(document).on('click', '.del-my-toggle', function (event) {
 		event.stopPropagation();
-		//var $this = $(this);
-		$(".videme-del-list").html(VidemeProgress);
-		$(".videme-mini-img").html(VidemeProgress);
-		$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-my-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
-		//var nad = $.cookie('vide_nad');
-		$('.videme-del-list').html("\
+		if ($('.del-my-toggle').attr('file')) {
+			$(".videme-del-list").html(VidemeProgress);
+			$(".videme-mini-img").html(VidemeProgress);
+			$(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-my-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+			//var nad = $.cookie('vide_nad');
+			$('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-my-url' file='http://api.vide.me/file/delfile/?file=" + $('.del-my-toggle').data('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-my-url' file='http://api.vide.me/file/delfile/?file=" + $('.del-my-toggle').attr('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger videme-progress'>\
 Delete\
 </button>\
 </a>\
 ");
+		} else {
+			$('.videme-del-list').html(showError("No file"));
+		}
 	});
 
 })(jQuery);
