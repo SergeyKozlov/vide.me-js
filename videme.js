@@ -337,7 +337,7 @@
 			showcaseVideo: "videme-showcase-video"
 		}, options);
 
-		$(this).html(VidemeProgress);
+		//$(this).html(VidemeProgress);
 /*
 		console.log("$.fn.showcaseVideo ---> start");
 		var tempObject = $(this);
@@ -696,6 +696,7 @@
 	/*************************************************************
 	 v2 Событие 3: нажата кнопка вызова и отрисовки контактов
 	 **************************************************************/
+	// TODO: Попробовать так:
 	$('#myTabs a').click(function (e) {
 		e.preventDefault()
 		$(this).tab('show')
@@ -711,6 +712,8 @@
 			function(data){
 				//var nad = $.cookie('vide_nad');
 				// TODO: Попробовать без куки nad
+				// TODO: Поставить проверку на присутствие значения у переменных
+				console.log("'click', '.contact-toggle' ---> " + JSON.stringify($('.contact-toggle').attr()));
 				var results = [];
 				$.each(data['results'], function(i, result) {
 					results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + result.Email + "&file=" + $('.contact-toggle').data('file') + "&subject=Re: " + $('.contact-toggle').data('subject') + "&message=" + $('.contact-toggle').data('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.Email + "</span></a> ");
