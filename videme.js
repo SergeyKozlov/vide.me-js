@@ -573,29 +573,16 @@
 
 	$.fn.showcaseButton = function (options) {
 		settings = $.extend({}, options);
-		console.log("$.fn.showcaseButton ---> " + JSON.stringify(settings.showcaseButton));
 		if (settings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings.showcaseButton['contact-toggle']);
 		if (settings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(settings.showcaseButton['list-toggle']);
 		if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
 		if (settings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sent-toggle']);
 		if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
 		if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
-
-		switch (JSON.stringify(settings.showcaseButton)) {
-			case "contact-toggle":
-				console.log("case contact-toggle ---> " + JSON.stringify(settings.showcaseButton));
-				break;
-			case settings.showcaseButton['contact-toggle']:
-				console.log("case contact-toggle ---> " + JSON.stringify(settings.showcaseButton));
-				break;
-			default:
-				//console.log("case contact-toggle default ---> " + JSON.stringify(settings.showcaseButton));
-		}
 	};
 
 	$.fn.showcaseVideoTextButton = function (options) {
 		settings = $.extend({}, options);
-		//console.log("$.fn.showcaseVideoTextButton ---> " + JSON.stringify(settings));
 		$.fn.showcaseVideo(settings);
 		$.fn.showcaseText(settings);
 		$.fn.showcaseButton(settings);
