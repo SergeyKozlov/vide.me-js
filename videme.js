@@ -713,7 +713,10 @@
 				//var nad = $.cookie('vide_nad');
 				// TODO: Попробовать без куки nad
 				// TODO: Поставить проверку на присутствие значения у переменных
-				console.log("'click', '.contact-toggle' ---> " + JSON.stringify($('.contact-toggle').attr()));
+				console.log("'click', '.contact-toggle' $('.contact-toggle').attr ---> " + JSON.stringify($('.contact-toggle').attr));
+				console.log("'click', '.contact-toggle' $('.contact-toggle').data ---> " + JSON.stringify($('.contact-toggle').data));
+				console.log("'click', '.contact-toggle' $('.contact-toggle') ---> " + JSON.stringify($('.contact-toggle')));
+
 				var results = [];
 				$.each(data['results'], function(i, result) {
 					results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + result.Email + "&file=" + $('.contact-toggle').data('file') + "&subject=Re: " + $('.contact-toggle').data('subject') + "&message=" + $('.contact-toggle').data('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + result.Email + "</span></a> ");
