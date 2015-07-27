@@ -591,7 +591,7 @@
 		if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
 		if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
 	};
-
+// TODO: Можно убрать
     $.fn.disabledButton = function (options) {
         settings = $.extend({
             button: 'submit'
@@ -600,8 +600,8 @@
         $(this).html(VidemeProgress);
 
         return this.each(function () {
-            //console.log("disabled: ");
-            var tempObject = $(this);
+            console.log("disabled: ");
+            //var tempObject = $(this);
             //if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
             //$("#submit").removeAttr('disabled');
             $('#' + settings.button).removeAttr('disabled');
