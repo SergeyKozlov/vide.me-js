@@ -17,7 +17,9 @@
 	};
 
 	$.fn.oneTimeInbox = function (options) {
-		settings = $.extend({}, options);
+		settings = $.extend({
+            authorized: false
+        }, options);
 
 		//$(this).html(VidemeProgress);
 		$.fn.showcaseVideoTextButton(settings);
@@ -333,8 +335,17 @@
 		settings = $.extend({
 			file: "9566b5a3475c25aa",
 			miniVideo: true,
-			showcaseVideo: "videme-showcase-video"
+			showcaseVideo: "videme-showcase-video",
+            authorized: true
 		}, options);
+
+        if (settings.authorized) {
+            console.log("authorized ---> true");
+            var sourseURL = "http://gum.vide.me/vi?m=";
+        } else {
+            console.log("authorized ---> false");
+            var sourseURL = "http://gu.vide.me/vi?m=";
+        }
 
 		//$(this).html(VidemeProgress);
 /*
@@ -392,7 +403,7 @@
 				resizeVideoJS(showcasePlayerFunc);
 				showcasePlayerFunc.src({
 					type: "video/mp4",
-					src: "http://gum.vide.me/vi?m=" + settings.file + "&messageid=" + settings.messageid
+					src: sourseURL + settings.file + "&messageid=" + settings.messageid
 				});
 				showcasePlayerFunc.controls(true);
 				showcasePlayerFunc.load();
@@ -497,7 +508,7 @@
 
 					//miniPlayer.hide();
 					miniPlayerFunc.muted(true);
-					miniPlayerFunc.src({type: "video/mp4", src: "http://gum.vide.me/vi?m=" + settings.file});
+					miniPlayerFunc.src({type: "video/mp4", src: sourseURL + settings.file});
 					miniPlayerFunc.load();
 					miniPlayerFunc.play();
 					miniPlayerFunc.on('ended', function () {
@@ -581,7 +592,27 @@
 		if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
 	};
 
-	$.fn.showcaseVideoTextButton = function (options) {
+    $.fn.disabledButton = function (options) {
+        settings = $.extend({
+            button: 'submit'
+        }, options);
+
+        $(this).html(VidemeProgress);
+
+        return this.each(function () {
+            //console.log("disabled: ");
+            var tempObject = $(this);
+            //if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
+            //$("#submit").removeAttr('disabled');
+            $('#' + settings.button).removeAttr('disabled');
+        });
+        //$(settings.submit).removeAttr('disabled');
+        //$('#submit').removeAttr('disabled');
+
+    };
+
+
+    $.fn.showcaseVideoTextButton = function (options) {
 		settings = $.extend({}, options);
 		$.fn.showcaseVideo(settings);
 		$.fn.showcaseText(settings);
