@@ -713,7 +713,7 @@
     });
 
     /*************************************************************
-     Событие 2: нажата ссылка на файл из плитки MySpring,
+     v2 Событие 2: нажата ссылка на файл из плитки MySpring,
      отрисовка текста и кнопок в панель
      **************************************************************/
     $(document).on('click', 'a.file-myspring-url', function (event) {
@@ -722,7 +722,7 @@
     });
 
     /*************************************************************
-     v2 Событие 3: нажата кнопка вызова и отрисовки контактов
+     v2 Событие 3: нажата кнопка вызова и отрисовки контактов в модальном окне
      **************************************************************/
         // TODO: Попробовать так:
     $('#myTabs a').click(function (e) {
@@ -752,7 +752,7 @@
     });
 
     /*************************************************************
-     v2 Событие 3: нажата кнопка вызова и отрисовки листов
+     v2 Событие 3: нажата кнопка вызова и отрисовки листов в модальном окне
      **************************************************************/
     $(document).on('click', '.list-toggle', function (event) {
         event.stopPropagation();
@@ -761,9 +761,7 @@
             $(".videme-mini-img").html(VidemeProgress);
             $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.list-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
             $(".videme-file-info").html("<b>" + $('.list-toggle').attr('subject') + "</b><br>" + $('.list-toggle').attr('message') + "<br>" + $('.list-toggle').attr('updatedat') + "<br>");
-
             $('#file').val($('.list-toggle').attr('file'));
-
             $.getJSON("http://api.vide.me/list/?videmecallback=?",
                 function (data) {
                     var results = [];
@@ -789,7 +787,6 @@
             $(".videme-del-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
             $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
-
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
@@ -815,7 +812,6 @@ Delete\
             $(".videme-del-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
             $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
-
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
@@ -1583,7 +1579,7 @@ data-target='#modal-contact'>\
                 $('.videme-prev').html(prev_file);
                 $('.videme-this').html(file.substr(1));
 
-                alert("bbb = " + b.results.length);
+                //==alert("bbb = " + b.results.length);
                 if (b.results.length > 3) {
 
 
@@ -1723,15 +1719,12 @@ message-value='#" + Message.substr(1) + "'>\
     $(document).on('click', '.contact-edit-toggle', function (event) {
         event.preventDefault();
         var $this = $(this);
-        var email = $this.attr('email-value');
-
-        email.replace(/.*(?=#[^\s]+$)/, '');
-
-        var nad = $.cookie('vide_nad');
-
+        var email = $this.attr('email');
+        //email.replace(/.*(?=#[^\s]+$)/, '');
+        //var nad = $.cookie('vide_nad');
         $('#email').val(email.substr(1));
         $('#newemail').val(email.substr(1));
-        $(".contact-del-toggle").data("email-value", email.substr(1));
+        $(".contact-del-toggle").data("email", email.substr(1));
     });
     /*
      /!*************************************************************
@@ -1905,8 +1898,8 @@ message-value='#" + Message.substr(1) + "'>\
     $(document).on('click', '.contact-del-toggle', function (event) {
         event.stopPropagation();
 
-        $('.videme-display').html($(".contact-del-toggle").data("email-value"));
-        $('#del-email').val($(".contact-del-toggle").data("email-value"));
+        $('.videme-display').html($(".contact-del-toggle").data("email"));
+        $('#del-email').val($(".contact-del-toggle").data("email"));
     });
     /*************************************************************
      Событие 5: нажата кнопка удалить Contact во втором модальном окне
@@ -2065,18 +2058,15 @@ Delete\
         });
     });
     /*************************************************************
-     Событие 2: нажата кнопка Редактировать контакт,
+     Событие 2: нажата кнопка Редактировать лист,
      отрисовка формы и кнопок в модальное окно
      **************************************************************/
     $(document).on('click', '.list-edit-toggle', function (event) {
         event.preventDefault();
         var $this = $(this);
         var list = $this.attr('list');
-
-        list.replace(/.*(?=#[^\s]+$)/, '');
-
-        var nad = $.cookie('vide_nad');
-
+        //list.replace(/.*(?=#[^\s]+$)/, '');
+        //var nad = $.cookie('vide_nad');
         $('#list').val(list.substr(1));
         $('#newlist').val(list.substr(1));
         $(".list-del-toggle").data("list", list.substr(1));
@@ -2131,9 +2121,8 @@ Delete\
      **************************************************************/
     $(document).on('click', '.list-del-toggle', function (event) {
         event.stopPropagation();
-
-        $('.videme-display').html($(".list-del-toggle").data("list-value"));
-        $('#del-list').val($(".list-del-toggle").data("list-value"));
+        $('.videme-display').html($(".list-del-toggle").data("list"));
+        $('#del-list').val($(".list-del-toggle").data("list"));
     });
     /*************************************************************
      Событие 5: нажата кнопка удалить List во втором модальном окне
@@ -2327,6 +2316,7 @@ Delete\
             });
         }
     });
+    // Удалить
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл Inbox
      **************************************************************/
@@ -2417,6 +2407,8 @@ Delete\
             }
         });
     });
+
+    // Удалить
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл Sent
      **************************************************************/
@@ -2462,6 +2454,8 @@ Delete\
             }
         });
     });
+
+    // Удалить
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл My
      **************************************************************/
@@ -3495,7 +3489,7 @@ function YouTubeGetID(url) {
         ID = url;
     }
     return ID;
-};
+}
 
 /***************************************************************************
  * Узнать дату
@@ -3514,7 +3508,7 @@ function getRealDate() {
     }
     var getRealDate = year + '/' + month + '/' + day;
     return getRealDate;
-};
+}
 
 /***************************************************************************
  * Узнать время
@@ -3538,6 +3532,7 @@ function getRealTime() {
     return getRealTime;
 }
 
+// Переделать
 /***************************************************************************
  * Функция показать файлы Inbox
  ***************************************************************************/
@@ -3606,6 +3601,7 @@ target='_blank'>\
             $(".videme-tile").html(a.join(""));
         })
 }
+// Переделать
 /***************************************************************************
  Функция показать файлы Sent
  ***************************************************************************/
@@ -3684,6 +3680,7 @@ target='_blank'>\
             $(".videme-tile").html(a.join(""));
         })
 }
+// Переделать
 /***************************************************************************
  Функция показать файлы My
  ***************************************************************************/
@@ -3754,6 +3751,7 @@ target='_blank'>\
             $(".videme-tile").html(a.join(""));
         })
 }
+// Переделать
 /***************************************************************************
  Функция показать файлы MySpring
  ***************************************************************************/
@@ -3895,6 +3893,7 @@ function ShowMyList() {
         }
     );
 }
+// DDDDEEELLL
 /***************************************************************************
  Функция построить панель
  ***************************************************************************/
