@@ -33,100 +33,153 @@
         console.log("$.fn.fileInbox -----> ok");
         settings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6
+            limit: 6,
+            showcaseVideo: "#videme-tile"
         }, options);
-        $(this).html(VidemeProgress);
-        return this.each(function () {
+        if ($(this).length) {
+            console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
-            $.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
-                function (data) {
-                    console.log("$.fn.fileInbox data -----> " + JSON.stringify(data));
+        } else {
+            console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.showcaseVideo);
+        }
+        console.log("$.fn.fileInbox tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        $.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
+            function (data) {
+                if (data.results) {
+                    console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileInbox(data), tempObject, "file-inbox-url"));
-                })
-                .done(function (data) {
                     $.fn.showcaseVideoTextButton(paddingButtonInbox(data[0]));
-                })
-                .fail(function (data) {
-                    tempObject.html(showError(data));
-                })
-                .always(function () {
-                });
-        });
+                } else {
+                    console.log("$.fn.fileInbox data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
     };
 
     $.fn.fileSent = function (options) {
         settings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6
+            limit: 6,
+            showcaseVideo: "#videme-tile"
         }, options);
-
-        $(this).html(VidemeProgress);
-
-        return this.each(function () {
+        if ($(this).length) {
+            console.log("$.fn.fileSent $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
-            $.getJSON("http://api.vide.me/file/sent/?limit=" + settings.limit + "&videmecallback=?",
-                function (data) {
+        } else {
+            console.log("$.fn.fileSent $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.showcaseVideo);
+        }
+        console.log("$.fn.fileSent tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        $.getJSON("http://api.vide.me/file/sent/?limit=" + settings.limit + "&videmecallback=?",
+            function (data) {
+                if (data.results) {
+                    console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileSent(data), tempObject, "file-sent-url"));
-                })
-                .done(function (data) {
                     $.fn.showcaseVideoTextButton(paddingButtonSent(data[0]));
-                })
-                .fail(function (data) {
-                    tempObject.html(showError(data));
-                })
-                .always(function () {
-                });
-        });
+                } else {
+                    console.log("$.fn.fileSent data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
     };
 
     $.fn.fileMy = function (options) {
         settings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6
+            limit: 6,
+            showcaseVideo: "#videme-tile"
         }, options);
-
-        $(this).html(VidemeProgress);
-
-        return this.each(function () {
+        if ($(this).length) {
+            console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
-            $.getJSON("http://api.vide.me/file/my/?limit=" + settings.limit + "&videmecallback=?",
-                function (data) {
+        } else {
+            console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.showcaseVideo);
+        }
+        console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        $.getJSON("http://api.vide.me/file/my/?limit=" + settings.limit + "&videmecallback=?",
+            function (data) {
+                if (data.results) {
+                    console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileMy(data), tempObject, "file-my-url"));
-                })
-                .done(function (data) {
                     $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
-                })
-                .fail(function (data) {
-                    tempObject.html(showError(data));
-                })
-                .always(function () {
-                });
-        });
+                } else {
+                    console.log("$.fn.fileMy data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
     };
 
     $.fn.fileMySpring = function (options) {
         settings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6
+            limit: 6,
+            showcaseVideo: "#videme-tile"
         }, options);
-
-        $(this).html(VidemeProgress);
-
-        return this.each(function () {
+        if ($(this).length) {
+            console.log("$.fn.fileMySpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
-            $.getJSON("http://api.vide.me/file/myspring/?limit=" + settings.limit + "&videmecallback=?",
-                function (data) {
+        } else {
+            console.log("$.fn.fileMySpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.showcaseVideo);
+        }
+        console.log("$.fn.fileMySpring tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        $.getJSON("http://api.vide.me/file/myspring/?limit=" + settings.limit + "&videmecallback=?",
+            function (data) {
+                if (data.results) {
+                    console.log("$.fn.fileMySpring data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-my-url"));
-                })
-                .done(function (data) {
                     $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
-                })
-                .fail(function (data) {
-                    tempObject.html(showError(data));
-                })
-                .always(function () {
-                });
-        });
+                } else {
+                    console.log("$.fn.fileMySpring data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
     };
 
     function showTile(showFile, tempObject, actionUrlClass) {
@@ -240,6 +293,7 @@
         $.each(parseFileMySpring.results, function (key, value) {
             //var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
             //console.log("obj.value.Message ---" + obj.value.Message);
+            console.log("parseFileMySpring ----->" + JSON.stringify(parseFileMySpring.results[key]));
 
             parseFileMySpring[key] = {
                 //'a': value.ToUserName,
@@ -334,7 +388,8 @@
         settings = $.extend({
             file: "9566b5a3475c25aa",
             miniVideo: true,
-            showcaseVideo: "videme-showcase-video",
+            //showcaseVideo: "videme-showcase-video",
+            showcaseVideo: "#videme-showcase-video",
             authorized: true
         }, options);
 
@@ -363,7 +418,8 @@
             console.log("$.fn.showcaseVideo $(this) -----> nooo! " + $(this).length);
             //ar this = $("#videme-showcase-video");
             //var tempObject = $("#videme-showcase-video");
-            var tempObject = $("#" + settings.showcaseVideo);
+            //==var tempObject = $("#" + settings.showcaseVideo);
+            var tempObject = $(settings.showcaseVideo);
             //var tempObject = $("#videme-showcase-video").attr('id');
             console.log("$.fn.showcaseVideo tempObject -----> " + tempObject.length);
             //console.log("$.fn.showcaseVideo JSON.stringify(tempObject) -----> " + JSON.stringify(tempObject.attr));
@@ -590,6 +646,7 @@
         if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
         if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
     };
+
 // TODO: Можно убрать
     $.fn.disabledButton = function (options) {
         settings = $.extend({
@@ -609,7 +666,6 @@
         //$('#submit').removeAttr('disabled');
 
     };
-
 
     $.fn.showcaseVideoTextButton = function (options) {
         settings = $.extend({}, options);
@@ -744,13 +800,25 @@
             $.getJSON("http://api.vide.me/contact/?videmecallback=?",
                 function (data) {
                     // TODO: Попробовать без куки nad
-                    var results = [];
-                    $.each(data['results'], function (key, value) {
-                        results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + value.Email + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.Email + "</span></a> ");
-                    });
-                    $('.videme-contact-list').html(results.join(""));
-                }
-            );
+                    if (data.results) {
+                        console.log(".contact-toggle data -----> yes" + JSON.stringify(data));
+                        var results = [];
+                        $.each(data['results'], function (key, value) {
+                            results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + value.Email + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.Email + "</span></a> ");
+                        });
+                        $('.videme-contact-list').html(results.join(""));
+                    } else {
+                        console.log(".contact-toggle data -----> no");
+                        $('.videme-contact-list').html("No contact");
+                    }
+                })
+                .done(function (data) {
+                })
+                .fail(function (data) {
+                    $('.videme-contact-list').html(showError(data));
+                })
+                .always(function () {
+                });
         } else {
             $('.videme-contact-list').html(showError("No file"));
         }
@@ -770,14 +838,26 @@
             $('#file').val($('.list-toggle').attr('file'));
             $.getJSON("http://api.vide.me/list/?videmecallback=?",
                 function (data) {
-                    var results = [];
-                    $.each(data['results'], function (key, value) {
-                        results.push("<a class='list-url' href='http://api.vide.me/file/share/?file=" + $('.list-toggle').attr('file') + "&list=" + value.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.ListName + "</span></a> ");
-                    });
-                    $(".videme-list-list").html("empty");
-                    $('.videme-list-list').html(results.join(""));
-                }
-            );
+                    if (data.results) {
+                        console.log(".list-toggle data -----> yes" + JSON.stringify(data));
+                        var results = [];
+                        $.each(data['results'], function (key, value) {
+                            results.push("<a class='list-url' href='http://api.vide.me/file/share/?file=" + $('.list-toggle').attr('file') + "&list=" + value.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.ListName + "</span></a> ");
+                        });
+                        //$(".videme-list-list").html("empty");
+                        $('.videme-list-list').html(results.join(""));
+                    } else {
+                        console.log(".list-toggle data -----> no");
+                        $('.videme-list-list').html("No list");
+                    }
+                })
+                .done(function (data) {
+                })
+                .fail(function (data) {
+                    $('.videme-list-list').html(showError(data));
+                })
+                .always(function () {
+                });
         } else {
             $('.videme-list-list').html(showError("No file"));
         }
@@ -811,14 +891,14 @@ Delete\
     });
 
     /*************************************************************
-     Событие 3: нажата кнопка вызова и отрисовки
+     v2 Событие 3: нажата кнопка вызова и отрисовки
      кнопки удалить Sent в модальном окне
      **************************************************************/
     $(document).on('click', '.del-sent-toggle', function (event) {
         console.log(".del-sent-toggle -----> click");
         event.stopPropagation();
         if ($('.del-sent-toggle').attr('file')) {
-            $(".videme-del-list").html(VidemeProgress);
+            //$(".videme-del-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
             $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
@@ -837,14 +917,14 @@ Delete\
     });
 
     /*************************************************************
-     Событие 3: нажата кнопка вызова и отрисовки
+     v2 Событие 3: нажата кнопка вызова и отрисовки
      кнопки удалить MY в модальном окне
      **************************************************************/
     $(document).on('click', '.del-my-toggle', function (event) {
         console.log(".del-my-toggle -----> click");
         event.stopPropagation();
         if ($('.del-my-toggle').attr('file')) {
-            $(".videme-del-list").html(VidemeProgress);
+            //$(".videme-del-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
             $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-my-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             //var nad = $.cookie('vide_nad');
@@ -906,7 +986,194 @@ Delete\
             error: function (msg) {
                 $('#modal-del').modal('hide');
                 $('#error_notification').append(msg + "<br>");
-                ShowInbox();
+                $.fn.fileInbox();
+                if (!$('#error_notification').is('.in')) {
+                    $('#error_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#error_notification').removeClass('in');
+                    }, 3200);
+                }
+            }
+        });
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из кнопки удалить файл Sent
+     **************************************************************/
+    $(document).on('click', 'a.del-sent-url', function (event) {
+        console.log("a.del-sent-url -----> click");
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('file');
+        href.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+            type: 'post',
+            url: href,
+            beforeSend: function () {
+                $(".videme-progress").html("Do..." + VidemeProgress);
+                $('#process_notification').append();
+                if (!$('#process_notification').is('.in')) {
+                    $('#process_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#process_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            success: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#success_notification').append(msg + "<br>");
+                $.fn.fileSent();
+                if (!$('#success_notification').is('.in')) {
+                    $('#success_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#success_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            error: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#error_notification').append(msg + "<br>");
+                $.fn.fileSent();
+                if (!$('#error_notification').is('.in')) {
+                    $('#error_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#error_notification').removeClass('in');
+                    }, 3200);
+                }
+            }
+        });
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из кнопки удалить файл My
+     **************************************************************/
+    $(document).on('click', 'a.del-my-url', function (event) {
+        console.log("a.del-my-url -----> click");
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('file');
+        href.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+            type: 'post',
+            url: href,
+            beforeSend: function () {
+                $(".videme-progress").html("Do..." + VidemeProgress);
+                $('#process_notification').append();
+                if (!$('#process_notification').is('.in')) {
+                    $('#process_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#process_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            success: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#success_notification').append(msg + "<br>");
+                $.fn.fileMy();
+                if (!$('#success_notification').is('.in')) {
+                    $('#success_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#success_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            error: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#error_notification').append(msg + "<br>");
+                $.fn.fileMy();
+                if (!$('#error_notification').is('.in')) {
+                    $('#error_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#error_notification').removeClass('in');
+                    }, 3200);
+                }
+            }
+        });
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из списка контактов
+     **************************************************************/
+    $(document).on('click', 'a.contact-url', function (event) {
+        console.log("a.contact-url -----> click");
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('href');
+        href.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+//		type: 'post',
+            url: href,
+            beforeSend: function () {
+                $(".videme-progress").html("Do..." + VidemeProgress);
+                $('#process_notification').append();
+                if (!$('#process_notification').is('.in')) {
+                    $('#process_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#process_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            success: function (msg) {
+                $(".videme-progress").html("");
+                $('#modal-contact').modal('hide');
+                $('#success_notification').append(msg + "<br>");
+                if (!$('#success_notification').is('.in')) {
+                    $('#success_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#success_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            error: function (msg) {
+                $(".videme-progress").html("");
+                $('#modal-contact').modal('hide');
+                $('#error_notification').append(msg + "<br>");
+                if (!$('#error_notification').is('.in')) {
+                    $('#error_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#error_notification').removeClass('in');
+                    }, 3200);
+                }
+            }
+        });
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из списка листов
+     **************************************************************/
+    $(document).on('click', 'a.list-url', function (event) {
+        var $this = $(this);
+        var href = $this.attr('href');
+        event.preventDefault();
+        href.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+//		type: 'post',
+            url: href,
+            beforeSend: function () {
+                $(".videme-progress").html("Do..." + VidemeProgress);
+                $('#process_notification').append();
+                if (!$('#process_notification').is('.in')) {
+                    $('#process_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#process_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            success: function (msg) {
+                $(".videme-progress").html("");
+                $('#modal-list').modal('hide');
+                $('#success_notification').append(msg + "<br>");
+                if (!$('#success_notification').is('.in')) {
+                    $('#success_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#success_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            error: function (msg) {
+                $(".videme-progress").html("");
+                $('#modal-list').modal('hide');
+                $('#error_notification').append(msg + "<br>");
                 if (!$('#error_notification').is('.in')) {
                     $('#error_notification').addClass('in');
                     setTimeout(function () {
@@ -2081,46 +2348,46 @@ Delete\
     /*************************************************************
      Событие 4: нажата ссылка из списка контактов
      **************************************************************/
-    $(document).on('click', 'a.contact-url', function (event) {
-        event.preventDefault();
-        var $this = $(this);
-        var href = $this.attr('href');
-        href.replace(/.*(?=#[^\s]+$)/, '');
-        $.ajax({
-//		type: 'post',
-            url: href,
-            beforeSend: function () {
-                $(".videme-progress").html("Do..." + VidemeProgress);
-                $('#process_notification').append();
-                if (!$('#process_notification').is('.in')) {
-                    $('#process_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#process_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            success: function (msg) {
-                $('#modal-contact').modal('hide');
-                $('#success_notification').append(msg + "<br>");
-                if (!$('#success_notification').is('.in')) {
-                    $('#success_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#success_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            error: function (msg) {
-                $('#modal-contact').modal('hide');
-                $('#error_notification').append(msg + "<br>");
-                if (!$('#error_notification').is('.in')) {
-                    $('#error_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#error_notification').removeClass('in');
-                    }, 3200);
-                }
-            }
-        });
-    });
+    /*    $(document).on('click', 'a.contact-url', function (event) {
+     event.preventDefault();
+     var $this = $(this);
+     var href = $this.attr('href');
+     href.replace(/.*(?=#[^\s]+$)/, '');
+     $.ajax({
+     //		type: 'post',
+     url: href,
+     beforeSend: function () {
+     $(".videme-progress").html("Do..." + VidemeProgress);
+     $('#process_notification').append();
+     if (!$('#process_notification').is('.in')) {
+     $('#process_notification').addClass('in');
+     setTimeout(function () {
+     $('#process_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     success: function (msg) {
+     $('#modal-contact').modal('hide');
+     $('#success_notification').append(msg + "<br>");
+     if (!$('#success_notification').is('.in')) {
+     $('#success_notification').addClass('in');
+     setTimeout(function () {
+     $('#success_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     error: function (msg) {
+     $('#modal-contact').modal('hide');
+     $('#error_notification').append(msg + "<br>");
+     if (!$('#error_notification').is('.in')) {
+     $('#error_notification').addClass('in');
+     setTimeout(function () {
+     $('#error_notification').removeClass('in');
+     }, 3200);
+     }
+     }
+     });
+     });*/
     /*************************************************************
      Событие 2: нажата кнопка Редактировать лист,
      отрисовка формы и кнопок в модальное окно
@@ -2280,7 +2547,7 @@ Delete\
     /*************************************************************
      Событие 4: нажата ссылка из списка листов
      **************************************************************/
-    $(document).on('click', 'a.list-url', function (event) {
+/*    $(document).on('click', 'a.list-url', function (event) {
         var $this = $(this);
         var href = $this.attr('href');
         event.preventDefault();
@@ -2319,7 +2586,7 @@ Delete\
                 }
             }
         });
-    });
+    });*/
     /*************************************************************
      Событие 4: нажата кнопка Сохранить В List в первом модальном окне
      **************************************************************/
@@ -2384,54 +2651,54 @@ Delete\
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл Inbox
      **************************************************************/
-/*    $(document).on('click', 'a.del-inbox-url', function (event) {
-        event.preventDefault();
-        var $this = $(this);
-        var href = $this.attr('file');
-        href.replace(/.*(?=#[^\s]+$)/, '');
-        $.ajax({
-//		type: 'post',
-            url: href,
-            beforeSend: function () {
-                $(".videme-progress").html("Do..." + VidemeProgress);
-                $('#process_notification').append();
-                if (!$('#process_notification').is('.in')) {
-                    $('#process_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#process_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            success: function (msg) {
-                $('#modal-del').modal('hide');
-                $('#success_notification').append(msg + "<br>");
-                //ShowInbox();
-                $.fn.fileInbox();
-                /!*
-                $('#videme-tile').fileInbox({
-                    limit: 6
-                });
-                *!/
-                if (!$('#success_notification').is('.in')) {
-                    $('#success_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#success_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            error: function (msg) {
-                $('#modal-del').modal('hide');
-                $('#error_notification').append(msg + "<br>");
-                ShowInbox();
-                if (!$('#error_notification').is('.in')) {
-                    $('#error_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#error_notification').removeClass('in');
-                    }, 3200);
-                }
-            }
-        });
-    });*/
+    /*    $(document).on('click', 'a.del-inbox-url', function (event) {
+     event.preventDefault();
+     var $this = $(this);
+     var href = $this.attr('file');
+     href.replace(/.*(?=#[^\s]+$)/, '');
+     $.ajax({
+     //		type: 'post',
+     url: href,
+     beforeSend: function () {
+     $(".videme-progress").html("Do..." + VidemeProgress);
+     $('#process_notification').append();
+     if (!$('#process_notification').is('.in')) {
+     $('#process_notification').addClass('in');
+     setTimeout(function () {
+     $('#process_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     success: function (msg) {
+     $('#modal-del').modal('hide');
+     $('#success_notification').append(msg + "<br>");
+     //ShowInbox();
+     $.fn.fileInbox();
+     /!*
+     $('#videme-tile').fileInbox({
+     limit: 6
+     });
+     *!/
+     if (!$('#success_notification').is('.in')) {
+     $('#success_notification').addClass('in');
+     setTimeout(function () {
+     $('#success_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     error: function (msg) {
+     $('#modal-del').modal('hide');
+     $('#error_notification').append(msg + "<br>");
+     ShowInbox();
+     if (!$('#error_notification').is('.in')) {
+     $('#error_notification').addClass('in');
+     setTimeout(function () {
+     $('#error_notification').removeClass('in');
+     }, 3200);
+     }
+     }
+     });
+     });*/
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл sharefile
      **************************************************************/
@@ -2482,95 +2749,97 @@ Delete\
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл Sent
      **************************************************************/
-    $(document).on('click', 'a.del-sent-url', function (event) {
-        event.preventDefault();
-        var $this = $(this);
-        var href = $this.attr('file');
-        href.replace(/.*(?=#[^\s]+$)/, '');
-        $.ajax({
-            type: 'post',
-            url: href,
-            beforeSend: function () {
-                $(".videme-progress").html("Do..." + VidemeProgress);
-                $('#process_notification').append();
-                if (!$('#process_notification').is('.in')) {
-                    $('#process_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#process_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            success: function (msg) {
-                $('#modal-del').modal('hide');
-                $('#success_notification').append(msg + "<br>");
-                ShowSent();
-                if (!$('#success_notification').is('.in')) {
-                    $('#success_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#success_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            error: function (msg) {
-                $('#modal-del').modal('hide');
-                $('#error_notification').append(msg + "<br>");
-                ShowSent();
-                if (!$('#error_notification').is('.in')) {
-                    $('#error_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#error_notification').removeClass('in');
-                    }, 3200);
-                }
-            }
-        });
-    });
+    /*
+     $(document).on('click', 'a.del-sent-url', function (event) {
+     event.preventDefault();
+     var $this = $(this);
+     var href = $this.attr('file');
+     href.replace(/.*(?=#[^\s]+$)/, '');
+     $.ajax({
+     type: 'post',
+     url: href,
+     beforeSend: function () {
+     $(".videme-progress").html("Do..." + VidemeProgress);
+     $('#process_notification').append();
+     if (!$('#process_notification').is('.in')) {
+     $('#process_notification').addClass('in');
+     setTimeout(function () {
+     $('#process_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     success: function (msg) {
+     $('#modal-del').modal('hide');
+     $('#success_notification').append(msg + "<br>");
+     ShowSent();
+     if (!$('#success_notification').is('.in')) {
+     $('#success_notification').addClass('in');
+     setTimeout(function () {
+     $('#success_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     error: function (msg) {
+     $('#modal-del').modal('hide');
+     $('#error_notification').append(msg + "<br>");
+     ShowSent();
+     if (!$('#error_notification').is('.in')) {
+     $('#error_notification').addClass('in');
+     setTimeout(function () {
+     $('#error_notification').removeClass('in');
+     }, 3200);
+     }
+     }
+     });
+     });
+     */
 
     // Удалить
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл My
      **************************************************************/
-    $(document).on('click', 'a.del-my-url', function (event) {
-        event.preventDefault();
-        var $this = $(this);
-        var href = $this.attr('file');
-        href.replace(/.*(?=#[^\s]+$)/, '');
-        $.ajax({
-            type: 'post',
-            url: href,
-            beforeSend: function () {
-                $(".videme-progress").html("Do..." + VidemeProgress);
-                $('#process_notification').append();
-                if (!$('#process_notification').is('.in')) {
-                    $('#process_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#process_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            success: function (msg) {
-                $('#modal-del').modal('hide');
-                $('#success_notification').append(msg + "<br>");
-                ShowMy();
-                if (!$('#success_notification').is('.in')) {
-                    $('#success_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#success_notification').removeClass('in');
-                    }, 3200);
-                }
-            },
-            error: function (msg) {
-                $('#modal-del').modal('hide');
-                $('#error_notification').append(msg + "<br>");
-                ShowMy();
-                if (!$('#error_notification').is('.in')) {
-                    $('#error_notification').addClass('in');
-                    setTimeout(function () {
-                        $('#error_notification').removeClass('in');
-                    }, 3200);
-                }
-            }
-        });
-    });
+    /*   $(document).on('click', 'a.del-my-url', function (event) {
+     event.preventDefault();
+     var $this = $(this);
+     var href = $this.attr('file');
+     href.replace(/.*(?=#[^\s]+$)/, '');
+     $.ajax({
+     type: 'post',
+     url: href,
+     beforeSend: function () {
+     $(".videme-progress").html("Do..." + VidemeProgress);
+     $('#process_notification').append();
+     if (!$('#process_notification').is('.in')) {
+     $('#process_notification').addClass('in');
+     setTimeout(function () {
+     $('#process_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     success: function (msg) {
+     $('#modal-del').modal('hide');
+     $('#success_notification').append(msg + "<br>");
+     ShowMy();
+     if (!$('#success_notification').is('.in')) {
+     $('#success_notification').addClass('in');
+     setTimeout(function () {
+     $('#success_notification').removeClass('in');
+     }, 3200);
+     }
+     },
+     error: function (msg) {
+     $('#modal-del').modal('hide');
+     $('#error_notification').append(msg + "<br>");
+     ShowMy();
+     if (!$('#error_notification').is('.in')) {
+     $('#error_notification').addClass('in');
+     setTimeout(function () {
+     $('#error_notification').removeClass('in');
+     }, 3200);
+     }
+     }
+     });
+     });*/
     /*************************************************************
      Событие XX: нажата кнопка Login
      **************************************************************/
@@ -3607,138 +3876,138 @@ function getRealTime() {
  * Функция показать файлы Inbox
  ***************************************************************************/
 /*function ShowInbox() {
-    $(".videme-tile").html(VidemeProgress);
-    $.getJSON("http://api.vide.me/file/inbox/?videmecallback=?",
-        function (b) {
-            $('.videme-brand-panel-element-center').html("\
-<video controls>\
-  <source src='http://gum.vide.me/vi?m=" + b['results'][0]['File'] + "&messageid=" + b['results'][0]['objectId'] + "' type='video/mp4'>\
-  Your browser does not support the <code>video</code> element.\
-</video>\
-");
-            $('.videme-brand-panel-element-left').html("\
-<div class='videme-panel-actor'>" + b['results'][0]['FromUserName'] + "</div>\
-<div class='videme-panel-date'>" + b['results'][0]['updatedAt'] + "</div>\
-<div class='videme-panel-subject'>" + b['results'][0]['Subject'] + "</div>\
-<div class='videme-panel-message'>" + b['results'][0]['Message'] + "</div>\
-");
-            $('.videme-brand-panel-element-right').html("\
-<div class='videme-panel-message'>Share: </div>\
-<button type='button' \
-class='btn btn-primary contact-toggle' data-toggle='modal' \
-data-target='#modal-contact' \
-file-value='#" + b['results'][0]['File'] + "' \
-subject-value='#" + b['results'][0]['Subject'] + "' \
-message-value='#" + b['results'][0]['Message'] + "'>\
-<span class='glyphicon glyphicon-envelope'></span> contact\
-</button>\
-<hr class='visible-xs'>\
-<button type='button' \
-class='btn btn-danger pull-right hidden-xs del-inbox-toggle' data-toggle='modal' \
-data-target='#modal-del' \
-file-value='#" + b['results'][0]['File'] + "'>\
-<span class='glyphicon glyphicon-remove'></span> delete\
-</button>\
-<button type='button' \
-class='btn btn-danger pull-left visible-xs del-inbox-toggle' data-toggle='modal' \
-data-target='#modal-del' \
-file-value='#" + b['results'][0]['File'] + "' \
-messageid-value='#" + b['results'][0]['objectId'] + "'>\
-<span class='glyphicon glyphicon-remove'></span> delete\
-</button>\
-");
-            var a = [];
-            $.each(b.results, function (d, c) {
-                a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='file-inbox-url' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
-target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		</a>\
-		<div class='videme-tile-signboard-" + c.Read + "'>" + c.FromUserName + "</div>\
-	</div>\
-</div>\
-			")
-            });
-            $(".videme-tile").html(a.join(""));
-        })
-}*/
+ $(".videme-tile").html(VidemeProgress);
+ $.getJSON("http://api.vide.me/file/inbox/?videmecallback=?",
+ function (b) {
+ $('.videme-brand-panel-element-center').html("\
+ <video controls>\
+ <source src='http://gum.vide.me/vi?m=" + b['results'][0]['File'] + "&messageid=" + b['results'][0]['objectId'] + "' type='video/mp4'>\
+ Your browser does not support the <code>video</code> element.\
+ </video>\
+ ");
+ $('.videme-brand-panel-element-left').html("\
+ <div class='videme-panel-actor'>" + b['results'][0]['FromUserName'] + "</div>\
+ <div class='videme-panel-date'>" + b['results'][0]['updatedAt'] + "</div>\
+ <div class='videme-panel-subject'>" + b['results'][0]['Subject'] + "</div>\
+ <div class='videme-panel-message'>" + b['results'][0]['Message'] + "</div>\
+ ");
+ $('.videme-brand-panel-element-right').html("\
+ <div class='videme-panel-message'>Share: </div>\
+ <button type='button' \
+ class='btn btn-primary contact-toggle' data-toggle='modal' \
+ data-target='#modal-contact' \
+ file-value='#" + b['results'][0]['File'] + "' \
+ subject-value='#" + b['results'][0]['Subject'] + "' \
+ message-value='#" + b['results'][0]['Message'] + "'>\
+ <span class='glyphicon glyphicon-envelope'></span> contact\
+ </button>\
+ <hr class='visible-xs'>\
+ <button type='button' \
+ class='btn btn-danger pull-right hidden-xs del-inbox-toggle' data-toggle='modal' \
+ data-target='#modal-del' \
+ file-value='#" + b['results'][0]['File'] + "'>\
+ <span class='glyphicon glyphicon-remove'></span> delete\
+ </button>\
+ <button type='button' \
+ class='btn btn-danger pull-left visible-xs del-inbox-toggle' data-toggle='modal' \
+ data-target='#modal-del' \
+ file-value='#" + b['results'][0]['File'] + "' \
+ messageid-value='#" + b['results'][0]['objectId'] + "'>\
+ <span class='glyphicon glyphicon-remove'></span> delete\
+ </button>\
+ ");
+ var a = [];
+ $.each(b.results, function (d, c) {
+ a.push("\
+ <div class='box'>\
+ <div class='boxInner'>\
+ <a class='file-inbox-url' \
+ file-value='#" + c.File + "' \
+ messageid-value='#" + c.objectId + "' \
+ FromUserName-value='#" + c.FromUserName + "' \
+ updatedAt-value='#" + c.updatedAt + "' \
+ Subject-value='#" + c.Subject + "' \
+ Message-value='#" + c.Message + "' \
+ href='http://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
+ target='_blank'>\
+ <img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+ </a>\
+ <div class='videme-tile-signboard-" + c.Read + "'>" + c.FromUserName + "</div>\
+ </div>\
+ </div>\
+ ")
+ });
+ $(".videme-tile").html(a.join(""));
+ })
+ }*/
 /***************************************************************************
  * v2 Функция показать файлы Inbox
  ***************************************************************************/
 /*function ShowInbox() {
-    $(".videme-tile").html(VidemeProgress);
-    $.getJSON("http://api.vide.me/file/inbox/?videmecallback=?",
-        function (b) {
-            $('.videme-brand-panel-element-center').html("\
-<video controls>\
-  <source src='http://gum.vide.me/vi?m=" + b['results'][0]['File'] + "&messageid=" + b['results'][0]['objectId'] + "' type='video/mp4'>\
-  Your browser does not support the <code>video</code> element.\
-</video>\
-");
-            $('.videme-brand-panel-element-left').html("\
-<div class='videme-panel-actor'>" + b['results'][0]['FromUserName'] + "</div>\
-<div class='videme-panel-date'>" + b['results'][0]['updatedAt'] + "</div>\
-<div class='videme-panel-subject'>" + b['results'][0]['Subject'] + "</div>\
-<div class='videme-panel-message'>" + b['results'][0]['Message'] + "</div>\
-");
-            $('.videme-brand-panel-element-right').html("\
-<div class='videme-panel-message'>Share: </div>\
-<button type='button' \
-class='btn btn-primary contact-toggle' data-toggle='modal' \
-data-target='#modal-contact' \
-file-value='#" + b['results'][0]['File'] + "' \
-subject-value='#" + b['results'][0]['Subject'] + "' \
-message-value='#" + b['results'][0]['Message'] + "'>\
-<span class='glyphicon glyphicon-envelope'></span> contact\
-</button>\
-<hr class='visible-xs'>\
-<button type='button' \
-class='btn btn-danger pull-right hidden-xs del-inbox-toggle' data-toggle='modal' \
-data-target='#modal-del' \
-file-value='#" + b['results'][0]['File'] + "'>\
-<span class='glyphicon glyphicon-remove'></span> delete\
-</button>\
-<button type='button' \
-class='btn btn-danger pull-left visible-xs del-inbox-toggle' data-toggle='modal' \
-data-target='#modal-del' \
-file-value='#" + b['results'][0]['File'] + "' \
-messageid-value='#" + b['results'][0]['objectId'] + "'>\
-<span class='glyphicon glyphicon-remove'></span> delete\
-</button>\
-");
-            var a = [];
-            $.each(b.results, function (d, c) {
-                a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='file-inbox-url' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
-target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		</a>\
-		<div class='videme-tile-signboard-" + c.Read + "'>" + c.FromUserName + "</div>\
-	</div>\
-</div>\
-			")
-            });
-            $(".videme-tile").html(a.join(""));
-        })
-}*/
+ $(".videme-tile").html(VidemeProgress);
+ $.getJSON("http://api.vide.me/file/inbox/?videmecallback=?",
+ function (b) {
+ $('.videme-brand-panel-element-center').html("\
+ <video controls>\
+ <source src='http://gum.vide.me/vi?m=" + b['results'][0]['File'] + "&messageid=" + b['results'][0]['objectId'] + "' type='video/mp4'>\
+ Your browser does not support the <code>video</code> element.\
+ </video>\
+ ");
+ $('.videme-brand-panel-element-left').html("\
+ <div class='videme-panel-actor'>" + b['results'][0]['FromUserName'] + "</div>\
+ <div class='videme-panel-date'>" + b['results'][0]['updatedAt'] + "</div>\
+ <div class='videme-panel-subject'>" + b['results'][0]['Subject'] + "</div>\
+ <div class='videme-panel-message'>" + b['results'][0]['Message'] + "</div>\
+ ");
+ $('.videme-brand-panel-element-right').html("\
+ <div class='videme-panel-message'>Share: </div>\
+ <button type='button' \
+ class='btn btn-primary contact-toggle' data-toggle='modal' \
+ data-target='#modal-contact' \
+ file-value='#" + b['results'][0]['File'] + "' \
+ subject-value='#" + b['results'][0]['Subject'] + "' \
+ message-value='#" + b['results'][0]['Message'] + "'>\
+ <span class='glyphicon glyphicon-envelope'></span> contact\
+ </button>\
+ <hr class='visible-xs'>\
+ <button type='button' \
+ class='btn btn-danger pull-right hidden-xs del-inbox-toggle' data-toggle='modal' \
+ data-target='#modal-del' \
+ file-value='#" + b['results'][0]['File'] + "'>\
+ <span class='glyphicon glyphicon-remove'></span> delete\
+ </button>\
+ <button type='button' \
+ class='btn btn-danger pull-left visible-xs del-inbox-toggle' data-toggle='modal' \
+ data-target='#modal-del' \
+ file-value='#" + b['results'][0]['File'] + "' \
+ messageid-value='#" + b['results'][0]['objectId'] + "'>\
+ <span class='glyphicon glyphicon-remove'></span> delete\
+ </button>\
+ ");
+ var a = [];
+ $.each(b.results, function (d, c) {
+ a.push("\
+ <div class='box'>\
+ <div class='boxInner'>\
+ <a class='file-inbox-url' \
+ file-value='#" + c.File + "' \
+ messageid-value='#" + c.objectId + "' \
+ FromUserName-value='#" + c.FromUserName + "' \
+ updatedAt-value='#" + c.updatedAt + "' \
+ Subject-value='#" + c.Subject + "' \
+ Message-value='#" + c.Message + "' \
+ href='http://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
+ target='_blank'>\
+ <img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+ </a>\
+ <div class='videme-tile-signboard-" + c.Read + "'>" + c.FromUserName + "</div>\
+ </div>\
+ </div>\
+ ")
+ });
+ $(".videme-tile").html(a.join(""));
+ })
+ }*/
 // Переделать
 /***************************************************************************
  Функция показать файлы Sent
