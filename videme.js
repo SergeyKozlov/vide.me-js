@@ -30,17 +30,17 @@
     };
 
     $.fn.fileInbox = function (options) {
+        console.log("$.fn.fileInbox -----> ok");
         settings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6
         }, options);
-
         $(this).html(VidemeProgress);
-
         return this.each(function () {
             var tempObject = $(this);
             $.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
                 function (data) {
+                    console.log("$.fn.fileInbox data -----> " + JSON.stringify(data));
                     tempObject.html(showTile(parseFileInbox(data), tempObject, "file-inbox-url"));
                 })
                 .done(function (data) {
@@ -339,43 +339,43 @@
         }, options);
 
         if (settings.authorized) {
-            console.log("authorized ---> true");
+            console.log("authorized -----> true");
             var sourseURL = "http://gum.vide.me/vi?m=";
         } else {
-            console.log("authorized ---> false");
+            console.log("authorized -----> false");
             var sourseURL = "http://gu.vide.me/vi?m=";
         }
 
         //$(this).html(VidemeProgress);
         /*
-         console.log("$.fn.showcaseVideo ---> start");
+         console.log("$.fn.showcaseVideo -----> start");
          var tempObject = $(this);
-         console.log("$.fn.showcaseVideo tempObject ---> " + tempObject);
-         console.log("$.fn.showcaseVideo tempObject.length ---> " + tempObject.length);
-         console.log("$.fn.showcaseVideo $(this).length ---> " + $(this).length);
+         console.log("$.fn.showcaseVideo tempObject -----> " + tempObject);
+         console.log("$.fn.showcaseVideo tempObject.length -----> " + tempObject.length);
+         console.log("$.fn.showcaseVideo $(this).length -----> " + $(this).length);
          */
         //var tempObject = $("#videme-showcase-video");
 
         if ($(this).length) {
-            console.log("$.fn.showcaseVideo $(this) ---> yes " + $(this).length);
+            console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            console.log("$.fn.showcaseVideo $(this) ---> nooo! " + $(this).length);
+            console.log("$.fn.showcaseVideo $(this) -----> nooo! " + $(this).length);
             //ar this = $("#videme-showcase-video");
             //var tempObject = $("#videme-showcase-video");
             var tempObject = $("#" + settings.showcaseVideo);
             //var tempObject = $("#videme-showcase-video").attr('id');
-            console.log("$.fn.showcaseVideo tempObject ---> " + tempObject.length);
-            //console.log("$.fn.showcaseVideo JSON.stringify(tempObject) ---> " + JSON.stringify(tempObject.attr));
+            console.log("$.fn.showcaseVideo tempObject -----> " + tempObject.length);
+            //console.log("$.fn.showcaseVideo JSON.stringify(tempObject) -----> " + JSON.stringify(tempObject.attr));
         }
         /*		tempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
          "<div id=\"videme-minivideo\"><div>");*/
         //=return this.each(function () {
 
-        console.log("$.fn.showcaseVideo settings.file ---> " + settings.file);
+        console.log("$.fn.showcaseVideo settings.file -----> " + settings.file);
 
         //var tempObject = $(this);
-        //console.log("$.fn.showcaseVideo tempObject ---> " + tempObject);
+        //console.log("$.fn.showcaseVideo tempObject -----> " + tempObject);
 
         tempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
             "<div id=\"videme-minivideo\"><div>");
@@ -386,11 +386,11 @@
             "<div id=\"videme-minivideo\"><div>");
 
         if ($('#my_video1').length) {
-            console.log("$.fn.showcaseVideo (\"#my_video1\").length) ---> yes " + $("#my_video1").length);
+            console.log("$.fn.showcaseVideo (\"#my_video1\").length) -----> yes " + $("#my_video1").length);
             //var oldPlayer1 = document.getElementById('my_video1');
             //videojs(oldPlayer1).dispose();
         } else {
-            console.log("$.fn.showcaseVideo (\"#my_video1\").length) ---> nooo! " + $("#my_video1").length);
+            console.log("$.fn.showcaseVideo (\"#my_video1\").length) -----> nooo! " + $("#my_video1").length);
             //TempObject.html("<video id=\"my_video1\" class=\"video-js vjs-default-skin\"></video>" +
             //	"<div id=\"videme-minivideo\"><div>");
         }
@@ -421,7 +421,7 @@
             resizeVideoJS(showcasePlayer);
         });
 
-        console.log("$.fn.showcaseVideo settings.miniVideo ---> " + settings.miniVideo);
+        console.log("$.fn.showcaseVideo settings.miniVideo -----> " + settings.miniVideo);
 
         if (settings.miniVideo) {
             /*
@@ -446,21 +446,21 @@
 			");
 
             var oldMiniPlayer = document.getElementById('my_video2');
-            //console.log("$.fn.showcaseVideo var oldPlayer2 ---> " + oldMiniPlayer);
+            //console.log("$.fn.showcaseVideo var oldPlayer2 -----> " + oldMiniPlayer);
 
             videojs(oldMiniPlayer).dispose();
 
-            console.log("$.fn.showcaseVideo settings.file ---> " + settings.file);
+            console.log("$.fn.showcaseVideo settings.file -----> " + settings.file);
 
 
             /*				if ($('#my_video2').length) {
-             console.log("$.fn.showcaseVideo (\"#my_video2\").length) ---> yes " + $("#my_video2").length);
+             console.log("$.fn.showcaseVideo (\"#my_video2\").length) -----> yes " + $("#my_video2").length);
              var oldPlayer2 = document.getElementById('my_video2');
-             console.log("$.fn.showcaseVideo var oldPlayer2 ---> " + oldPlayer2);
+             console.log("$.fn.showcaseVideo var oldPlayer2 -----> " + oldPlayer2);
 
              videojs(oldPlayer2).dispose();
              } else {
-             console.log("$.fn.showcaseVideo (\"#my_video2\").length) ---> nooo! " + $("#my_video2").length);
+             console.log("$.fn.showcaseVideo (\"#my_video2\").length) -----> nooo! " + $("#my_video2").length);
              $("#videme-minivideo").html("<video id=\"my_video2\" class=\"video-js vjs-default-skin video-down\"></video> \
              <button id=\"closevideo\" type=\"button\" class=\"close closevideo hidden\" aria-label=\"Close\"> \
              <span aria-hidden=\"true\">&times;</span> \
@@ -535,7 +535,7 @@
             });
 
         } else {
-            console.log("$.fn.showcaseVideo ---> no miniVideo");
+            console.log("$.fn.showcaseVideo -----> no miniVideo");
         }
 
         function checkPausePlay(myPlayer) {
@@ -568,7 +568,7 @@
                 miniPlayer.hide();
             }
             //return html;
-            //console.log("scrollSetting ---> OK!!!");
+            //console.log("scrollSetting -----> OK!!!");
         }
 
         //=});
@@ -688,6 +688,7 @@
      **************************************************************/
         //$(".file-inbox-url2").click(function(event) {
     $(document).on('click', 'a.file-inbox-url', function (event) {
+        console.log("a.file-inbox-url -----> click");
         event.preventDefault();
         $.fn.showcaseVideoTextButton(paddingButtonInbox($(this).getAttributes()));
     });
@@ -697,8 +698,9 @@
      отрисовка текста и кнопок в панель
      **************************************************************/
     $(document).on('click', 'a.file-sent-url', function (event) {
+        console.log("a.file-sent-url -----> click");
         event.preventDefault();
-        var attrArray = $(this).getAttributes();
+        //var attrArray = $(this).getAttributes();
         $.fn.showcaseVideoTextButton(paddingButtonSent($(this).getAttributes()));
 
     });
@@ -708,6 +710,7 @@
      отрисовка текста и кнопок в панель
      **************************************************************/
     $(document).on('click', 'a.file-my-url', function (event) {
+        console.log("a.file-my-url -----> click");
         event.preventDefault();
         $.fn.showcaseVideoTextButton(paddingButtonMy($(this).getAttributes()));
     });
@@ -717,6 +720,7 @@
      отрисовка текста и кнопок в панель
      **************************************************************/
     $(document).on('click', 'a.file-myspring-url', function (event) {
+        console.log("a.file-myspring-url -----> click");
         event.preventDefault();
         $.fn.showcaseVideoTextButton(paddingButtonMySpring($(this).getAttributes()));
     });
@@ -731,6 +735,7 @@
     });
 
     $(document).on('click', '.contact-toggle', function (event) {
+        console.log(".contact-toggle -----> click");
         event.stopPropagation();
         if ($('.contact-toggle').attr('file')) {
             $(".videme-contact-list").html(VidemeProgress);
@@ -755,6 +760,7 @@
      v2 Событие 3: нажата кнопка вызова и отрисовки листов в модальном окне
      **************************************************************/
     $(document).on('click', '.list-toggle', function (event) {
+        console.log(".list-toggle -----> click");
         event.stopPropagation();
         if ($('.list-toggle').attr('file')) {
             $(".videme-list-list").html(VidemeProgress);
@@ -782,10 +788,12 @@
      кнопки удалить Inbox в модальном окне
      **************************************************************/
     $(document).on('click', '.del-inbox-toggle', function (event) {
+        console.log(".del-inbox-toggle -----> click");
         event.stopPropagation();
         if ($('.del-inbox-toggle').attr('file')) {
-            $(".videme-del-list").html(VidemeProgress);
+            //$(".videme-del-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
+            //console.log("img src='http://img.vide.me/" + $('.del-inbox-toggle').attr('file'));
             $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
@@ -807,6 +815,7 @@ Delete\
      кнопки удалить Sent в модальном окне
      **************************************************************/
     $(document).on('click', '.del-sent-toggle', function (event) {
+        console.log(".del-sent-toggle -----> click");
         event.stopPropagation();
         if ($('.del-sent-toggle').attr('file')) {
             $(".videme-del-list").html(VidemeProgress);
@@ -832,6 +841,7 @@ Delete\
      кнопки удалить MY в модальном окне
      **************************************************************/
     $(document).on('click', '.del-my-toggle', function (event) {
+        console.log(".del-my-toggle -----> click");
         event.stopPropagation();
         if ($('.del-my-toggle').attr('file')) {
             $(".videme-del-list").html(VidemeProgress);
@@ -851,6 +861,60 @@ Delete\
         } else {
             $('.videme-del-list').html(showError("No file"));
         }
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из кнопки удалить файл Inbox
+     **************************************************************/
+    $(document).on('click', 'a.del-inbox-url', function (event) {
+        console.log("a.del-inbox-url -----> click");
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('file');
+        href.replace(/.*(?=#[^\s]+$)/, '');
+        //$.fn.fileInbox();
+        $.ajax({
+//		type: 'post',
+            url: href,
+            beforeSend: function () {
+                $(".videme-progress").html("Do..." + VidemeProgress);
+                $('#process_notification').append();
+                if (!$('#process_notification').is('.in')) {
+                    $('#process_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#process_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            success: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#success_notification').append(msg + "<br>");
+                //ShowInbox();
+                $.fn.fileInbox();
+                /*
+                 $('#videme-tile').fileInbox({
+                 limit: 6
+                 });
+                 */
+                if (!$('#success_notification').is('.in')) {
+                    $('#success_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#success_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            error: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#error_notification').append(msg + "<br>");
+                ShowInbox();
+                if (!$('#error_notification').is('.in')) {
+                    $('#error_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#error_notification').removeClass('in');
+                    }, 3200);
+                }
+            }
+        });
     });
 
 })(jQuery);
@@ -2320,7 +2384,7 @@ Delete\
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл Inbox
      **************************************************************/
-    $(document).on('click', 'a.del-inbox-url', function (event) {
+/*    $(document).on('click', 'a.del-inbox-url', function (event) {
         event.preventDefault();
         var $this = $(this);
         var href = $this.attr('file');
@@ -2341,7 +2405,13 @@ Delete\
             success: function (msg) {
                 $('#modal-del').modal('hide');
                 $('#success_notification').append(msg + "<br>");
-                ShowInbox();
+                //ShowInbox();
+                $.fn.fileInbox();
+                /!*
+                $('#videme-tile').fileInbox({
+                    limit: 6
+                });
+                *!/
                 if (!$('#success_notification').is('.in')) {
                     $('#success_notification').addClass('in');
                     setTimeout(function () {
@@ -2361,7 +2431,7 @@ Delete\
                 }
             }
         });
-    });
+    });*/
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл sharefile
      **************************************************************/
@@ -3385,7 +3455,7 @@ Delete\
 
     // TODO: сделать общий windows resize
     $(window).resize(function () {
-        //console.log("window).resize ---> tmpEvent').animate");
+        //console.log("window).resize -----> tmpEvent').animate");
         sidebarToggleHidde();
         sidebarToggleButton();
     });
@@ -3536,7 +3606,7 @@ function getRealTime() {
 /***************************************************************************
  * Функция показать файлы Inbox
  ***************************************************************************/
-function ShowInbox() {
+/*function ShowInbox() {
     $(".videme-tile").html(VidemeProgress);
     $.getJSON("http://api.vide.me/file/inbox/?videmecallback=?",
         function (b) {
@@ -3600,7 +3670,75 @@ target='_blank'>\
             });
             $(".videme-tile").html(a.join(""));
         })
-}
+}*/
+/***************************************************************************
+ * v2 Функция показать файлы Inbox
+ ***************************************************************************/
+/*function ShowInbox() {
+    $(".videme-tile").html(VidemeProgress);
+    $.getJSON("http://api.vide.me/file/inbox/?videmecallback=?",
+        function (b) {
+            $('.videme-brand-panel-element-center').html("\
+<video controls>\
+  <source src='http://gum.vide.me/vi?m=" + b['results'][0]['File'] + "&messageid=" + b['results'][0]['objectId'] + "' type='video/mp4'>\
+  Your browser does not support the <code>video</code> element.\
+</video>\
+");
+            $('.videme-brand-panel-element-left').html("\
+<div class='videme-panel-actor'>" + b['results'][0]['FromUserName'] + "</div>\
+<div class='videme-panel-date'>" + b['results'][0]['updatedAt'] + "</div>\
+<div class='videme-panel-subject'>" + b['results'][0]['Subject'] + "</div>\
+<div class='videme-panel-message'>" + b['results'][0]['Message'] + "</div>\
+");
+            $('.videme-brand-panel-element-right').html("\
+<div class='videme-panel-message'>Share: </div>\
+<button type='button' \
+class='btn btn-primary contact-toggle' data-toggle='modal' \
+data-target='#modal-contact' \
+file-value='#" + b['results'][0]['File'] + "' \
+subject-value='#" + b['results'][0]['Subject'] + "' \
+message-value='#" + b['results'][0]['Message'] + "'>\
+<span class='glyphicon glyphicon-envelope'></span> contact\
+</button>\
+<hr class='visible-xs'>\
+<button type='button' \
+class='btn btn-danger pull-right hidden-xs del-inbox-toggle' data-toggle='modal' \
+data-target='#modal-del' \
+file-value='#" + b['results'][0]['File'] + "'>\
+<span class='glyphicon glyphicon-remove'></span> delete\
+</button>\
+<button type='button' \
+class='btn btn-danger pull-left visible-xs del-inbox-toggle' data-toggle='modal' \
+data-target='#modal-del' \
+file-value='#" + b['results'][0]['File'] + "' \
+messageid-value='#" + b['results'][0]['objectId'] + "'>\
+<span class='glyphicon glyphicon-remove'></span> delete\
+</button>\
+");
+            var a = [];
+            $.each(b.results, function (d, c) {
+                a.push("\
+<div class='box'>\
+	<div class='boxInner'>\
+		<a class='file-inbox-url' \
+file-value='#" + c.File + "' \
+messageid-value='#" + c.objectId + "' \
+FromUserName-value='#" + c.FromUserName + "' \
+updatedAt-value='#" + c.updatedAt + "' \
+Subject-value='#" + c.Subject + "' \
+Message-value='#" + c.Message + "' \
+href='http://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
+target='_blank'>\
+			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		</a>\
+		<div class='videme-tile-signboard-" + c.Read + "'>" + c.FromUserName + "</div>\
+	</div>\
+</div>\
+			")
+            });
+            $(".videme-tile").html(a.join(""));
+        })
+}*/
 // Переделать
 /***************************************************************************
  Функция показать файлы Sent
