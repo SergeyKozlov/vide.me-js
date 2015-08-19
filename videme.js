@@ -165,7 +165,8 @@
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileMySpring data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-my-url"));
+                    //tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-my-url"));
+                    tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-myspring-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
                 } else {
                     console.log("$.fn.fileMySpring data -----> no");
@@ -367,6 +368,7 @@
     }
 
     function paddingButtonMySpring(paddingButtonMySpring) {
+        console.log("paddingButtonMySpring -----> " + JSON.stringify(paddingButtonMySpring));
         paddingButtonMySpring.showcaseButton = {
             'contact-toggle': {
                 'file': paddingButtonMySpring.file,
@@ -639,6 +641,7 @@
 
     $.fn.showcaseButton = function (options) {
         settings = $.extend({}, options);
+        console.log("$.fn.showcaseButton settings -----> " + JSON.stringify(settings));
         if (settings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings.showcaseButton['contact-toggle']);
         if (settings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(settings.showcaseButton['list-toggle']);
         if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
@@ -1763,6 +1766,7 @@ $(document).ready(function () {
      Событие 2: нажата ссылка на файл из плитки MySpring,
      отрисовка текста и кнопок в панель
      **************************************************************/
+/*
     $(document).on('click', 'a.file-myspring-url', function (event) {
         event.preventDefault();
         var $this = $(this);
@@ -1838,6 +1842,7 @@ file-value='#" + file.substr(1) + "'>\
         $(".list-toggle").data("message-value", Message.substr(1));
         $(".del-sharefile-toggle").data("file-value", file.substr(1));
     });
+*/
 
     /*************************************************************
      Событие 2: нажата ссылка на файл из плитки Next
