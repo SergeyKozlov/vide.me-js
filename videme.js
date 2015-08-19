@@ -748,6 +748,7 @@
         //$(".file-inbox-url2").click(function(event) {
     $(document).on('click', 'a.file-inbox-url', function (event) {
         console.log("a.file-inbox-url -----> click");
+        console.log("a.file-inbox-url $(this).getAttributes() -----> " + JSON.stringify($(this).getAttributes()));
         event.preventDefault();
         $.fn.showcaseVideoTextButton(paddingButtonInbox($(this).getAttributes()));
     });
@@ -957,12 +958,12 @@ Delete\
         //var nad = $.cookie('vide_nad');
         //$(".videme-del-list").html(VidemeProgress);
         $(".videme-mini-img").html(VidemeProgress);
-        $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sharefile-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+        $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sharefile-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
         $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-sharefile-url' file='http://api.vide.me/file/noshare/?file=" + $('.del-sharefile-toggle').data('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-sharefile-url' file='http://api.vide.me/file/noshare/?file=" + $('.del-sharefile-toggle').attr('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger videme-progress'>\
 Delete\
 </button>\
