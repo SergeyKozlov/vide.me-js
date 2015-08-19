@@ -225,7 +225,7 @@
         $.each(parseFileInbox.results, function (key, value) {
             //var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
             //console.log("obj.value.Message ---" + obj.value.Message);
-
+            console.log("parseFileInbox.results[key] ----->" + JSON.stringify(parseFileInbox.results[key]));
             parseFileInbox[key] = {
                 'a': value.FromUserName,
                 'b': value.Subject,
@@ -241,6 +241,7 @@
                 'messageid': value.objectId
             };
         });
+        console.log("parseFileInbox ----->" + JSON.stringify(parseFileInbox));
         return parseFileInbox;
     }
 
@@ -248,7 +249,6 @@
         $.each(parseFileSent.results, function (key, value) {
             //var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
             //console.log("obj.value.Message ---" + obj.value.Message);
-
             parseFileSent[key] = {
                 'a': value.ToUserName,
                 'b': value.Subject,
@@ -272,7 +272,6 @@
         $.each(parseFileMy.results, function (key, value) {
             //var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
             //console.log("obj.value.Message ---" + obj.value.Message);
-
             parseFileMy[key] = {
                 //'a': value.ToUserName,
                 'a': value.Subject,
@@ -294,8 +293,7 @@
         $.each(parseFileMySpring.results, function (key, value) {
             //var obj = jQuery.parseJSON(ParseFileInbox.results[key]);
             //console.log("obj.value.Message ---" + obj.value.Message);
-            console.log("parseFileMySpring ----->" + JSON.stringify(parseFileMySpring.results[key]));
-
+            console.log("parseFileMySpring.results[key] ----->" + JSON.stringify(parseFileMySpring.results[key]));
             parseFileMySpring[key] = {
                 //'a': value.ToUserName,
                 'a': value.Subject,
@@ -310,6 +308,7 @@
                 'file': value.File
             };
         });
+        console.log("parseFileMySpring ----->" + JSON.stringify(parseFileMySpring));
         return parseFileMySpring;
     }
 
@@ -384,6 +383,7 @@
                 'file': paddingButtonMySpring.file
             }
         };
+        return paddingButtonMySpring;
     }
 
     $.fn.showcaseVideo = function (options) {
@@ -947,6 +947,30 @@ Delete\
     });
 
     /*************************************************************
+     v2 Событие 3: нажата кнопка вызова и отрисовки
+     кнопки удалить sharefile в модальное окно
+     **************************************************************/
+    $(document).on('click', '.del-sharefile-toggle', function (event) {
+        console.log(".del-sharefile-toggle -----> click");
+        event.stopPropagation();
+        //var $this = $(this);
+        //var nad = $.cookie('vide_nad');
+        //$(".videme-del-list").html(VidemeProgress);
+        $(".videme-mini-img").html(VidemeProgress);
+        $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sharefile-toggle').data('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+        $('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-sharefile-url' file='http://api.vide.me/file/noshare/?file=" + $('.del-sharefile-toggle').data('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger videme-progress'>\
+Delete\
+</button>\
+</a>\
+");
+    });
+
+    /*************************************************************
      v2 Событие 4: нажата ссылка из кнопки удалить файл Inbox
      **************************************************************/
     $(document).on('click', 'a.del-inbox-url', function (event) {
@@ -1084,6 +1108,53 @@ Delete\
                 $('#modal-del').modal('hide');
                 $('#error_notification').append(msg + "<br>");
                 $.fn.fileMy();
+                if (!$('#error_notification').is('.in')) {
+                    $('#error_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#error_notification').removeClass('in');
+                    }, 3200);
+                }
+            }
+        });
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из кнопки удалить файл sharefile
+     **************************************************************/
+    $(document).on('click', 'a.del-sharefile-url', function (event) {
+        console.log("a.del-sharefile-url -----> click");
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('file');
+        href.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+            type: 'post',
+            url: href,
+            beforeSend: function () {
+                $(".videme-progress").html("Do..." + VidemeProgress);
+                $('#process_notification').append();
+                if (!$('#process_notification').is('.in')) {
+                    $('#process_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#process_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            success: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#success_notification').append(msg + "<br>");
+                $.fn.fileMySpring();
+                if (!$('#success_notification').is('.in')) {
+                    $('#success_notification').addClass('in');
+                    setTimeout(function () {
+                        $('#success_notification').removeClass('in');
+                    }, 3200);
+                }
+            },
+            error: function (msg) {
+                $('#modal-del').modal('hide');
+                $('#error_notification').append(msg + "<br>");
+                $.fn.fileMySpring();
                 if (!$('#error_notification').is('.in')) {
                     $('#error_notification').addClass('in');
                     setTimeout(function () {
@@ -2287,7 +2358,7 @@ message-value='#" + Message.substr(1) + "'>\
      Событие 3: нажата кнопка вызова и отрисовки
      кнопки удалить sharefile в модальное окно
      **************************************************************/
-    $(document).on('click', '.del-sharefile-toggle', function (event) {
+/*    $(document).on('click', '.del-sharefile-toggle', function (event) {
         event.stopPropagation();
         var $this = $(this);
         var nad = $.cookie('vide_nad');
@@ -2306,7 +2377,7 @@ Delete\
 </button>\
 </a>\
 ");
-    });
+    });*/
     /*************************************************************
      Событие 2: нажата кнопка создать Contact в 1 модальном окне
      **************************************************************/
@@ -2707,6 +2778,7 @@ Delete\
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл sharefile
      **************************************************************/
+/*
     $(document).on('click', 'a.del-sharefile-url', function (event) {
         event.preventDefault();
         var $this = $(this);
@@ -2749,6 +2821,7 @@ Delete\
             }
         });
     });
+*/
 
     // Удалить
     /*************************************************************
@@ -4017,7 +4090,7 @@ function getRealTime() {
 /***************************************************************************
  Функция показать файлы Sent
  ***************************************************************************/
-function ShowSent() {
+/*function ShowSent() {
     $(".videme-tile").html(VidemeProgress);
     $.getJSON("http://api.vide.me/file/sent/?videmecallback=?",
         function (b) {
@@ -4091,12 +4164,12 @@ target='_blank'>\
             });
             $(".videme-tile").html(a.join(""));
         })
-}
+}*/
 // Переделать
 /***************************************************************************
  Функция показать файлы My
  ***************************************************************************/
-function ShowMy() {
+/*function ShowMy() {
     $(".videme-tile").html(VidemeProgress);
     $.getJSON("http://api.vide.me/file/my/?videmecallback=?",
         function (b) {
@@ -4162,12 +4235,12 @@ target='_blank'>\
             });
             $(".videme-tile").html(a.join(""));
         })
-}
+}*/
 // Переделать
 /***************************************************************************
  Функция показать файлы MySpring
  ***************************************************************************/
-function ShowMySpring() {
+/*function ShowMySpring() {
     $(".videme-tile").html(VidemeProgress);
     $.getJSON("http://api.vide.me/file/myspring/?videmecallback=?",
         function (b) {
@@ -4241,7 +4314,7 @@ target='_blank'>\
             });
             $(".videme-tile").html(a.join(""));
         })
-}
+}*/
 /***************************************************************************
  Функция показать Контакты
  ***************************************************************************/
