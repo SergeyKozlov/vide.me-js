@@ -791,7 +791,6 @@
 ");
                     });
                     tempObject.html(results.join(""));
-
                 } else {
                     console.log("$.fn.showContact data -----> no");
                     tempObject.html("No contact");
