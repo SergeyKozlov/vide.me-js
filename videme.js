@@ -805,6 +805,64 @@
             });
     };
 
+    /***************************************************************************
+     v2 Функция показать List
+     ***************************************************************************/
+    $.fn.showList = function (options) {
+        console.log("$.fn.showContact -----> ok");
+        settings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.showList $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showList $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.showcaseVideo);
+        }
+        console.log("$.fn.showList tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        $.getJSON("http://api.vide.me/list/?limit=" + settings.limit + "&videmecallback=?",
+            function (data) {
+                if (data.results) {
+                    console.log("$.fn.showList data -----> yes" + JSON.stringify(data));
+                    var results = [];
+                    //$.each(data['results'], function (key, value) {
+                    $.each(data.results, function (key, value) {
+                        results.push("\
+<div class='well well-lg'>\
+  <span class=\"badge\">" + (key + 1) + "</span>\
+	<a href='http://vide.me/rec.html?email=" + value.ListName + "'>\
+		" + value.ListName + "\
+	</a>\
+	<button type='button' \
+		class='btn btn-primary pull-right list-edit-toggle' data-toggle='modal' \
+		data-target='#modal-edit-list' \
+		list='" + value.ListName + "'>\
+		<span class='glyphicon glyphicon-edit'></span> Edit\
+	</button>\
+</div>\
+");
+                    });
+                    tempObject.html(results.join(""));
+                } else {
+                    console.log("$.fn.showList data -----> no");
+                    tempObject.html("No contact");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
     /*************************************************************
      v2 Событие 2: нажата кнопка Редактировать контакт,
      отрисовка формы и кнопок в модальное окно
@@ -1315,7 +1373,6 @@ Delete\
         event.preventDefault();
         href.replace(/.*(?=#[^\s]+$)/, '');
         $.ajax({
-//		type: 'post',
             url: href,
             beforeSend: function () {
                 $(".videme-progress").html("Do..." + VidemeProgress);
@@ -2699,22 +2756,98 @@ message-value='#" + Message.substr(1) + "'>\
      });
      });*/
     /*************************************************************
-     Событие 2: нажата кнопка Редактировать лист,
+     v2 Событие 2: нажата кнопка Редактировать лист,
      отрисовка формы и кнопок в модальное окно
      **************************************************************/
     $(document).on('click', '.list-edit-toggle', function (event) {
         event.preventDefault();
         var $this = $(this);
         var list = $this.attr('list');
-        //list.replace(/.*(?=#[^\s]+$)/, '');
-        //var nad = $.cookie('vide_nad');
+        list.replace(/.*(?=#[^\s]+$)/, '');
+        $('#list').val(list);
+        $('#newlist').val(list);
+        $(".list-del-toggle").attr("list", list);
+    });
+
+/*    $(document).on('click', '.list-edit-toggle', function (event) {
+        event.preventDefault();
+        var $this = $(this);
+        var list = $this.attr('list-value');
+
+        list.replace(/.*(?=#[^\s]+$)/, '');
+
+        var nad = $.cookie('vide_nad');
+
         $('#list').val(list.substr(1));
         $('#newlist').val(list.substr(1));
-        $(".list-del-toggle").data("list", list.substr(1));
-    });
+        $(".list-del-toggle").data("list-value", list.substr(1));
+    });*/
     /*************************************************************
-     Событие 4: нажата кнопка Сохранить List в первом модальном окне
+     v2 Событие 4: нажата кнопка Сохранить List в первом модальном окне
      **************************************************************/
+    $('#list-edit-form').validate({
+        rules: {
+            "newlist": {
+                required: true,
+                //email:true,
+                maxlength: 40
+            }
+        },
+        messages: {
+            "newlist": {
+                required: "<-"
+                //email:"Enter true list"
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'http://pas.vide.me/list/update/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $("#list-edit-submit").attr('disabled', true);
+                    $('.videme-progress').html(VidemeProgress);
+                    $('#process_notification').append();
+                    if (!$('#process_notification').is('.in')) {
+                        $('#process_notification').addClass('in');
+                        setTimeout(function () {
+                            $('#process_notification').removeClass('in');
+                        }, 3200);
+                    }
+                },
+                success: function (msg) {
+                    //console.log("Data Saved: " + msg);
+                    $("#list-edit-submit").attr('disabled', false);
+                    $('.videme-progress').empty();
+                    $('#modal-edit-list').modal('hide');
+                    $('#videme-result').html(msg);
+                    $('#success_notification').append(msg + "<br>");
+                    if (!$('#success_notification').is('.in')) {
+                        $('#success_notification').addClass('in');
+                        setTimeout(function () {
+                            $('#success_notification').removeClass('in');
+                        }, 3200);
+                    }
+                    $.fn.showList();
+                },
+                error: function (msg) {
+                    $("#list-edit-submit").attr('disabled', false);
+                    $('.videme-progress').empty();
+                    $('#modal-edit-list').modal('hide');
+                    /*$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");*/
+                    $('#error_notification').append(msg + "<br>");
+                    if (!$('#error_notification').is('.in')) {
+                        $('#error_notification').addClass('in');
+                        setTimeout(function () {
+                            $('#error_notification').removeClass('in');
+                        }, 3200);
+                    }
+                }
+            });
+        }
+    });
+    /*
     $('#list-edit-form').validate({
         rules: {
             "newlist": {
@@ -2755,19 +2888,70 @@ message-value='#" + Message.substr(1) + "'>\
                 }
             });
         }
-    });
+    });*/
     /*************************************************************
-     Событие 4: нажата кнопка вызова и отрисовки
+     v2 Событие 4: нажата кнопка вызова и отрисовки
      кнопки удалить List во втором модальном окне
      **************************************************************/
     $(document).on('click', '.list-del-toggle', function (event) {
         event.stopPropagation();
+        $('.videme-display').html($(".list-del-toggle").attr("list"));
+        $('#del-list').val($(".list-del-toggle").attr("list"));
+    });
+    /*
+    $(document).on('click', '.list-del-toggle', function (event) {
+        event.stopPropagation();
         $('.videme-display').html($(".list-del-toggle").data("list"));
         $('#del-list').val($(".list-del-toggle").data("list"));
-    });
+    });*/
     /*************************************************************
      Событие 5: нажата кнопка удалить List во втором модальном окне
      **************************************************************/
+    $('#list-del-form').validate({
+        rules: {
+            "list": {
+                required: true,
+                //email:true,
+                maxlength: 40
+            }
+        },
+        messages: {
+            "list": {
+                required: "<-"
+                //email:"Enter true list"
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'http://pas.vide.me/list/remove/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $("#list-del-submit").attr('disabled', true);
+                    $('.videme-progress').html(VidemeProgress);
+                },
+                success: function (msg) {
+                    //console.log("Data Saved: " + msg);
+                    $("#list-del-submit").attr('disabled', false);
+                    $('.videme-progress').empty();
+                    $('#modal-del-list').modal('hide');
+                    $('#modal-edit-list').modal('hide');
+                    $('#videme-result').html(msg);
+                    //ShowMyList();
+                    $.fn.showList();
+                },
+                error: function (msg) {
+                    $("#list-del-submit").attr('disabled', false);
+                    $('.videme-progress').empty();
+                    $('#modal-del-list').modal('hide');
+                    $('#modal-edit-list').modal('hide');
+                    $('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                }
+            });
+        }
+    });
+    /*
     $('#list-del-form').validate({
         rules: {
             "list": {
@@ -2810,11 +2994,53 @@ message-value='#" + Message.substr(1) + "'>\
                 }
             });
         }
-    });
+    });*/
     /*************************************************************
-     Событие 2: нажата кнопка создать List в 1 модальном окне
+     v2 Событие 2: нажата кнопка создать List в 1 модальном окне
      **************************************************************/
     $('#list-create-form').validate({
+        rules: {
+            "list": {
+                required: true,
+                //email:true,
+                maxlength: 40
+            }
+        },
+        messages: {
+            "list": {
+                required: "<-"
+                //email:"Enter true list"
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'http://pas.vide.me/list/create/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $("#list-create-submit").attr('disabled', true);
+                    $('.videme-progress').html(VidemeProgress);
+                },
+                success: function (msg) {
+                    $("#list-create-submit").attr('disabled', false);
+                    $('.videme-progress').empty();
+                    $('#modal-create-list').modal('hide');
+                    $('#videme-result').html(msg);
+                    ShowMyList();
+                    $.fn.showList();
+                },
+                error: function (msg) {
+                    $("#list-create-submit").attr('disabled', false);
+                    $('.videme-progress').empty();
+                    $('#modal-create-list').modal('hide');
+                    $('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                }
+            });
+        }
+    });
+
+    /*    $('#list-create-form').validate({
         rules: {
             "list": {
                 required: true,
@@ -2853,7 +3079,7 @@ message-value='#" + Message.substr(1) + "'>\
                 }
             });
         }
-    });
+    });*/
     /*************************************************************
      Событие 4: нажата ссылка из списка листов
      **************************************************************/
@@ -2898,7 +3124,7 @@ message-value='#" + Message.substr(1) + "'>\
      });
      });*/
     /*************************************************************
-     Событие 4: нажата кнопка Сохранить В List в первом модальном окне
+     v2 Событие 4: нажата кнопка Сохранить В List в первом модальном окне
      **************************************************************/
     $('#list-form').validate({
         /*
@@ -2957,6 +3183,65 @@ message-value='#" + Message.substr(1) + "'>\
             });
         }
     });
+
+    /*
+    $('#list-form').validate({
+        /!*
+         rules:{
+         "newlist":{
+         required:true,
+         //email:true,
+         maxlength:40
+         }
+         },
+         messages:{
+         "newlist":{
+         required:"<-",
+         //email:"Enter true list"
+         }
+         },
+         *!/
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'http://api.vide.me/file/share/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $(".videme-progress").html("Do..." + VidemeProgress);
+                    $('#process_notification').append();
+                    if (!$('#process_notification').is('.in')) {
+                        $('#process_notification').addClass('in');
+                        setTimeout(function () {
+                            $('#process_notification').removeClass('in');
+                        }, 3200);
+                    }
+                },
+                success: function (msg) {
+                    $('#modal-list').modal('hide');
+                    $('#success_notification').append(msg + "<br>");
+//	ShowMySpring();
+                    if (!$('#success_notification').is('.in')) {
+                        $('#success_notification').addClass('in');
+                        setTimeout(function () {
+                            $('#success_notification').removeClass('in');
+                        }, 3200);
+                    }
+                },
+                error: function (msg) {
+                    $('#modal-list').modal('hide');
+                    $('#error_notification').append(msg + "<br>");
+//	ShowMySpring();
+                    if (!$('#error_notification').is('.in')) {
+                        $('#error_notification').addClass('in');
+                        setTimeout(function () {
+                            $('#error_notification').removeClass('in');
+                        }, 3200);
+                    }
+                }
+            });
+        }
+    });*/
     // Удалить
     /*************************************************************
      Событие 4: нажата ссылка из кнопки удалить файл Inbox
@@ -4583,9 +4868,11 @@ function getRealTime() {
  }
  );
  }*/
+
 /***************************************************************************
  Функция показать List
  ***************************************************************************/
+/*
 function ShowMyList() {
     $("#list-list").html(VidemeProgress);
     $.getJSON("http://api.vide.me/list/?videmecallback=?",
@@ -4614,6 +4901,8 @@ function ShowMyList() {
         }
     );
 }
+*/
+
 // DDDDEEELLL
 /***************************************************************************
  Функция построить панель
