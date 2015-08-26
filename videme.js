@@ -749,14 +749,14 @@
         settings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
-            showcaseVideo: "#videme-tile"
+            showContact: "#videme-tile"
         }, options);
         if ($(this).length) {
             console.log("$.fn.showContact $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             console.log("$.fn.showContact $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showcaseVideo);
+            var tempObject = $(settings.showContact);
         }
         console.log("$.fn.showContact tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
@@ -813,14 +813,14 @@
         settings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
-            showcaseVideo: "#videme-tile"
+            showList: "#videme-tile"
         }, options);
         if ($(this).length) {
             console.log("$.fn.showList $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             console.log("$.fn.showList $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showcaseVideo);
+            var tempObject = $(settings.showList);
         }
         console.log("$.fn.showList tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
@@ -861,6 +861,97 @@
             })
             .always(function () {
             });
+    };
+
+    /***************************************************************************
+     Функции Нотификации
+     ***************************************************************************/
+    $.fn.processNotification = function (options) {
+        console.log("$.fn.processNotification -----> ok");
+        settings = $.extend({
+            processNotification: "#process_notification"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.processNotification $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.processNotification $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.processNotification);
+        }
+        console.log("$.fn.processNotification tempObject -----> " + tempObject.length);
+        tempObject.append();
+        if (!tempObject.is('.in')) {
+            tempObject.addClass('in');
+            setTimeout(function () {
+                tempObject.removeClass('in');
+            }, 3200);
+        }
+    };
+
+    $.fn.successNotification = function (options) {
+        console.log("$.fn.successNotification -----> ok");
+        settings = $.extend({
+            successNotification: "#success_notification"/*,
+            msg: msg*/
+        }, options);
+        console.log("$.fn.successNotification -----> settings: " + JSON.stringify(settings));
+        if ($(this).length) {
+            console.log("$.fn.successNotification $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.successNotification $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.successNotification);
+        }
+        console.log("$.fn.successNotification settings.msg -----> " + settings.msg);
+        console.log("$.fn.successNotification tempObject -----> " + tempObject.length);
+        $.fn.lastNotification(settings.msg);
+        tempObject.append(settings.msg + "<br>");
+        if (!tempObject.is('.in')) {
+            tempObject.addClass('in');
+            setTimeout(function () {
+                tempObject.removeClass('in');
+            }, 3200);
+        }
+    };
+
+    $.fn.errorNotification = function (options, msg) {
+        console.log("$.fn.errorNotification -----> ok");
+        settings = $.extend({
+            successNotification: "#error_notification",
+            msg: msg
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.errorNotification $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.errorNotification $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.successNotification);
+        }
+        console.log("$.fn.errorNotification tempObject -----> " + tempObject.length);
+        $.fn.lastNotification(settings.msg);
+        tempObject.append(settings.msg + "<br>");
+        if (!tempObject.is('.in')) {
+            tempObject.addClass('in');
+            setTimeout(function () {
+                tempObject.removeClass('in');
+            }, 3200);
+        }
+    };
+
+    $.fn.lastNotification = function (options, msg) {
+        console.log("$.fn.lastNotification -----> ok");
+        settings = $.extend({
+            lastNotification: "#videme-result"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.errorNotification $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.errorNotification $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(settings.lastNotification);
+        }
+        console.log("$.fn.errorNotification tempObject -----> " + tempObject.length);
+        tempObject.html(msg);
     };
 
     /*************************************************************
@@ -2783,7 +2874,7 @@ message-value='#" + Message.substr(1) + "'>\
         $(".list-del-toggle").data("list-value", list.substr(1));
     });*/
     /*************************************************************
-     v2 Событие 4: нажата кнопка Сохранить List в первом модальном окне
+     v2 Событие 4: нажата кнопка Изменить List в первом модальном окне
      **************************************************************/
     $('#list-edit-form').validate({
         rules: {
@@ -2808,6 +2899,8 @@ message-value='#" + Message.substr(1) + "'>\
                 beforeSend: function () {
                     $("#list-edit-submit").attr('disabled', true);
                     $('.videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
+/*
                     $('#process_notification').append();
                     if (!$('#process_notification').is('.in')) {
                         $('#process_notification').addClass('in');
@@ -2815,12 +2908,14 @@ message-value='#" + Message.substr(1) + "'>\
                             $('#process_notification').removeClass('in');
                         }, 3200);
                     }
+*/
                 },
                 success: function (msg) {
                     //console.log("Data Saved: " + msg);
                     $("#list-edit-submit").attr('disabled', false);
                     $('.videme-progress').empty();
                     $('#modal-edit-list').modal('hide');
+                    /*
                     $('#videme-result').html(msg);
                     $('#success_notification').append(msg + "<br>");
                     if (!$('#success_notification').is('.in')) {
@@ -2828,7 +2923,11 @@ message-value='#" + Message.substr(1) + "'>\
                         setTimeout(function () {
                             $('#success_notification').removeClass('in');
                         }, 3200);
-                    }
+                    }*/
+                    //msg.msg = msg;
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                     $.fn.showList();
                 },
                 error: function (msg) {
@@ -2836,13 +2935,8 @@ message-value='#" + Message.substr(1) + "'>\
                     $('.videme-progress').empty();
                     $('#modal-edit-list').modal('hide');
                     /*$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");*/
-                    $('#error_notification').append(msg + "<br>");
-                    if (!$('#error_notification').is('.in')) {
-                        $('#error_notification').addClass('in');
-                        setTimeout(function () {
-                            $('#error_notification').removeClass('in');
-                        }, 3200);
-                    }
+
+                    $.fn.errorNotification(msg);
                 }
             });
         }
@@ -4331,6 +4425,23 @@ message-value='#" + Message.substr(1) + "'>\
     /***************************************************************************
      * Конец Sidebar
      ***************************************************************************/
+
+    /*************************************************************
+     Фокусы в модальные окна
+     **************************************************************/
+
+    $("#modal-edit-contact").on('shown.bs.modal', function(){
+        $(this).find('#newemail').focus();
+    });
+    $("#modal-create-contact").on('shown.bs.modal', function(){
+        $(this).find('#email').focus();
+    });
+    $("#modal-create-list").on('shown.bs.modal', function(){
+        $(this).find('#list').focus();
+    });
+    $("#modal-edit-list").on('shown.bs.modal', function(){
+        $(this).find('#newlist').focus();
+    });
 
 // Конец автозагрузки
 });
