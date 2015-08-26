@@ -5,33 +5,31 @@
 (function ($) {
     $.fn.getAttributes = function () {
         var attributes = {};
-
         if (this.length) {
             $.each(this[0].attributes, function (index, attr) {
                 attributes[attr.name] = attr.value;
             });
         }
-
         return attributes;
     };
 
     $.fn.oneTimeInbox = function (options) {
-        settings = $.extend({
+        oneTimeInboxSettings = $.extend({
             authorized: false
         }, options);
 
         //$(this).html(VidemeProgress);
-        $.fn.showcaseVideoTextButton(settings);
+        $.fn.showcaseVideoTextButton(oneTimeInboxSettings);
 
         /*		return this.each(function () {
          var tempObject = $(this);
-         //$.fn.showcaseVideoTextButton(paddingButtonInbox(settings));
+         //$.fn.showcaseVideoTextButton(paddingButtonInbox(oneTimeInboxSettings));
          });*/
     };
 
     $.fn.fileInbox = function (options) {
         console.log("$.fn.fileInbox -----> ok");
-        settings = $.extend({
+        fileInboxSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile"
@@ -41,13 +39,13 @@
             var tempObject = $(this);
         } else {
             console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showcaseVideo);
+            var tempObject = $(fileInboxSettings.showcaseVideo);
         }
         console.log("$.fn.fileInbox tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
-        $.getJSON("http://api.vide.me/file/inbox/?limit=" + settings.limit + "&videmecallback=?",
+        $.getJSON("http://api.vide.me/file/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
@@ -69,7 +67,7 @@
     };
 
     $.fn.fileSent = function (options) {
-        settings = $.extend({
+        fileSentSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile"
@@ -79,13 +77,13 @@
             var tempObject = $(this);
         } else {
             console.log("$.fn.fileSent $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showcaseVideo);
+            var tempObject = $(fileSentSettings.showcaseVideo);
         }
         console.log("$.fn.fileSent tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
-        $.getJSON("http://api.vide.me/file/sent/?limit=" + settings.limit + "&videmecallback=?",
+        $.getJSON("http://api.vide.me/file/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
@@ -107,7 +105,7 @@
     };
 
     $.fn.fileMy = function (options) {
-        settings = $.extend({
+        fileMySettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile"
@@ -117,13 +115,13 @@
             var tempObject = $(this);
         } else {
             console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showcaseVideo);
+            var tempObject = $(fileMySettings.showcaseVideo);
         }
         console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
-        $.getJSON("http://api.vide.me/file/my/?limit=" + settings.limit + "&videmecallback=?",
+        $.getJSON("http://api.vide.me/file/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
@@ -145,7 +143,7 @@
     };
 
     $.fn.fileMySpring = function (options) {
-        settings = $.extend({
+        fileMySpringSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile"
@@ -155,13 +153,13 @@
             var tempObject = $(this);
         } else {
             console.log("$.fn.fileMySpring $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showcaseVideo);
+            var tempObject = $(fileMySpringSettings.showcaseVideo);
         }
         console.log("$.fn.fileMySpring tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
-        $.getJSON("http://api.vide.me/file/myspring/?limit=" + settings.limit + "&videmecallback=?",
+        $.getJSON("http://api.vide.me/file/myspring/?limit=" + fileMySpringSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileMySpring data -----> yes" + JSON.stringify(data));
@@ -387,7 +385,7 @@
     }
 
     $.fn.showcaseVideo = function (options) {
-        settings = $.extend({
+        showcaseVideoSettings = $.extend({
             file: "9566b5a3475c25aa",
             miniVideo: true,
             //showcaseVideo: "videme-showcase-video",
@@ -395,7 +393,7 @@
             authorized: true
         }, options);
 
-        if (settings.authorized) {
+        if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
             var sourseURL = "http://gum.vide.me/vi?m=";
         } else {
@@ -420,8 +418,8 @@
             console.log("$.fn.showcaseVideo $(this) -----> nooo! " + $(this).length);
             //ar this = $("#videme-showcase-video");
             //var tempObject = $("#videme-showcase-video");
-            //==var tempObject = $("#" + settings.showcaseVideo);
-            var tempObject = $(settings.showcaseVideo);
+            //==var tempObject = $("#" + showcaseVideoSettings.showcaseVideo);
+            var tempObject = $(showcaseVideoSettings.showcaseVideo);
             //var tempObject = $("#videme-showcase-video").attr('id');
             console.log("$.fn.showcaseVideo tempObject -----> " + tempObject.length);
             //console.log("$.fn.showcaseVideo JSON.stringify(tempObject) -----> " + JSON.stringify(tempObject.attr));
@@ -430,7 +428,7 @@
          "<div id=\"videme-minivideo\"><div>");*/
         //=return this.each(function () {
 
-        console.log("$.fn.showcaseVideo settings.file -----> " + settings.file);
+        console.log("$.fn.showcaseVideo showcaseVideoSettings.file -----> " + showcaseVideoSettings.file);
 
         //var tempObject = $(this);
         //console.log("$.fn.showcaseVideo tempObject -----> " + tempObject);
@@ -460,7 +458,7 @@
             resizeVideoJS(showcasePlayerFunc);
             showcasePlayerFunc.src({
                 type: "video/mp4",
-                src: sourseURL + settings.file + "&messageid=" + settings.messageid
+                src: sourseURL + showcaseVideoSettings.file + "&messageid=" + showcaseVideoSettings.messageid
             });
             showcasePlayerFunc.controls(true);
             showcasePlayerFunc.load();
@@ -479,9 +477,9 @@
             resizeVideoJS(showcasePlayer);
         });
 
-        console.log("$.fn.showcaseVideo settings.miniVideo -----> " + settings.miniVideo);
+        console.log("$.fn.showcaseVideo showcaseVideoSettings.miniVideo -----> " + showcaseVideoSettings.miniVideo);
 
-        if (settings.miniVideo) {
+        if (showcaseVideoSettings.miniVideo) {
             /*
              $("<video id=\"my_video2\" class=\"video-js vjs-default-skin video-down\"></video> \
              <button id=\"closevideo\" type=\"button\" class=\"close closevideo hidden\" aria-label=\"Close\"> \
@@ -508,7 +506,7 @@
 
             videojs(oldMiniPlayer).dispose();
 
-            console.log("$.fn.showcaseVideo settings.file -----> " + settings.file);
+            console.log("$.fn.showcaseVideo showcaseVideoSettings.file -----> " + showcaseVideoSettings.file);
 
 
             /*				if ($('#my_video2').length) {
@@ -565,7 +563,7 @@
 
                 //miniPlayer.hide();
                 miniPlayerFunc.muted(true);
-                miniPlayerFunc.src({type: "video/mp4", src: sourseURL + settings.file});
+                miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.file});
                 miniPlayerFunc.load();
                 miniPlayerFunc.play();
                 miniPlayerFunc.on('ended', function () {
@@ -633,26 +631,25 @@
     };
 
     $.fn.showcaseText = function (options) {
-        settings = $.extend({}, options);
-        $(".videme-showcase-subject").html(settings.subject);
-        $(".videme-showcase-message").html(settings.message);
-        $(".videme-showcase-updatedat").html(settings.updatedAt);
+        showcaseTextSettings = $.extend({}, options);
+        $(".videme-showcase-subject").html(showcaseTextSettings.subject);
+        $(".videme-showcase-message").html(showcaseTextSettings.message);
+        $(".videme-showcase-updatedat").html(showcaseTextSettings.updatedAt);
     };
 
     $.fn.showcaseButton = function (options) {
-        settings = $.extend({}, options);
-        console.log("$.fn.showcaseButton settings -----> " + JSON.stringify(settings));
-        if (settings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(settings.showcaseButton['contact-toggle']);
-        if (settings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(settings.showcaseButton['list-toggle']);
-        if (settings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(settings.showcaseButton['del-inbox-toggle']);
-        if (settings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sent-toggle']);
-        if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
-        if (settings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(settings.showcaseButton['del-sharefile-toggle']);
+        showcaseButtonSettings = $.extend({}, options);
+        console.log("$.fn.showcaseButton showcaseButtonSettings -----> " + JSON.stringify(showcaseButtonSettings));
+        if (showcaseButtonSettings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['contact-toggle']);
+        if (showcaseButtonSettings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['list-toggle']);
+        if (showcaseButtonSettings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-inbox-toggle']);
+        if (showcaseButtonSettings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-my-toggle']);
+        if (showcaseButtonSettings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-sharefile-toggle']);
     };
 
 // TODO: Можно убрать
     $.fn.disabledButton = function (options) {
-        settings = $.extend({
+        disabledButtonSettings = $.extend({
             button: 'submit'
         }, options);
 
@@ -661,24 +658,24 @@
         return this.each(function () {
             console.log("disabled: ");
             //var tempObject = $(this);
-            //if (settings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(settings.showcaseButton['del-my-toggle']);
+            //if (disabledButtonSettings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(disabledButtonSettings.showcaseButton['del-my-toggle']);
             //$("#submit").removeAttr('disabled');
-            $('#' + settings.button).removeAttr('disabled');
+            $('#' + disabledButtonSettings.button).removeAttr('disabled');
         });
-        //$(settings.submit).removeAttr('disabled');
+        //$(disabledButtonSettings.submit).removeAttr('disabled');
         //$('#submit').removeAttr('disabled');
 
     };
 
     $.fn.showcaseVideoTextButton = function (options) {
-        settings = $.extend({}, options);
-        $.fn.showcaseVideo(settings);
-        $.fn.showcaseText(settings);
-        $.fn.showcaseButton(settings);
+        showcaseVideoTextButtonSettings = $.extend({}, options);
+        $.fn.showcaseVideo(showcaseVideoTextButtonSettings);
+        $.fn.showcaseText(showcaseVideoTextButtonSettings);
+        $.fn.showcaseButton(showcaseVideoTextButtonSettings);
     };
 
     $.fn.articleShowNew = function (options) {
-        settings = $.extend({
+        articleShowNewSettings = $.extend({
             limit: 3
         }, options);
 
@@ -686,7 +683,7 @@
 
         return this.each(function () {
             var TempObject = $(this);
-            $.getJSON("http://api.vide.me/article/shownew/?limit=" + settings.limit + "&videmecallback=?",
+            $.getJSON("http://api.vide.me/article/shownew/?limit=" + articleShowNewSettings.limit + "&videmecallback=?",
                 function (data) {
                     TempObject.html(showArticle(parseArticleShowNew(data), TempObject));
                 })
@@ -746,7 +743,7 @@
      ***************************************************************************/
     $.fn.showContact = function (options) {
         console.log("$.fn.showContact -----> ok");
-        settings = $.extend({
+        showContactSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showContact: "#videme-tile"
@@ -756,13 +753,13 @@
             var tempObject = $(this);
         } else {
             console.log("$.fn.showContact $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showContact);
+            var tempObject = $(showContactSettings.showContact);
         }
         console.log("$.fn.showContact tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
-        $.getJSON("http://api.vide.me/contact/?limit=" + settings.limit + "&videmecallback=?",
+        $.getJSON("http://api.vide.me/contact/?limit=" + showContactSettings.limit + "&videmecallback=?",
             function (data) {
                 // TODO: Попробовать без куки nad
                 if (data.results) {
@@ -810,7 +807,7 @@
      ***************************************************************************/
     $.fn.showList = function (options) {
         console.log("$.fn.showContact -----> ok");
-        settings = $.extend({
+        showListSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showList: "#videme-tile"
@@ -820,13 +817,13 @@
             var tempObject = $(this);
         } else {
             console.log("$.fn.showList $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.showList);
+            var tempObject = $(showListSettings.showList);
         }
         console.log("$.fn.showList tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
-        $.getJSON("http://api.vide.me/list/?limit=" + settings.limit + "&videmecallback=?",
+        $.getJSON("http://api.vide.me/list/?limit=" + showListSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.showList data -----> yes" + JSON.stringify(data));
@@ -868,17 +865,19 @@
      ***************************************************************************/
     $.fn.processNotification = function (options) {
         console.log("$.fn.processNotification -----> ok");
-        settings = $.extend({
-            processNotification: "#process_notification"
+        processNotificationSettings = $.extend({
+            processNotification: "#process_notification",
+            videmeProgress: ".videme-progress"
         }, options);
         if ($(this).length) {
             console.log("$.fn.processNotification $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             console.log("$.fn.processNotification $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.processNotification);
+            var tempObject = $(processNotificationSettings.processNotification);
         }
         console.log("$.fn.processNotification tempObject -----> " + tempObject.length);
+        $(processNotificationSettings.videmeProgress).html(VidemeProgress);
         tempObject.append();
         if (!tempObject.is('.in')) {
             tempObject.addClass('in');
@@ -890,22 +889,25 @@
 
     $.fn.successNotification = function (options) {
         console.log("$.fn.successNotification -----> ok");
-        settings = $.extend({
-            successNotification: "#success_notification"/*,
-            msg: msg*/
+        successNotificationSettings = $.extend({
+            successNotification: "#success_notification",
+            videmeProgress: ".videme-progress"
         }, options);
-        console.log("$.fn.successNotification -----> settings: " + JSON.stringify(settings));
+        console.log("$.fn.successNotification -----> successNotificationSettings: " + JSON.stringify(successNotificationSettings));
         if ($(this).length) {
             console.log("$.fn.successNotification $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             console.log("$.fn.successNotification $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.successNotification);
+            var tempObject = $(successNotificationSettings.successNotification);
         }
-        console.log("$.fn.successNotification settings.msg -----> " + settings.msg);
         console.log("$.fn.successNotification tempObject -----> " + tempObject.length);
-        $.fn.lastNotification(settings.msg);
-        tempObject.append(settings.msg + "<br>");
+        console.log("$.fn.successNotification successNotificationSettings.msg -----> " + successNotificationSettings.msg);
+        $(successNotificationSettings.videmeProgress).empty();
+        $.fn.lastNotification({
+            msg: successNotificationSettings.msg
+        });
+        tempObject.append(successNotificationSettings.msg + "<br>");
         if (!tempObject.is('.in')) {
             tempObject.addClass('in');
             setTimeout(function () {
@@ -914,22 +916,28 @@
         }
     };
 
-    $.fn.errorNotification = function (options, msg) {
+    $.fn.errorNotification = function (options) {
         console.log("$.fn.errorNotification -----> ok");
-        settings = $.extend({
+        errorNotificationSettings = $.extend({
             successNotification: "#error_notification",
-            msg: msg
+            videmeProgress: ".videme-progress"
         }, options);
         if ($(this).length) {
             console.log("$.fn.errorNotification $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             console.log("$.fn.errorNotification $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.successNotification);
+            var tempObject = $(errorNotificationSettings.successNotification);
         }
         console.log("$.fn.errorNotification tempObject -----> " + tempObject.length);
-        $.fn.lastNotification(settings.msg);
-        tempObject.append(settings.msg + "<br>");
+        $(errorNotificationSettings.videmeProgress).empty();
+/*        $.fn.lastNotification({
+            msg: errorNotificationSettings.msg
+        });*/
+        $.fn.lastNotification({
+            msg: "<div class='alert alert-error span3'>Failed from timeout. Please try again later. " + JSON.stringify(errorNotificationSettings.msg) + " <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>"
+        });
+        tempObject.append(JSON.stringify(errorNotificationSettings.msg) + "<br>");
         if (!tempObject.is('.in')) {
             tempObject.addClass('in');
             setTimeout(function () {
@@ -938,9 +946,9 @@
         }
     };
 
-    $.fn.lastNotification = function (options, msg) {
+    $.fn.lastNotification = function (options) {
         console.log("$.fn.lastNotification -----> ok");
-        settings = $.extend({
+        lastNotificationSettings = $.extend({
             lastNotification: "#videme-result"
         }, options);
         if ($(this).length) {
@@ -948,10 +956,10 @@
             var tempObject = $(this);
         } else {
             console.log("$.fn.errorNotification $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(settings.lastNotification);
+            var tempObject = $(lastNotificationSettings.lastNotification);
         }
         console.log("$.fn.errorNotification tempObject -----> " + tempObject.length);
-        tempObject.html(msg);
+        tempObject.html(lastNotificationSettings.msg);
     };
 
     /*************************************************************
@@ -2524,21 +2532,28 @@ message-value='#" + Message.substr(1) + "'>\
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#contact-edit-submit").attr('disabled', true);
-                    $('.videme-progress').html(VidemeProgress);
+                    //$('.videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
                 },
                 success: function (msg) {
                     //console.log("Data Saved: " + msg);
                     $("#contact-edit-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-edit-contact').modal('hide');
-                    $('#videme-result').html(msg);
+                    //$('#videme-result').html(msg);
                     $.fn.showContact();
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                 },
                 error: function (msg) {
                     $("#contact-edit-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-edit-contact').modal('hide');
-                    $('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    //$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
@@ -2569,23 +2584,30 @@ message-value='#" + Message.substr(1) + "'>\
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#contact-del-submit").attr('disabled', true);
-                    $('.videme-progress').html(VidemeProgress);
+                    //$('.videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
                 },
                 success: function (msg) {
                     //console.log("Data Saved: " + msg);
                     $("#contact-del-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-del-contact').modal('hide');
                     $('#modal-edit-contact').modal('hide');
-                    $('#videme-result').html(msg);
+                    //$('#videme-result').html(msg);
                     $.fn.showContact();
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                 },
                 error: function (msg) {
                     $("#contact-del-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-del-contact').modal('hide');
                     $('#modal-edit-contact').modal('hide');
-                    $('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    //$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
@@ -2616,20 +2638,27 @@ message-value='#" + Message.substr(1) + "'>\
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#contact-create-submit").attr('disabled', true);
-                    $('.videme-progress').html(VidemeProgress);
+                    //$('.videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
                 },
                 success: function (msg) {
                     $("#contact-create-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-create-contact').modal('hide');
-                    $('#videme-result').html(msg);
+                    //$('#videme-result').html(msg);
                     $.fn.showContact();
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                 },
                 error: function (msg) {
                     $("#contact-create-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-create-contact').modal('hide');
-                    $('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    //$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
@@ -2898,7 +2927,7 @@ message-value='#" + Message.substr(1) + "'>\
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#list-edit-submit").attr('disabled', true);
-                    $('.videme-progress').html(VidemeProgress);
+                    //$('.videme-progress').html(VidemeProgress);
                     $.fn.processNotification();
 /*
                     $('#process_notification').append();
@@ -2913,7 +2942,7 @@ message-value='#" + Message.substr(1) + "'>\
                 success: function (msg) {
                     //console.log("Data Saved: " + msg);
                     $("#list-edit-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-edit-list').modal('hide');
                     /*
                     $('#videme-result').html(msg);
@@ -2925,18 +2954,19 @@ message-value='#" + Message.substr(1) + "'>\
                         }, 3200);
                     }*/
                     //msg.msg = msg;
+                    $.fn.showList();
                     $.fn.successNotification({
                         msg: msg
                     });
-                    $.fn.showList();
                 },
                 error: function (msg) {
                     $("#list-edit-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-edit-list').modal('hide');
                     /*$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");*/
-
-                    $.fn.errorNotification(msg);
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
@@ -2999,7 +3029,7 @@ message-value='#" + Message.substr(1) + "'>\
         $('#del-list').val($(".list-del-toggle").data("list"));
     });*/
     /*************************************************************
-     Событие 5: нажата кнопка удалить List во втором модальном окне
+     v2 Событие 5: нажата кнопка удалить List во втором модальном окне
      **************************************************************/
     $('#list-del-form').validate({
         rules: {
@@ -3023,24 +3053,31 @@ message-value='#" + Message.substr(1) + "'>\
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#list-del-submit").attr('disabled', true);
-                    $('.videme-progress').html(VidemeProgress);
+                    //$('.videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
                 },
                 success: function (msg) {
                     //console.log("Data Saved: " + msg);
                     $("#list-del-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-del-list').modal('hide');
                     $('#modal-edit-list').modal('hide');
-                    $('#videme-result').html(msg);
+                    //$('#videme-result').html(msg);
                     //ShowMyList();
                     $.fn.showList();
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                 },
                 error: function (msg) {
                     $("#list-del-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-del-list').modal('hide');
                     $('#modal-edit-list').modal('hide');
-                    $('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    //$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
@@ -3114,21 +3151,28 @@ message-value='#" + Message.substr(1) + "'>\
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#list-create-submit").attr('disabled', true);
-                    $('.videme-progress').html(VidemeProgress);
+                    //$('.videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
                 },
                 success: function (msg) {
                     $("#list-create-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-create-list').modal('hide');
-                    $('#videme-result').html(msg);
-                    ShowMyList();
+                    //$('#videme-result').html(msg);
+                    //ShowMyList();
                     $.fn.showList();
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                 },
                 error: function (msg) {
                     $("#list-create-submit").attr('disabled', false);
-                    $('.videme-progress').empty();
+                    //$('.videme-progress').empty();
                     $('#modal-create-list').modal('hide');
-                    $('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    //$('#videme-result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
