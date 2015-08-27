@@ -220,6 +220,7 @@
                 'messageid': value.objectId
             };
         });
+        delete parseFileInbox.results;
         console.log("parseFileInbox ----->" + JSON.stringify(parseFileInbox));
         return parseFileInbox;
     }
@@ -242,6 +243,7 @@
                 'messageid': value.objectId
             };
         });
+        delete parseFileSent.results;
         return parseFileSent;
     }
 
@@ -261,6 +263,7 @@
                 'file': value.File
             };
         });
+        delete parseFileMy.results;
         return parseFileMy;
     }
 
@@ -281,6 +284,7 @@
                 'file': value.File
             };
         });
+        delete parseFileMySpring.results;
         console.log("parseFileMySpring ----->" + JSON.stringify(parseFileMySpring));
         return parseFileMySpring;
     }
@@ -513,7 +517,8 @@
         if (showcaseButtonSettings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['contact-toggle']);
         if (showcaseButtonSettings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['list-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-inbox-toggle']);
-        if (showcaseButtonSettings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-my-toggle']);
+        if (showcaseButtonSettings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-sent-toggle']);
+        if (showcaseButtonSettings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-my-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-sharefile-toggle']);
     };
 
