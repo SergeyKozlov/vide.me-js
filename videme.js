@@ -164,6 +164,218 @@
             });
     };
 
+    $.fn.showNewVideo = function (options) {
+        console.log("$.fn.showNewVideo -----> ok");
+        showNewVideoSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            skip: 0,
+            showNewVideo: ".videme-shownew-tile",
+            data: []
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showNewVideoSettings.showNewVideo);
+        }
+        console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+        //this.each(function(){
+            tempObject.html(VidemeProgress);
+/*
+
+        getNewVideo2 = [];
+        getNewVideo2.skip = 0;
+        var data = getNewVideo(getNewVideo2);
+*/
+
+        console.log("$.fn.showNewVideo showNewVideoSettings.data -----> " + JSON.stringify(showNewVideoSettings.data));
+        showNewVideoSettings.data = 55555;
+        console.log("$.fn.showNewVideo showNewVideoSettings.data -----> " + JSON.stringify(showNewVideoSettings.data));
+
+        $.getJSON("http://api.vide.me/file/shownew/?skip=" + showNewVideoSettings.skip + "&videmecallback=?",
+            function (json) {
+
+                showNewVideoSettings.data = json;
+                /*
+                 if (json.results) {
+                 console.log("$.fn.showNewVideo data -----> yes " + JSON.stringify(json));
+                 //showNewVideoSettings.data = data;
+                 //return showNewVideoSettings;
+                 //retval = data;
+                 //console.log("$.fn.showNewVideo retval -----> " + JSON.stringify(retval));
+                 //return retval;
+
+                 } else {
+                 console.log("$.fn.showNewVideo data -----> no");
+                 tempObject.html("No results");
+                 //retval = data;
+
+                 }*/
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        console.log("$.fn.showNewVideo showNewVideoSettings.data -----> " + JSON.stringify(showNewVideoSettings.data));
+
+        //tempObject.html(showTile(parseShowNewVideo(data), tempObject, "file-shownewvideo-url"));
+
+        //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+
+    };
+
+    function getNewVideo(getNewVideo) {
+        var retval;
+
+/*        $.getJSON("http://api.vide.me/file/shownew/?skip=" + getNewVideo.skip + "&videmecallback=?",
+            function (json) {
+
+                retval = json;
+/!*
+                if (json.results) {
+                    console.log("$.fn.showNewVideo data -----> yes " + JSON.stringify(json));
+                    //showNewVideoSettings.data = data;
+                    //return showNewVideoSettings;
+                    //retval = data;
+                    //console.log("$.fn.showNewVideo retval -----> " + JSON.stringify(retval));
+                    //return retval;
+
+                } else {
+                    console.log("$.fn.showNewVideo data -----> no");
+                    tempObject.html("No results");
+                    //retval = data;
+
+                }*!/
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });*/
+
+
+        console.log("$.fn.getNewVideo return getformid -----> " + JSON.stringify(getformid));
+
+        return getformid;
+    }
+
+    $.fn.showNewVideoPagination = function (options) {
+        console.log("$.fn.showNewVideoPagination -----> ok");
+        showNewVideoPaginationSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showNewVideo: ".videme-shownew-tile"
+        }, options);
+/*        if ($(this).length) {
+            console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+        }
+        console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);*/
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        /* Сделать запрос */
+
+        var data = $.fn.showNewVideo({
+            //msg: msg
+        });
+        console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
+        console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
+
+        $.getJSON("http://api.vide.me/file/shownew/?videmecallback=?",
+            function (b) {
+                /* Показать первый расклад */
+                var a = [];
+                $.each(b.results, function (d, c) {
+                    /* Выйти после 3 интерации */
+                    if (d > 2) return false;
+                    a.push("\
+<div class='box'>\
+	<div class='boxInner'>\
+		<a class='shownext' \
+file-value='#" + c.File + "' \
+messageid-value='#" + c.objectId + "' \
+FromUserName-value='#" + c.FromUserName + "' \
+updatedAt-value='#" + c.updatedAt + "' \
+Subject-value='#" + c.Subject + "' \
+Message-value='#" + c.Message + "' \
+href='http://vide.me/v?m=" + c.File + "' \
+target='_blank'>\
+			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+		<div class=''>" + c.File + "</div>\
+		</a>\
+	</div>\
+</div>\
+				")
+                });
+                /* Всё слепить и показать */
+                $(".videme-shownew-tile").html(a.join(""));
+                /* Вычисилить максимальное число страниц */
+                var pagetotal = Math.ceil(b.results.length / 3);
+                /* Объявить экземпляр пейджинатора */
+                $('.videme-shownew-pagination').jqPagination({
+                    //link_string	: '/?page={page_number}',
+                    max_page: pagetotal,
+                    paged: function (page) {
+                        /* Пропустить страниц = текущая страница * элементов на странице */
+                        var skip = (page - 1) * 3;
+//alert("\n\r shownew pagetotal = " + pagetotal +
+//"\n\r shownew page = " + page +
+//"\n\r shownew skip = " + skip
+//);
+                        $.getJSON("http://api.vide.me/file/shownew/?skip=" + skip + "&videmecallback=?",
+                            function (b) {
+                                var a = [];
+                                $.each(b.results, function (d, c) {
+                                    /* Выйти после 3 интерации */
+                                    if (d > 2) return false;
+                                    a.push("\
+<div class='box'>\
+	<div class='boxInner'>\
+		<a class='shownext' \
+file-value='#" + c.File + "' \
+messageid-value='#" + c.objectId + "' \
+FromUserName-value='#" + c.FromUserName + "' \
+updatedAt-value='#" + c.updatedAt + "' \
+Subject-value='#" + c.Subject + "' \
+Message-value='#" + c.Message + "' \
+href='http://vide.me/v?m=" + c.File + "' \
+target='_blank'>\
+			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+		<div class=''>" + c.File + "</div>\
+		</a>\
+	</div>\
+</div>\
+					")
+                                });
+                                /* Всё слепить и показать */
+                                $(".videme-shownew-tile").html(a.join(""));
+                            });
+                    }
+                });
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+
     function showTile(showFile, tempObject, actionUrlClass) {
         if (tempObject.width() < 500) {
             var tempObjectClass = " videme-narrow-tile";
@@ -287,6 +499,28 @@
         delete parseFileMySpring.results;
         console.log("parseFileMySpring ----->" + JSON.stringify(parseFileMySpring));
         return parseFileMySpring;
+    }
+
+    function parseShowNewVideo(parseShowNewVideo) {
+        $.each(parseFileMySpring.results, function (key, value) {
+            console.log("parseShowNewVideo.results[key] ----->" + JSON.stringify(parseShowNewVideo.results[key]));
+            parseShowNewVideo[key] = {
+                //'a': value.ToUserName,
+                'a': value.Subject,
+                'b': value.Message,
+                'c': value.updatedAt,
+                'img': value.File,
+                'href': value.File,
+                //'toUserName': value.ToUserName,
+                'subject': value.Subject,
+                'message': value.Message,
+                'updatedAt': value.updatedAt,
+                'file': value.File
+            };
+        });
+        delete parseShowNewVideo.results;
+        console.log("parseShowNewVideo ----->" + JSON.stringify(parseShowNewVideo));
+        return parseShowNewVideo;
     }
 
     function paddingButtonInbox(paddingButtonInbox) {
@@ -2034,11 +2268,11 @@ message-value='#" + Message.substr(1) + "'>\
                         msg: msg
                     });
                 },
-                 error: function(msg){
-                     $.fn.errorNotification({
-                         msg: msg
-                     });
-                 }
+                error: function (msg) {
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
+                }
             });
         }
     });
