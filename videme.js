@@ -376,6 +376,107 @@ target='_blank'>\
         //==});
     };
 
+    $.fn.showPopVideoPagination = function (options) {
+        console.log("$.fn.showNewVideoPagination -----> ok");
+        showPopVideoPaginationSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showPopVideo: ".videme-showpop-tile"
+        }, options);
+/*        if ($(this).length) {
+            console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+        }
+        console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);*/
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        /* Сделать запрос */
+/*
+        var data = $.fn.showNewVideo({
+            //msg: msg
+        });*/
+        //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
+        //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
+
+        $.getJSON("http://api.vide.me/file/showpop/?videmecallback=?",
+            function(b) {
+                var a=[];
+                $.each(b.results, function(d,c) {
+                    if (d > 2) return false;
+                    a.push("\
+<div class='box'>\
+	<div class='boxInner'>\
+		<a class='shownext' \
+file-value='#"+c.File+"' \
+messageid-value='#"+c.objectId+"' \
+FromUserName-value='#"+c.FromUserName+"' \
+updatedAt-value='#"+c.updatedAt+"' \
+Subject-value='#"+c.Subject+"' \
+Message-value='#"+c.Message+"' \
+href='http://vide.me/v?m="+c.File+"' \
+target='_blank'>\
+			<img src=\"http://img.vide.me/"+c.File+".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>"+c.updatedAt+"</div>\
+		<div class=''>"+c.File+"</div>\
+		</a>\
+	</div>\
+</div>\
+			")
+                });
+                $(".videme-showpop-tile").html(a.join(""));
+
+                var pagetotal=Math.ceil(b.results.length / 3); //example=2
+
+                $('.videme-showpop-pagination').jqPagination({
+                    //link_string	: '/?page={page_number}',
+                    max_page	: pagetotal,
+                    paged		: function(page) {
+                        var skip = (page - 1) * 3;
+                        $.getJSON("http://api.vide.me/file/showpop/?skip=" + skip + "&videmecallback=?",
+                            function(b) {
+                                var a=[];
+                                $.each(b.results, function(d,c) {
+                                    if (d > 3) return false;
+                                    a.push("\
+<div class='box'>\
+	<div class='boxInner'>\
+		<a class='shownext' \
+file-value='#"+c.File+"' \
+messageid-value='#"+c.objectId+"' \
+FromUserName-value='#"+c.FromUserName+"' \
+updatedAt-value='#"+c.updatedAt+"' \
+Subject-value='#"+c.Subject+"' \
+Message-value='#"+c.Message+"' \
+href='http://vide.me/v?m="+c.File+"' \
+target='_blank'>\
+			<img src=\"http://img.vide.me/"+c.File+".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>"+c.updatedAt+"</div>\
+		<div class=''>"+c.File+"</div>\
+		</a>\
+	</div>\
+</div>\
+			")
+                                });
+                                $(".videme-showpop-tile").html(a.join(""));
+                            });
+                    }
+                });
+
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+
     function showTile(showFile, tempObject, actionUrlClass) {
         if (tempObject.width() < 500) {
             var tempObjectClass = " videme-narrow-tile";
