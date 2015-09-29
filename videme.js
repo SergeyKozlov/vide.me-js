@@ -2028,7 +2028,7 @@ $(document).ready(function () {
 
         prev_file.replace(/.*(?=#[^\s]+$)/, '');
 
-        var nad = $.cookie('vide_nad');
+        //var nad = $.cookie('vide_nad');
 
         $('.videme-brand-panel-element-center').html("\
 <video controls autoplay>\
@@ -2164,7 +2164,7 @@ target='_blank'>\
         Subject.replace(/.*(?=#[^\s]+$)/, '');
         Message.replace(/.*(?=#[^\s]+$)/, '');
 
-        var nad = $.cookie('vide_nad');
+        //var nad = $.cookie('vide_nad');
 
 //	$(".video-container").html(VidemeProgress);
 //	$(".video-container").html("<img src='http://img.vide.me/" + file.substr(1) + ".jpg'");
@@ -2542,7 +2542,6 @@ message-value='#" + Message.substr(1) + "'>\
                     $.fn.processNotification();
                 },
                 success: function (msg) {
-                    $('#pas-result').html(msg);
                     $.fn.successNotification({
                         msg: msg
                     });
