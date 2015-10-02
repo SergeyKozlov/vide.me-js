@@ -182,13 +182,13 @@
         }
         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
         //this.each(function(){
-            tempObject.html(VidemeProgress);
-/*
+        tempObject.html(VidemeProgress);
+        /*
 
-        getNewVideo2 = [];
-        getNewVideo2.skip = 0;
-        var data = getNewVideo(getNewVideo2);
-*/
+         getNewVideo2 = [];
+         getNewVideo2.skip = 0;
+         var data = getNewVideo(getNewVideo2);
+         */
 
         console.log("$.fn.showNewVideo showNewVideoSettings.data -----> " + JSON.stringify(showNewVideoSettings.data));
         showNewVideoSettings.data = 55555;
@@ -232,33 +232,33 @@
     function getNewVideo(getNewVideo) {
         var retval;
 
-/*        $.getJSON("http://api.vide.me/file/shownew/?skip=" + getNewVideo.skip + "&videmecallback=?",
-            function (json) {
+        /*        $.getJSON("http://api.vide.me/file/shownew/?skip=" + getNewVideo.skip + "&videmecallback=?",
+         function (json) {
 
-                retval = json;
-/!*
-                if (json.results) {
-                    console.log("$.fn.showNewVideo data -----> yes " + JSON.stringify(json));
-                    //showNewVideoSettings.data = data;
-                    //return showNewVideoSettings;
-                    //retval = data;
-                    //console.log("$.fn.showNewVideo retval -----> " + JSON.stringify(retval));
-                    //return retval;
+         retval = json;
+         /!*
+         if (json.results) {
+         console.log("$.fn.showNewVideo data -----> yes " + JSON.stringify(json));
+         //showNewVideoSettings.data = data;
+         //return showNewVideoSettings;
+         //retval = data;
+         //console.log("$.fn.showNewVideo retval -----> " + JSON.stringify(retval));
+         //return retval;
 
-                } else {
-                    console.log("$.fn.showNewVideo data -----> no");
-                    tempObject.html("No results");
-                    //retval = data;
+         } else {
+         console.log("$.fn.showNewVideo data -----> no");
+         tempObject.html("No results");
+         //retval = data;
 
-                }*!/
-            })
-            .done(function (data) {
-            })
-            .fail(function (data) {
-                tempObject.html(showError(data));
-            })
-            .always(function () {
-            });*/
+         }*!/
+         })
+         .done(function (data) {
+         })
+         .fail(function (data) {
+         tempObject.html(showError(data));
+         })
+         .always(function () {
+         });*/
 
 
         console.log("$.fn.getNewVideo return getformid -----> " + JSON.stringify(getformid));
@@ -273,15 +273,15 @@
             limit: 6,
             showNewVideo: ".videme-shownew-tile"
         }, options);
-/*        if ($(this).length) {
-            console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
-            var tempObject = $(this);
-        } else {
-            console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
-        }
-        console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-        tempObject.html(VidemeProgress);*/
+        /*        if ($(this).length) {
+         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+         var tempObject = $(this);
+         } else {
+         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+         }
+         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+         tempObject.html(VidemeProgress);*/
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
@@ -383,45 +383,45 @@ target='_blank'>\
             limit: 6,
             showPopVideo: ".videme-showpop-tile"
         }, options);
-/*        if ($(this).length) {
-            console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
-            var tempObject = $(this);
-        } else {
-            console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
-        }
-        console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-        tempObject.html(VidemeProgress);*/
+        /*        if ($(this).length) {
+         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+         var tempObject = $(this);
+         } else {
+         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+         }
+         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+         tempObject.html(VidemeProgress);*/
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
-/*
-        var data = $.fn.showNewVideo({
-            //msg: msg
-        });*/
+        /*
+         var data = $.fn.showNewVideo({
+         //msg: msg
+         });*/
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
         $.getJSON("http://api.vide.me/file/showpop/?videmecallback=?",
-            function(b) {
-                var a=[];
-                $.each(b.results, function(d,c) {
+            function (b) {
+                var a = [];
+                $.each(b.results, function (d, c) {
                     if (d > 2) return false;
                     a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#"+c.File+"' \
-messageid-value='#"+c.objectId+"' \
-FromUserName-value='#"+c.FromUserName+"' \
-updatedAt-value='#"+c.updatedAt+"' \
-Subject-value='#"+c.Subject+"' \
-Message-value='#"+c.Message+"' \
-href='http://vide.me/v?m="+c.File+"' \
+file-value='#" + c.File + "' \
+messageid-value='#" + c.objectId + "' \
+FromUserName-value='#" + c.FromUserName + "' \
+updatedAt-value='#" + c.updatedAt + "' \
+Subject-value='#" + c.Subject + "' \
+Message-value='#" + c.Message + "' \
+href='http://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/"+c.File+".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>"+c.updatedAt+"</div>\
-		<div class=''>"+c.File+"</div>\
+			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+		<div class=''>" + c.File + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -429,33 +429,33 @@ target='_blank'>\
                 });
                 $(".videme-showpop-tile").html(a.join(""));
 
-                var pagetotal=Math.ceil(b.results.length / 3); //example=2
+                var pagetotal = Math.ceil(b.results.length / 3); //example=2
 
                 $('.videme-showpop-pagination').jqPagination({
                     //link_string	: '/?page={page_number}',
-                    max_page	: pagetotal,
-                    paged		: function(page) {
+                    max_page: pagetotal,
+                    paged: function (page) {
                         var skip = (page - 1) * 3;
                         $.getJSON("http://api.vide.me/file/showpop/?skip=" + skip + "&videmecallback=?",
-                            function(b) {
-                                var a=[];
-                                $.each(b.results, function(d,c) {
+                            function (b) {
+                                var a = [];
+                                $.each(b.results, function (d, c) {
                                     if (d > 2) return false;
                                     a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#"+c.File+"' \
-messageid-value='#"+c.objectId+"' \
-FromUserName-value='#"+c.FromUserName+"' \
-updatedAt-value='#"+c.updatedAt+"' \
-Subject-value='#"+c.Subject+"' \
-Message-value='#"+c.Message+"' \
-href='http://vide.me/v?m="+c.File+"' \
+file-value='#" + c.File + "' \
+messageid-value='#" + c.objectId + "' \
+FromUserName-value='#" + c.FromUserName + "' \
+updatedAt-value='#" + c.updatedAt + "' \
+Subject-value='#" + c.Subject + "' \
+Message-value='#" + c.Message + "' \
+href='http://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/"+c.File+".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>"+c.updatedAt+"</div>\
-		<div class=''>"+c.File+"</div>\
+			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+		<div class=''>" + c.File + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -484,28 +484,28 @@ target='_blank'>\
             limit: 6,
             showNextVideo: ".videme-shownext-tile"
         }, options);
-/*        if ($(this).length) {
-            console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
-            var tempObject = $(this);
-        } else {
-            console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
-        }
-        console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-        tempObject.html(VidemeProgress);*/
+        /*        if ($(this).length) {
+         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+         var tempObject = $(this);
+         } else {
+         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+         }
+         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+         tempObject.html(VidemeProgress);*/
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
-/*
-        var data = $.fn.showNewVideo({
-            //msg: msg
-        });*/
+        /*
+         var data = $.fn.showNewVideo({
+         //msg: msg
+         });*/
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
         var prevfile = $.cookie('vide_prev_file');
-        var file       = showNextVideoPaginationSettings.file;
+        var file = showNextVideoPaginationSettings.file;
         var ticketname = showNextVideoPaginationSettings.ticketName;
-        var messageid  = showNextVideoPaginationSettings.messageid;
+        var messageid = showNextVideoPaginationSettings.messageid;
         $.cookie("vide_prev_file", file);
 
 //	var updatedAt = $this.attr('updatedAt-value');
@@ -536,30 +536,30 @@ target='_blank'>\
 
         /* Сделать запрос */
         $.getJSON("http://api.vide.me/file/shownext/?limit=12&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
-            function(b) {
+            function (b) {
 
                 if (b.results.length > 2) {
 
                     /* Показать первый расклад */
-                    var a=[];
-                    $.each(b.results, function(d,c) {
+                    var a = [];
+                    $.each(b.results, function (d, c) {
                         /* Выйти после 3 интерации */
                         if (d > 2) return false;
                         a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#"+c.File+"' \
-messageid-value='#"+c.objectId+"' \
-FromUserName-value='#"+c.FromUserName+"' \
-updatedAt-value='#"+c.updatedAt+"' \
-Subject-value='#"+c.Subject+"' \
-Message-value='#"+c.Message+"' \
-href='http://vide.me/v?m="+c.File+"' \
+file-value='#" + c.File + "' \
+messageid-value='#" + c.objectId + "' \
+FromUserName-value='#" + c.FromUserName + "' \
+updatedAt-value='#" + c.updatedAt + "' \
+Subject-value='#" + c.Subject + "' \
+Message-value='#" + c.Message + "' \
+href='http://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/"+c.File+".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>"+c.updatedAt+"</div>\
-		<div class=''>"+c.File+"</div>\
+			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+		<div class=''>" + c.File + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -568,37 +568,37 @@ target='_blank'>\
                     /* Всё слепить и показать */
                     $(".videme-shownext-tile").html(a.join(""));
                     /* Вычисилить максимальное число страниц */
-                    var pagetotal=Math.ceil(b.results.length / 3); //example=2
+                    var pagetotal = Math.ceil(b.results.length / 3); //example=2
                     /* Объявить экземпляр пейджинатора */
                     $('.videme-shownext-pagination').jqPagination({
                         //link_string	: '/?page={page_number}',
-                        max_page	: pagetotal,
-                        paged		: function(page) {
+                        max_page: pagetotal,
+                        paged: function (page) {
                             /* Пропустить страниц = текущая страница * элементов на странице */
                             //var skip = (page - 1) * 4;
                             var skip = (page - 1) * 3;
                             $.getJSON("http://api.vide.me/file/shownext/?limit=12&skip=" + skip + "&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
-                                function(b) {
+                                function (b) {
 
-                                    var a=[];
-                                    $.each(b.results, function(d,c) {
+                                    var a = [];
+                                    $.each(b.results, function (d, c) {
                                         /* Выйти после 3 интерации */
                                         if (d > 2) return false;
                                         a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#"+c.File+"' \
-messageid-value='#"+c.objectId+"' \
-FromUserName-value='#"+c.FromUserName+"' \
-updatedAt-value='#"+c.updatedAt+"' \
-Subject-value='#"+c.Subject+"' \
-Message-value='#"+c.Message+"' \
-href='http://vide.me/v?m="+c.File+"' \
+file-value='#" + c.File + "' \
+messageid-value='#" + c.objectId + "' \
+FromUserName-value='#" + c.FromUserName + "' \
+updatedAt-value='#" + c.updatedAt + "' \
+Subject-value='#" + c.Subject + "' \
+Message-value='#" + c.Message + "' \
+href='http://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/"+c.File+".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>"+c.updatedAt+"</div>\
-		<div class=''>"+c.File+"</div>\
+			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+		<div class=''>" + c.File + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -1033,7 +1033,11 @@ target='_blank'>\
             var TempObject = $(this);
             $.getJSON("http://api.vide.me/article/shownew/?limit=" + articleShowNewSettings.limit + "&videmecallback=?",
                 function (data) {
-                    TempObject.html(showArticle(parseArticleShowNew(data), TempObject));
+                    TempObject.html($.fn.showArticle({
+                        showArticle: parseArticleShowNew(data),
+                        TempObject: TempObject,
+                        button: "new"
+                    }));
                 })
                 .done(function () {
                 })
@@ -1045,15 +1049,69 @@ target='_blank'>\
         });
     };
 
-    function showArticle(showArticle, tempObject) {
+    $.fn.showMyArticle = function (options) {
+        articleShowMySettings = $.extend({
+            limit: 12
+        }, options);
+        $(this).html(VidemeProgress);
+        return this.each(function () {
+            var TempObject = $(this);
+            $.getJSON("http://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
+                function (data) {
+                    TempObject.html($.fn.showArticle({
+                        showArticle: parseArticleShowNew(data),
+                        TempObject: TempObject,
+                        button: "own"
+                    }));
+                })
+                .done(function () {
+                })
+                .fail(function (data) {
+                    TempObject.html(showError(data));
+                })
+                .always(function () {
+                });
+        });
+    };
+
+    $.fn.showTileButton = function (options) {
+        showTileButtonSettings = $.extend({
+        }, options);
+        //$(this).html(VidemeProgress);
+        return this.each(function () {
+            console.log("$.fn.showTileButton showTileButtonSettings.button -----> " + showTileButtonSettings.button);
+
+            var TempObject = $(this);
+            //var button = [];
+            switch (showTileButtonSettings.button) {
+                case 'own':
+                    console.log("$.fn.showTileButton showTileButtonSettings.button -----> case \"own\"");
+                    TempObject.push("\
+                        <div class=\"videme-article-down\">\
+                        <a class=\"btn btn-default\" href=\"http://vide.me/article/update/html/?article=" + showTileButtonSettings.article + "\" role=\"button\">Edit</a>\
+                        </div>\
+		 	        ");
+                    break;
+                case "new":
+                    TempObject.push(".");
+                    break;
+                default:
+                    //console.log("Sorry, we are out of " + expr + ".");
+            }
+        });
+    };
+
+    $.fn.showArticle = function (options) {
+        showArticleSettings = $.extend({}, options);
         // TODO: при развороте на большой экран маленькие артикли становятся очень маленькими
-        if (tempObject.width() < 500) {
+        if (showArticleSettings.TempObject.width() < 500) {
             var tempObjectClass = " videme-narrow-tile";
         } else {
             var tempObjectClass = "";
         }
+        //console.log("$.fn.showArticle showArticleSettings.button -----> " + showArticleSettings.button);
         var html = [];
-        $.each(showArticle, function (key, value) {
+        $.each(showArticleSettings.showArticle, function (key, value) {
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 									<a class='' href='http://vide.me/article/" + value.href + "'>\
@@ -1067,11 +1125,16 @@ target='_blank'>\
 					 <div class='videme-tile-signboard-true'></div>\
 				</div>\
 									</a>\
+									");
+            // TODO: Криво
+            showArticleSettings.article = value.href;
+            html.push($.fn.showTileButton(showArticleSettings));
+            html.push("\
 				</div>\
 		 	");
         });
         return html;
-    }
+    };
 
     function parseArticleShowNew(parseArticleShowNew) {
         $.each(parseArticleShowNew, function (key, value) {
