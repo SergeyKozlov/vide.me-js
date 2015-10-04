@@ -1054,7 +1054,7 @@ target='_blank'>\
             limit: 12
         }, options);
         $(this).html(VidemeProgress);
-        return this.each(function () {
+        //return this.each(function () {
             var TempObject = $(this);
             $.getJSON("http://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
                 function (data) {
@@ -1071,26 +1071,28 @@ target='_blank'>\
                 })
                 .always(function () {
                 });
-        });
+        //});
     };
 
     $.fn.showTileButton = function (options) {
         showTileButtonSettings = $.extend({
         }, options);
+        console.log("$.fn.showTileButton ----->  start");
         //$(this).html(VidemeProgress);
-        return this.each(function () {
-            console.log("$.fn.showTileButton showTileButtonSettings.button -----> " + showTileButtonSettings.button);
+        var tempObject = $(this);
 
-            var TempObject = $(this);
+        //return this.each(function () {
+            console.log("$.fn.showTileButton showTileButtonSettings.button -----> " + showTileButtonSettings.button);
+            //var TempObject = $(this);
             //var button = [];
             switch (showTileButtonSettings.button) {
                 case 'own':
                     console.log("$.fn.showTileButton showTileButtonSettings.button -----> case \"own\"");
-                    TempObject.push("\
+                    button = "\
                         <div class=\"videme-article-down\">\
                         <a class=\"btn btn-default\" href=\"http://vide.me/article/update/html/?article=" + showTileButtonSettings.article + "\" role=\"button\">Edit</a>\
                         </div>\
-		 	        ");
+		 	        ";
                     break;
                 case "new":
                     TempObject.push(".");
@@ -1098,7 +1100,10 @@ target='_blank'>\
                 default:
                     //console.log("Sorry, we are out of " + expr + ".");
             }
-        });
+        //});
+        //console.log("$.fn.showTileButton button -----> " + button);
+        //return tempObject;
+        return button;
     };
 
     $.fn.showArticle = function (options) {
@@ -1112,6 +1117,8 @@ target='_blank'>\
         //console.log("$.fn.showArticle showArticleSettings.button -----> " + showArticleSettings.button);
         var html = [];
         $.each(showArticleSettings.showArticle, function (key, value) {
+            showArticleSettings.article = value.href;
+
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 									<a class='' href='http://vide.me/article/" + value.href + "'>\
@@ -1125,18 +1132,19 @@ target='_blank'>\
 					 <div class='videme-tile-signboard-true'></div>\
 				</div>\
 									</a>\
-									");
+									" +
             // TODO: Криво
-            showArticleSettings.article = value.href;
-            html.push($.fn.showTileButton(showArticleSettings));
-            html.push("\
-				</div>\
+            //html.html($.fn.showTileButton(showArticleSettings));
+            $.fn.showTileButton(showArticleSettings) +
+            //html.append("\
+			+	"</div>\
 		 	");
         });
         return html;
     };
 
     function parseArticleShowNew(parseArticleShowNew) {
+        console.log("parseArticleShowNew -----> " + JSON.stringify(parseArticleShowNew));
         $.each(parseArticleShowNew, function (key, value) {
             parseArticleShowNew[key] = {
                 'a': value.value.date,
@@ -1622,6 +1630,32 @@ Delete\
     });
 
     /*************************************************************
+     v2 Событие 3: нажата кнопка вызова и отрисовки
+     кнопки удалить article
+     **************************************************************/
+    $(document).on('click', '.del-article-toggle', function (event) {
+        console.log(".del-article-toggle -----> click");
+        event.stopPropagation();
+        if ($('.del-article-toggle').attr('article')) {
+            $(".videme-mini-img").html(VidemeProgress);
+            $(".videme-mini-img").html("<img src='" + $('.del-article-toggle').attr('cover') + "' class='videme-mini-img' width='190' height='108'>");
+            $('.videme-del-list').html("\
+<button type='button' class='btn btn-primary' data-dismiss='modal'>\
+	Сancel\
+</button> \
+<a class='del-article-url' article='http://api.vide.me/article/remove/?article=" + $('.del-article-toggle').attr('article') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<button type='button' class='btn btn-danger' id='do'>\
+Delete\
+<div class='videme-progress'></div>\
+</button>\
+</a>\
+");
+        } else {
+            $('.videme-del-list').html(showError("No file"));
+        }
+    });
+
+    /*************************************************************
      v2 Событие 4: нажата ссылка из кнопки удалить файл Inbox
      **************************************************************/
     $(document).on('click', 'a.del-inbox-url', function (event) {
@@ -1745,6 +1779,38 @@ Delete\
                 $.fn.errorNotification({
                     msg: msg
                 });
+            }
+        });
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из кнопки удалить файл Inbox
+     **************************************************************/
+    $(document).on('click', 'a.del-article-url', function (event) {
+        console.log("a.del-article-url -----> click");
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('article');
+        href.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+            //type: 'post',
+            url: href,
+            beforeSend: function () {
+                $.fn.processNotification();
+            },
+            success: function (msg) {
+                $('#modal-del-article').modal('hide');
+                $.fn.successNotification({
+                    msg: msg
+                });
+                window.location.href = "http://vide.me/article/my/html/";
+            },
+            error: function (msg) {
+                $('#modal-del-article').modal('hide');
+                $.fn.errorNotification({
+                    msg: msg
+                });
+                window.location.href = "http://vide.me/article/my/html/";
             }
         });
     });
