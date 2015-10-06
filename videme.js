@@ -1096,7 +1096,7 @@ target='_blank'>\
                         tempObject.html(obj.length);
                     } else {
                         console.log("$.fn.showCountUserArticle data -----> no");
-                        tempObject.html("No results");
+                        tempObject.html("No Article");
                     }
                 })
                 .done(function (data) {
@@ -1107,7 +1107,7 @@ target='_blank'>\
                 .always(function () {
                 });
         } else {
-            tempObject.html("No spring");
+            tempObject.append("No spring");
         }
     };
 
@@ -1118,7 +1118,7 @@ target='_blank'>\
         }, options);
         console.log("$.fn.showTileButton ----->  start");
         //$(this).html(VidemeProgress);
-        var tempObject = $(this);
+        //var tempObject = $(this);
 
         //return this.each(function () {
             console.log("$.fn.showTileButton showTileButtonSettings.button -----> " + showTileButtonSettings.button);
@@ -1133,13 +1133,13 @@ target='_blank'>\
                         </div>\
 		 	        ";
                     break;
-                case "new":
+                case 'new':
                     // share button
-                    button = "";
+                    button = " ";
                     break;
                 default:
                     //console.log("Sorry, we are out of " + expr + ".");
-                    button = "";
+                    button = " ";
             }
         //});
         //console.log("$.fn.showTileButton button -----> " + button);
@@ -1157,6 +1157,8 @@ target='_blank'>\
         }
         //console.log("$.fn.showArticle showArticleSettings.button -----> " + showArticleSettings.button);
         var html = [];
+        var button = $.fn.showTileButton(showArticleSettings);
+
         $.each(showArticleSettings.showArticle, function (key, value) {
             showArticleSettings.article = value.href;
 
@@ -1173,12 +1175,9 @@ target='_blank'>\
 					 <div class='videme-tile-signboard-true'></div>\
 				</div>\
 									</a>\
-									" +
-            // TODO: Криво
-            //html.html($.fn.showTileButton(showArticleSettings));
-            $.fn.showTileButton(showArticleSettings) +
-            //html.append("\
-			+	"</div>\
+									"
+                + $.fn.showTileButton(showArticleSettings) +
+         "</div>\
 		 	");
         });
         return html;
