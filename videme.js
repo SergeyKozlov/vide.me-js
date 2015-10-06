@@ -1074,6 +1074,45 @@ target='_blank'>\
         //});
     };
 
+    $.fn.showCountUserArticle = function (options) {
+        showCountUserArticle = $.extend({
+            limit: 100,
+            showcaseCount: "#videme-count-user-article"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.showCountUserArticle $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showCountUserArticle $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showCountUserArticle.showcaseCount);
+        }
+        if (showCountUserArticle.spring) {
+            console.log("$.fn.showCountUserArticle $(this) -----> showCountUserArticle.spring " + showCountUserArticle.spring);
+            tempObject.html(VidemeProgress);
+            $.getJSON("http://api.vide.me/article/byuser/?spring=" + showCountUserArticle.spring + "&limit=" + showCountUserArticle.limit + "&videmecallback=?",
+                function (obj) {
+                    if (obj.length) {
+                        console.log("$.fn.showCountUserArticle data -----> no" + obj.length);
+                        tempObject.html(obj.length);
+                    } else {
+                        console.log("$.fn.showCountUserArticle data -----> no");
+                        tempObject.html("No results");
+                    }
+                })
+                .done(function (data) {
+                })
+                .fail(function (data) {
+                    tempObject.html("Error");
+                })
+                .always(function () {
+                });
+        } else {
+            tempObject.html("No spring");
+        }
+    };
+
+
+
     $.fn.showTileButton = function (options) {
         showTileButtonSettings = $.extend({
         }, options);
@@ -1095,10 +1134,12 @@ target='_blank'>\
 		 	        ";
                     break;
                 case "new":
-                    TempObject.push(".");
+                    // share button
+                    button = "";
                     break;
                 default:
                     //console.log("Sorry, we are out of " + expr + ".");
+                    button = "";
             }
         //});
         //console.log("$.fn.showTileButton button -----> " + button);
