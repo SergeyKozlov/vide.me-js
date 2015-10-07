@@ -38,7 +38,7 @@
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
-        $.getJSON("http://api.vide.me/file/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
@@ -74,7 +74,7 @@
         }
         console.log("$.fn.fileSent tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("http://api.vide.me/file/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
@@ -109,7 +109,7 @@
         }
         console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("http://api.vide.me/file/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
@@ -144,7 +144,7 @@
         }
         console.log("$.fn.fileMySpring tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("http://api.vide.me/file/myspring/?limit=" + fileMySpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/myspring/?limit=" + fileMySpringSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.fileMySpring data -----> yes" + JSON.stringify(data));
@@ -194,7 +194,7 @@
         showNewVideoSettings.data = 55555;
         console.log("$.fn.showNewVideo showNewVideoSettings.data -----> " + JSON.stringify(showNewVideoSettings.data));
 
-        $.getJSON("http://api.vide.me/file/shownew/?skip=" + showNewVideoSettings.skip + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/shownew/?skip=" + showNewVideoSettings.skip + "&videmecallback=?",
             function (json) {
 
                 showNewVideoSettings.data = json;
@@ -232,7 +232,7 @@
     function getNewVideo(getNewVideo) {
         var retval;
 
-        /*        $.getJSON("http://api.vide.me/file/shownew/?skip=" + getNewVideo.skip + "&videmecallback=?",
+        /*        $.getJSON("https://api.vide.me/file/shownew/?skip=" + getNewVideo.skip + "&videmecallback=?",
          function (json) {
 
          retval = json;
@@ -292,7 +292,7 @@
         console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("http://api.vide.me/file/shownew/?videmecallback=?",
+        $.getJSON("https://api.vide.me/file/shownew/?videmecallback=?",
             function (b) {
                 /* Показать первый расклад */
                 var a = [];
@@ -309,9 +309,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "' \
+href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -334,7 +334,7 @@ target='_blank'>\
 //"\n\r shownew page = " + page +
 //"\n\r shownew skip = " + skip
 //);
-                        $.getJSON("http://api.vide.me/file/shownew/?skip=" + skip + "&videmecallback=?",
+                        $.getJSON("https://api.vide.me/file/shownew/?skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
                                 $.each(b.results, function (d, c) {
@@ -350,9 +350,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "' \
+href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -402,7 +402,7 @@ target='_blank'>\
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("http://api.vide.me/file/showpop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
             function (b) {
                 var a = [];
                 $.each(b.results, function (d, c) {
@@ -417,9 +417,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "' \
+href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -436,7 +436,7 @@ target='_blank'>\
                     max_page: pagetotal,
                     paged: function (page) {
                         var skip = (page - 1) * 3;
-                        $.getJSON("http://api.vide.me/file/showpop/?skip=" + skip + "&videmecallback=?",
+                        $.getJSON("https://api.vide.me/file/showpop/?skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
                                 $.each(b.results, function (d, c) {
@@ -451,9 +451,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "' \
+href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -517,7 +517,7 @@ target='_blank'>\
         /*
          $('.videme-video-element-center').html("\
          <video controls autoplay>\
-         <source src='http://gu.vide.me/vi?m=" + ticketname + "&messageid=" + messageid + "' type='video/mp4'>\
+         <source src='https://gu.vide.me/vi?m=" + ticketname + "&messageid=" + messageid + "' type='video/mp4'>\
          Your browser does not support the <code>video</code> element.\
          </video>\
          ");
@@ -535,7 +535,7 @@ target='_blank'>\
         /* Вставить проверку одинаковости файлов*/
 
         /* Сделать запрос */
-        $.getJSON("http://api.vide.me/file/shownext/?limit=12&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/shownext/?limit=12&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
             function (b) {
 
                 if (b.results.length > 2) {
@@ -555,9 +555,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "' \
+href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -577,7 +577,7 @@ target='_blank'>\
                             /* Пропустить страниц = текущая страница * элементов на странице */
                             //var skip = (page - 1) * 4;
                             var skip = (page - 1) * 3;
-                            $.getJSON("http://api.vide.me/file/shownext/?limit=12&skip=" + skip + "&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
+                            $.getJSON("https://api.vide.me/file/shownext/?limit=12&skip=" + skip + "&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
                                 function (b) {
 
                                     var a = [];
@@ -594,9 +594,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "' \
+href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -645,14 +645,14 @@ target='_blank'>\
 						updatedAt='" + value.updatedAt + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
-						href='http://vide.me/v?m=" + value.href + "&messageid=" + value.messageid + "' target='_blank'>\
+						href='https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid + "' target='_blank'>\
 			<div class='titleTop'>\
 						 " + value.a + "<br>\
 						 " + value.b + "<br>\
 						 " + value.c + "<br>\
 						 " + value.d + "<br>\
 			</div>\
-						 <img src='http://img.vide.me/" + value.img + ".jpg' alt=''>\
+						 <img src='https://img.vide.me/" + value.img + ".jpg' alt=''>\
 						 </img>\
 					<div class='videme-tile-signboard-true'>\
 					</div>\
@@ -857,10 +857,10 @@ target='_blank'>\
 
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
-            var sourseURL = "http://gum.vide.me/vi?m=";
+            var sourseURL = "https://gum.vide.me/vi?m=";
         } else {
             console.log("authorized -----> false");
-            var sourseURL = "http://gu.vide.me/vi?m=";
+            var sourseURL = "https://gu.vide.me/vi?m=";
         }
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
@@ -898,7 +898,7 @@ target='_blank'>\
                 /*
                  showcasePlayerFunc.src({
                  type: "video/mp4",
-                 src: "http://r7.cf1.rackcdn.com/.mp4"
+                 src: "https://r7.cf1.rackcdn.com/.mp4"
                  });
                  showcasePlayerFunc.load();
                  showcasePlayerFunc.play();*/
@@ -936,7 +936,7 @@ target='_blank'>\
                     /*
                      miniPlayerFunc.src({
                      type: "video/mp4",
-                     src: "http://r7.cf1.rackcdn.com/.mp4"
+                     src: "https://r7.cf1.rackcdn.com/.mp4"
                      });
                      miniPlayerFunc.load();
                      miniPlayerFunc.play();*/
@@ -1031,7 +1031,7 @@ target='_blank'>\
         $(this).html(VidemeProgress);
         return this.each(function () {
             var TempObject = $(this);
-            $.getJSON("http://api.vide.me/article/shownew/?limit=" + articleShowNewSettings.limit + "&videmecallback=?",
+            $.getJSON("https://api.vide.me/article/shownew/?limit=" + articleShowNewSettings.limit + "&videmecallback=?",
                 function (data) {
                     TempObject.html($.fn.showArticle({
                         showArticle: parseArticleShowNew(data),
@@ -1056,7 +1056,7 @@ target='_blank'>\
         $(this).html(VidemeProgress);
         //return this.each(function () {
             var TempObject = $(this);
-            $.getJSON("http://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
+            $.getJSON("https://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
                 function (data) {
                     TempObject.html($.fn.showArticle({
                         showArticle: parseArticleShowNew(data),
@@ -1089,7 +1089,7 @@ target='_blank'>\
         if (showCountUserArticle.spring) {
             console.log("$.fn.showCountUserArticle $(this) -----> showCountUserArticle.spring " + showCountUserArticle.spring);
             tempObject.html(VidemeProgress);
-            $.getJSON("http://api.vide.me/article/byuser/?spring=" + showCountUserArticle.spring + "&limit=" + showCountUserArticle.limit + "&videmecallback=?",
+            $.getJSON("https://api.vide.me/article/byuser/?spring=" + showCountUserArticle.spring + "&limit=" + showCountUserArticle.limit + "&videmecallback=?",
                 function (obj) {
                     if (obj.length) {
                         console.log("$.fn.showCountUserArticle data -----> no" + obj.length);
@@ -1129,7 +1129,7 @@ target='_blank'>\
                     console.log("$.fn.showTileButton showTileButtonSettings.button -----> case \"own\"");
                     button = "\
                         <div class=\"videme-article-down\">\
-                        <a class=\"btn btn-default\" href=\"http://vide.me/article/update/html/?article=" + showTileButtonSettings.article + "\" role=\"button\">Edit</a>\
+                        <a class=\"btn btn-default\" href=\"https://vide.me/article/update/html/?article=" + showTileButtonSettings.article + "\" role=\"button\">Edit</a>\
                         </div>\
 		 	        ";
                     break;
@@ -1165,7 +1165,7 @@ target='_blank'>\
 
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
-									<a class='' href='http://vide.me/article/" + value.href + "'>\
+									<a class='' href='https://vide.me/article/" + value.href + "'>\
 				<div class='boxInner'>\
 					<div class='titleTop'>\
 						 " + value.a + "<br>\
@@ -1217,7 +1217,7 @@ target='_blank'>\
         }
         console.log("$.fn.showContact tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("http://api.vide.me/contact/?limit=" + showContactSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/contact/?limit=" + showContactSettings.limit + "&videmecallback=?",
             function (data) {
                 // TODO: Попробовать без куки nad
                 if (data.results) {
@@ -1228,7 +1228,7 @@ target='_blank'>\
                         results.push("\
                         <div class='well well-lg'>\
                             <span class=\"badge\">" + (key + 1) + "</span>\
-	<a href='http://vide.me/rec.html?email=" + value.Email + "'>\
+	<a href='https://vide.me/rec.html?email=" + value.Email + "'>\
 		" + value.Email + "\
 		<button type='button' \
 			class='btn btn-default pull-right btn-sm' data-toggle='modal' \
@@ -1279,7 +1279,7 @@ target='_blank'>\
         }
         console.log("$.fn.showList tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("http://api.vide.me/list/?limit=" + showListSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/list/?limit=" + showListSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data.results) {
                     console.log("$.fn.showList data -----> yes" + JSON.stringify(data));
@@ -1289,7 +1289,7 @@ target='_blank'>\
                         results.push("\
 <div class='well well-lg'>\
   <span class=\"badge\">" + (key + 1) + "</span>\
-	<a href='http://vide.me/rec.html?email=" + value.ListName + "'>\
+	<a href='https://vide.me/rec.html?email=" + value.ListName + "'>\
 		" + value.ListName + "\
 	</a>\
 	<button type='button' \
@@ -1503,15 +1503,15 @@ target='_blank'>\
         if ($('.contact-toggle').attr('file')) {
             $(".videme-contact-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress); // TODO: Проверить, может убрать
-            $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.contact-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
-            $.getJSON("http://api.vide.me/contact/?videmecallback=?",
+            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.contact-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+            $.getJSON("https://api.vide.me/contact/?videmecallback=?",
                 function (data) {
                     // TODO: Попробовать без куки nad
                     if (data.results) {
                         console.log(".contact-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
                         $.each(data.results, function (key, value) {
-                            results.push("<a class='contact-url' href='http://api.vide.me/file/resend/?email=" + value.Email + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.Email + "</span></a> ");
+                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.Email + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.Email + "</span></a> ");
                         });
                         $('.videme-contact-list').html(results.join(""));
                     } else {
@@ -1540,16 +1540,16 @@ target='_blank'>\
         if ($('.list-toggle').attr('file')) {
             $(".videme-list-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.list-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.list-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
             $(".videme-file-info").html("<b>" + $('.list-toggle').attr('subject') + "</b><br>" + $('.list-toggle').attr('message') + "<br>" + $('.list-toggle').attr('updatedat') + "<br>");
             $('#file').val($('.list-toggle').attr('file'));
-            $.getJSON("http://api.vide.me/list/?videmecallback=?",
+            $.getJSON("https://api.vide.me/list/?videmecallback=?",
                 function (data) {
                     if (data.results) {
                         console.log(".list-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
                         $.each(data['results'], function (key, value) {
-                            results.push("<a class='list-url' href='http://api.vide.me/file/share/?file=" + $('.list-toggle').attr('file') + "&list=" + value.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.ListName + "</span></a> ");
+                            results.push("<a class='list-url' href='https://api.vide.me/file/share/?file=" + $('.list-toggle').attr('file') + "&list=" + value.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.ListName + "</span></a> ");
                         });
                         //$(".videme-list-list").html("empty");
                         $('.videme-list-list').html(results.join(""));
@@ -1579,12 +1579,12 @@ target='_blank'>\
         event.stopPropagation();
         if ($('.del-inbox-toggle').attr('file')) {
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-inbox-url' file='http://api.vide.me/file/delinbox/?messageid=" + $('.del-inbox-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-inbox-url' file='https://api.vide.me/file/delinbox/?messageid=" + $('.del-inbox-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger' id='do'>\
 Delete\
 <div class='videme-progress'></div>\
@@ -1605,12 +1605,12 @@ Delete\
         event.stopPropagation();
         if ($('.del-sent-toggle').attr('file')) {
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-sent-url' file='http://api.vide.me/file/delsent/?messageid=" + $('.del-sent-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-sent-url' file='https://api.vide.me/file/delsent/?messageid=" + $('.del-sent-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger' id='do'>\
 Delete\
 <div class='videme-progress'></div>\
@@ -1631,12 +1631,12 @@ Delete\
         event.stopPropagation();
         if ($('.del-my-toggle').attr('file')) {
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-my-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-my-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-my-url' file='http://api.vide.me/file/delfile/?file=" + $('.del-my-toggle').attr('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-my-url' file='https://api.vide.me/file/delfile/?file=" + $('.del-my-toggle').attr('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger' id='do'>\
 Delete\
 <div class='videme-progress'></div>\
@@ -1656,12 +1656,12 @@ Delete\
         console.log(".del-sharefile-toggle -----> click");
         event.stopPropagation();
         $(".videme-mini-img").html(VidemeProgress);
-        $(".videme-mini-img").html("<img src='http://img.vide.me/" + $('.del-sharefile-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+        $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-sharefile-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
         $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-sharefile-url' file='http://api.vide.me/file/noshare/?file=" + $('.del-sharefile-toggle').attr('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-sharefile-url' file='https://api.vide.me/file/noshare/?file=" + $('.del-sharefile-toggle').attr('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger' id='do'>\
 Delete\
 <div class='videme-progress'></div>\
@@ -1684,7 +1684,7 @@ Delete\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
 </button> \
-<a class='del-article-url' article='http://api.vide.me/article/remove/?article=" + $('.del-article-toggle').attr('article') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+<a class='del-article-url' article='https://api.vide.me/article/remove/?article=" + $('.del-article-toggle').attr('article') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
 <button type='button' class='btn btn-danger' id='do'>\
 Delete\
 <div class='videme-progress'></div>\
@@ -1844,14 +1844,14 @@ Delete\
                 $.fn.successNotification({
                     msg: msg
                 });
-                window.location.href = "http://vide.me/article/my/html/";
+                window.location.href = "https://vide.me/article/my/html/";
             },
             error: function (msg) {
                 $('#modal-del-article').modal('hide');
                 $.fn.errorNotification({
                     msg: msg
                 });
-                window.location.href = "http://vide.me/article/my/html/";
+                window.location.href = "https://vide.me/article/my/html/";
             }
         });
     });
@@ -1931,21 +1931,21 @@ $(document).ready(function () {
     /*
      theDate = new Date();
      theHours = theDate.getHours();
-     if (theHours >= 0 ) {$('body').css('background-image', 'url(http://src.vide.me/bgn.png)');}
+     if (theHours >= 0 ) {$('body').css('background-image', 'url(https://src.vide.me/bgn.png)');}
      if (theHours >= 0 ) {$('body').css('background-color', '#9baecb');}
-     if (theHours >= 0 ) {$('.navbar-inner').css('background-image', 'url(http://src.vide.me/bgn.png)');}
-     if (theHours >= 4 ) {$('body').css('background-image', 'url(http://src.vide.me/bgm.png)');}
+     if (theHours >= 0 ) {$('.navbar-inner').css('background-image', 'url(https://src.vide.me/bgn.png)');}
+     if (theHours >= 4 ) {$('body').css('background-image', 'url(https://src.vide.me/bgm.png)');}
      if (theHours >= 4 ) {$('body').css('background-color', '#c2cd7b');}
-     if (theHours >= 4 ) {$('.navbar-inner').css('background-image', 'url(http://src.vide.me/bgm.png)');}
-     if (theHours >= 9 ) {$('body').css('background-image', 'url(http://src.vide.me/bgd.png)');}
+     if (theHours >= 4 ) {$('.navbar-inner').css('background-image', 'url(https://src.vide.me/bgm.png)');}
+     if (theHours >= 9 ) {$('body').css('background-image', 'url(https://src.vide.me/bgd.png)');}
      if (theHours >= 9 ) {$('body').css('background-color', '#d9eefa');}
-     if (theHours >= 9 ) {$('.navbar-inner').css('background-image', 'url(http://src.vide.me/bgd.png)');}
-     if (theHours >= 18 ) {$('body').css('background-image', 'url(http://src.vide.me/bge.png)');}
+     if (theHours >= 9 ) {$('.navbar-inner').css('background-image', 'url(https://src.vide.me/bgd.png)');}
+     if (theHours >= 18 ) {$('body').css('background-image', 'url(https://src.vide.me/bge.png)');}
      if (theHours >= 18 ) {$('body').css('background-color', '#bcd9ea');}
-     if (theHours >= 18 ) {$('.navbar-inner').css('background-image', 'url(http://src.vide.me/bge.png)');}
-     if (theHours >= 22 ) {$('body').css('background-image', 'url(http://src.vide.me/bgn.png)');}
+     if (theHours >= 18 ) {$('.navbar-inner').css('background-image', 'url(https://src.vide.me/bge.png)');}
+     if (theHours >= 22 ) {$('body').css('background-image', 'url(https://src.vide.me/bgn.png)');}
      if (theHours >= 22 ) {$('body').css('background-color', '#9baecb');}
-     if (theHours >= 22 ) {$('.navbar-inner').css('background-image', 'url(http://src.vide.me/bgn.png)');}
+     if (theHours >= 22 ) {$('.navbar-inner').css('background-image', 'url(https://src.vide.me/bgn.png)');}
      */
     /*
      if ($.cookie('vide_nad') == null) {
@@ -1968,17 +1968,17 @@ $(document).ready(function () {
      Поставить условие если есть кука
      *******************************************************************************/
     if ($.cookie('vide_nad')) {
-        $.getJSON("http://api.vide.me/user/info/?videmecallback=?",
+        $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
             function (data) {
                 if (data.UserPicture === '') {
-                    $('#user_brand').html("<a href='http://pas.vide.me/' target='_blank'> <img src='http://src.vide.me/avatar.png' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
+                    $('#user_brand').html("<a href='https://pas.vide.me/' target='_blank'> <img src='https://src.vide.me/avatar.png' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
                 } else {
                     $('#user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='" + data.UserPicture + "' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
                 }
                 $('#user_name').html("<a href='" + data.UserLink + "' target='_blank'>" + data.UserDisplayName + "</a>");
                 $('#user_email').html(data.username);
                 if (data.UserPicture === '') {
-                    $('#form_user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='http://src.vide.me/avatar.png' alt='" + data.UserDisplayName + "'></a>");
+                    $('#form_user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='https://src.vide.me/avatar.png' alt='" + data.UserDisplayName + "'></a>");
                 } else {
                     $('#form_user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='" + data.UserPicture + "' alt='" + data.UserDisplayName + "'></a>");
                 }
@@ -2036,7 +2036,7 @@ $(document).ready(function () {
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://sm.vide.me/sendmail/',
+                url: 'https://sm.vide.me/sendmail/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2104,7 +2104,7 @@ $(document).ready(function () {
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://sm.vide.me/sendmail/testmail/',
+                url: 'https://sm.vide.me/sendmail/testmail/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2158,7 +2158,7 @@ $(document).ready(function () {
 
     function imgError(image) {
         image.onerror = "";
-        image.src = "http://img.vide.me/undefined.gif";
+        image.src = "https://img.vide.me/undefined.gif";
         return true;
     }
 
@@ -2202,7 +2202,7 @@ $(document).ready(function () {
 
         $('.videme-brand-panel-element-center').html("\
 <video controls autoplay>\
-  <source src='http://gu.vide.me/vi?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
+  <source src='https://gu.vide.me/vi?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
   Your browser does not support the <code>video</code> element.\
 </video>\
 ");
@@ -2223,7 +2223,7 @@ data-target='#modal-contact'>\
 
         /* Вставить проверку одинаковости файлов*/
 
-        $.getJSON("http://api.vide.me/file/shownext/?number=12&prev_file=" + prev_file + "&file=" + file.substr(1) + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/shownext/?number=12&prev_file=" + prev_file + "&file=" + file.substr(1) + "&videmecallback=?",
             function (b) {
                 $(".prev_file-value").data("prev_file-value", b['results'][0]['File']);
 
@@ -2248,9 +2248,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
+href='https://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'><span class=\"label label-primary\">" + c.Case + "</span>" + c.updatedAt + "</div>\
 		</a>\
 	</div>\
@@ -2269,7 +2269,7 @@ target='_blank'>\
                         paged: function (page) {
                             /* Пропустить страниц = текущая страница * элементов на странице */
                             var skip = page * 4;
-                            $.getJSON("http://api.vide.me/file/shownext/?skip=" + skip + "&videmecallback=?",
+                            $.getJSON("https://api.vide.me/file/shownext/?skip=" + skip + "&videmecallback=?",
                                 function (b) {
                                     var a = [];
                                     $.each(b.results, function (d, c) {
@@ -2285,9 +2285,9 @@ FromUserName-value='#" + c.FromUserName + "' \
 updatedAt-value='#" + c.updatedAt + "' \
 Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
-href='http://vide.me/v?m=" + c.File + "' \
+href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"http://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -2337,7 +2337,7 @@ target='_blank'>\
         //var nad = $.cookie('vide_nad');
 
 //	$(".video-container").html(VidemeProgress);
-//	$(".video-container").html("<img src='http://img.vide.me/" + file.substr(1) + ".jpg'");
+//	$(".video-container").html("<img src='https://img.vide.me/" + file.substr(1) + ".jpg'");
 
         $('.videme-brand-panel-element-left').html("\
 <div class='videme-panel-date'>" + updatedAt.substr(1) + "</div>\
@@ -2345,7 +2345,7 @@ target='_blank'>\
 
         $('.videme-brand-panel-element-center').html("\
 <video controls autoplay>\
-  <source src='http://gum.vide.me/vi?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
+  <source src='https://gum.vide.me/vi?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
   Your browser does not support the <code>video</code> element.\
 </video>\
 ");
@@ -2383,7 +2383,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/contact/update/',
+                url: 'https://pas.vide.me/contact/update/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2426,7 +2426,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/contact/remove/',
+                url: 'https://pas.vide.me/contact/remove/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2471,7 +2471,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/contact/create/',
+                url: 'https://pas.vide.me/contact/create/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2527,7 +2527,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/list/update/',
+                url: 'https://pas.vide.me/list/update/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2579,7 +2579,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/list/remove/',
+                url: 'https://pas.vide.me/list/remove/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2623,7 +2623,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/list/create/',
+                url: 'https://pas.vide.me/list/create/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2677,7 +2677,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/user/login/',
+                url: 'https://pas.vide.me/user/login/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2705,7 +2705,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://pas.vide.me/user/update/pas/',
+                url: 'https://pas.vide.me/user/update/pas/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2940,7 +2940,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://api.vide.me/article/update/',
+                url: 'https://api.vide.me/article/update/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2964,7 +2964,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'http://api.vide.me/article/new/',
+                url: 'https://api.vide.me/article/new/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
