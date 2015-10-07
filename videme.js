@@ -1150,7 +1150,8 @@ target='_blank'>\
     $.fn.showArticle = function (options) {
         showArticleSettings = $.extend({}, options);
         // TODO: при развороте на большой экран маленькие артикли становятся очень маленькими
-        if (showArticleSettings.TempObject.width() < 500) {
+        console.log("$.fn.showArticle showArticleSettings.TempObject.width() -----> " + showArticleSettings.TempObject.width());
+        if (showArticleSettings.TempObject.width() < 580) {
             var tempObjectClass = " videme-narrow-tile";
         } else {
             var tempObjectClass = "";
