@@ -1971,7 +1971,7 @@ $(document).ready(function () {
         $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
             function (data) {
                 if (data.UserPicture === '') {
-                    $('#user_brand').html("<a href='https://pas.vide.me/' target='_blank'> <img src='https://src.vide.me/avatar.png' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
+                    $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://src.vide.me/avatar.png' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
                 } else {
                     $('#user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='" + data.UserPicture + "' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
                 }
@@ -2383,7 +2383,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/contact/update/',
+                url: 'https://api.vide.me/contact/update/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2426,7 +2426,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/contact/remove/',
+                url: 'https://api.vide.me/contact/remove/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2471,7 +2471,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/contact/create/',
+                url: 'https://api.vide.me/contact/create/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2527,7 +2527,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/list/update/',
+                url: 'https://api.vide.me/list/update/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2579,7 +2579,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/list/remove/',
+                url: 'https://api.vide.me/list/remove/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2623,7 +2623,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/list/create/',
+                url: 'https://api.vide.me/list/create/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2677,7 +2677,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/user/login/',
+                url: 'https://api.vide.me/user/login/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2705,7 +2705,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://pas.vide.me/user/update/pas/',
+                url: 'https://api.vide.me/user/update/pas/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
