@@ -311,7 +311,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -352,7 +352,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -419,7 +419,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -453,7 +453,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -557,7 +557,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -596,7 +596,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -652,7 +652,7 @@ target='_blank'>\
 						 " + value.c + "<br>\
 						 " + value.d + "<br>\
 			</div>\
-						 <img src='https://img.vide.me/" + value.img + ".jpg' alt=''>\
+						 <img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + value.img + ".jpg' alt=''>\
 						 </img>\
 					<div class='videme-tile-signboard-true'>\
 					</div>\
@@ -857,10 +857,10 @@ target='_blank'>\
 
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
-            var sourseURL = "https://gum.vide.me/vi?m=";
+            var sourseURL = "http://gum.vide.me/vi?m=";
         } else {
             console.log("authorized -----> false");
-            var sourseURL = "https://gu.vide.me/vi?m=";
+            var sourseURL = "http://gu.vide.me/vi?m=";
         }
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
@@ -1503,7 +1503,7 @@ target='_blank'>\
         if ($('.contact-toggle').attr('file')) {
             $(".videme-contact-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress); // TODO: Проверить, может убрать
-            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.contact-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + $('.contact-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
             $.getJSON("https://api.vide.me/contact/?videmecallback=?",
                 function (data) {
                     // TODO: Попробовать без куки nad
@@ -1540,7 +1540,7 @@ target='_blank'>\
         if ($('.list-toggle').attr('file')) {
             $(".videme-list-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.list-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + $('.list-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
             $(".videme-file-info").html("<b>" + $('.list-toggle').attr('subject') + "</b><br>" + $('.list-toggle').attr('message') + "<br>" + $('.list-toggle').attr('updatedat') + "<br>");
             $('#file').val($('.list-toggle').attr('file'));
             $.getJSON("https://api.vide.me/list/?videmecallback=?",
@@ -1579,7 +1579,7 @@ target='_blank'>\
         event.stopPropagation();
         if ($('.del-inbox-toggle').attr('file')) {
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
@@ -1605,7 +1605,7 @@ Delete\
         event.stopPropagation();
         if ($('.del-sent-toggle').attr('file')) {
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
@@ -1631,7 +1631,7 @@ Delete\
         event.stopPropagation();
         if ($('.del-my-toggle').attr('file')) {
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-my-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+            $(".videme-mini-img").html("<img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + $('.del-my-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
             $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
@@ -1656,7 +1656,7 @@ Delete\
         console.log(".del-sharefile-toggle -----> click");
         event.stopPropagation();
         $(".videme-mini-img").html(VidemeProgress);
-        $(".videme-mini-img").html("<img src='https://img.vide.me/" + $('.del-sharefile-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+        $(".videme-mini-img").html("<img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + $('.del-sharefile-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
         $('.videme-del-list').html("\
 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
 	Сancel\
@@ -2158,7 +2158,7 @@ $(document).ready(function () {
 
     function imgError(image) {
         image.onerror = "";
-        image.src = "https://img.vide.me/undefined.gif";
+        image.src = "https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/undefined.gif";
         return true;
     }
 
@@ -2250,7 +2250,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "&messageid=" + c.objectId + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'><span class=\"label label-primary\">" + c.Case + "</span>" + c.updatedAt + "</div>\
 		</a>\
 	</div>\
@@ -2287,7 +2287,7 @@ Subject-value='#" + c.Subject + "' \
 Message-value='#" + c.Message + "' \
 href='https://vide.me/v?m=" + c.File + "' \
 target='_blank'>\
-			<img src=\"https://img.vide.me/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+			<img src=\"https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
 		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
 		<div class=''>" + c.File + "</div>\
 		</a>\
@@ -2337,7 +2337,7 @@ target='_blank'>\
         //var nad = $.cookie('vide_nad');
 
 //	$(".video-container").html(VidemeProgress);
-//	$(".video-container").html("<img src='https://img.vide.me/" + file.substr(1) + ".jpg'");
+//	$(".video-container").html("<img src='https://75b93e15e684d3801ba7-714352ced5791c91ade7d6cf443a6b98.ssl.cf1.rackcdn.com/" + file.substr(1) + ".jpg'");
 
         $('.videme-brand-panel-element-left').html("\
 <div class='videme-panel-date'>" + updatedAt.substr(1) + "</div>\
