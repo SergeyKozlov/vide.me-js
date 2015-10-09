@@ -2036,7 +2036,7 @@ $(document).ready(function () {
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://sm.vide.me/sendmail/',
+                url: 'https://api.vide.me/sendmail/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -2104,7 +2104,7 @@ $(document).ready(function () {
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://sm.vide.me/sendmail/testmail/',
+                url: 'https://api.vide.me/sendmail/testmail/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
