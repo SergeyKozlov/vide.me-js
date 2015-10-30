@@ -517,7 +517,7 @@ target='_blank'>\
         /*
          $('.videme-video-element-center').html("\
          <video controls autoplay>\
-         <source src='https://gu.vide.me/vi?m=" + ticketname + "&messageid=" + messageid + "' type='video/mp4'>\
+         <source src='https://gu.vide.me/vic?m=" + ticketname + "&messageid=" + messageid + "' type='video/mp4'>\
          Your browser does not support the <code>video</code> element.\
          </video>\
          ");
@@ -857,7 +857,7 @@ target='_blank'>\
 
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
-            var sourseURL = "http://gum.vide.me/vi?m=";
+            var sourseURL = "http://gu.vide.me/vic?m=";
         } else {
             console.log("authorized -----> false");
             var sourseURL = "http://gu.vide.me/vi?m=";
@@ -2202,7 +2202,7 @@ $(document).ready(function () {
 
         $('.videme-brand-panel-element-center').html("\
 <video controls autoplay>\
-  <source src='https://gu.vide.me/vi?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
+  <source src='https://gu.vide.me/vic?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
   Your browser does not support the <code>video</code> element.\
 </video>\
 ");
@@ -2345,7 +2345,7 @@ target='_blank'>\
 
         $('.videme-brand-panel-element-center').html("\
 <video controls autoplay>\
-  <source src='https://gum.vide.me/vi?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
+  <source src='https://gum.vide.me/vic?m=" + file.substr(1) + "&messageid=" + messageid.substr(1) + "' type='video/mp4'>\
   Your browser does not support the <code>video</code> element.\
 </video>\
 ");
@@ -2649,8 +2649,6 @@ message-value='#" + Message.substr(1) + "'>\
     /*************************************************************
      Событие XX: нажата кнопка Login
      **************************************************************/
-        //$('#user_pas_nad').val($.cookie('vide_nad'));
-        //$('#user_info_submit').removeAttr('disabled');
     $('#user-login-form').validate({
         rules: {
             "username": {
@@ -2697,7 +2695,74 @@ message-value='#" + Message.substr(1) + "'>\
         }
     });
 
-    // Возможно удалить
+    /*************************************************************
+     Событие XX: нажата кнопка user-restore-form
+     **************************************************************/
+    /*
+    $('#user-restore-form').validate({
+        rules: {
+            "username": {
+                required: true,
+                email: true,
+                maxlength: 40
+            }
+        },
+        messages: {
+            "username": {
+                required: "",
+                email: "Enter true email"
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'https://api.vide.me/user/restore/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $.fn.processNotification();
+                },
+                success: function (msg) {
+                    $.fn.successNotification({
+                        msg: msg
+                    });
+                },
+                error: function (msg) {
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
+                }
+            });
+        }
+    });
+    */
+    /*************************************************************
+     Событие XX: нажата кнопка изменить информацию о пользователе
+     **************************************************************/
+    $('#user-info-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'https://api.vide.me/user/update/info/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $.fn.processNotification();
+                },
+                success: function (msg) {
+                    $.fn.successNotification({
+                        msg: msg
+                    });
+                },
+                error: function (msg) {
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
+                }
+            });
+        }
+    });
+
     /*************************************************************
      Событие XX: нажата кнопка изменить пароль
      **************************************************************/
