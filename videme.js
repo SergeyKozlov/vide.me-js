@@ -2042,6 +2042,7 @@ $(document).ready(function () {
                 beforeSend: function () {
                     $("#submit").attr('disabled', true);
                     $('#videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
                 },
                 success: function (msg) {
                     //console.log("Data Saved: " + msg);
@@ -2049,11 +2050,17 @@ $(document).ready(function () {
                     $('#cform').hide('slow');
                     $('#progress').hide('slow');
                     $('#result').html(msg);
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                 },
                 error: function (msg) {
                     //$('#cform').find(':input').prop('disabled', true);
                     $('#submit').attr('disabled', true);
                     $('#result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
