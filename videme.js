@@ -857,10 +857,10 @@ target='_blank'>\
 
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
-            var sourseURL = "http://gu.vide.me/vic?m=";
+            var sourseURL = "https://gu.vide.me/vic?m=";
         } else {
             console.log("authorized -----> false");
-            var sourseURL = "http://gu.vide.me/vi?m=";
+            var sourseURL = "https://gu.vide.me/vi?m=";
         }
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
