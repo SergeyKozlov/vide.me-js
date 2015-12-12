@@ -292,7 +292,7 @@
         console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/shownew/?videmecallback=?",
+        $.getJSON("https://api.vide.me/file/shownew/?limit=3&videmecallback=?",
             function (b) {
                 /* Показать первый расклад */
                 var a = [];
@@ -334,7 +334,7 @@ target='_blank'>\
 //"\n\r shownew page = " + page +
 //"\n\r shownew skip = " + skip
 //);
-                        $.getJSON("https://api.vide.me/file/shownew/?skip=" + skip + "&videmecallback=?",
+                        $.getJSON("https://api.vide.me/file/shownew/?limit=3&skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
                                 $.each(b.results, function (d, c) {
@@ -402,7 +402,7 @@ target='_blank'>\
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/file/showpop/?limit=3&videmecallback=?",
             function (b) {
                 var a = [];
                 $.each(b.results, function (d, c) {
@@ -436,7 +436,7 @@ target='_blank'>\
                     max_page: pagetotal,
                     paged: function (page) {
                         var skip = (page - 1) * 3;
-                        $.getJSON("https://api.vide.me/file/showpop/?skip=" + skip + "&videmecallback=?",
+                        $.getJSON("https://api.vide.me/file/showpop/?limit=3&skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
                                 $.each(b.results, function (d, c) {
