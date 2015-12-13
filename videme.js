@@ -1092,7 +1092,7 @@ target='_blank'>\
             $.getJSON("https://api.vide.me/article/byuser/?spring=" + showCountUserArticle.spring + "&limit=" + showCountUserArticle.limit + "&videmecallback=?",
                 function (obj) {
                     if (obj.length) {
-                        console.log("$.fn.showCountUserArticle data -----> no" + obj.length);
+                        console.log("$.fn.showCountUserArticle data -----> yes" + obj.length);
                         tempObject.html(obj.length);
                     } else {
                         console.log("$.fn.showCountUserArticle data -----> no");
