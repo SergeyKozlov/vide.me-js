@@ -2037,7 +2037,7 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: 'https://api.vide.me/sendmail/',
-                timeout: 20000,
+                timeout: 40000,
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#submit").attr('disabled', true);
