@@ -40,7 +40,7 @@
         //var tempObject = $(this);
         $.getJSON("https://api.vide.me/file/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
             function (data) {
-                if (data.results) {
+                if (data) {
                     console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileInbox(data), tempObject, "file-inbox-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonInbox(data[0]));
@@ -665,84 +665,85 @@ target='_blank'>\
 
     function parseFileInbox(parseFileInbox) {
         $.each(parseFileInbox, function (key, value) {
-            console.log("parseFileInbox.results[key] ----->" + JSON.stringify(parseFileInbox.results[key]));
+            console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
+            //console.log("parseFileInbox value ----->" + JSON.stringify(value));
             parseFileInbox[key] = {
-                'a': value.fromUserName,
-                'b': value.subject,
-                'c': value.message,
-                'd': value.updatedAt,
-                'img': value.file,
-                'href': value.file,
-                'fromUserName': value.fromUserName,
-                'subject': value.subject,
-                'message': value.message,
-                'updatedAt': value.updatedAt,
-                'file': value.file,
+                'a': value.value.fromUserName,
+                'b': value.value.subject,
+                'c': value.value.message,
+                'd': value.value.updatedAt,
+                'img': value.value.file,
+                'href': value.value.file,
+                'fromUserName': value.value.fromUserName,
+                'subject': value.value.subject,
+                'message': value.value.message,
+                'updatedAt': value.value.updatedAt,
+                'file': value.value.file,
                 'messageid': value.id
             };
         });
-        delete parseFileInbox.results;
+        //delete parseFileInbox.results;
         console.log("parseFileInbox ----->" + JSON.stringify(parseFileInbox));
         return parseFileInbox;
     }
 
     function parseFileSent(parseFileSent) {
-        $.each(parseFileSent.results, function (key, value) {
+        $.each(parseFileSent, function (key, value) {
             parseFileSent[key] = {
-                'a': value.ToUserName,
-                'b': value.Subject,
-                'c': value.Message,
-                'd': value.updatedAt,
-                'img': value.File,
-                'href': value.File,
-                'toUserName': value.ToUserName,
-                'subject': value.Subject,
-                'message': value.Message,
-                'updatedAt': value.updatedAt,
-                'file': value.File,
+                'a': value.value.toUserName,
+                'b': value.value.subject,
+                'c': value.value.message,
+                'd': value.value.updatedAt,
+                'img': value.value.file,
+                'href': value.value.file,
+                'toUserName': value.value.toUserName,
+                'subject': value.value.subject,
+                'message': value.value.message,
+                'updatedAt': value.value.updatedAt,
+                'file': value.value.file,
                 //'objectId': value.objectId
-                'messageid': value.objectId
+                'messageid': value.id
             };
         });
-        delete parseFileSent.results;
+        //delete parseFileSent.results;
         return parseFileSent;
     }
 
     function parseFileMy(parseFileMy) {
-        $.each(parseFileMy.results, function (key, value) {
+        $.each(parseFileMy, function (key, value) {
             parseFileMy[key] = {
                 //'a': value.ToUserName,
-                'a': value.Subject,
-                'b': value.Message,
-                'c': value.updatedAt,
-                'img': value.File,
-                'href': value.File,
+                'a': value.value.subject,
+                'b': value.value.message,
+                'c': value.value.updatedAt,
+                'img': value.value.file,
+                'href': value.value.file,
                 //'toUserName': value.ToUserName,
-                'subject': value.Subject,
-                'message': value.Message,
-                'updatedAt': value.updatedAt,
-                'file': value.File
+                'subject': value.value.subject,
+                'message': value.value.message,
+                'updatedAt': value.value.updatedAt,
+                'file': value.value.file
             };
         });
-        delete parseFileMy.results;
+        //delete parseFileMy.results;
         return parseFileMy;
     }
 
     function parseFileMySpring(parseFileMySpring) {
-        $.each(parseFileMySpring.results, function (key, value) {
-            console.log("parseFileMySpring.results[key] ----->" + JSON.stringify(parseFileMySpring.results[key]));
+        $.each(parseFileMySpring, function (key, value) {
+            console.log("parseFileMySpring[key] ----->" + JSON.stringify(parseFileMySpring[key]));
             parseFileMySpring[key] = {
                 //'a': value.ToUserName,
-                'a': value.Subject,
-                'b': value.Message,
-                'c': value.updatedAt,
-                'img': value.File,
-                'href': value.File,
+                'a': value.value.subject,
+                'b': value.value.message,
+                'c': value.value.updatedAt,
+                'img': value.value.file,
+                'href': value.value.file,
                 //'toUserName': value.ToUserName,
-                'subject': value.Subject,
-                'message': value.Message,
-                'updatedAt': value.updatedAt,
-                'file': value.File
+                'subject': value.value.subject,
+                'message': value.value.message,
+                'updatedAt': value.value.updatedAt,
+                'file': value.file
             };
         });
         delete parseFileMySpring.results;
@@ -1964,26 +1965,24 @@ $(document).ready(function () {
      Sidebar
      *******************************************************************************/
 
-    /*******************************************************************************
-     Поставить условие если есть кука
-     *******************************************************************************/
     if ($.cookie('vide_nad')) {
         $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
             function (data) {
-                if (data.UserPicture === '') {
-                    $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
+                console.log("user/info data -----> " + data);
+                if (data.value.value.userPicture === '') {
+                    $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.value.userPicture + "'></a>");
                 } else {
-                    $('#user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='" + data.UserPicture + "' width='48' height='48' alt='" + data.UserDisplayName + "'></a>");
+                    $('#user_brand').html("<a href='" + data.value.userLink + "' target='_blank'> <img src='" + data.value.userPicture + "' width='48' height='48' alt='" + data.value.userDisplayName + "'></a>");
                 }
-                $('#user_name').html("<a href='" + data.UserLink + "' target='_blank'>" + data.UserDisplayName + "</a>");
-                $('#user_email').html(data.username);
-                if (data.UserPicture === '') {
-                    $('#form_user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.UserDisplayName + "'></a>");
+                $('#user_name').html("<a href='" + data.value.userLink + "' target='_blank'>" + data.value.userDisplayName + "</a>");
+                $('#user_email').html(data.value.userEmail);
+                if (data.value.userPicture === '') {
+                    $('#form_user_brand').html("<a href='" + data.value.userLink + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.value.userDisplayName + "'></a>");
                 } else {
-                    $('#form_user_brand').html("<a href='" + data.UserLink + "' target='_blank'> <img src='" + data.UserPicture + "' alt='" + data.UserDisplayName + "'></a>");
+                    $('#form_user_brand').html("<a href='" + data.value.userLink + "' target='_blank'> <img src='" + data.value.userPicture + "' alt='" + data.value.userDisplayName + "'></a>");
                 }
-                $('#form_user_name').html("<a href='" + data.UserLink + "' target='_blank'>" + data.UserDisplayName + "</a>");
-                $('#form_user_email').html(data.username);
+                $('#form_user_name').html("<a href='" + data.value.userLink + "' target='_blank'>" + data.value.userDisplayName + "</a>");
+                $('#form_user_email').html(data.value.userEmail);
             }
         );
         /*Волшебное использование куки ===============================================*/
