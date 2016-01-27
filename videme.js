@@ -292,7 +292,7 @@
         console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/shownew/?videmecallback=?",
+        $.getJSON("https://api.vide.me/file/shownew/?limit=3&videmecallback=?",
             function (b) {
                 /* Показать первый расклад */
                 var a = [];
@@ -334,7 +334,7 @@ target='_blank'>\
 //"\n\r shownew page = " + page +
 //"\n\r shownew skip = " + skip
 //);
-                        $.getJSON("https://api.vide.me/file/shownew/?skip=" + skip + "&videmecallback=?",
+                        $.getJSON("https://api.vide.me/file/shownew/?limit=3&skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
                                 $.each(b.results, function (d, c) {
@@ -402,7 +402,7 @@ target='_blank'>\
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/file/showpop/?limit=3&videmecallback=?",
             function (b) {
                 var a = [];
                 $.each(b.results, function (d, c) {
@@ -436,7 +436,7 @@ target='_blank'>\
                     max_page: pagetotal,
                     paged: function (page) {
                         var skip = (page - 1) * 3;
-                        $.getJSON("https://api.vide.me/file/showpop/?skip=" + skip + "&videmecallback=?",
+                        $.getJSON("https://api.vide.me/file/showpop/?limit=3&skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
                                 $.each(b.results, function (d, c) {
@@ -857,10 +857,10 @@ target='_blank'>\
 
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
-            var sourseURL = "http://gu.vide.me/vic?m=";
+            var sourseURL = "https://gu.vide.me/vic?m=";
         } else {
             console.log("authorized -----> false");
-            var sourseURL = "http://gu.vide.me/vi?m=";
+            var sourseURL = "https://gu.vide.me/vi?m=";
         }
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
@@ -1092,7 +1092,7 @@ target='_blank'>\
             $.getJSON("https://api.vide.me/article/byuser/?spring=" + showCountUserArticle.spring + "&limit=" + showCountUserArticle.limit + "&videmecallback=?",
                 function (obj) {
                     if (obj.length) {
-                        console.log("$.fn.showCountUserArticle data -----> no" + obj.length);
+                        console.log("$.fn.showCountUserArticle data -----> yes" + obj.length);
                         tempObject.html(obj.length);
                     } else {
                         console.log("$.fn.showCountUserArticle data -----> no");
@@ -2037,11 +2037,12 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: 'https://api.vide.me/sendmail/',
-                timeout: 20000,
+                timeout: 40000,
                 data: $(form).serialize(),
                 beforeSend: function () {
                     $("#submit").attr('disabled', true);
                     $('#videme-progress').html(VidemeProgress);
+                    $.fn.processNotification();
                 },
                 success: function (msg) {
                     //console.log("Data Saved: " + msg);
@@ -2049,11 +2050,17 @@ $(document).ready(function () {
                     $('#cform').hide('slow');
                     $('#progress').hide('slow');
                     $('#result').html(msg);
+                    $.fn.successNotification({
+                        msg: msg
+                    });
                 },
                 error: function (msg) {
                     //$('#cform').find(':input').prop('disabled', true);
                     $('#submit').attr('disabled', true);
                     $('#result').html("<div class='alert alert-error span3'>Failed from timeout. Please try again later. <span id='timer'></span> sec.</div><script type='text/javascript'>setTimeout('window.location.reload()', 6000); var t=5; function refr_time(){ if (t>1) { t--;  document.getElementById('timer').innerHTML=t; document.getElementById('timer').style.color = '#FF0000'; } else { document.getElementById('timer').style.color = '#FFA122'; } } var tm=setInterval('refr_time();' ,1000); </script>");
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
                 }
             });
         }
