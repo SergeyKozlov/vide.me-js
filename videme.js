@@ -664,21 +664,21 @@ target='_blank'>\
     }
 
     function parseFileInbox(parseFileInbox) {
-        $.each(parseFileInbox.results, function (key, value) {
+        $.each(parseFileInbox, function (key, value) {
             console.log("parseFileInbox.results[key] ----->" + JSON.stringify(parseFileInbox.results[key]));
             parseFileInbox[key] = {
-                'a': value.FromUserName,
-                'b': value.Subject,
-                'c': value.Message,
+                'a': value.fromUserName,
+                'b': value.subject,
+                'c': value.message,
                 'd': value.updatedAt,
-                'img': value.File,
-                'href': value.File,
-                'fromUserName': value.FromUserName,
-                'subject': value.Subject,
-                'message': value.Message,
+                'img': value.file,
+                'href': value.file,
+                'fromUserName': value.fromUserName,
+                'subject': value.subject,
+                'message': value.message,
                 'updatedAt': value.updatedAt,
-                'file': value.File,
-                'messageid': value.objectId
+                'file': value.file,
+                'messageid': value.id
             };
         });
         delete parseFileInbox.results;
