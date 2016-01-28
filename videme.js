@@ -1969,7 +1969,7 @@ $(document).ready(function () {
         $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
             function (data) {
                 console.log("user/info data -----> " + JSON.stringify(data));
-                if (data.value.value.userPicture === '') {
+                if (data.value.userPicture === '') {
                     $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.value.userPicture + "'></a>");
                 } else {
                     $('#user_brand').html("<a href='" + data.value.userLink + "' target='_blank'> <img src='" + data.value.userPicture + "' width='48' height='48' alt='" + data.value.userDisplayName + "'></a>");
