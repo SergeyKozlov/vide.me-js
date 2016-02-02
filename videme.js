@@ -1969,20 +1969,20 @@ $(document).ready(function () {
         $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
             function (data) {
                 console.log("user/info data -----> " + JSON.stringify(data));
-                if (data.value.userPicture === '') {
-                    $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.value.userPicture + "'></a>");
+                if (data.userPicture === '') {
+                    $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.userPicture + "'></a>");
                 } else {
-                    $('#user_brand').html("<a href='" + data.value.userLink + "' target='_blank'> <img src='" + data.value.userPicture + "' width='48' height='48' alt='" + data.value.userDisplayName + "'></a>");
+                    $('#user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' width='48' height='48' alt='" + data.userDisplayName + "'></a>");
                 }
-                $('#user_name').html("<a href='" + data.value.userLink + "' target='_blank'>" + data.value.userDisplayName + "</a>");
-                $('#user_email').html(data.value.userEmail);
-                if (data.value.userPicture === '') {
-                    $('#form_user_brand').html("<a href='" + data.value.userLink + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.value.userDisplayName + "'></a>");
+                $('#user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
+                $('#user_email').html(data.userEmail);
+                if (data.userPicture === '') {
+                    $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.userDisplayName + "'></a>");
                 } else {
-                    $('#form_user_brand').html("<a href='" + data.value.userLink + "' target='_blank'> <img src='" + data.value.userPicture + "' alt='" + data.value.userDisplayName + "'></a>");
+                    $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' alt='" + data.userDisplayName + "'></a>");
                 }
-                $('#form_user_name').html("<a href='" + data.value.userLink + "' target='_blank'>" + data.value.userDisplayName + "</a>");
-                $('#form_user_email').html(data.value.userEmail);
+                $('#form_user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
+                $('#form_user_email').html(data.userEmail);
             }
         );
         /*Волшебное использование куки ===============================================*/
