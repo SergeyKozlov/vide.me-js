@@ -76,7 +76,7 @@
         tempObject.html(VidemeProgress);
         $.getJSON("https://api.vide.me/file/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
             function (data) {
-                if (data.results) {
+                if (data) {
                     console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileSent(data), tempObject, "file-sent-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonSent(data[0]));
@@ -111,7 +111,7 @@
         tempObject.html(VidemeProgress);
         $.getJSON("https://api.vide.me/file/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
             function (data) {
-                if (data.results) {
+                if (data) {
                     console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileMy(data), tempObject, "file-my-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
@@ -146,7 +146,7 @@
         tempObject.html(VidemeProgress);
         $.getJSON("https://api.vide.me/file/myspring/?limit=" + fileMySpringSettings.limit + "&videmecallback=?",
             function (data) {
-                if (data.results) {
+                if (data) {
                     console.log("$.fn.fileMySpring data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-myspring-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
