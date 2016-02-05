@@ -634,6 +634,7 @@ target='_blank'>\
         var html = [];
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
+            console.log("showTile ---> " + JSON.stringify(value));
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
