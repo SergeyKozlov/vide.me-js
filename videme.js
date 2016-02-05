@@ -664,9 +664,34 @@ target='_blank'>\
         return html;
     }
 
+    function paddingData(paddingData) {
+        $.each(paddingData, function (key, value) {
+            console.log("paddingData[key] ----->" + JSON.stringify(paddingData[key]));
+            //console.log("paddingData value ----->" + JSON.stringify(value));
+/*            paddingData[key] = {
+                'a': value.value.fromUserName,
+                'b': value.value.subject,
+                'c': value.value.message,
+                'd': value.value.updatedAt,
+                'img': value.value.file,
+                'href': value.value.file,
+                'fromUserName': value.value.fromUserName,
+                'subject': value.value.subject,
+                'message': value.value.message,
+                'updatedAt': value.value.updatedAt,
+                'file': value.value.file,
+                'messageid': value.id
+            };*/
+        });
+        //delete paddingData.results;
+        console.log("paddingData ----->" + JSON.stringify(paddingData));
+        return paddingData;
+    }
+
     function parseFileInbox(parseFileInbox) {
         $.each(parseFileInbox, function (key, value) {
             console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
+            //console.log("parseFileInbox paddingData ----->" + paddingData(value)); // <<-------------------
             //console.log("parseFileInbox value ----->" + JSON.stringify(value));
             parseFileInbox[key] = {
                 'a': value.value.fromUserName,
