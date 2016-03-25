@@ -296,24 +296,24 @@
             function (b) {
                 /* Показать первый расклад */
                 var a = [];
-                $.each(b.results, function (d, c) {
+                $.each(b, function (d, c) {
                     /* Выйти после 3 интерации */
                     if (d > 2) return false;
                     a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='https://vide.me/v?m=" + c.File + "' \
+file-value='#" + c.value.file + "' \
+messageid-value='#" + c.value.docId + "' \
+FromUserName-value='#' \
+updatedAt-value='#" + c.value.updatedAt + "' \
+Subject-value='#" + c.value.subject + "' \
+Message-value='#" + c.value.message + "' \
+href='https://vide.me/v?m=" + c.value.file + "' \
 target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
-		<div class=''>" + c.File + "</div>\
+			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
+		<div class=''>" + c.value.file + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -322,7 +322,7 @@ target='_blank'>\
                 /* Всё слепить и показать */
                 $(".videme-shownew-tile").html(a.join(""));
                 /* Вычисилить максимальное число страниц */
-                var pagetotal = Math.ceil(b.results.length / 3);
+                var pagetotal = Math.ceil(b.length / 3);
                 /* Объявить экземпляр пейджинатора */
                 $('.videme-shownew-pagination').jqPagination({
                     //link_string	: '/?page={page_number}',
@@ -337,24 +337,24 @@ target='_blank'>\
                         $.getJSON("https://api.vide.me/file/shownew/?limit=3&skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
-                                $.each(b.results, function (d, c) {
+                                $.each(b, function (d, c) {
                                     /* Выйти после 3 интерации */
                                     if (d > 2) return false;
                                     a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='https://vide.me/v?m=" + c.File + "' \
+file-value='#" + c.value.file + "' \
+messageid-value='#" + c.value.docId + "' \
+FromUserName-value='#' \
+updatedAt-value='#" + c.value.updatedAt + "' \
+Subject-value='#" + c.value.subject + "' \
+Message-value='#" + c.value.message + "' \
+href='https://vide.me/v?m=" + c.value.file + "' \
 target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
-		<div class=''>" + c.File + "</div>\
+			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
+		<div class=''>" + c.value.file + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -405,23 +405,23 @@ target='_blank'>\
         $.getJSON("https://api.vide.me/file/showpop/?limit=3&videmecallback=?",
             function (b) {
                 var a = [];
-                $.each(b.results, function (d, c) {
+                $.each(b, function (d, c) {
                     if (d > 2) return false;
                     a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='https://vide.me/v?m=" + c.File + "' \
+file-value='#" + c.value.file + "' \
+messageid-value='#" + c.value.docId + "' \
+FromUserName-value='#' \
+updatedAt-value='#" + c.value.updatedAt + "' \
+Subject-value='#" + c.value.subject + "' \
+Message-value='#" + c.value.message + "' \
+href='https://vide.me/v?m=" + c.value.file + "' \
 target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
-		<div class=''>" + c.File + "</div>\
+			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
+		<div class=''>" + c.value.file + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -439,23 +439,23 @@ target='_blank'>\
                         $.getJSON("https://api.vide.me/file/showpop/?limit=3&skip=" + skip + "&videmecallback=?",
                             function (b) {
                                 var a = [];
-                                $.each(b.results, function (d, c) {
+                                $.each(b, function (d, c) {
                                     if (d > 2) return false;
                                     a.push("\
 <div class='box'>\
 	<div class='boxInner'>\
 		<a class='shownext' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='https://vide.me/v?m=" + c.File + "' \
+file-value='#" + c.value.file + "' \
+messageid-value='#" + c.value.docId + "' \
+FromUserName-value='#' \
+updatedAt-value='#" + c.value.updatedAt + "' \
+Subject-value='#" + c.value.subject + "' \
+Message-value='#" + c.value.message + "' \
+href='https://vide.me/v?m=" + c.value.file + "' \
 target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
-		<div class=''>" + c.File + "</div>\
+			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
+		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
+		<div class=''>" + c.value.file + "</div>\
 		</a>\
 	</div>\
 </div>\
@@ -1311,21 +1311,21 @@ target='_blank'>\
         tempObject.html(VidemeProgress);
         $.getJSON("https://api.vide.me/list/?limit=" + showListSettings.limit + "&videmecallback=?",
             function (data) {
-                if (data.results) {
+                if (data) {
                     console.log("$.fn.showList data -----> yes" + JSON.stringify(data));
                     var results = [];
                     //$.each(data['results'], function (key, value) {
-                    $.each(data.results, function (key, value) {
+                    $.each(data, function (key, value) {
                         results.push("\
 <div class='well well-lg'>\
   <span class=\"badge\">" + (key + 1) + "</span>\
-	<a href='https://vide.me/rec.html?email=" + value.ListName + "'>\
-		" + value.ListName + "\
+	<a href='#" + value.value.list + "'>\
+		" + value.value.list + "\
 	</a>\
 	<button type='button' \
 		class='btn btn-primary pull-right list-edit-toggle' data-toggle='modal' \
 		data-target='#modal-edit-list' \
-		list='" + value.ListName + "'>\
+		list='" + value.value.list + "'>\
 		<span class='glyphicon glyphicon-edit'></span> Edit\
 	</button>\
 </div>\
@@ -1334,7 +1334,7 @@ target='_blank'>\
                     tempObject.html(results.join(""));
                 } else {
                     console.log("$.fn.showList data -----> no");
-                    tempObject.html("No contact");
+                    tempObject.html("No list");
                 }
             })
             .done(function (data) {
@@ -2536,8 +2536,9 @@ message-value='#" + Message.substr(1) + "'>\
         event.preventDefault();
         var $this = $(this);
         var list = $this.attr('list');
+        console.log(".list-edit-toggle click list: -----> " + $this.attr('list'));
         list.replace(/.*(?=#[^\s]+$)/, '');
-        $('#list').val(list);
+        $('#editlist').val(list);
         $('#newlist').val(list);
         $(".list-del-toggle").attr("list", list);
     });
@@ -3153,7 +3154,7 @@ message-value='#" + Message.substr(1) + "'>\
         $(this).find('#email').focus();
     });
     $("#modal-create-list").on('shown.bs.modal', function () {
-        $(this).find('#list').focus();
+        $(this).find('#createlist').focus();
     });
     $("#modal-edit-list").on('shown.bs.modal', function () {
         $(this).find('#newlist').focus();
