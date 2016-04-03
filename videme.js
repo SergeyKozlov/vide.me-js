@@ -656,11 +656,18 @@ target='_blank'>\
                 c = value.c;
             } else {
                 c = "";
-            }var d;
+            }
+            var d;
             if (value.d) {
                 d = value.d;
             } else {
                 d = "";
+            }
+            var href;
+            if (value.messageid) {
+                href = "https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid;
+            } else {
+                href = "https://vide.me/v?m=" + value.href;
             }
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
@@ -673,7 +680,7 @@ target='_blank'>\
 						updatedAt='" + convertTimestamp(value.updatedAt) + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
-						href='https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid + "' target='_blank'>\
+						href='" + href + "' target='_blank'>\
 			<div class='titleTop'>\
 						 " + a + "<br>\
 						 " + b + "<br>\
