@@ -295,9 +295,9 @@
         $.getJSON("https://api.vide.me/file/shownew/?limit=3&videmecallback=?",
             function (b) {
                 /* Показать первый расклад */
-                var a = [];
+                /*var a = [];
                 $.each(b, function (d, c) {
-                    /* Выйти после 3 интерации */
+                    /!* Выйти после 3 интерации *!/
                     if (d > 2) return false;
                     a.push("\
 <div class='box'>\
@@ -318,9 +318,13 @@ target='_blank'>\
 	</div>\
 </div>\
 				")
+
+
                 });
+                $(".videme-shownew-tile").html(a.join(""));*/
                 /* Всё слепить и показать */
-                $(".videme-shownew-tile").html(a.join(""));
+                $(".videme-shownew-tile").html(showTile(parseFileMy(b), $(".videme-shownew-tile"), "shownext"));
+
                 /* Вычисилить максимальное число страниц */
                 var pagetotal = Math.ceil(b.length / 3);
                 /* Объявить экземпляр пейджинатора */
@@ -635,6 +639,36 @@ target='_blank'>\
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
             console.log("showTile ---> " + JSON.stringify(value));
+            var a;
+            if (value.a) {
+                a = value.a;
+            } else {
+                a = "";
+            }
+            var b;
+            if (value.b) {
+                b = value.b;
+            } else {
+                b = "";
+            }
+            var c;
+            if (value.c) {
+                c = value.c;
+            } else {
+                c = "";
+            }
+            var d;
+            if (value.d) {
+                d = value.d;
+            } else {
+                d = "";
+            }
+            var href;
+            if (value.messageid) {
+                href = "https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid;
+            } else {
+                href = "https://vide.me/v?m=" + value.href;
+            }
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
@@ -646,12 +680,12 @@ target='_blank'>\
 						updatedAt='" + convertTimestamp(value.updatedAt) + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
-						href='https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid + "' target='_blank'>\
+						href='" + href + "' target='_blank'>\
 			<div class='titleTop'>\
-						 " + value.a + "<br>\
-						 " + value.b + "<br>\
-						 " + value.c + "<br>\
-						 " + value.d + "<br>\
+						 " + a + "<br>\
+						 " + b + "<br>\
+						 " + c + "<br>\
+						 " + convertTimestamp(d) + "<br>\
 			</div>\
 						 <img src='https://api.vide.me/img/?i=" + value.img + ".jpg' alt=''>\
 						 </img>\
@@ -740,11 +774,23 @@ target='_blank'>\
 
     function parseFileMy(parseFileMy) {
         $.each(parseFileMy, function (key, value) {
+            var subject;
+            if (value.value.subject) {
+                subject = value.value.subject;
+            } else {
+                subject = "";
+            }
+            var message;
+            if (value.value.message) {
+                message = value.value.message;
+            } else {
+                message = "";
+            }
             parseFileMy[key] = {
                 //'a': value.ToUserName,
-                'a': value.value.subject,
-                'b': value.value.message,
-                'c': value.value.updatedAt,
+                'a': subject,
+                'b': message,
+                'd': value.value.updatedAt,
                 'img': value.value.file,
                 'href': value.value.file,
                 //'toUserName': value.ToUserName,
@@ -765,7 +811,7 @@ target='_blank'>\
                 //'a': value.ToUserName,
                 'a': value.value.subject,
                 'b': value.value.message,
-                'c': value.value.updatedAt,
+                'd': value.value.updatedAt,
                 'img': value.value.file,
                 'href': value.value.file,
                 //'toUserName': value.ToUserName,
