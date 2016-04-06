@@ -636,9 +636,11 @@ target='_blank'>\
             var tempObjectClass = "";
         }
         var html = [];
+        console.log("$.fn.showTile showFile length -----> " + showFile.length);
+
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
-            console.log("showTile ---> " + JSON.stringify(value));
+            //console.log("showTile ---> " + JSON.stringify(value));
             var a;
             if (value.a) {
                 a = value.a;
