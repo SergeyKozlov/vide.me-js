@@ -659,13 +659,13 @@ target='_blank'>\
             }
             var d;
             if (value.d) {
-                d = value.d + "<br>";
+                d = convertTimestamp(value.d) + "<br>";
             } else {
                 d = "";
             }
             var videoDuration;
             if (value.videoDuration) {
-                videoDuration = value.videoDuration + "<br>";
+                videoDuration = sec2str(value.videoDuration) + "<br>";
             } else {
                 videoDuration = "";
             }
@@ -691,7 +691,7 @@ target='_blank'>\
 						 " + a + "\
 						 " + b + "\
 						 " + c + "\
-						 " + convertTimestamp(d) + "<br>\
+						 " + d + "\
 						 " + videoDuration + "\
 			</div>\
 						 <img src='https://api.vide.me/img/?i=" + value.img + ".jpg' alt=''>\
