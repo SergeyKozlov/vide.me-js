@@ -641,27 +641,33 @@ target='_blank'>\
             console.log("showTile ---> " + JSON.stringify(value));
             var a;
             if (value.a) {
-                a = value.a;
+                a = value.a + "<br>";
             } else {
                 a = "";
             }
             var b;
             if (value.b) {
-                b = value.b;
+                b = value.b + "<br>";
             } else {
                 b = "";
             }
             var c;
             if (value.c) {
-                c = value.c;
+                c = value.c + "<br>";
             } else {
                 c = "";
             }
             var d;
             if (value.d) {
-                d = value.d;
+                d = value.d + "<br>";
             } else {
                 d = "";
+            }
+            var videoDuration;
+            if (value.videoDuration) {
+                videoDuration = value.videoDuration + "<br>";
+            } else {
+                videoDuration = "";
             }
             var href;
             if (value.messageid) {
@@ -682,10 +688,11 @@ target='_blank'>\
 						message='" + value.message + "' \
 						href='" + href + "' target='_blank'>\
 			<div class='titleTop'>\
-						 " + a + "<br>\
-						 " + b + "<br>\
-						 " + c + "<br>\
+						 " + a + "\
+						 " + b + "\
+						 " + c + "\
 						 " + convertTimestamp(d) + "<br>\
+						 " + videoDuration + "\
 			</div>\
 						 <img src='https://api.vide.me/img/?i=" + value.img + ".jpg' alt=''>\
 						 </img>\
@@ -725,6 +732,15 @@ target='_blank'>\
         return time;
     }
 
+    function sec2str(t){
+        var d = Math.floor(t/86400),
+            h = ('0'+Math.floor(t/3600) % 24).slice(-2),
+            m = ('0'+Math.floor(t/60)%60).slice(-2),
+            s = ('0' + t % 60).slice(-2);
+        //return (d>0?d+'d ':'')+(h>0?h+':':'')+(m>0?m+':':'')+(t>60?s:s+'s');
+        return (d>0?d+'d ':'')+(h>0?h+':':'')+(m>0?m+':':'')+(t>60?s:s+'s');
+    }
+
     function parseFileInbox(parseFileInbox) {
         $.each(parseFileInbox, function (key, value) {
             console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
@@ -742,7 +758,8 @@ target='_blank'>\
                 'message': value.value.message,
                 'updatedAt': value.value.updatedAt,
                 'file': value.value.file,
-                'messageid': value.id
+                'messageid': value.id,
+                'videoDuration': value.value.videoDuration
             };
         });
         //delete parseFileInbox.results;
@@ -765,7 +782,8 @@ target='_blank'>\
                 'updatedAt': value.value.updatedAt,
                 'file': value.value.file,
                 //'objectId': value.objectId
-                'messageid': value.id
+                'messageid': value.id,
+                'videoDuration': value.value.videoDuration
             };
         });
         //delete parseFileSent.results;
@@ -797,7 +815,8 @@ target='_blank'>\
                 'subject': value.value.subject,
                 'message': value.value.message,
                 'updatedAt': value.value.updatedAt,
-                'file': value.value.file
+                'file': value.value.file,
+                'videoDuration': value.value.videoDuration
             };
         });
         //delete parseFileMy.results;
