@@ -1609,7 +1609,7 @@ target='_blank'>\
                         console.log(".contact-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
                         $.each(data, function (key, value) {
-                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.value.userEmail + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.value.userEmail + "</span>(last update " + value.value.updatedAt + ")</a> ");
+                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.value.userEmail + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.value.userEmail + "</span></a> ");
                         });
                         $('.videme-contact-list').html(results.join(""));
                     } else {
