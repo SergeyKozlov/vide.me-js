@@ -1315,28 +1315,30 @@ target='_blank'>\
         $.getJSON("https://api.vide.me/contact/?limit=" + showContactSettings.limit + "&videmecallback=?",
             function (data) {
                 // TODO: Попробовать без куки nad
-                if (data.results) {
+                console.log("$.fn.showContact data -----> " + data);
+                if (data) {
                     console.log("$.fn.showContact data -----> yes" + JSON.stringify(data));
                     var results = [];
                     //$.each(data['results'], function (key, value) {
-                    $.each(data.results, function (key, value) {
+                    $.each(data, function (key, value) {
                         results.push("\
                         <div class='well well-lg'>\
                             <span class=\"badge\">" + (key + 1) + "</span>\
-	<a href='https://vide.me/rec.html?email=" + value.Email + "'>\
-		" + value.Email + "\
+	<a href='https://vide.me/rec.html?email=" + value.value.userEmail + "'>\
+		" + value.value.userEmail + "\
 		<button type='button' \
 			class='btn btn-default pull-right btn-sm' data-toggle='modal' \
-			email-value='#" + value.Email + "'> \
+			email-value='#" + value.value.userEmail + "'> \
 			<span class='glyphicon glyphicon-envelope'></span> Send video email\
 		</button>\
 	</a>\
 	<button type='button' \
 		class='btn btn-default pull-right btn-sm contact-edit-toggle' data-toggle='modal' \
 		data-target='#modal-edit-contact' \
-		email='" + value.Email + "'>\
+		email='" + value.value.userEmail + "'>\
 		<span class='glyphicon glyphicon-edit'></span> Edit\
 	</button>\
+	(last update at: " + convertTimestamp(value.value.updatedAt) + ")\
 </div>\
 ");
                     });
@@ -1359,7 +1361,7 @@ target='_blank'>\
      v2 Функция показать List
      ***************************************************************************/
     $.fn.showList = function (options) {
-        console.log("$.fn.showContact -----> ok");
+        console.log("$.fn.showList -----> ok");
         showListSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
@@ -1587,11 +1589,12 @@ target='_blank'>\
      v2 Событие 3: нажата кнопка вызова и отрисовки контактов в модальном окне
      **************************************************************/
         // TODO: Попробовать так:
+    /*
     $('#myTabs a').click(function (e) {
         e.preventDefault()
         $(this).tab('show')
     });
-
+*/
     $(document).on('click', '.contact-toggle', function (event) {
         console.log(".contact-toggle -----> click");
         event.stopPropagation();
@@ -1602,11 +1605,11 @@ target='_blank'>\
             $.getJSON("https://api.vide.me/contact/?videmecallback=?",
                 function (data) {
                     // TODO: Попробовать без куки nad
-                    if (data.results) {
+                    if (data) {
                         console.log(".contact-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
-                        $.each(data.results, function (key, value) {
-                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.Email + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.Email + "</span></a> ");
+                        $.each(data, function (key, value) {
+                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.value.userEmail + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.value.userEmail + "</span>(last update " + value.value.updatedAt + ")</a> ");
                         });
                         $('.videme-contact-list').html(results.join(""));
                     } else {
