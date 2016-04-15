@@ -285,12 +285,12 @@
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
-
+/*
         var data = $.fn.showNewVideo({
             //msg: msg
-        });
-        console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
-        console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
+        });*/
+        //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
+        //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
         $.getJSON("https://api.vide.me/file/shownew/?limit=3&videmecallback=?",
             function (b) {
@@ -636,9 +636,11 @@ target='_blank'>\
             var tempObjectClass = "";
         }
         var html = [];
+        console.log("showTile showFile.length -----> " + showFile.length);
+
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
-            console.log("showTile ---> " + JSON.stringify(value));
+            //console.log("showTile ---> " + JSON.stringify(value));
             var a;
             if (value.a) {
                 a = value.a + "<br>";
@@ -675,6 +677,12 @@ target='_blank'>\
             } else {
                 href = "https://vide.me/v?m=" + value.href;
             }
+            if (value.tags) {
+                console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
+            } else {
+                console.log("showTile value.tags -----> empty");
+            }
+
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
@@ -759,7 +767,8 @@ target='_blank'>\
                 'updatedAt': value.value.updatedAt,
                 'file': value.value.file,
                 'messageid': value.id,
-                'videoDuration': value.value.videoDuration
+                'videoDuration': value.value.videoDuration,
+                'tags': value.value.tags
             };
         });
         //delete parseFileInbox.results;
@@ -783,7 +792,8 @@ target='_blank'>\
                 'file': value.value.file,
                 //'objectId': value.objectId
                 'messageid': value.id,
-                'videoDuration': value.value.videoDuration
+                'videoDuration': value.value.videoDuration,
+                'tags': value.value.tags
             };
         });
         //delete parseFileSent.results;
@@ -816,7 +826,8 @@ target='_blank'>\
                 'message': value.value.message,
                 'updatedAt': value.value.updatedAt,
                 'file': value.value.file,
-                'videoDuration': value.value.videoDuration
+                'videoDuration': value.value.videoDuration,
+                'tags': value.value.tags
             };
         });
         //delete parseFileMy.results;
@@ -872,7 +883,9 @@ target='_blank'>\
             'contact-toggle': {
                 'file': paddingButtonInbox.file,
                 'subject': paddingButtonInbox.subject,
-                'message': paddingButtonInbox.message
+                'message': paddingButtonInbox.message,
+                'videoDuration': paddingButtonInbox.videoDuration,
+                'tags': paddingButtonInbox.tags
             },
             'del-inbox-toggle': {
                 'file': paddingButtonInbox.file,
@@ -1087,6 +1100,11 @@ target='_blank'>\
         $(".videme-showcase-subject").html(showcaseTextSettings.subject);
         $(".videme-showcase-message").html(showcaseTextSettings.message);
         $(".videme-showcase-updatedat").html(showcaseTextSettings.updatedAt);
+        if (showcaseTextSettings.tags) {
+            console.log("$.fn.showcaseText showcaseTextSettings.tags -----> " + JSON.stringify(showcaseTextSettings.tags));
+        } else {
+            console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
+        }
     };
 
     $.fn.showcaseButton = function (options) {
