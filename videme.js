@@ -329,9 +329,10 @@ target='_blank'>\
                 var pagetotal = Math.ceil(b.length / 3);
                 /* Объявить экземпляр пейджинатора */
                 $('.videme-shownew-pagination').jqPagination({
-                    //link_string	: '/?page={page_number}',
+                //link_string	: '/?page={page_number}',
                     max_page: pagetotal,
                     paged: function (page) {
+                        console.log("$.fn.showNewVideoPagination jqPagination -----> ok");
                         /* Пропустить страниц = текущая страница * элементов на странице */
                         var skip = (page - 1) * 3;
 //alert("\n\r shownew pagetotal = " + pagetotal +
