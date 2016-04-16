@@ -285,12 +285,12 @@
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
-
+/*
         var data = $.fn.showNewVideo({
             //msg: msg
-        });
-        console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
-        console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
+        });*/
+        //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
+        //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
         $.getJSON("https://api.vide.me/file/shownew/?limit=3&videmecallback=?",
             function (b) {
@@ -329,9 +329,10 @@ target='_blank'>\
                 var pagetotal = Math.ceil(b.length / 3);
                 /* Объявить экземпляр пейджинатора */
                 $('.videme-shownew-pagination').jqPagination({
-                    //link_string	: '/?page={page_number}',
+                //link_string	: '/?page={page_number}',
                     max_page: pagetotal,
                     paged: function (page) {
+                        console.log("$.fn.showNewVideoPagination jqPagination -----> ok");
                         /* Пропустить страниц = текущая страница * элементов на странице */
                         var skip = (page - 1) * 3;
 //alert("\n\r shownew pagetotal = " + pagetotal +
@@ -636,34 +637,40 @@ target='_blank'>\
             var tempObjectClass = "";
         }
         var html = [];
-        console.log("$.fn.showTile showFile length -----> " + showFile.length);
+        console.log("showTile showFile.length -----> " + showFile.length);
 
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
             //console.log("showTile ---> " + JSON.stringify(value));
             var a;
             if (value.a) {
-                a = value.a;
+                a = value.a + "<br>";
             } else {
                 a = "";
             }
             var b;
             if (value.b) {
-                b = value.b;
+                b = value.b + "<br>";
             } else {
                 b = "";
             }
             var c;
             if (value.c) {
-                c = value.c;
+                c = value.c + "<br>";
             } else {
                 c = "";
             }
             var d;
             if (value.d) {
-                d = value.d;
+                d = convertTimestamp(value.d) + "<br>";
             } else {
                 d = "";
+            }
+            var videoDuration;
+            if (value.videoDuration) {
+                videoDuration = sec2str(value.videoDuration) + "<br>";
+            } else {
+                videoDuration = "";
             }
             var href;
             if (value.messageid) {
@@ -671,6 +678,12 @@ target='_blank'>\
             } else {
                 href = "https://vide.me/v?m=" + value.href;
             }
+            if (value.tags) {
+                console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
+            } else {
+                console.log("showTile value.tags -----> empty");
+            }
+
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
@@ -684,10 +697,11 @@ target='_blank'>\
 						message='" + value.message + "' \
 						href='" + href + "' target='_blank'>\
 			<div class='titleTop'>\
-						 " + a + "<br>\
-						 " + b + "<br>\
-						 " + c + "<br>\
-						 " + convertTimestamp(d) + "<br>\
+						 " + a + "\
+						 " + b + "\
+						 " + c + "\
+						 " + d + "\
+						 " + videoDuration + "\
 			</div>\
 						 <img src='https://api.vide.me/img/?i=" + value.img + ".jpg' alt=''>\
 						 </img>\
@@ -727,6 +741,15 @@ target='_blank'>\
         return time;
     }
 
+    function sec2str(t){
+        var d = Math.floor(t/86400),
+            h = ('0'+Math.floor(t/3600) % 24).slice(-2),
+            m = ('0'+Math.floor(t/60)%60).slice(-2),
+            s = ('0' + t % 60).slice(-2);
+        //return (d>0?d+'d ':'')+(h>0?h+':':'')+(m>0?m+':':'')+(t>60?s:s+'s');
+        return (d>0?d+'d ':'')+(h>0?h+':':'')+(m>0?m+':':'')+(t>60?s:s+'s');
+    }
+
     function parseFileInbox(parseFileInbox) {
         $.each(parseFileInbox, function (key, value) {
             console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
@@ -744,7 +767,9 @@ target='_blank'>\
                 'message': value.value.message,
                 'updatedAt': value.value.updatedAt,
                 'file': value.value.file,
-                'messageid': value.id
+                'messageid': value.id,
+                'videoDuration': value.value.videoDuration,
+                'tags': value.value.tags
             };
         });
         //delete parseFileInbox.results;
@@ -767,7 +792,9 @@ target='_blank'>\
                 'updatedAt': value.value.updatedAt,
                 'file': value.value.file,
                 //'objectId': value.objectId
-                'messageid': value.id
+                'messageid': value.id,
+                'videoDuration': value.value.videoDuration,
+                'tags': value.value.tags
             };
         });
         //delete parseFileSent.results;
@@ -799,7 +826,9 @@ target='_blank'>\
                 'subject': value.value.subject,
                 'message': value.value.message,
                 'updatedAt': value.value.updatedAt,
-                'file': value.value.file
+                'file': value.value.file,
+                'videoDuration': value.value.videoDuration,
+                'tags': value.value.tags
             };
         });
         //delete parseFileMy.results;
@@ -855,7 +884,9 @@ target='_blank'>\
             'contact-toggle': {
                 'file': paddingButtonInbox.file,
                 'subject': paddingButtonInbox.subject,
-                'message': paddingButtonInbox.message
+                'message': paddingButtonInbox.message,
+                'videoDuration': paddingButtonInbox.videoDuration,
+                'tags': paddingButtonInbox.tags
             },
             'del-inbox-toggle': {
                 'file': paddingButtonInbox.file,
@@ -1070,6 +1101,11 @@ target='_blank'>\
         $(".videme-showcase-subject").html(showcaseTextSettings.subject);
         $(".videme-showcase-message").html(showcaseTextSettings.message);
         $(".videme-showcase-updatedat").html(showcaseTextSettings.updatedAt);
+        if (showcaseTextSettings.tags) {
+            console.log("$.fn.showcaseText showcaseTextSettings.tags -----> " + JSON.stringify(showcaseTextSettings.tags));
+        } else {
+            console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
+        }
     };
 
     $.fn.showcaseButton = function (options) {
@@ -1298,28 +1334,30 @@ target='_blank'>\
         $.getJSON("https://api.vide.me/contact/?limit=" + showContactSettings.limit + "&videmecallback=?",
             function (data) {
                 // TODO: Попробовать без куки nad
-                if (data.results) {
+                console.log("$.fn.showContact data -----> " + data);
+                if (data) {
                     console.log("$.fn.showContact data -----> yes" + JSON.stringify(data));
                     var results = [];
                     //$.each(data['results'], function (key, value) {
-                    $.each(data.results, function (key, value) {
+                    $.each(data, function (key, value) {
                         results.push("\
                         <div class='well well-lg'>\
                             <span class=\"badge\">" + (key + 1) + "</span>\
-	<a href='https://vide.me/rec.html?email=" + value.Email + "'>\
-		" + value.Email + "\
+	<a href='https://vide.me/rec.html?email=" + value.value.userEmail + "'>\
+		" + value.value.userEmail + "\
 		<button type='button' \
 			class='btn btn-default pull-right btn-sm' data-toggle='modal' \
-			email-value='#" + value.Email + "'> \
+			email-value='#" + value.value.userEmail + "'> \
 			<span class='glyphicon glyphicon-envelope'></span> Send video email\
 		</button>\
 	</a>\
 	<button type='button' \
 		class='btn btn-default pull-right btn-sm contact-edit-toggle' data-toggle='modal' \
 		data-target='#modal-edit-contact' \
-		email='" + value.Email + "'>\
+		email='" + value.value.userEmail + "'>\
 		<span class='glyphicon glyphicon-edit'></span> Edit\
 	</button>\
+	(last update at: " + convertTimestamp(value.value.updatedAt) + ")\
 </div>\
 ");
                     });
@@ -1342,7 +1380,7 @@ target='_blank'>\
      v2 Функция показать List
      ***************************************************************************/
     $.fn.showList = function (options) {
-        console.log("$.fn.showContact -----> ok");
+        console.log("$.fn.showList -----> ok");
         showListSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
@@ -1570,11 +1608,12 @@ target='_blank'>\
      v2 Событие 3: нажата кнопка вызова и отрисовки контактов в модальном окне
      **************************************************************/
         // TODO: Попробовать так:
+    /*
     $('#myTabs a').click(function (e) {
         e.preventDefault()
         $(this).tab('show')
     });
-
+*/
     $(document).on('click', '.contact-toggle', function (event) {
         console.log(".contact-toggle -----> click");
         event.stopPropagation();
@@ -1585,11 +1624,11 @@ target='_blank'>\
             $.getJSON("https://api.vide.me/contact/?videmecallback=?",
                 function (data) {
                     // TODO: Попробовать без куки nad
-                    if (data.results) {
+                    if (data) {
                         console.log(".contact-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
-                        $.each(data.results, function (key, value) {
-                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.Email + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.Email + "</span></a> ");
+                        $.each(data, function (key, value) {
+                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.value.userEmail + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.value.userEmail + "</span></a> ");
                         });
                         $('.videme-contact-list').html(results.join(""));
                     } else {
@@ -2063,6 +2102,7 @@ $(document).ready(function () {
             }
         );
         /*Волшебное использование куки ===============================================*/
+        //console.log("vide_nad -----> " + $.cookie('vide_nad'));
         $('#nad').val($.cookie('vide_nad'));
         /*============================================================================*/
     }
