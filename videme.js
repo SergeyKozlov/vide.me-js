@@ -270,7 +270,7 @@
         console.log("$.fn.showNewVideoPagination -----> ok");
         showNewVideoPaginationSettings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6,
+            limit: 3,
             showNewVideo: ".videme-shownew-tile"
         }, options);
         /*        if ($(this).length) {
@@ -292,82 +292,25 @@
         //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/shownew/?limit=3&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/shownew/?videmecallback=?",
             function (b) {
                 /* Показать первый расклад */
-                /*var a = [];
-                $.each(b, function (d, c) {
-                    /!* Выйти после 3 интерации *!/
-                    if (d > 2) return false;
-                    a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='shownext' \
-file-value='#" + c.value.file + "' \
-messageid-value='#" + c.value.docId + "' \
-FromUserName-value='#' \
-updatedAt-value='#" + c.value.updatedAt + "' \
-Subject-value='#" + c.value.subject + "' \
-Message-value='#" + c.value.message + "' \
-href='https://vide.me/v?m=" + c.value.file + "' \
-target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
-		<div class=''>" + c.value.file + "</div>\
-		</a>\
-	</div>\
-</div>\
-				")
 
-
-                });
-                $(".videme-shownew-tile").html(a.join(""));*/
                 /* Всё слепить и показать */
-                $(".videme-shownew-tile").html(showTile(parseFileMy(b), $(".videme-shownew-tile"), "shownext"));
+                $(".videme-shownew-tile").html(showTile(parseFileMy(b.slice(0, showNewVideoPaginationSettings.limit)), $(".videme-shownew-tile"), "shownext"));
 
                 /* Вычисилить максимальное число страниц */
-                var pagetotal = Math.ceil(b.length / 3);
+                var pagetotal = Math.ceil(b.length / showNewVideoPaginationSettings.limit);
                 /* Объявить экземпляр пейджинатора */
                 $('.videme-shownew-pagination').jqPagination({
                 //link_string	: '/?page={page_number}',
                     max_page: pagetotal,
                     paged: function (page) {
-                        console.log("$.fn.showNewVideoPagination jqPagination -----> ok");
-                        /* Пропустить страниц = текущая страница * элементов на странице */
-                        var skip = (page - 1) * 3;
-//alert("\n\r shownew pagetotal = " + pagetotal +
-//"\n\r shownew page = " + page +
-//"\n\r shownew skip = " + skip
-//);
-                        $.getJSON("https://api.vide.me/file/shownew/?limit=3&skip=" + skip + "&videmecallback=?",
-                            function (b) {
-                                var a = [];
-                                $.each(b, function (d, c) {
-                                    /* Выйти после 3 интерации */
-                                    if (d > 2) return false;
-                                    a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='shownext' \
-file-value='#" + c.value.file + "' \
-messageid-value='#" + c.value.docId + "' \
-FromUserName-value='#' \
-updatedAt-value='#" + c.value.updatedAt + "' \
-Subject-value='#" + c.value.subject + "' \
-Message-value='#" + c.value.message + "' \
-href='https://vide.me/v?m=" + c.value.file + "' \
-target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
-		<div class=''>" + c.value.file + "</div>\
-		</a>\
-	</div>\
-</div>\
-					")
-                                });
-                                /* Всё слепить и показать */
-                                $(".videme-shownew-tile").html(a.join(""));
-                            });
+                        var skip = (page - 1) * showNewVideoPaginationSettings.limit;
+                        skip2 = skip;
+                        limit = skip2 + showNewVideoPaginationSettings.limit;
+                        console.log("$.fn.showNewVideoPagination jqPagination -----> skip: " + skip);
+                        $(".videme-shownew-tile").html(showTile(parseFileMy(b.slice(skip2, limit)), $(".videme-shownew-tile"), "shownext"));
                     }
                 });
             })
@@ -382,10 +325,10 @@ target='_blank'>\
     };
 
     $.fn.showPopVideoPagination = function (options) {
-        console.log("$.fn.showNewVideoPagination -----> ok");
+        console.log("$.fn.showPopVideoPagination -----> ok");
         showPopVideoPaginationSettings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6,
+            limit: 3,
             showPopVideo: ".videme-showpop-tile"
         }, options);
         /*        if ($(this).length) {
@@ -407,67 +350,23 @@ target='_blank'>\
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/showpop/?limit=3&videmecallback=?",
+        $.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
             function (b) {
-                var a = [];
-                $.each(b, function (d, c) {
-                    if (d > 2) return false;
-                    a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='shownext' \
-file-value='#" + c.value.file + "' \
-messageid-value='#" + c.value.docId + "' \
-FromUserName-value='#' \
-updatedAt-value='#" + c.value.updatedAt + "' \
-Subject-value='#" + c.value.subject + "' \
-Message-value='#" + c.value.message + "' \
-href='https://vide.me/v?m=" + c.value.file + "' \
-target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
-		<div class=''>" + c.value.file + "</div>\
-		</a>\
-	</div>\
-</div>\
-			")
-                });
-                $(".videme-showpop-tile").html(a.join(""));
+                console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(b));
 
-                var pagetotal = Math.ceil(b.results.length / 3); //example=2
+                $(".videme-showpop-tile").html(showTile(parseFileMy(b.slice(0, showPopVideoPaginationSettings.limit)), $(".videme-showpop-tile"), "shownext"));
+
+                var pagetotal = Math.ceil(b.length / showPopVideoPaginationSettings.limit); //example=2
 
                 $('.videme-showpop-pagination').jqPagination({
                     //link_string	: '/?page={page_number}',
                     max_page: pagetotal,
                     paged: function (page) {
-                        var skip = (page - 1) * 3;
-                        $.getJSON("https://api.vide.me/file/showpop/?limit=3&skip=" + skip + "&videmecallback=?",
-                            function (b) {
-                                var a = [];
-                                $.each(b, function (d, c) {
-                                    if (d > 2) return false;
-                                    a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='shownext' \
-file-value='#" + c.value.file + "' \
-messageid-value='#" + c.value.docId + "' \
-FromUserName-value='#' \
-updatedAt-value='#" + c.value.updatedAt + "' \
-Subject-value='#" + c.value.subject + "' \
-Message-value='#" + c.value.message + "' \
-href='https://vide.me/v?m=" + c.value.file + "' \
-target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.value.file + ".jpg\" alt=\"" + c.value.updatedAt + "\" title=\"" + c.value.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.value.updatedAt + "</div>\
-		<div class=''>" + c.value.file + "</div>\
-		</a>\
-	</div>\
-</div>\
-			")
-                                });
-                                $(".videme-showpop-tile").html(a.join(""));
-                            });
+                        var skip = (page - 1) * showPopVideoPaginationSettings.limit;
+                        skip2 = skip;
+                        limit = skip2 + showPopVideoPaginationSettings.limit;
+                        console.log("$.fn.showPopVideoPagination jqPagination -----> skip: " + skip);
+                        $(".videme-showpop-tile").html(showTile(parseFileMy(b.slice(skip2, limit)), $(".videme-showpop-tile"), "shownext"));
                     }
                 });
 
@@ -638,10 +537,12 @@ target='_blank'>\
         }
         var html = [];
         console.log("showTile showFile.length -----> " + showFile.length);
-
+        //maxTile = (maxTile - 1) || 18;
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
             //console.log("showTile ---> " + JSON.stringify(value));
+            //if (d > maxTile) return false;
+
             var a;
             if (value.a) {
                 a = value.a + "<br>";
