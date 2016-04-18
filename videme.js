@@ -869,7 +869,7 @@ target='_blank'>\
             console.log("authorized -----> true");
             var sourseURL = "https://gu.vide.me/vic?m=";
         } else {
-            console.log("authorized -----> false");
+            console.log("authorized ------> false");
             var sourseURL = "https://gu.vide.me/vi?m=";
         }
         if ($(this).length) {
