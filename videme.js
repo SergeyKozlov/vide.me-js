@@ -897,9 +897,16 @@ target='_blank'>\
         }, function () {
             var showcasePlayerFunc = this;
             resizeVideoJS(showcasePlayerFunc);
+
+            if (showcaseVideoSettings.messageid.length > 0) {
+                messageAdd = "&messageid=" + showcaseVideoSettings.messageid;
+            } else {
+                messageAdd = "";
+            }
+
             showcasePlayerFunc.src({
                 type: "video/mp4",
-                src: sourseURL + showcaseVideoSettings.file + "&messageid=" + showcaseVideoSettings.messageid
+                src: sourseURL + showcaseVideoSettings.file + messageAdd
             });
             showcasePlayerFunc.controls(true);
             showcasePlayerFunc.load();
