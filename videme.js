@@ -1456,8 +1456,7 @@ target='_blank'>\
         event.preventDefault();
         var $this = $(this);
         var email = $this.attr('email');
-        $('#email').val(email);
-        $('#newemail').val(email);
+        $('#new-email').val(email);
         $(".contact-del-toggle").attr("email", email);
     });
 
