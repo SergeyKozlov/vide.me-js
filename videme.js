@@ -1211,7 +1211,7 @@ target='_blank'>\
         $.each(parseArticleShowNew, function (key, value) {
             parseArticleShowNew[key] = {
                 'a': value.value.date,
-                'b': value.value.username,
+                'b': value.value.userDisplayName,
                 'c': value.value.title,
                 'img': value.value.cover,
                 'href': value.id
