@@ -382,11 +382,11 @@
     };
 
     $.fn.showNextVideoPagination = function (options) {
-        console.log("$.fn.showNewVideoPagination -----> ok");
+        console.log("$.fn.showNextVideoPagination -----> ok");
         showNextVideoPaginationSettings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6,
-            showNextVideo: ".videme-shownext-tile"
+            limit: 3,
+            showPopVideo: ".videme-shownext-tile"
         }, options);
         /*        if ($(this).length) {
          console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
@@ -404,6 +404,64 @@
          var data = $.fn.showNewVideo({
          //msg: msg
          });*/
+        //console.log("$.fn.showNextVideoPagination showNextVideoPaginationSettings -----> " + JSON.stringify(showNextVideoPaginationSettings));
+        //console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(data));
+
+        $.getJSON("https://api.vide.me/file/shownext/?videmecallback=?",
+            function (b) {
+                console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(b));
+
+                $(".videme-shownext-tile").html(showTile(parseFileMy(b.slice(0, showNextVideoPaginationSettings.limit)), $(".videme-shownext-tile"), "shownext"));
+
+                var pagetotal = Math.ceil(b.length / showNextVideoPaginationSettings.limit); //example=2
+
+                $('.videme-shownext-pagination').jqPagination({
+                    //link_string	: '/?page={page_number}',
+                    max_page: pagetotal,
+                    paged: function (page) {
+                        var skip = (page - 1) * showNextVideoPaginationSettings.limit;
+                        skip2 = skip;
+                        limit = skip2 + showNextVideoPaginationSettings.limit;
+                        console.log("$.fn.showNextVideoPagination jqPagination -----> skip: " + skip);
+                        $(".videme-shownext-tile").html(showTile(parseFileMy(b.slice(skip2, limit)), $(".videme-shownext-tile"), "shownext"));
+                    }
+                });
+
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+/*
+
+    $.fn.showNextVideoPagination = function (options) {
+        console.log("$.fn.showNewVideoPagination -----> ok");
+        showNextVideoPaginationSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showNextVideo: ".videme-shownext-tile"
+        }, options);
+        /!*        if ($(this).length) {
+         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+         var tempObject = $(this);
+         } else {
+         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+         }
+         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+         tempObject.html(VidemeProgress);*!/
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        /!* Сделать запрос *!/
+        /!*
+         var data = $.fn.showNewVideo({
+         //msg: msg
+         });*!/
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
         var prevfile = $.cookie('vide_prev_file');
@@ -418,36 +476,36 @@
 //	var href = $this.attr('href');
 
 
-        /*
+        /!*
          $('.videme-video-element-center').html("\
          <video controls autoplay>\
          <source src='https://gu.vide.me/vic?m=" + ticketname + "&messageid=" + messageid + "' type='video/mp4'>\
          Your browser does not support the <code>video</code> element.\
          </video>\
          ");
-         */
+         *!/
 
 
-        /* ==
+        /!* ==
          $('.videme-panel-actor2').html(b['results'][0]['FromUserName']);
          $('.videme-panel-date2').html(b['results'][0]['updatedAt']);
          $('.videme-panel-subject2').html(b['results'][0]['Subject']);
          $('.videme-panel-message2').html(b['results'][0]['Message']);
-         */
+         *!/
         $(".videme-shownext-tile").html("<img src='data:image/gif;base64,R0lGODlhDQAMAKIAAP///7W1ta2trXNzczExMf4BAgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAFACwAAAAADQAMAAADIgi6zCIghDilejRbgK2fHPRloVaB3Umm5iWqGzuW49bcQAIAIfkEBQoABQAsAAABAAMACgAAAwhYRMrb8ElHEwAh+QQFCgAFACwAAAEADAAKAAADHlgzRVRCQLnai1Mxl3HlmLddkmh11IhqZ5i25QvGCQAh+QQFCgAFACwAAAEACQAKAAADGVgiNVOEKOagXO3FmS2vGwZelEZ2YemJZgIAIfkEBQoABQAsBAABAAgACgAAAxYYUTNFRDEHZXtx3appnpjliWFXglACACH5BAUKAAUALAcAAQAFAAoAAAMNGFEzym61N2WE9FZsEwA7' />");
 
-        /* Вставить проверку одинаковости файлов*/
+        /!* Вставить проверку одинаковости файлов*!/
 
-        /* Сделать запрос */
+        /!* Сделать запрос *!/
         $.getJSON("https://api.vide.me/file/shownext/?limit=12&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
             function (b) {
 
                 if (b.results.length > 2) {
 
-                    /* Показать первый расклад */
+                    /!* Показать первый расклад *!/
                     var a = [];
                     $.each(b.results, function (d, c) {
-                        /* Выйти после 3 интерации */
+                        /!* Выйти после 3 интерации *!/
                         if (d > 2) return false;
                         a.push("\
 <div class='box'>\
@@ -469,16 +527,16 @@ target='_blank'>\
 </div>\
 				")
                     });
-                    /* Всё слепить и показать */
+                    /!* Всё слепить и показать *!/
                     $(".videme-shownext-tile").html(a.join(""));
-                    /* Вычисилить максимальное число страниц */
+                    /!* Вычисилить максимальное число страниц *!/
                     var pagetotal = Math.ceil(b.results.length / 3); //example=2
-                    /* Объявить экземпляр пейджинатора */
+                    /!* Объявить экземпляр пейджинатора *!/
                     $('.videme-shownext-pagination').jqPagination({
                         //link_string	: '/?page={page_number}',
                         max_page: pagetotal,
                         paged: function (page) {
-                            /* Пропустить страниц = текущая страница * элементов на странице */
+                            /!* Пропустить страниц = текущая страница * элементов на странице *!/
                             //var skip = (page - 1) * 4;
                             var skip = (page - 1) * 3;
                             $.getJSON("https://api.vide.me/file/shownext/?limit=12&skip=" + skip + "&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
@@ -486,7 +544,7 @@ target='_blank'>\
 
                                     var a = [];
                                     $.each(b.results, function (d, c) {
-                                        /* Выйти после 3 интерации */
+                                        /!* Выйти после 3 интерации *!/
                                         if (d > 2) return false;
                                         a.push("\
 <div class='box'>\
@@ -508,7 +566,7 @@ target='_blank'>\
 </div>\
 					")
                                     });
-                                    /* Всё слепить и показать */
+                                    /!* Всё слепить и показать *!/
                                     $(".videme-shownext-tile").html(a.join(""));
 
                                 });
@@ -528,6 +586,7 @@ target='_blank'>\
             });
         //==});
     };
+*/
 
     function showTile(showFile, tempObject, actionUrlClass) {
         if (tempObject.width() < 500) {
