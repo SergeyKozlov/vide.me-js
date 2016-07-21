@@ -1096,6 +1096,31 @@ target='_blank'>\
         //});
     };
 
+    $.fn.showMyArticleDraft = function (options) {
+        articleShowMyDraftSettings = $.extend({
+            limit: 12
+        }, options);
+        $(this).html(VidemeProgress);
+        //return this.each(function () {
+            var TempObject = $(this);
+            $.getJSON("https://api.vide.me/article/mydraft/?limit=" + articleShowMyDraftSettings.limit + "&videmecallback=?",
+                function (data) {
+                    TempObject.html($.fn.showArticle({
+                        showArticle: parseArticleShowNew(data),
+                        TempObject: TempObject,
+                        button: "own"
+                    }));
+                })
+                .done(function () {
+                })
+                .fail(function (data) {
+                    TempObject.html(showError(data));
+                })
+                .always(function () {
+                });
+        //});
+    };
+
     $.fn.showCountUserArticle = function (options) {
         showCountUserArticle = $.extend({
             limit: 100,
@@ -2910,7 +2935,7 @@ message-value='#" + Message.substr(1) + "'>\
         $("#NewItemTag").click(function (event) {
             event.preventDefault();
             var element = $("\
-<input type=\"hidden\" name=\"article[tags][][tag]\" value=\"" + $("#TagValue").val() + "\">\
+<input type=\"hidden\" name=\"article[tags][" + $("#TagValue").val() + "]\" value=\"" + $("#TagValue").val() + "\">\
 <span class=\"label label-primary\">" + $("#TagValue").val() + "</span>\
 ");
 
