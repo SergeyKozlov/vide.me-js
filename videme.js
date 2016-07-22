@@ -386,17 +386,17 @@
         showNextVideoPaginationSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 3,
-            showPopVideo: ".videme-shownext-tile"
+            showNextVideo: ".videme-shownext-tile"
         }, options);
-        /*        if ($(this).length) {
-         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+         if ($(this).length) {
+         console.log("$.fn.showNextVideoPagination $(this) -----> yes " + $(this).length);
          var tempObject = $(this);
          } else {
-         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
-         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+         console.log("$.fn.showNextVideoPagination $(this) -----> nooo! " + $(this).length);
+         var tempObject = $(showNextVideoPaginationSettings.showNextVideo);
          }
          console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-         tempObject.html(VidemeProgress);*/
+         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
@@ -407,8 +407,14 @@
         //console.log("$.fn.showNextVideoPagination showNextVideoPaginationSettings -----> " + JSON.stringify(showNextVideoPaginationSettings));
         //console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/shownext/?videmecallback=?",
-            function (b) {
+        var prevfile = $.cookie('vide_prev_file');
+        var file = showNextVideoPaginationSettings.file;
+        //$.cookie("vide_prev_file", file);
+        $.cookie("vide_prev_file", file, {expires: 14, path: '/', domain: 'vide.me', secure: true});
+
+        $.getJSON("https://api.vide.me/file/shownext/?prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
+
+                function (b) {
                 console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(b));
 
                 $(".videme-shownext-tile").html(showTile(parseFileMy(b.slice(0, showNextVideoPaginationSettings.limit)), $(".videme-shownext-tile"), "shownext"));
@@ -431,7 +437,8 @@
             .done(function (data) {
             })
             .fail(function (data) {
-                tempObject.html(showError(data));
+                //tempObject.html(showError(data));
+                tempObject.html("...");
             })
             .always(function () {
             });
@@ -3309,4 +3316,17 @@ function getRealTime() {
     }
     var getRealTime = hour + ':' + minute + ':' + second;
     return getRealTime;
+}
+
+/*
+ How can I get query string values in JavaScript?
+ */
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
