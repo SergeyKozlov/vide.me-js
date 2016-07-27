@@ -1079,7 +1079,7 @@ target='_blank'>\
         showcaseTextSettings = $.extend({}, options);
         $(".videme-showcase-subject").html(showcaseTextSettings.subject);
         $(".videme-showcase-message").html(showcaseTextSettings.message);
-        $(".videme-showcase-updatedat").html(showcaseTextSettings.updatedAt);
+        $(".videme-showcase-updatedat").html(convertTimestamp(showcaseTextSettings.updatedAt));
         if (showcaseTextSettings.tags) {
             console.log("$.fn.showcaseText showcaseTextSettings.tags -----> " + JSON.stringify(showcaseTextSettings.tags));
         } else {
@@ -2087,7 +2087,7 @@ $(document).ready(function () {
 
     if ($.cookie('vide_nad')) {
         $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
-            function (data) {
+            function (data) { // TODO: check return data
                 console.log("user/info data -----> " + JSON.stringify(data));
                 if (data.userPicture === '') {
                     $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.userPicture + "'></a>");
