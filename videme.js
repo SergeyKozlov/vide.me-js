@@ -273,15 +273,15 @@
             limit: 3,
             showNewVideo: ".videme-shownew-tile"
         }, options);
-        /*        if ($(this).length) {
-         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
-         var tempObject = $(this);
+        if ($(this).length) {
+         console.log("$.fn.showNewVideoPagination $(this) -----> yes " + $(this).length);
+         var tempObjectNewVideo = $(this);
          } else {
-         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
-         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+         console.log("$.fn.showNewVideoPagination $(this) -----> nooo! " + $(this).length);
+         var tempObjectNewVideo = $(showNewVideoPaginationSettings.showNewVideo);
          }
-         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-         tempObject.html(VidemeProgress);*/
+         console.log("$.fn.showNewVideo tempObject -----> " + tempObjectNewVideo.length);
+         tempObjectNewVideo.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
@@ -293,14 +293,14 @@
         //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
         $.getJSON("https://api.vide.me/file/shownew/?videmecallback=?",
-            function (b) {
+            function (jsonData) {
                 /* Показать первый расклад */
 
                 /* Всё слепить и показать */
-                $(".videme-shownew-tile").html(showTile(parseFileMy(b.slice(0, showNewVideoPaginationSettings.limit)), $(".videme-shownew-tile"), "shownext"));
+                tempObjectNewVideo.html(showTile(parseFileMy(jsonData.slice(0, showNewVideoPaginationSettings.limit)), tempObjectNewVideo, "shownext"));
 
                 /* Вычисилить максимальное число страниц */
-                var pagetotal = Math.ceil(b.length / showNewVideoPaginationSettings.limit);
+                var pagetotal = Math.ceil(jsonData.length / showNewVideoPaginationSettings.limit);
                 /* Объявить экземпляр пейджинатора */
                 $('.videme-shownew-pagination').jqPagination({
                 //link_string	: '/?page={page_number}',
@@ -310,14 +310,14 @@
                         skip2 = skip;
                         limit = skip2 + showNewVideoPaginationSettings.limit;
                         console.log("$.fn.showNewVideoPagination jqPagination -----> skip: " + skip);
-                        $(".videme-shownew-tile").html(showTile(parseFileMy(b.slice(skip2, limit)), $(".videme-shownew-tile"), "shownext"));
+                        tempObjectNewVideo.html(showTile(parseFileMy(jsonData.slice(skip2, limit)), tempObjectNewVideo, "shownext"));
                     }
                 });
             })
             .done(function (data) {
             })
             .fail(function (data) {
-                tempObject.html(showError(data));
+                tempObjectNewVideo.html(showError(data));
             })
             .always(function () {
             });
@@ -331,15 +331,15 @@
             limit: 3,
             showPopVideo: ".videme-showpop-tile"
         }, options);
-        /*        if ($(this).length) {
-         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
-         var tempObject = $(this);
+        if ($(this).length) {
+         console.log("$.fn.showPopVideoPagination $(this) -----> yes " + $(this).length);
+         var tempObjectPopVideo = $(this);
          } else {
-         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
-         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+         console.log("$.fn.showPopVideoPagination $(this) -----> nooo! " + $(this).length);
+         var tempObjectPopVideo = $(showPopVideoPaginationSettings.showPopVideo);
          }
-         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-         tempObject.html(VidemeProgress);*/
+         console.log("$.fn.showNewVideo tempObject -----> " + tempObjectPopVideo.length);
+         tempObjectPopVideo.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
@@ -351,12 +351,12 @@
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
         $.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
-            function (b) {
-                console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(b));
+            function (jsonData) {
+                console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
 
-                $(".videme-showpop-tile").html(showTile(parseFileMy(b.slice(0, showPopVideoPaginationSettings.limit)), $(".videme-showpop-tile"), "shownext"));
+                tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
 
-                var pagetotal = Math.ceil(b.length / showPopVideoPaginationSettings.limit); //example=2
+                var pagetotal = Math.ceil(jsonData.length / showPopVideoPaginationSettings.limit); //example=2
 
                 $('.videme-showpop-pagination').jqPagination({
                     //link_string	: '/?page={page_number}',
@@ -366,7 +366,7 @@
                         skip2 = skip;
                         limit = skip2 + showPopVideoPaginationSettings.limit;
                         console.log("$.fn.showPopVideoPagination jqPagination -----> skip: " + skip);
-                        $(".videme-showpop-tile").html(showTile(parseFileMy(b.slice(skip2, limit)), $(".videme-showpop-tile"), "shownext"));
+                        tempObjectPopVideo.html(showTile(parseFileMy(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
                     }
                 });
 
@@ -374,7 +374,7 @@
             .done(function (data) {
             })
             .fail(function (data) {
-                tempObject.html(showError(data));
+                tempObjectPopVideo.html(showError(data));
             })
             .always(function () {
             });
@@ -390,13 +390,13 @@
         }, options);
          if ($(this).length) {
          console.log("$.fn.showNextVideoPagination $(this) -----> yes " + $(this).length);
-         var tempObject = $(this);
+         var tempObjectNextVideo = $(this);
          } else {
          console.log("$.fn.showNextVideoPagination $(this) -----> nooo! " + $(this).length);
-         var tempObject = $(showNextVideoPaginationSettings.showNextVideo);
+         var tempObjectNextVideo = $(showNextVideoPaginationSettings.showNextVideo);
          }
-         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-         tempObject.html(VidemeProgress);
+         console.log("$.fn.showNewVideo tempObject -----> " + tempObjectNextVideo.length);
+         tempObjectNextVideo.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
@@ -414,31 +414,36 @@
 
         $.getJSON("https://api.vide.me/file/shownext/?prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
 
-                function (b) {
-                console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(b));
+                function (jsonData) {
+                console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(jsonData));
+                    if (jsonData !== undefined) {
 
-                $(".videme-shownext-tile").html(showTile(parseFileMy(b.slice(0, showNextVideoPaginationSettings.limit)), $(".videme-shownext-tile"), "shownext"));
+                        console.log("$.fn.showNextVideoPagination length -----> " + jsonData.length);
 
-                var pagetotal = Math.ceil(b.length / showNextVideoPaginationSettings.limit); //example=2
+                        tempObjectNextVideo.html(showTile(parseFileMy(jsonData.slice(0, showNextVideoPaginationSettings.limit)), tempObjectNextVideo, "shownext"));
 
-                $('.videme-shownext-pagination').jqPagination({
-                    //link_string	: '/?page={page_number}',
-                    max_page: pagetotal,
-                    paged: function (page) {
-                        var skip = (page - 1) * showNextVideoPaginationSettings.limit;
-                        skip2 = skip;
-                        limit = skip2 + showNextVideoPaginationSettings.limit;
-                        console.log("$.fn.showNextVideoPagination jqPagination -----> skip: " + skip);
-                        $(".videme-shownext-tile").html(showTile(parseFileMy(b.slice(skip2, limit)), $(".videme-shownext-tile"), "shownext"));
+                        var pagetotal = Math.ceil(jsonData.length / showNextVideoPaginationSettings.limit); //example=2
+
+                        $('.videme-shownext-pagination').jqPagination({
+                            //link_string	: '/?page={page_number}',
+                            max_page: pagetotal,
+                            paged: function (page) {
+                                var skip = (page - 1) * showNextVideoPaginationSettings.limit;
+                                skip2 = skip;
+                                limit = skip2 + showNextVideoPaginationSettings.limit;
+                                console.log("$.fn.showNextVideoPagination jqPagination -----> skip: " + skip);
+                                tempObjectNextVideo.html(showTile(parseFileMy(jsonData.slice(skip2, limit)), tempObjectNextVideo, "shownext"));
+                            }
+                        });
+                    } else {
+                        tempObjectNextVideo.parent().hide("slow");
                     }
-                });
-
             })
             .done(function (data) {
             })
             .fail(function (data) {
                 //tempObject.html(showError(data));
-                tempObject.html("...");
+                tempObjectNextVideo.html("...");
             })
             .always(function () {
             });
