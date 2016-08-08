@@ -3185,6 +3185,58 @@ message-value='#" + Message.substr(1) + "'>\
         $(this).find('#newlist').focus();
     });
 
+
+    /*************************************************************
+     нажата кнопка send feedback
+     **************************************************************/
+    $('#modal-feedback').on('shown.bs.modal', function () {
+        console.log("modal-feedback -----> shown.bs.modal");
+        $('#feedback-message').focus();
+        $("#feedback-location").val(window.location.href);
+    });
+
+    /*************************************************************
+     нажата кнопка send feedback
+     **************************************************************/
+    $('#feedback-form').validate({
+        /*        rules: {
+         "email": {
+         required: true,
+         email: true,
+         maxlength: 40
+         }
+         },
+         messages: {
+         "email": {
+         required: "",
+         email: "Enter true email"
+         }
+         },*/
+        submitHandler: function (form) {
+            $.ajax({
+                //type: "get",
+                url: 'https://api.vide.me/feedback/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $.fn.processNotification();
+                },
+                success: function (msg) {
+                    $('#modal-feedback').modal('hide');
+                    $.fn.successNotification({
+                        msg: msg
+                    });
+                },
+                error: function (msg) {
+                    $('#modal-feedback').modal('hide');
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
+                }
+            });
+        }
+    });
+
 // Конец автозагрузки
 });
 
