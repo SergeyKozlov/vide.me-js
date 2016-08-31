@@ -1545,6 +1545,20 @@ target='_blank'>\
     };
 
     /*************************************************************
+     v2 Событие 4: нажата ссылка из списка контактов Contact
+     **************************************************************/
+    $(document).on('click', 'a.showContactsItem', function (event) {
+        event.preventDefault();
+        console.log("a.contact-url -----> click");
+        var $this = $(this);
+        //var href = $this.attr('href');
+        var email = $this.attr('email');
+        $('#email').val(email);
+        $('#modal-contacts').modal('hide');
+        console.log("a.contact-url -----> email" + email);
+    });
+
+    /*************************************************************
      v2 Событие 2: нажата кнопка Редактировать контакт,
      отрисовка формы и кнопок в модальное окно
      **************************************************************/
@@ -3237,6 +3251,36 @@ message-value='#" + Message.substr(1) + "'>\
         }
     });
 
+
+    /*************************************************************
+     нажата кнопка показать контакты Google
+     **************************************************************/
+    $(document).on('click', 'a.showContactsGoogle', function (event) {
+        event.preventDefault();
+        console.log("showContactsGoogle -----> click ");
+        //$('#videme-showcontacts').showContactsGoogle({
+        //});
+        $('#modal-contacts').modal('show')
+        getContactsGoogle();
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата ссылка из списка контактов Contact Google
+     **************************************************************/
+    $(document).on('click', 'a.showContactsItem', function (event) {
+        event.preventDefault();
+        console.log("a.contact-url -----> click");
+        var $this = $(this);
+        //var href = $this.attr('href');
+        var email = $this.attr('email');
+        $('#email-to').html(email);
+        $('#modal-contacts').modal('hide');
+        console.log("a.contact-url -----> email" + email);
+
+
+    });
+
+
 // Конец автозагрузки
 });
 
@@ -3386,4 +3430,55 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function getContactsGoogle() {
+    var config = {
+        'client_id': '415758327138-lddhq1t058os5o8b6lrmja75t56hi0el.apps.googleusercontent.com',
+        'scope': 'https://www.google.com/m8/feeds'
+    };
+    gapi.auth.authorize(config, function () {
+        fetch(gapi.auth.getToken());
+
+    });
+}
+
+function fetch(token) {
+    $.ajax({
+        url: "https://www.google.com/m8/feeds/contacts/default/full?access_token=" + token.access_token + "&alt=json",
+        dataType: "jsonp",
+        success: function (data) {
+            contacts = [];
+            $.each(data.feed.entry, function (key, value) {
+                if (value['gd\$email']) {
+                    var contact = {
+                        'name': value['title']['\$t'],
+                        'id': value['id']['\$t'],
+                        'emails': []
+                    };
+                    if (!contact['name']) {
+                        contact['name'] = contact['emails'][0] || "...";
+                    }
+                    var emails = value['gd\$email'];
+                    for (var j = 0, email; email = emails[j]; j++) {
+                        contact['emails'].push(email['address']);
+                    }
+                    var link = value['link'];
+                    $('#videme-showcontacts').append("---<br><a href=\"\"class='showContactsItem' email='" + contact.emails + "'>name: " + contact.name + "<br> email " + JSON.stringify(contact.emails)+ "</a><br>");
+                    /*for (var j = 0, item; item = link[j]; j++) {
+                     console.log("contact item -----> " + JSON.stringify(item));
+                     console.log("contact item.type -----> " + item.type);
+                     $('#videme-showcontacts').append("<a href=\"\"class='showContactsItem' email='" + contact.name + "'>GET CONTACTS FEED</a><br>name: " + contact.name + " email " + JSON.stringify(contact.emails)+ "<br>");
+                     if (item.type == 'image/!*') {
+                     //if (item.type == 'href') {
+                     console.log("contact image/!* -----> " + item.href);
+                     //$('#videme-showcontacts').append("<br>image<img src='" + item.href + "&access_token=" + token.access_token + "' width='189' height='255' alt=''><br>");
+                     }
+                     }*/
+                    console.log("contact contact -----> " + JSON.stringify(contact));
+                }
+                contacts.push(contact);
+            });
+        }
+    });
 }
