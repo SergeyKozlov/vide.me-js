@@ -3,6 +3,8 @@
  * *************************************************************************/
 
 (function ($) {
+    var authorized = false;
+
     $.fn.getAttributes = function () {
         var attributes = {};
         if (this.length) {
@@ -12,12 +14,60 @@
         }
         return attributes;
     };
+    $.fn.getAuthorized = function () {
+
+        if ($.cookie('vide_nad')) {
+            $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
+                function (data) { // TODO: check return data
+                    console.log("user/info data -----> " + JSON.stringify(data));
+                    if (data.userEmail) { // TODO: Вынести в отдельную функцию
+                        console.log("$.fn.getAuthorized -----> yes " + data.userEmail);
+                        authorized = true;
+                    } else {
+                        authorized = false;
+                        console.log("$.fn.getAuthorized -----> no " + data.userEmail);
+                    }
+                    if (data.userPicture === '') {
+                        $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.userPicture + "'></a>");
+                    } else {
+                        $('#user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' width='48' height='48' alt='" + data.userDisplayName + "'></a>");
+                    }
+                    $('#user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
+                    $('#user_email').html(data.userEmail);
+                    if (data.userPicture === '') {
+                        $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.userDisplayName + "'></a>");
+                    } else {
+                        $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' alt='" + data.userDisplayName + "'></a>");
+                    }
+                    $('#form_user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
+                    $('#form_user_email').html(data.userEmail);
+                }
+            );
+            /*Волшебное использование куки ===============================================*/
+            //console.log("vide_nad -----> " + $.cookie('vide_nad'));
+            $('#nad').val($.cookie('vide_nad'));
+            /*============================================================================*/
+        }
+        return authorized;
+    };
+
+    $.fn.getAuthorized(); // TODO: Убрать повторное использование
 
     $.fn.oneTimeInbox = function (options) {
         oneTimeInboxSettings = $.extend({
-            authorized: false
+            authorized: authorized
         }, options);
-        $.fn.showcaseVideoTextButton(oneTimeInboxSettings);
+
+        console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> " + oneTimeInboxSettings.authorized);
+
+        if (oneTimeInboxSettings.authorized) {
+            console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> yes " + oneTimeInboxSettings.authorized);
+            $.fn.showcaseVideoTextButton(paddingButtonInbox(oneTimeInboxSettings));
+        } else {
+            console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> no " + oneTimeInboxSettings.authorized);
+            $.fn.showcaseVideoTextButton(paddingButtonOneTime(oneTimeInboxSettings));
+        }
+
     };
 
     $.fn.fileInbox = function (options) {
@@ -851,8 +901,30 @@ target='_blank'>\
         return parseShowNewVideo;
     }
 
+    function paddingButtonOneTime(paddingButtonOneTime) {
+        paddingButtonOneTime.showcaseButton = {
+            'reply-toggle': {
+                'file': paddingButtonOneTime.file,
+                'messageid': paddingButtonOneTime.messageid,
+                'subject': paddingButtonOneTime.subject,
+                'message': paddingButtonOneTime.message,
+                'conferenceId': paddingButtonOneTime.conferenceId,
+                'recipients': paddingButtonOneTime.recipients
+            }
+        };
+        return paddingButtonOneTime;
+    }
+
     function paddingButtonInbox(paddingButtonInbox) {
         paddingButtonInbox.showcaseButton = {
+            'reply-toggle': {
+                'file': paddingButtonInbox.file,
+                'messageid': paddingButtonInbox.messageid,
+                'subject': paddingButtonInbox.subject,
+                'message': paddingButtonInbox.message,
+                'conferenceId': paddingButtonInbox.conferenceId,
+                'recipients': paddingButtonInbox.recipients
+            },
             'contact-toggle': {
                 'file': paddingButtonInbox.file,
                 'subject': paddingButtonInbox.subject,
@@ -1090,6 +1162,30 @@ target='_blank'>\
     $.fn.showcaseButton = function (options) {
         showcaseButtonSettings = $.extend({}, options);
         console.log("$.fn.showcaseButton showcaseButtonSettings -----> " + JSON.stringify(showcaseButtonSettings));
+        // For reply button
+
+
+        if (showcaseButtonSettings.showcaseButton['reply-toggle']) {
+            console.log("$.fn.showcaseButton showcaseButtonSettings.conferenceId -----> " + showcaseButtonSettings.conferenceId);
+
+            var rec = jQuery.parseJSON(showcaseButtonSettings.recipients);
+            console.log("$.fn.showcaseButton showcaseButtonSettings.recipients[0] stringify -----> " + rec[0]);
+            var emails = "";
+            rec.forEach(function(item, i, arr) {
+                console.log( i + ": " + item + " (массив:" + arr + ")" );
+                var numEmail = i + 1;
+                if (numEmail == 1) numEmail = "";
+                //console.log("&email" + numEmail + "=" + item);
+                emails += "&email" + numEmail + "=" + item;
+            });
+
+            console.log("$.fn.showcaseButton emails -----> " + emails);
+
+
+            $(".reply-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['reply-toggle']);
+            $(".reply-toggle").attr("href", "https://vide.me/rec/?" + emails + "&conferenceid=" + showcaseButtonSettings.conferenceId + "&inreplyto=" + showcaseButtonSettings.messageid + "&subject=" + showcaseButtonSettings.subject);
+
+        }
         if (showcaseButtonSettings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['contact-toggle']);
         if (showcaseButtonSettings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['list-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-inbox-toggle']);
@@ -1112,6 +1208,7 @@ target='_blank'>\
 
     $.fn.showcaseVideoTextButton = function (options) {
         showcaseVideoTextButtonSettings = $.extend({}, options);
+        console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
         $.fn.showcaseVideo(showcaseVideoTextButtonSettings);
         $.fn.showcaseText(showcaseVideoTextButtonSettings);
         $.fn.showcaseButton(showcaseVideoTextButtonSettings);
@@ -2063,6 +2160,67 @@ Delete\
 var VidemeProgress = "<img src='data:image/gif;base64,R0lGODlhDQAMAKIAAP///7W1ta2trXNzczExMf4BAgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAFACwAAAAADQAMAAADIgi6zCIghDilejRbgK2fHPRloVaB3Umm5iWqGzuW49bcQAIAIfkEBQoABQAsAAABAAMACgAAAwhYRMrb8ElHEwAh+QQFCgAFACwAAAEADAAKAAADHlgzRVRCQLnai1Mxl3HlmLddkmh11IhqZ5i25QvGCQAh+QQFCgAFACwAAAEACQAKAAADGVgiNVOEKOagXO3FmS2vGwZelEZ2YemJZgIAIfkEBQoABQAsBAABAAgACgAAAxYYUTNFRDEHZXtx3appnpjliWFXglACACH5BAUKAAUALAcAAQAFAAoAAAMNGFEzym61N2WE9FZsEwA7' />";
 
 $(document).ready(function () {
+
+    // Шаги алгоритма ECMA-262, 5-е издание, 15.4.4.18
+    // Ссылка (en): http://es5.github.io/#x15.4.4.18
+    // Ссылка (ru): http://es5.javascript.ru/x15.4.html#x15.4.4.18
+    if (!Array.prototype.forEach) {
+
+        Array.prototype.forEach = function (callback, thisArg) {
+
+            var T, k;
+
+            if (this == null) {
+                throw new TypeError(' this is null or not defined');
+            }
+
+            // 1. Положим O равным результату вызова ToObject passing the |this| value as the argument.
+            var O = Object(this);
+
+            // 2. Положим lenValue равным результату вызова внутреннего метода Get объекта O с аргументом "length".
+            // 3. Положим len равным ToUint32(lenValue).
+            var len = O.length >>> 0;
+
+            // 4. Если IsCallable(callback) равен false, выкинем исключение TypeError.
+            // Смотрите: http://es5.github.com/#x9.11
+            if (typeof callback !== 'function') {
+                throw new TypeError(callback + ' is not a function');
+            }
+
+            // 5. Если thisArg присутствует, положим T равным thisArg; иначе положим T равным undefined.
+            if (arguments.length > 1) {
+                T = thisArg;
+            }
+
+            // 6. Положим k равным 0
+            k = 0;
+
+            // 7. Пока k < len, будем повторять
+            while (k < len) {
+
+                var kValue;
+
+                // a. Положим Pk равным ToString(k).
+                //   Это неявное преобразование для левостороннего операнда в операторе in
+                // b. Положим kPresent равным результату вызова внутреннего метода HasProperty объекта O с аргументом Pk.
+                //   Этот шаг может быть объединён с шагом c
+                // c. Если kPresent равен true, то
+                if (k in O) {
+
+                    // i. Положим kValue равным результату вызова внутреннего метода Get объекта O с аргументом Pk.
+                    kValue = O[k];
+
+                    // ii. Вызовем внутренний метод Call функции callback с объектом T в качестве значения this и
+                    // списком аргументов, содержащим kValue, k и O.
+                    callback.call(T, kValue, k, O);
+                }
+                // d. Увеличим k на 1.
+                k++;
+            }
+            // 8. Вернём undefined.
+        };
+    }
+
     /*
      theDate = new Date();
      theHours = theDate.getHours();
@@ -2098,11 +2256,19 @@ $(document).ready(function () {
     /*******************************************************************************
      Sidebar
      *******************************************************************************/
+    $.fn.getAuthorized();
+
+    /*var authorized;
 
     if ($.cookie('vide_nad')) {
         $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
             function (data) { // TODO: check return data
                 console.log("user/info data -----> " + JSON.stringify(data));
+                if (data.userEmail) { // TODO: Вынести в отдельную функцию
+                    authorized = true;
+                } else {
+                    authorized = false;
+                }
                 if (data.userPicture === '') {
                     $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.userPicture + "'></a>");
                 } else {
@@ -2119,11 +2285,15 @@ $(document).ready(function () {
                 $('#form_user_email').html(data.userEmail);
             }
         );
-        /*Волшебное использование куки ===============================================*/
+        /!*Волшебное использование куки ===============================================*!/
         //console.log("vide_nad -----> " + $.cookie('vide_nad'));
         $('#nad').val($.cookie('vide_nad'));
-        /*============================================================================*/
-    }
+        /!*============================================================================*!/
+    }*/
+
+    // Используется выше $.fn.getAuthorized();
+
+
     //console.log("cookie: " + $.cookie('vide_nad'));
     $('#submit').removeAttr('disabled');
     $('#cform').validate({
