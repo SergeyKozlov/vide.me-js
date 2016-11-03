@@ -4,6 +4,7 @@
 
 (function ($) {
     var authorized = false;
+    var authorizedData = [];
 
     $.fn.getAttributes = function () {
         var attributes = {};
@@ -14,7 +15,25 @@
         }
         return attributes;
     };
-    $.fn.getAuthorized = function () {
+
+    $.fn.getAuthorizedData = function () { // Избыточно
+
+        if ($.cookie('vide_nad')) {
+            $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
+                function (authorizedData) { // TODO: check return data
+                    console.log("user/info authorizedData -----> " + JSON.stringify(authorizedData));
+
+                }
+            );
+            /*Волшебное использование куки ===============================================*/
+            //console.log("vide_nad -----> " + $.cookie('vide_nad'));
+            $('#nad').val($.cookie('vide_nad'));
+            /*============================================================================*/
+        }
+        return authorizedData;
+    };
+
+    $.fn.getAuthorized = function () { // Избыточно
 
         if ($.cookie('vide_nad')) {
             $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
@@ -1180,6 +1199,13 @@ target='_blank'>\
             });
 
             console.log("$.fn.showcaseButton emails -----> " + emails);
+            console.log("$.fn.showcaseButton authorizedData.userEmail -----> " + authorizedData.userEmail); ////////// =======================
+            var myEmailKey = jQuery.inArray(authorizedData.userEmail, rec);
+            console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
+                rec[myEmailKey] = rec[0];
+            rec[0] = authorizedData.userEmail;
+
+            console.log("$.fn.showcaseButton rec -----> " + rec);
 
 
             $(".reply-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['reply-toggle']);
