@@ -4,7 +4,7 @@
 
 (function ($) {
     var authorized = false;
-    var authorizedData = [];
+    //var authorizedData;
 
     $.fn.getAttributes = function () {
         var attributes = {};
@@ -16,22 +16,49 @@
         return attributes;
     };
 
-    $.fn.getAuthorizedData = function () { // Избыточно
-
+    /*$.fn.getAuthorizedData = function (options) { // Избыточно
+        getAuthorizedDataSettings = $.extend({
+            url: "https://api.vide.me/user/info/?videmecallback=?",
+            data: ""
+        }, options);
         if ($.cookie('vide_nad')) {
-            $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
-                function (authorizedData) { // TODO: check return data
-                    console.log("user/info authorizedData -----> " + JSON.stringify(authorizedData));
+            /!*$.getJSON("https://api.vide.me/user/info/?videmecallback=?",
+                function (data) { // TODO: check return data
+                    console.log("user/info authorizedData -----> " + JSON.stringify(data));
+                    authorizedData = data;
 
                 }
-            );
-            /*Волшебное использование куки ===============================================*/
+            );*!/
+            /!*Волшебное использование куки ===============================================*!/
             //console.log("vide_nad -----> " + $.cookie('vide_nad'));
-            $('#nad').val($.cookie('vide_nad'));
-            /*============================================================================*/
+            //$('#nad').val($.cookie('vide_nad'));
+            /!*============================================================================*!/
+            //var result = null;
+            //var result = "";
+            //return $.ajax({
+            $.ajax({
+            //return Q($.ajax({
+                type: 'GET',
+                async: false,
+                url: getAuthorizedDataSettings.url,
+                data: getAuthorizedDataSettings.data,
+                dataType: "json",
+                success: function(data){
+                    console.log("$.fn.getAuthorizedData data -----> " + JSON.stringify(data));
+                    result = data;
+                    //return data;
+                    //return result;
+                },
+                error: function(xhr, status, error) {
+                    //alert(status);
+                }
+            });
+            //console.log("$.fn.getAuthorizedData result -----> " + JSON.stringify(result));
+            //return result;
+            //return "Ok";
         }
-        return authorizedData;
-    };
+        //return authorizedData;
+    };*/
 
     $.fn.getAuthorized = function () { // Избыточно
 
@@ -71,6 +98,8 @@
     };
 
     $.fn.getAuthorized(); // TODO: Убрать повторное использование
+    //$.fn.getAuthorizedData(); // TODO: Убрать повторное использование
+    //authorizedData = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
 
     $.fn.oneTimeInbox = function (options) {
         oneTimeInboxSettings = $.extend({
@@ -669,6 +698,80 @@ target='_blank'>\
     };
 */
 
+    function getAuthorizedData (handleData) { // Избыточно
+        /*getAuthorizedDataSettings = $.extend({
+            url: "https://api.vide.me/user/info/?videmecallback=?",
+            data: ""
+        }, options);*/
+        if ($.cookie('vide_nad')) {
+            /*$.getJSON("https://api.vide.me/user/info/?videmecallback=?",
+             function (data) { // TODO: check return data
+             console.log("user/info authorizedData -----> " + JSON.stringify(data));
+             authorizedData = data;
+
+             }
+             );*/
+            /*Волшебное использование куки ===============================================*/
+            //console.log("vide_nad -----> " + $.cookie('vide_nad'));
+            //$('#nad').val($.cookie('vide_nad'));
+            /*============================================================================*/
+            //var result = null;
+            var result = "";
+            //return $.ajax({
+            //return Promise.resolve($.ajax({
+            //return Q($.ajax({
+            $.ajax({
+                async: false,
+                type: 'GET',
+                url: "https://api.vide.me/user/info/?videmecallback=?",
+                data: "",
+                dataType: "json",
+                success: function(data){
+                    console.log("getAuthorizedData data -----> " + JSON.stringify(data));
+                    result = data;
+                    //return data;
+                    //return result;
+                    //handleData(data);
+                },
+                error: function(xhr, status, error) {
+                    //alert(status);
+                }
+            });
+            //console.log("$.fn.getAuthorizedData result -----> " + JSON.stringify(result));
+            //return result;
+            //return "Ok";
+        }
+        return result;
+    }
+
+    function Check_production(order_number){
+        var result = false;
+
+        $.ajax({
+            url: "https://api.vide.me/user/info/?videmecallback=?",
+            cache: false,
+            async: false,
+            //data: {zakaz_number:zakaz_number},
+            type: 'POST',
+            dataType: "json",
+            success: function(data){
+                /*if (data == "true"){
+                    result = true;
+                }else {
+                    result = false;
+                }*/
+                console.log("getAuthorizedData data -----> " + JSON.stringify(data));
+                //result = data;
+                //return data;
+                result = JSON.stringify(data);
+                //return JSON.stringify(data);
+            }
+        });
+
+        return result;
+
+    }
+
     function showTile(showFile, tempObject, actionUrlClass) {
         if (tempObject.width() < 500) {
             var tempObjectClass = " videme-narrow-tile";
@@ -1199,14 +1302,29 @@ target='_blank'>\
             });
 
             console.log("$.fn.showcaseButton emails -----> " + emails);
-            console.log("$.fn.showcaseButton authorizedData.userEmail -----> " + authorizedData.userEmail); ////////// =======================
-            var myEmailKey = jQuery.inArray(authorizedData.userEmail, rec);
+
+            /*var authorizedData2 = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
+
+            //console.log("$.fn.showcaseButton authorizedData.userEmail -----> " + authorizedData.userEmail); ////////// =======================
+            console.log("$.fn.showcaseButton JSON.stringify(authorizedData) -----> " + JSON.stringify(authorizedData2)); ////////// =======================
+            var myEmailKey = jQuery.inArray(authorizedData2.userEmail, rec);
             console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
                 rec[myEmailKey] = rec[0];
             rec[0] = authorizedData.userEmail;
 
-            console.log("$.fn.showcaseButton rec -----> " + rec);
+            console.log("$.fn.showcaseButton rec -----> " + rec);*/
+            //var authorizedData = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
+            var authorizedData = Check_production(); // TODO: Убрать повторное использование
+            //var authorizedData = getAuthorizedData(); // TODO: Убрать повторное использование
 
+            //console.log("$.fn.showcaseButton authorizedData.userEmail -----> " + authorizedData.userEmail); ////////// =======================
+            console.log("$.fn.showcaseButton JSON.stringify(authorizedData) -----> " + JSON.stringify(authorizedData)); ////////// =======================
+            //var myEmailKey = jQuery.inArray(authorizedData.userEmail, rec);
+            //console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
+            //rec[myEmailKey] = rec[0];
+            //rec[0] = authorizedData.userEmail;
+
+            console.log("$.fn.showcaseButton rec -----> " + rec);
 
             $(".reply-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['reply-toggle']);
             $(".reply-toggle").attr("href", "https://vide.me/rec/?" + emails + "&conferenceid=" + showcaseButtonSettings.conferenceId + "&inreplyto=" + showcaseButtonSettings.messageid + "&subject=" + showcaseButtonSettings.subject);
