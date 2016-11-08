@@ -698,80 +698,6 @@ target='_blank'>\
     };
 */
 
-    function getAuthorizedData (handleData) { // Избыточно
-        /*getAuthorizedDataSettings = $.extend({
-            url: "https://api.vide.me/user/info/?videmecallback=?",
-            data: ""
-        }, options);*/
-        if ($.cookie('vide_nad')) {
-            /*$.getJSON("https://api.vide.me/user/info/?videmecallback=?",
-             function (data) { // TODO: check return data
-             console.log("user/info authorizedData -----> " + JSON.stringify(data));
-             authorizedData = data;
-
-             }
-             );*/
-            /*Волшебное использование куки ===============================================*/
-            //console.log("vide_nad -----> " + $.cookie('vide_nad'));
-            //$('#nad').val($.cookie('vide_nad'));
-            /*============================================================================*/
-            //var result = null;
-            var result = "";
-            //return $.ajax({
-            //return Promise.resolve($.ajax({
-            //return Q($.ajax({
-            $.ajax({
-                async: false,
-                type: 'GET',
-                url: "https://api.vide.me/user/info/?videmecallback=?",
-                data: "",
-                dataType: "json",
-                success: function(data){
-                    console.log("getAuthorizedData data -----> " + JSON.stringify(data));
-                    result = data;
-                    //return data;
-                    //return result;
-                    //handleData(data);
-                },
-                error: function(xhr, status, error) {
-                    //alert(status);
-                }
-            });
-            //console.log("$.fn.getAuthorizedData result -----> " + JSON.stringify(result));
-            //return result;
-            //return "Ok";
-        }
-        return result;
-    }
-
-    function Check_production(order_number){
-        var result = false;
-
-        $.ajax({
-            url: "https://api.vide.me/user/info/?videmecallback=?",
-            cache: false,
-            async: false,
-            //data: {zakaz_number:zakaz_number},
-            type: 'POST',
-            dataType: "json",
-            success: function(data){
-                /*if (data == "true"){
-                    result = true;
-                }else {
-                    result = false;
-                }*/
-                console.log("getAuthorizedData data -----> " + JSON.stringify(data));
-                //result = data;
-                //return data;
-                result = JSON.stringify(data);
-                //return JSON.stringify(data);
-            }
-        });
-
-        return result;
-
-    }
-
     function showTile(showFile, tempObject, actionUrlClass) {
         if (tempObject.width() < 500) {
             var tempObjectClass = " videme-narrow-tile";
@@ -1281,6 +1207,121 @@ target='_blank'>\
         }
     };
 
+    function getAuthorizedData (handleData) { // Избыточно
+        /*getAuthorizedDataSettings = $.extend({
+         url: "https://api.vide.me/user/info/?videmecallback=?",
+         data: ""
+         }, options);*/
+        if ($.cookie('vide_nad')) {
+            var result = "";
+
+            /*            /!*$.getJSON("https://api.vide.me/user/info/?videmecallback=?",
+             function (data) { // TODO: check return data
+             console.log("user/info authorizedData -----> " + JSON.stringify(data));
+             authorizedData = data;
+
+             }
+             );*!/
+             /!*Волшебное использование куки ===============================================*!/
+             //console.log("vide_nad -----> " + $.cookie('vide_nad'));
+             //$('#nad').val($.cookie('vide_nad'));
+             /!*============================================================================*!/
+             //var result = null;
+             var result = "";
+             //return $.ajax({
+             //return Promise.resolve($.ajax({
+             //return Q($.ajax({
+             $.ajax({
+             async: false,
+             type: 'GET',
+             url: "https://api.vide.me/user/info/?videmecallback=?",
+             data: "",
+             dataType: "json",
+             success: function(data){
+             console.log("getAuthorizedData data -----> " + JSON.stringify(data));
+             result = data;
+             //return data;
+             //return result;
+             //handleData(data);
+             },
+             error: function(xhr, status, error) {
+             //alert(status);
+             }
+             });
+             //console.log("$.fn.getAuthorizedData result -----> " + JSON.stringify(result));
+             //return result;
+             //return "Ok";*/
+
+            $.get( "https://api.vide.me/user/info/?videmecallback=?", function( data ) {
+                /*$( "body" )
+                 .append( "Name: " + data.name ) // John
+                 .append( "Time: " + data.time ); //  2pm*/
+                result = data;
+            }, "json" );
+        }
+        return result;
+
+
+    }
+
+    function Check_production(order_number){
+
+        var result = false;
+        $.ajax({
+            url: "https://api.vide.me/user/info/?videmecallback=?",
+            cache: false,
+            async: false,
+            //data: {zakaz_number:zakaz_number},
+            type: 'POST',
+            dataType: "json",
+            success: function(data){
+                /*if (data == "true"){
+                 result = true;
+                 }else {
+                 result = false;
+                 }*/
+                console.log("getAuthorizedData data -----> " + JSON.stringify(data));
+                result = data;
+                //return data;
+                //result = JSON.stringify(data);
+                //return JSON.stringify(data);
+            }
+        });
+
+        return result;
+
+    }
+
+    function SomethingInit(id){
+
+        this.init = function(id) {
+            // Загрузка с сервера информации
+            this.load(id).done(function() {
+                // ... здесь продолжается инициализация ...
+                console.log("продолжаем после успешного запроса");
+            }).fail(function(message) {
+                console.log('ошибка..')
+            });
+        };
+
+        this.load=function(teamId){
+            var dfr = $.Deferred();
+            console.log('посылаем запрос');
+            $.ajax({
+                dataType: "json",
+                url: 'https://api.vide.me/user/info/?videmecallback=?',
+                success: function(response, status, jqXHR){ dfr.resolve();},
+                error: function(jqXHR, status, error) { dfr.reject() ; }
+            });
+            console.log("SomethingInit dfr -----> " + JSON.stringify(dfr));
+
+            return dfr; //dfr.promise();
+        };
+
+        this.init();
+
+    }
+
     $.fn.showcaseButton = function (options) {
         showcaseButtonSettings = $.extend({}, options);
         console.log("$.fn.showcaseButton showcaseButtonSettings -----> " + JSON.stringify(showcaseButtonSettings));
@@ -1314,8 +1355,9 @@ target='_blank'>\
 
             console.log("$.fn.showcaseButton rec -----> " + rec);*/
             //var authorizedData = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
-            var authorizedData = Check_production(); // TODO: Убрать повторное использование
-            //var authorizedData = getAuthorizedData(); // TODO: Убрать повторное использование
+            //var authorizedData = Check_production(); // TODO: Убрать повторное использование
+            //var authorizedData = SomethingInit(); // TODO: Убрать повторное использование
+            var authorizedData = getAuthorizedData(); // TODO: Убрать повторное использование
 
             //console.log("$.fn.showcaseButton authorizedData.userEmail -----> " + authorizedData.userEmail); ////////// =======================
             console.log("$.fn.showcaseButton JSON.stringify(authorizedData) -----> " + JSON.stringify(authorizedData)); ////////// =======================
