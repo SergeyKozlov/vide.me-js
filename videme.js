@@ -103,6 +103,15 @@
 
     $.fn.oneTimeInbox = function (options) {
         oneTimeInboxSettings = $.extend({
+            /*file: '',
+            messageid: '',
+            updatedAt: '',
+            subject: '',
+            message: '',
+            fromUserName: '',
+            toUserName: '',
+            recipients: '',
+            conferenceId: '',*/
             authorized: authorized
         }, options);
 
@@ -950,14 +959,25 @@ target='_blank'>\
     }
 
     function paddingButtonOneTime(paddingButtonOneTime) {
+        /*file: '',
+         messageid: '',
+         updatedAt: '',
+         subject: '',
+         message: '',
+         fromUserName: '',
+         toUserName: '',
+         recipients: '',
+         conferenceId: '',*/
         paddingButtonOneTime.showcaseButton = {
             'reply-toggle': {
                 'file': paddingButtonOneTime.file,
-                'messageid': paddingButtonOneTime.messageid,
                 'subject': paddingButtonOneTime.subject,
+                'messageid': paddingButtonOneTime.messageid,
                 'message': paddingButtonOneTime.message,
-                'conferenceId': paddingButtonOneTime.conferenceId,
-                'recipients': paddingButtonOneTime.recipients
+                'recipients': paddingButtonOneTime.recipients,
+                'fromUserName': paddingButtonOneTime.fromUserName,
+                'toUserName': paddingButtonOneTime.toUserName,
+                'conferenceId': paddingButtonOneTime.conferenceId
             }
         };
         return paddingButtonOneTime;
@@ -967,11 +987,13 @@ target='_blank'>\
         paddingButtonInbox.showcaseButton = {
             'reply-toggle': {
                 'file': paddingButtonInbox.file,
-                'messageid': paddingButtonInbox.messageid,
                 'subject': paddingButtonInbox.subject,
+                'messageid': paddingButtonInbox.messageid,
                 'message': paddingButtonInbox.message,
-                'conferenceId': paddingButtonInbox.conferenceId,
-                'recipients': paddingButtonInbox.recipients
+                'recipients': paddingButtonInbox.recipients,
+                'fromUserName': paddingButtonInbox.fromUserName,
+                'toUserName': paddingButtonInbox.toUserName,
+                'conferenceId': paddingButtonInbox.conferenceId
             },
             'contact-toggle': {
                 'file': paddingButtonInbox.file,
@@ -1334,13 +1356,13 @@ target='_blank'>\
             var rec = jQuery.parseJSON(showcaseButtonSettings.recipients);
             console.log("$.fn.showcaseButton showcaseButtonSettings.recipients[0] stringify -----> " + rec[0]);
             var emails = "";
-            rec.forEach(function(item, i, arr) {
+            /*rec.forEach(function(item, i, arr) {
                 console.log( i + ": " + item + " (массив:" + arr + ")" );
                 var numEmail = i + 1;
                 if (numEmail == 1) numEmail = "";
                 //console.log("&email" + numEmail + "=" + item);
                 emails += "&email" + numEmail + "=" + item;
-            });
+            });*/
 
             console.log("$.fn.showcaseButton emails -----> " + emails);
 
@@ -1357,16 +1379,29 @@ target='_blank'>\
             //var authorizedData = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
             //var authorizedData = Check_production(); // TODO: Убрать повторное использование
             //var authorizedData = SomethingInit(); // TODO: Убрать повторное использование
-            var authorizedData = getAuthorizedData(); // TODO: Убрать повторное использование
+            //var authorizedData = getAuthorizedData(); // TODO: Убрать повторное использование
 
             //console.log("$.fn.showcaseButton authorizedData.userEmail -----> " + authorizedData.userEmail); ////////// =======================
-            console.log("$.fn.showcaseButton JSON.stringify(authorizedData) -----> " + JSON.stringify(authorizedData)); ////////// =======================
-            //var myEmailKey = jQuery.inArray(authorizedData.userEmail, rec);
-            //console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
-            //rec[myEmailKey] = rec[0];
-            //rec[0] = authorizedData.userEmail;
+            //console.log("$.fn.showcaseButton JSON.stringify(authorizedData) -----> " + JSON.stringify(authorizedData)); ////////// =======================
+            console.log("$.fn.showcaseButton rec Old -----> " + rec);
 
-            console.log("$.fn.showcaseButton rec -----> " + rec);
+            console.log("$.fn.showcaseButton showcaseButtonSettings.toUserName -----> " + showcaseButtonSettings.toUserName);
+            console.log("$.fn.showcaseButton showcaseButtonSettings.fromUserName -----> " + showcaseButtonSettings.fromUserName);
+            var myEmailKey = jQuery.inArray(showcaseButtonSettings.toUserName, rec);
+            console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
+            rec[myEmailKey] = showcaseButtonSettings.fromUserName;
+            //rec[0] = showcaseButtonSettings.toUserName;
+
+            console.log("$.fn.showcaseButton rec New -----> " + rec);
+
+            rec.forEach(function(item, i, arr) {
+                console.log( i + ": " + item + " ($.fn.showcaseButton rec массив:" + arr + ")" );
+                var numEmail = i + 1;
+                if (numEmail == 1) numEmail = "";
+                console.log("$.fn.showcaseButton rec &email" + numEmail + "=" + item);
+                emails += "&email" + numEmail + "=" + item;
+            });
+            console.log("$.fn.showcaseButton emails -----> " + emails);
 
             $(".reply-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['reply-toggle']);
             $(".reply-toggle").attr("href", "https://vide.me/rec/?" + emails + "&conferenceid=" + showcaseButtonSettings.conferenceId + "&inreplyto=" + showcaseButtonSettings.messageid + "&subject=" + showcaseButtonSettings.subject);
