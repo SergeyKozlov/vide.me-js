@@ -1229,15 +1229,15 @@ target='_blank'>\
         }
     };
 
-    function getAuthorizedData (handleData) { // Избыточно
-        /*getAuthorizedDataSettings = $.extend({
+    /*function getAuthorizedData (handleData) { // Избыточно
+        /!*getAuthorizedDataSettings = $.extend({
          url: "https://api.vide.me/user/info/?videmecallback=?",
          data: ""
-         }, options);*/
+         }, options);*!/
         if ($.cookie('vide_nad')) {
             var result = "";
 
-            /*            /!*$.getJSON("https://api.vide.me/user/info/?videmecallback=?",
+            /!*            /!*$.getJSON("https://api.vide.me/user/info/?videmecallback=?",
              function (data) { // TODO: check return data
              console.log("user/info authorizedData -----> " + JSON.stringify(data));
              authorizedData = data;
@@ -1272,12 +1272,12 @@ target='_blank'>\
              });
              //console.log("$.fn.getAuthorizedData result -----> " + JSON.stringify(result));
              //return result;
-             //return "Ok";*/
+             //return "Ok";*!/
 
             $.get( "https://api.vide.me/user/info/?videmecallback=?", function( data ) {
-                /*$( "body" )
+                /!*$( "body" )
                  .append( "Name: " + data.name ) // John
-                 .append( "Time: " + data.time ); //  2pm*/
+                 .append( "Time: " + data.time ); //  2pm*!/
                 result = data;
             }, "json" );
         }
@@ -1297,11 +1297,11 @@ target='_blank'>\
             type: 'POST',
             dataType: "json",
             success: function(data){
-                /*if (data == "true"){
+                /!*if (data == "true"){
                  result = true;
                  }else {
                  result = false;
-                 }*/
+                 }*!/
                 console.log("getAuthorizedData data -----> " + JSON.stringify(data));
                 result = data;
                 //return data;
@@ -1342,7 +1342,7 @@ target='_blank'>\
 
         this.init();
 
-    }
+    }*/
 
     $.fn.showcaseButton = function (options) {
         showcaseButtonSettings = $.extend({}, options);
