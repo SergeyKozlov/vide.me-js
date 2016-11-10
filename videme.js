@@ -1387,6 +1387,7 @@ target='_blank'>\
 
             console.log("$.fn.showcaseButton showcaseButtonSettings.toUserName -----> " + showcaseButtonSettings.toUserName);
             console.log("$.fn.showcaseButton showcaseButtonSettings.fromUserName -----> " + showcaseButtonSettings.fromUserName);
+            // Поставить в recipients вместо своего адреса адрес отправителя
             var myEmailKey = jQuery.inArray(showcaseButtonSettings.toUserName, rec);
             console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
             rec[myEmailKey] = showcaseButtonSettings.fromUserName;
