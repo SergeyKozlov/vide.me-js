@@ -1353,9 +1353,9 @@ target='_blank'>\
         if (showcaseButtonSettings.showcaseButton['reply-toggle']) {
             console.log("$.fn.showcaseButton showcaseButtonSettings.conferenceId -----> " + showcaseButtonSettings.conferenceId);
 
-            var rec = jQuery.parseJSON(showcaseButtonSettings.recipients);
-            console.log("$.fn.showcaseButton showcaseButtonSettings.recipients[0] stringify -----> " + rec[0]);
-            var emails = "";
+            //var rec = jQuery.parseJSON(showcaseButtonSettings.recipients);
+            //console.log("$.fn.showcaseButton showcaseButtonSettings.recipients[0] stringify -----> " + rec[0]);
+            //var emails = "";
             /*rec.forEach(function(item, i, arr) {
                 console.log( i + ": " + item + " (массив:" + arr + ")" );
                 var numEmail = i + 1;
@@ -1364,7 +1364,7 @@ target='_blank'>\
                 emails += "&email" + numEmail + "=" + item;
             });*/
 
-            console.log("$.fn.showcaseButton emails -----> " + emails);
+            //console.log("$.fn.showcaseButton emails -----> " + emails);
 
             /*var authorizedData2 = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
 
@@ -1383,29 +1383,61 @@ target='_blank'>\
 
             //console.log("$.fn.showcaseButton authorizedData.userEmail -----> " + authorizedData.userEmail); ////////// =======================
             //console.log("$.fn.showcaseButton JSON.stringify(authorizedData) -----> " + JSON.stringify(authorizedData)); ////////// =======================
-            console.log("$.fn.showcaseButton rec Old -----> " + rec);
+            //console.log("$.fn.showcaseButton rec Old -----> " + rec);
 
             console.log("$.fn.showcaseButton showcaseButtonSettings.toUserName -----> " + showcaseButtonSettings.toUserName);
             console.log("$.fn.showcaseButton showcaseButtonSettings.fromUserName -----> " + showcaseButtonSettings.fromUserName);
-            // Поставить в recipients вместо своего адреса адрес отправителя
-            var myEmailKey = jQuery.inArray(showcaseButtonSettings.toUserName, rec);
-            console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
-            rec[myEmailKey] = showcaseButtonSettings.fromUserName;
-            //rec[0] = showcaseButtonSettings.toUserName;
+            var emails = "";
+            var hrefConferenceId = "";
+            var hrefMessageId = "";
+            var hrefSubject = "";
+            console.log("$.fn.showcaseButton showcaseButtonSettings.recipients.length -----> " + showcaseButtonSettings.recipients.length);
 
-            console.log("$.fn.showcaseButton rec New -----> " + rec);
+            if (showcaseButtonSettings.recipients.length.isArray) {
 
-            rec.forEach(function(item, i, arr) {
-                console.log( i + ": " + item + " ($.fn.showcaseButton rec массив:" + arr + ")" );
-                var numEmail = i + 1;
-                if (numEmail == 1) numEmail = "";
-                console.log("$.fn.showcaseButton rec &email" + numEmail + "=" + item);
-                emails += "&email" + numEmail + "=" + item;
-            });
-            console.log("$.fn.showcaseButton emails -----> " + emails);
+                var rec = jQuery.parseJSON(showcaseButtonSettings.recipients);
+
+                // Поставить в recipients вместо своего адреса адрес отправителя
+                var myEmailKey = jQuery.inArray(showcaseButtonSettings.toUserName, rec);
+                console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
+                rec[myEmailKey] = showcaseButtonSettings.fromUserName;
+                //rec[0] = showcaseButtonSettings.toUserName;
+
+                console.log("$.fn.showcaseButton rec New -----> " + rec);
+
+                rec.forEach(function (item, i, arr) {
+                    console.log(i + ": " + item + " ($.fn.showcaseButton rec массив:" + arr + ")");
+                    var numEmail = i + 1;
+                    if (numEmail == 1) numEmail = "";
+                    console.log("$.fn.showcaseButton rec &email" + numEmail + "=" + item);
+                    emails += "&email" + numEmail + "=" + item;
+                });
+                console.log("$.fn.showcaseButton emails -----> " + emails);
+            } else {
+                emails += "&email=" + showcaseButtonSettings.fromUserName;
+
+            }
+
+            if (showcaseButtonSettings.conferenceId) {
+                hrefMessageId = "&conferenceid=" + showcaseButtonSettings.conferenceId;
+            } else {
+                hrefMessageId = "";
+            }
+
+            if (showcaseButtonSettings.messageid) {
+                hrefConferenceId = "&inreplyto=" + showcaseButtonSettings.messageid;
+            } else {
+                hrefConferenceId = "";
+            }
+
+            if (showcaseButtonSettings.subject) {
+                hrefSubject = "&subject=" + showcaseButtonSettings.subject;
+            } else {
+                hrefSubject = "";
+            }
 
             $(".reply-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['reply-toggle']);
-            $(".reply-toggle").attr("href", "https://vide.me/rec/?" + emails + "&conferenceid=" + showcaseButtonSettings.conferenceId + "&inreplyto=" + showcaseButtonSettings.messageid + "&subject=" + showcaseButtonSettings.subject);
+            $(".reply-toggle").attr("href", "https://vide.me/rec/?" + emails + hrefConferenceId + hrefMessageId + hrefSubject);
 
         }
         if (showcaseButtonSettings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['contact-toggle']);
