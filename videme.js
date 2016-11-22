@@ -127,7 +127,7 @@
 
     };
 
-    $.fn.oneTimeInboxAd = function (options) {
+    $.fn.oneTimeInboxAds = function (options) {
         oneTimeInboxSettings = $.extend({
             /*file: '',
             messageid: '',
@@ -145,10 +145,10 @@
 
         if (oneTimeInboxSettings.authorized) {
             console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> yes " + oneTimeInboxSettings.authorized);
-            $.fn.showcaseVideoTextButton(paddingButtonInbox(oneTimeInboxSettings));
+            $.fn.showcaseVideoTextButtonAds(paddingButtonInbox(oneTimeInboxSettings));
         } else {
             console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> no " + oneTimeInboxSettings.authorized);
-            $.fn.showcaseVideoTextButton(paddingButtonOneTime(oneTimeInboxSettings));
+            $.fn.showcaseVideoTextButtonAds(paddingButtonOneTime(oneTimeInboxSettings));
         }
 
     };
@@ -1243,6 +1243,175 @@ target='_blank'>\
         }
     };
 
+    $.fn.showcaseVideoAds = function (options) {
+        showcaseVideoSettings = $.extend({
+            file: "9566b5a3475c25aa",
+            miniVideo: true,
+            //showcaseVideo: "videme-showcase-video",
+            showcaseVideo: "#videme-showcase-video",
+            authorized: true
+        }, options);
+
+        if (showcaseVideoSettings.authorized) {
+            console.log("authorized -----> true");
+            var sourseURL = "https://gu.vide.me/vic?m=";
+        } else {
+            console.log("authorized ------> false");
+            var sourseURL = "https://gu.vide.me/vi?m=";
+        }
+        if ($(this).length) {
+            console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showcaseVideo $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showcaseVideoSettings.showcaseVideo);
+            console.log("$.fn.showcaseVideo tempObject -----> " + tempObject.length);
+        }
+        console.log("$.fn.showcaseVideo showcaseVideoSettings.file -----> " + showcaseVideoSettings.file);
+        tempObject.html("<video id=\"videme-showcasevideo\" class=\"video-js vjs-default-skin\"></video>" +
+            "<div id=\"videme-minivideo\"><div>");
+        var oldShowcasePlayer = document.getElementById('videme-showcasevideo');
+        videojs(oldShowcasePlayer).dispose();
+        tempObject.html("<video id=\"videme-showcasevideo\" class=\"video-js vjs-default-skin\"></video>" +
+            "<div id=\"videme-minivideo\"><div>");
+        if ($('#videme-showcasevideo').length) {
+            console.log("$.fn.showcaseVideo (\"#videme-showcasevideo\").length) -----> yes " + $("#videme-showcasevideo").length);
+        } else {
+            console.log("$.fn.showcaseVideo (\"#videme-showcasevideo\").length) -----> nooo! " + $("#videme-showcasevideo").length);
+        }
+        var showcasePlayer = videojs('videme-showcasevideo', {
+            /* Options */
+        }, function () {
+            var showcasePlayerFunc = this;
+            /* Ads ********************************************************/
+            showcasePlayerFunc.ads(); // initialize the ad framework
+
+            // request ads whenever there's new video content
+            showcasePlayerFunc.on('contentupdate', function(){
+                // fetch ad inventory asynchronously, then ...
+                showcasePlayerFunc.trigger('adsready');
+            });
+
+            showcasePlayerFunc.on('readyforpreroll', function() {
+                showcasePlayerFunc.ads.startLinearAdMode();
+                // play your linear ad content
+                showcasePlayerFunc.src('https://gu.vide.me/vi/?m=9069ab08e968');
+
+                // when all your linear ads have finished… do not confuse this with `ended`
+                showcasePlayerFunc.one('adended', function() {
+                    showcasePlayerFunc.ads.endLinearAdMode();
+                });
+            });
+            /* Ads ********************************************************/
+
+            resizeVideoJS(showcasePlayerFunc);
+
+            if (showcaseVideoSettings.messageid.length > 0) {
+                messageAdd = "&messageid=" + showcaseVideoSettings.messageid;
+            } else {
+                messageAdd = "";
+            }
+
+            showcasePlayerFunc.src({
+                type: "video/mp4",
+                src: sourseURL + showcaseVideoSettings.file + messageAdd
+            });
+            showcasePlayerFunc.controls(true);
+            showcasePlayerFunc.load();
+            showcasePlayerFunc.play();
+            showcasePlayerFunc.on('ended', function () {
+                /*
+                 showcasePlayerFunc.src({
+                 type: "video/mp4",
+                 src: "https://r7.cf1.rackcdn.com/.mp4"
+                 });
+                 showcasePlayerFunc.load();
+                 showcasePlayerFunc.play();*/
+            });
+        });
+        $(window).resize(function () {
+            resizeVideoJS(showcasePlayer);
+        });
+        console.log("$.fn.showcaseVideo showcaseVideoSettings.miniVideo -----> " + showcaseVideoSettings.miniVideo);
+        if (showcaseVideoSettings.miniVideo) {
+            $("#videme-minivideo").html("<video id=\"my_video2\" class=\"video-js vjs-default-skin video-down\"></video> \
+				<button id=\"closevideo\" type=\"button\" class=\"close closevideo hidden\" aria-label=\"Close\"> \
+					<span aria-hidden=\"true\">&times;</span> \
+				</button> \
+			");
+            var oldMiniPlayer = document.getElementById('my_video2');
+            videojs(oldMiniPlayer).dispose();
+            console.log("$.fn.showcaseVideo showcaseVideoSettings.file -----> " + showcaseVideoSettings.file);
+            $("#videme-minivideo").html("<video id=\"my_video2\" class=\"video-js vjs-default-skin video-down\"></video> \
+				<button id=\"closevideo\" type=\"button\" class=\"close closevideo hidden\" aria-label=\"Close\"> \
+					<span aria-hidden=\"true\">&times;</span> \
+				</button> \
+			");
+            var miniPlayer = videojs('my_video2', {
+                /* Options */
+            }, function () {
+                var miniPlayerFunc = this;
+                scrollSetting(miniPlayerFunc);
+                //miniPlayer.hide();
+                miniPlayerFunc.muted(true);
+                miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.file});
+                miniPlayerFunc.load();
+                miniPlayerFunc.play();
+                miniPlayerFunc.on('ended', function () {
+                    /*
+                     miniPlayerFunc.src({
+                     type: "video/mp4",
+                     src: "https://r7.cf1.rackcdn.com/.mp4"
+                     });
+                     miniPlayerFunc.load();
+                     miniPlayerFunc.play();*/
+                });
+            });
+            showcasePlayer.on('pause', function () {
+                checkPausePlay(showcasePlayer);
+            });
+            showcasePlayer.on('play', function () {
+                checkPausePlay(showcasePlayer);
+            });
+            showcasePlayer.on('seeked', function () {
+                miniPlayer.currentTime(showcasePlayer.currentTime());
+            });
+            $(window).scroll(function () {
+                scrollSetting(miniPlayer);
+            });
+        } else {
+            console.log("$.fn.showcaseVideo -----> no miniVideo");
+        }
+
+        function checkPausePlay(myPlayer) {
+            var isPaused = myPlayer.paused();
+            var time_video = myPlayer.currentTime();
+            if (isPaused === true) {
+                console.log('Pause' + time_video);
+                miniPlayer.pause();
+            } else {
+                miniPlayer.play();
+            }
+        }
+
+        function resizeVideoJS(myPlayer) {
+            // TODO: На как-то так $(this).parent().width()
+            var width = document.getElementById(myPlayer.id()).parentElement.offsetWidth;
+            myPlayer.width(width).height(width * (360 / 640));
+        }
+
+        function scrollSetting(miniPlayer) {
+            if ($(window).scrollTop() > 100) {
+                $("#closevideo").removeClass('hidden');
+                miniPlayer.show();
+            } else {
+                $("#closevideo").addClass('hidden');
+                // $( \"video-down\" ).addClass(\"my_video_hidden\");
+                miniPlayer.hide();
+            }
+        }
+    };
+
     $.fn.showcaseText = function (options) {
         showcaseTextSettings = $.extend({}, options);
         $(".videme-showcase-subject").html(showcaseTextSettings.subject);
@@ -1490,6 +1659,14 @@ target='_blank'>\
         showcaseVideoTextButtonSettings = $.extend({}, options);
         console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
         $.fn.showcaseVideo(showcaseVideoTextButtonSettings);
+        $.fn.showcaseText(showcaseVideoTextButtonSettings);
+        $.fn.showcaseButton(showcaseVideoTextButtonSettings);
+    };
+
+    $.fn.showcaseVideoTextButtonAds = function (options) {
+        showcaseVideoTextButtonSettings = $.extend({}, options);
+        console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
+        $.fn.showcaseVideoAds(showcaseVideoTextButtonSettings);
         $.fn.showcaseText(showcaseVideoTextButtonSettings);
         $.fn.showcaseButton(showcaseVideoTextButtonSettings);
     };
