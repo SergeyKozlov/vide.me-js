@@ -778,9 +778,10 @@ target='_blank'>\
                 videoDuration = "";
             }
             var href;
-            if (value.messageid) {
+            //if (value.messageid) {
             //if (value.indexOf("messageid")) {
             //if ("messageid" in value) {
+            if (value.messageid && value.messageid != "undefined") {
                 href = "https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid;
             } else {
                 href = "https://vide.me/v?m=" + value.href;
@@ -1106,6 +1107,8 @@ target='_blank'>\
             authorized: true
         }, options);
 
+        console.log("$.fn.showcaseVideo showcaseVideoSettings -----> " + showcaseVideoSettings);
+
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
             var sourseURL = "https://gu.vide.me/vic?m=";
@@ -1139,7 +1142,8 @@ target='_blank'>\
             var showcasePlayerFunc = this;
             resizeVideoJS(showcasePlayerFunc);
 
-            if (showcaseVideoSettings.messageid.length > 0) {
+            //if (showcaseVideoSettings.messageid.length > 0) {
+            if (showcaseVideoSettings.messageid && showcaseVideoSettings.messageid != "undefined") {
                 messageAdd = "&messageid=" + showcaseVideoSettings.messageid;
             } else {
                 messageAdd = "";
