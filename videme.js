@@ -744,7 +744,7 @@ target='_blank'>\
         //maxTile = (maxTile - 1) || 18;
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
-            //console.log("showTile ---> " + JSON.stringify(value));
+            console.log("showTile ---> " + JSON.stringify(value));
             //if (d > maxTile) return false;
 
             var a;
@@ -779,6 +779,8 @@ target='_blank'>\
             }
             var href;
             if (value.messageid) {
+            //if (value.indexOf("messageid")) {
+            //if ("messageid" in value) {
                 href = "https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid;
             } else {
                 href = "https://vide.me/v?m=" + value.href;
