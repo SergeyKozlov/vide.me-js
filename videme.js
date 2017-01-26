@@ -335,22 +335,22 @@
                     <tr class=\"" + rowClass + "\">\
                         <td>" + convertTimestamp(value.value['createdAt']) + "</td>\
                         <td>" + value.value['status'] + "</td>\
-                        <td>" + value.value['fileSizeStart'] + "</td>\
+                        <!--<td>" + value.value['fileSizeStart'] + "</td>\
                         <td>" + value.value['fileSizeDone'] + "</td>\
-                        <td>" + value.value['file'] + "</td>\
+                        <td>" + value.value['file'] + "</td>-->\
                         <td>" + value.value['subject'] + "</td>\
                         <td>" + value.value['message'] + "</td>\
                         <td>" + value.value['videoDuration'] + "</td>\
                     </tr>")
                     });
                     console.log("showMyTask value -----> html" + "<table>" + htmlResult.join("") + "</table>");
-                    tempObject.html("<table class=\"table\" style='word-wrap:break-word'>\
+                    tempObject.html("<table class=\"table\" >\
                                 <tr class=\"\">\
                         <td>createdAt</td>\
                         <td>status</td>\
-                        <td>fileSizeStart</td>\
+                        <!--<td>fileSizeStart</td>\
                         <td>fileSizeDone</td>\
-                        <td>file</td>\
+                        <td>file</td>-->\
                         <td>subject</td>\
                         <td>message</td>\
                         <td>videoDuration</td>\
