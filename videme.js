@@ -104,27 +104,27 @@
     $.fn.oneTimeInbox = function (options) {
         oneTimeInboxSettings = $.extend({
             /*file: '',
-            messageid: '',
-            updatedAt: '',
-            subject: '',
-            message: '',
-            fromUserName: '',
-            toUserName: '',
-            recipients: '',
-            conferenceId: '',*/
+             messageid: '',
+             updatedAt: '',
+             subject: '',
+             message: '',
+             fromUserName: '',
+             toUserName: '',
+             recipients: '',
+             conferenceId: '',*/
             authorized: authorized
         }, options);
 
         console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> " + oneTimeInboxSettings.authorized);
 
-        if (oneTimeInboxSettings.authorized) {
+        console.log("$.fn.oneTimeInbox window.location.pathname -----> " + window.location.pathname);
+        if (oneTimeInboxSettings.authorized && window.location.pathname != "/v") {
             console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> yes " + oneTimeInboxSettings.authorized);
             $.fn.showcaseVideoTextButton(paddingButtonInbox(oneTimeInboxSettings));
         } else {
             console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> no " + oneTimeInboxSettings.authorized);
             $.fn.showcaseVideoTextButton(paddingButtonOneTime(oneTimeInboxSettings));
         }
-
     };
 
     $.fn.oneTimeInboxAds = function (options) {
