@@ -61,32 +61,38 @@
     };*/
 
     $.fn.getAuthorized = function () { // Избыточно
+        console.log("$.fn.getAuthorized -----> start ");
 
         if ($.cookie('vide_nad')) {
             $.getJSON("https://api.vide.me/user/info/?videmecallback=?",
-                function (data) { // TODO: check return data
-                    console.log("user/info data -----> " + JSON.stringify(data));
-                    if (data.userEmail) { // TODO: Вынести в отдельную функцию
-                        console.log("$.fn.getAuthorized -----> yes " + data.userEmail);
-                        authorized = true;
-                    } else {
-                        authorized = false;
-                        console.log("$.fn.getAuthorized -----> no " + data.userEmail);
+                function (data) {
+                    //error if (typeof data !== 'undefined' && data.length > 0) {
+                    if (!$.isEmptyObject(data)) {
+                        console.log("user/info data -----> " + JSON.stringify(data));
+                        if (data.hasOwnProperty('userEmail')) { // TODO: Вынести в отдельную функцию
+                            console.log("$.fn.getAuthorized -----> yes " + data.userEmail);
+                            authorized = true;
+                        } else {
+                            authorized = false;
+                            console.log("$.fn.getAuthorized -----> no " + data.userEmail);
+                        }
+                        if (data.userPicture === '') {
+                            $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.userPicture + "'></a>");
+                        } else {
+                            $('#user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' width='48' height='48' alt='" + data.userDisplayName + "'></a>");
+                        }
+                        $('#user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
+                        $('#user_email').html(data.userEmail);
+                        if (data.userPicture === '') {
+                            $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.userDisplayName + "'></a>");
+                        } else {
+                            $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' alt='" + data.userDisplayName + "'></a>");
+                        }
+                        $('#form_user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
+                        $('#form_user_email').html(data.userEmail);
                     }
-                    if (data.userPicture === '') {
-                        $('#user_brand').html("<a href='https://api.vide.me/' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' width='48' height='48' alt='" + data.userPicture + "'></a>");
-                    } else {
-                        $('#user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' width='48' height='48' alt='" + data.userDisplayName + "'></a>");
-                    }
-                    $('#user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
-                    $('#user_email').html(data.userEmail);
-                    if (data.userPicture === '') {
-                        $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.userDisplayName + "'></a>");
-                    } else {
-                        $('#form_user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' alt='" + data.userDisplayName + "'></a>");
-                    }
-                    $('#form_user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
-                    $('#form_user_email').html(data.userEmail);
+                    console.log("$.fn.getAuthorized -----> getJSON empty");
+
                 }
             );
             /*Волшебное использование куки ===============================================*/
@@ -100,6 +106,31 @@
     $.fn.getAuthorized(); // TODO: Убрать повторное использование
     //$.fn.getAuthorizedData(); // TODO: Убрать повторное использование
     //authorizedData = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
+
+    $.fn.fbSentMessage = function (options) {
+        fbSentMessageSettings = $.extend({
+            file: '',
+            messageid: '',
+            authorized: authorized
+        }, options);
+        console.log("$.fn.fbSentMessage fbSentMessageSettings.authorized -----> " + fbSentMessageSettings.authorized);
+        console.log("$.fn.fbSentMessage -----> fbSentMessageSettings " + JSON.stringify(fbSentMessageSettings));
+        console.log("$.fn.fbSentMessage -----> link " + 'https://vide.me/v?m=' + fbSentMessageSettings.file + '&messageid=' + fbSentMessageSettings.messageid);
+        $.ajaxSetup({ cache: true });
+
+        $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+            FB.init({
+                appId: '1675775936007165',
+                //version: 'v2.7' // or v2.1, v2.2, v2.3, ...
+                version: 'v2.8' // or v2.1, v2.2, v2.3, ...
+            });
+
+            FB.ui({
+                method: 'send',
+                link: 'https://vide.me/v?m=' + fbSentMessageSettings.file + '&messageid=' + fbSentMessageSettings.messageid
+            });
+        });
+    };
 
     $.fn.oneTimeInbox = function (options) {
         oneTimeInboxSettings = $.extend({
@@ -1080,6 +1111,10 @@ target='_blank'>\
                 'fromUserName': paddingButtonOneTime.fromUserName,
                 'toUserName': paddingButtonOneTime.toUserName,
                 'conferenceId': paddingButtonOneTime.conferenceId
+            },
+            'fb-send-message': {
+                'file': paddingButtonOneTime.file,
+                'messageid': paddingButtonOneTime.messageid
             }
         };
         return paddingButtonOneTime;
@@ -1104,6 +1139,10 @@ target='_blank'>\
                 'videoDuration': paddingButtonInbox.videoDuration,
                 'tags': paddingButtonInbox.tags
             },
+            'fb-send-message': {
+                'file': paddingButtonInbox.file,
+                'messageid': paddingButtonInbox.messageid
+            },
             'del-inbox-toggle': {
                 'file': paddingButtonInbox.file,
                 'messageid': paddingButtonInbox.messageid
@@ -1118,6 +1157,10 @@ target='_blank'>\
                 'file': paddingButtonSend.file,
                 'subject': paddingButtonSend.subject,
                 'message': paddingButtonSend.message
+            },
+            'fb-send-message': {
+                'file': paddingButtonSend.file,
+                'messageid': paddingButtonSend.messageid
             },
             'list-toggle': {
                 'file': paddingButtonSend.file,
@@ -1139,6 +1182,10 @@ target='_blank'>\
                 'subject': paddingButtonMy.subject,
                 'message': paddingButtonMy.message
             },
+            'fb-send-message': {
+                'file': paddingButtonMy.file,
+                //'messageid': paddingButtonMy.messageid
+            },
             'list-toggle': {
                 'file': paddingButtonMy.file,
                 'subject': paddingButtonMy.subject,
@@ -1158,6 +1205,10 @@ target='_blank'>\
                 'file': paddingButtonMySpring.file,
                 'subject': paddingButtonMySpring.subject,
                 'message': paddingButtonMySpring.message
+            },
+            'fb-send-message': {
+                'file': paddingButtonMySpring.file,
+                //'messageid': paddingButtonMySpring.messageid // del
             },
             'list-toggle': {
                 'file': paddingButtonMySpring.file,
@@ -1187,7 +1238,7 @@ target='_blank'>\
             var sourseURL = "https://gu.vide.me/vic?m=";
         } else {
             console.log("authorized ------> false");
-            var sourseURL = "https://gu.vide.me/vi?m=";
+            var sourseURL = "https://gu.vide.me/vi/?m=";
         }
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
@@ -1336,7 +1387,7 @@ target='_blank'>\
             var sourseURL = "https://gu.vide.me/vic?m=";
         } else {
             console.log("authorized ------> false");
-            var sourseURL = "https://gu.vide.me/vi?m=";
+            var sourseURL = "https://gu.vide.me/vi/?m=";
         }
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
@@ -1665,14 +1716,16 @@ target='_blank'>\
             var hrefConferenceId = "";
             var hrefMessageId = "";
             var hrefSubject = "";
-            console.log("$.fn.showcaseButton showcaseButtonSettings.recipients.length -----> " + showcaseButtonSettings.recipients.length);
+            console.log("$.fn.showcaseButton showcaseButtonSettings.recipients.length -----> " + showcaseButtonSettings.recipients);
+            var recipients = showcaseButtonSettings.recipients;
 
-            if (showcaseButtonSettings.recipients.length.isArray) {
+            //error if (showcaseButtonSettings.recipients.length.isArray) {
+            if (!$.isEmptyObject(recipients)) {
 
-                var rec = jQuery.parseJSON(showcaseButtonSettings.recipients);
+                var rec = $.parseJSON(showcaseButtonSettings.recipients);
 
                 // Поставить в recipients вместо своего адреса адрес отправителя
-                var myEmailKey = jQuery.inArray(showcaseButtonSettings.toUserName, rec);
+                var myEmailKey = $.inArray(showcaseButtonSettings.toUserName, rec);
                 console.log("$.fn.showcaseButton myEmailKey -----> " + myEmailKey);
                 rec[myEmailKey] = showcaseButtonSettings.fromUserName;
                 //rec[0] = showcaseButtonSettings.toUserName;
@@ -1715,11 +1768,13 @@ target='_blank'>\
 
         }
         if (showcaseButtonSettings.showcaseButton['contact-toggle']) $(".contact-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['contact-toggle']);
+        if (showcaseButtonSettings.showcaseButton['share-toggle']) $(".share-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['share-toggle']);
         if (showcaseButtonSettings.showcaseButton['list-toggle']) $(".list-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['list-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-inbox-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-sent-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-my-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-sharefile-toggle']);
+        if (showcaseButtonSettings.showcaseButton['fb-send-message']) $(".fb-send-message").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['fb-send-message']);
     };
 
     // TODO: Можно убрать
@@ -4077,6 +4132,22 @@ message-value='#" + Message.substr(1) + "'>\
     });
 
 
+    /*************************************************************
+     Событие 1: Click button FB send message
+     **************************************************************/
+    $( "#fb-send-message" ).click(function() {
+    //$("#fb-send-message-by-url").on('click', function () {
+        console.log("a.fb-send-message-by-url -----> click");
+        console.log("a.fb-send-message-by-url -----> m " + $(this).attr('m'));
+        console.log("a.fb-send-message-by-url -----> messageid " + $(this).attr('messageid'));
+        $.fn.fbSentMessage({
+            //file: getParameterByName('m'),
+            file: $(this).attr('file'),
+            //messageid: getParameterByName('messageid')
+            messageid: $(this).attr('messageid')
+        });
+    });
+
 // Конец автозагрузки
 });
 
@@ -4092,7 +4163,7 @@ function showError(data) {
 					<span aria-hidden=\"true\">&times;</span>\
 				</button>\
 				<strong>Warning!</strong>\
-				Network error. <a href=\"" + document.URL + "\" class=\"alert-link\">Please reload the page.</a>\
+				Network error. <a href=\"" + document.URL + "\" class=\"alert-link\">Please reload the page.</a> <a href='https://api.vide.me/enter/' class=\"alert-link\"> Or Sign in.</a>\
 				<p>" + JSON.stringify(data) + "</p>\
 			</div>\
 		")
