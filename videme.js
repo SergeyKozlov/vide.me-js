@@ -90,8 +90,11 @@
                         }
                         $('#form_user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
                         $('#form_user_email').html(data.userEmail);
+                    } else {
+                        console.log("$.fn.getAuthorized -----> getJSON empty");
+                        $('.videme-form-user-info').remove();
+
                     }
-                    console.log("$.fn.getAuthorized -----> getJSON empty");
 
                 }
             );
@@ -99,6 +102,11 @@
             //console.log("vide_nad -----> " + $.cookie('vide_nad'));
             $('#nad').val($.cookie('vide_nad'));
             /*============================================================================*/
+            $('.authorize-false').remove();
+        } else {
+            console.log("$.fn.getAuthorized -----> no cookie");
+            $('.videme-form-user-info').remove();
+
         }
         return authorized;
     };
@@ -226,11 +234,11 @@
         tempObjectPopVideo.prepend(
             '<hr>' +
             '<div class="card" style="width: 20rem;">' +
-            '<img class="card-img-top" src="https://api.vide.me/img/?i=' + showNewRecSettings.file + '.jpg" alt="Card image cap">' +
+            '<img class="card-img-top" src="https://api.vide.me/img/?i=' + showNewRecSettings.file + '.jpg" alt="' + showNewRecSettings.subject + '">' +
             '<div class="card-block">' +
             '<h4 class="card-title">' + showNewRecSettings.subject + '</h4>' +
-            'From: <b>' + showNewRecSettings.femail + '</b>' +
-            '<span class="pull-right">To: <b>' + showNewRecSettings.email + '</b></span>' +
+            '<h6 class="card-subtitle mb-2 text-muted">From: <b>' + showNewRecSettings.femail + '</b>' +
+            '<span class="pull-right">To: <b>' + showNewRecSettings.email + '</b></span></h6>' +
             '<br>' +
             '<p class="text-muted">at: ' + convertTimestamp(showNewRecSettings.time) + '</p>' +
             '<p class="card-text">' + showNewRecSettings.message + '</p>' +
