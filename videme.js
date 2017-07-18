@@ -198,6 +198,49 @@
         //return VidemeProgress;
     };
 
+    $.fn.showNewRecBS4 = function (options) {
+        showNewRecSettings = $.extend({
+            subject: '',
+            message: '',
+            femail: '',
+            email: '',
+            file: '',
+            messageid: '',
+            time: '',
+            authorized: authorized,
+            showNewRecPlace: "#result-new-video"
+        }, options);
+
+        console.log("$.fn.showNewRec showNewRecSettings.authorized -----> " + showNewRecSettings.authorized);
+
+        if ($(this).length) {
+            console.log("$.fn.showNewRec $(this) -----> yes " + $(this).length);
+            var tempObjectPopVideo = $(this);
+        } else {
+            console.log("$.fn.showNewRec $(this) -----> nooo! " + $(this).length);
+            var tempObjectPopVideo = $(showNewRecSettings.showNewRecPlace);
+        }
+        console.log("$.fn.showNewRec tempObject -----> " + tempObjectPopVideo.length);
+        //tempObjectPopVideo.html(VidemeProgress);
+        //==tempObjectPopVideo.append('https://api.vide.me/opportunities/?subject=' + showNewRecSettings.subject + "&message=" +showNewRecSettings.message + "&email=" + showNewRecSettings.email + "&m=" + showNewRecSettings.file + "&messageid=" + showNewRecSettings.messageid);
+        tempObjectPopVideo.prepend(
+            '<hr>' +
+            '<div class="card" style="width: 20rem;">' +
+            '<img class="card-img-top" src="https://api.vide.me/img/?i=' + showNewRecSettings.file + '.jpg" alt="Card image cap">' +
+            '<div class="card-block">' +
+            '<h4 class="card-title">' + showNewRecSettings.subject + '</h4>' +
+            'From: <b>' + showNewRecSettings.femail + '</b>' +
+            '<span class="pull-right">To: <b>' + showNewRecSettings.email + '</b></span>' +
+            '<br>' +
+            '<p class="text-muted">at: ' + convertTimestamp(showNewRecSettings.time) + '</p>' +
+            '<p class="card-text">' + showNewRecSettings.message + '</p>' +
+            '<a href="https://vide.me/v?m=' + showNewRecSettings.file + '" class="btn btn-primary">Go somewhere</a>' +
+            '</div>' +
+            '</div>');
+        return tempObjectPopVideo;
+        //return VidemeProgress;
+    };
+
     $.fn.oneTimeInboxAds = function (options) {
         oneTimeInboxSettings = $.extend({
             /*file: '',
@@ -551,21 +594,21 @@
             showNewVideo: ".videme-shownew-tile"
         }, options);
         if ($(this).length) {
-         console.log("$.fn.showNewVideoPagination $(this) -----> yes " + $(this).length);
-         var tempObjectNewVideo = $(this);
-         } else {
-         console.log("$.fn.showNewVideoPagination $(this) -----> nooo! " + $(this).length);
-         var tempObjectNewVideo = $(showNewVideoPaginationSettings.showNewVideo);
-         }
-         console.log("$.fn.showNewVideo tempObject -----> " + tempObjectNewVideo.length);
-         tempObjectNewVideo.html(VidemeProgress);
+            console.log("$.fn.showNewVideoPagination $(this) -----> yes " + $(this).length);
+            var tempObjectNewVideo = $(this);
+        } else {
+            console.log("$.fn.showNewVideoPagination $(this) -----> nooo! " + $(this).length);
+            var tempObjectNewVideo = $(showNewVideoPaginationSettings.showNewVideo);
+        }
+        console.log("$.fn.showNewVideo tempObject -----> " + tempObjectNewVideo.length);
+        tempObjectNewVideo.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
-/*
-        var data = $.fn.showNewVideo({
-            //msg: msg
-        });*/
+        /*
+                var data = $.fn.showNewVideo({
+                    //msg: msg
+                });*/
         //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
 
@@ -580,7 +623,7 @@
                 var pagetotal = Math.ceil(jsonData.length / showNewVideoPaginationSettings.limit);
                 /* Объявить экземпляр пейджинатора */
                 $('.videme-shownew-pagination').jqPagination({
-                //link_string	: '/?page={page_number}',
+                    //link_string	: '/?page={page_number}',
                     max_page: pagetotal,
                     paged: function (page) {
                         var skip = (page - 1) * showNewVideoPaginationSettings.limit;
@@ -609,14 +652,14 @@
             showPopVideo: ".videme-showpop-tile"
         }, options);
         if ($(this).length) {
-         console.log("$.fn.showPopVideoPagination $(this) -----> yes " + $(this).length);
-         var tempObjectPopVideo = $(this);
-         } else {
-         console.log("$.fn.showPopVideoPagination $(this) -----> nooo! " + $(this).length);
-         var tempObjectPopVideo = $(showPopVideoPaginationSettings.showPopVideo);
-         }
-         console.log("$.fn.showNewVideo tempObject -----> " + tempObjectPopVideo.length);
-         tempObjectPopVideo.html(VidemeProgress);
+            console.log("$.fn.showPopVideoPagination $(this) -----> yes " + $(this).length);
+            var tempObjectPopVideo = $(this);
+        } else {
+            console.log("$.fn.showPopVideoPagination $(this) -----> nooo! " + $(this).length);
+            var tempObjectPopVideo = $(showPopVideoPaginationSettings.showPopVideo);
+        }
+        console.log("$.fn.showNewVideo tempObject -----> " + tempObjectPopVideo.length);
+        tempObjectPopVideo.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
@@ -665,15 +708,15 @@
             limit: 3,
             showNextVideo: ".videme-shownext-tile"
         }, options);
-         if ($(this).length) {
-         console.log("$.fn.showNextVideoPagination $(this) -----> yes " + $(this).length);
-         var tempObjectNextVideo = $(this);
-         } else {
-         console.log("$.fn.showNextVideoPagination $(this) -----> nooo! " + $(this).length);
-         var tempObjectNextVideo = $(showNextVideoPaginationSettings.showNextVideo);
-         }
-         console.log("$.fn.showNewVideo tempObject -----> " + tempObjectNextVideo.length);
-         tempObjectNextVideo.html(VidemeProgress);
+        if ($(this).length) {
+            console.log("$.fn.showNextVideoPagination $(this) -----> yes " + $(this).length);
+            var tempObjectNextVideo = $(this);
+        } else {
+            console.log("$.fn.showNextVideoPagination $(this) -----> nooo! " + $(this).length);
+            var tempObjectNextVideo = $(showNextVideoPaginationSettings.showNextVideo);
+        }
+        console.log("$.fn.showNewVideo tempObject -----> " + tempObjectNextVideo.length);
+        tempObjectNextVideo.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         /* Сделать запрос */
@@ -691,30 +734,30 @@
 
         $.getJSON("https://api.vide.me/file/shownext/?prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
 
-                function (jsonData) {
+            function (jsonData) {
                 console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(jsonData));
-                    if (jsonData !== undefined) {
+                if (jsonData !== undefined) {
 
-                        console.log("$.fn.showNextVideoPagination length -----> " + jsonData.length);
+                    console.log("$.fn.showNextVideoPagination length -----> " + jsonData.length);
 
-                        tempObjectNextVideo.html(showTile(parseFileMy(jsonData.slice(0, showNextVideoPaginationSettings.limit)), tempObjectNextVideo, "shownext"));
+                    tempObjectNextVideo.html(showTile(parseFileMy(jsonData.slice(0, showNextVideoPaginationSettings.limit)), tempObjectNextVideo, "shownext"));
 
-                        var pagetotal = Math.ceil(jsonData.length / showNextVideoPaginationSettings.limit); //example=2
+                    var pagetotal = Math.ceil(jsonData.length / showNextVideoPaginationSettings.limit); //example=2
 
-                        $('.videme-shownext-pagination').jqPagination({
-                            //link_string	: '/?page={page_number}',
-                            max_page: pagetotal,
-                            paged: function (page) {
-                                var skip = (page - 1) * showNextVideoPaginationSettings.limit;
-                                skip2 = skip;
-                                limit = skip2 + showNextVideoPaginationSettings.limit;
-                                console.log("$.fn.showNextVideoPagination jqPagination -----> skip: " + skip);
-                                tempObjectNextVideo.html(showTile(parseFileMy(jsonData.slice(skip2, limit)), tempObjectNextVideo, "shownext"));
-                            }
-                        });
-                    } else {
-                        tempObjectNextVideo.parent().hide("slow");
-                    }
+                    $('.videme-shownext-pagination').jqPagination({
+                        //link_string	: '/?page={page_number}',
+                        max_page: pagetotal,
+                        paged: function (page) {
+                            var skip = (page - 1) * showNextVideoPaginationSettings.limit;
+                            skip2 = skip;
+                            limit = skip2 + showNextVideoPaginationSettings.limit;
+                            console.log("$.fn.showNextVideoPagination jqPagination -----> skip: " + skip);
+                            tempObjectNextVideo.html(showTile(parseFileMy(jsonData.slice(skip2, limit)), tempObjectNextVideo, "shownext"));
+                        }
+                    });
+                } else {
+                    tempObjectNextVideo.parent().hide("slow");
+                }
             })
             .done(function (data) {
             })
@@ -726,156 +769,156 @@
             });
         //==});
     };
-/*
+    /*
 
-    $.fn.showNextVideoPagination = function (options) {
-        console.log("$.fn.showNewVideoPagination -----> ok");
-        showNextVideoPaginationSettings = $.extend({
-            // TODO: добавить limit в NAD
-            limit: 6,
-            showNextVideo: ".videme-shownext-tile"
-        }, options);
-        /!*        if ($(this).length) {
-         console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
-         var tempObject = $(this);
-         } else {
-         console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
-         var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
-         }
-         console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
-         tempObject.html(VidemeProgress);*!/
-        //==return this.each(function () {
-        //var tempObject = $(this);
-        /!* Сделать запрос *!/
-        /!*
-         var data = $.fn.showNewVideo({
-         //msg: msg
-         });*!/
-        //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
-        //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
-        var prevfile = $.cookie('vide_prev_file');
-        var file = showNextVideoPaginationSettings.file;
-        var ticketname = showNextVideoPaginationSettings.ticketName;
-        var messageid = showNextVideoPaginationSettings.messageid;
-        $.cookie("vide_prev_file", file);
+        $.fn.showNextVideoPagination = function (options) {
+            console.log("$.fn.showNewVideoPagination -----> ok");
+            showNextVideoPaginationSettings = $.extend({
+                // TODO: добавить limit в NAD
+                limit: 6,
+                showNextVideo: ".videme-shownext-tile"
+            }, options);
+            /!*        if ($(this).length) {
+             console.log("$.fn.showNewVideo $(this) -----> yes " + $(this).length);
+             var tempObject = $(this);
+             } else {
+             console.log("$.fn.showNewVideo $(this) -----> nooo! " + $(this).length);
+             var tempObject = $(showNewVideoPaginationSettings.showNewVideo);
+             }
+             console.log("$.fn.showNewVideo tempObject -----> " + tempObject.length);
+             tempObject.html(VidemeProgress);*!/
+            //==return this.each(function () {
+            //var tempObject = $(this);
+            /!* Сделать запрос *!/
+            /!*
+             var data = $.fn.showNewVideo({
+             //msg: msg
+             });*!/
+            //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
+            //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
+            var prevfile = $.cookie('vide_prev_file');
+            var file = showNextVideoPaginationSettings.file;
+            var ticketname = showNextVideoPaginationSettings.ticketName;
+            var messageid = showNextVideoPaginationSettings.messageid;
+            $.cookie("vide_prev_file", file);
 
-//	var updatedAt = $this.attr('updatedAt-value');
-//	var Subject = $this.attr('Subject-value');
-//	var Message = $this.attr('Message-value');
-//	var href = $this.attr('href');
-
-
-        /!*
-         $('.videme-video-element-center').html("\
-         <video controls autoplay>\
-         <source src='https://gu.vide.me/vic?m=" + ticketname + "&messageid=" + messageid + "' type='video/mp4'>\
-         Your browser does not support the <code>video</code> element.\
-         </video>\
-         ");
-         *!/
+    //	var updatedAt = $this.attr('updatedAt-value');
+    //	var Subject = $this.attr('Subject-value');
+    //	var Message = $this.attr('Message-value');
+    //	var href = $this.attr('href');
 
 
-        /!* ==
-         $('.videme-panel-actor2').html(b['results'][0]['FromUserName']);
-         $('.videme-panel-date2').html(b['results'][0]['updatedAt']);
-         $('.videme-panel-subject2').html(b['results'][0]['Subject']);
-         $('.videme-panel-message2').html(b['results'][0]['Message']);
-         *!/
-        $(".videme-shownext-tile").html("<img src='data:image/gif;base64,R0lGODlhDQAMAKIAAP///7W1ta2trXNzczExMf4BAgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAFACwAAAAADQAMAAADIgi6zCIghDilejRbgK2fHPRloVaB3Umm5iWqGzuW49bcQAIAIfkEBQoABQAsAAABAAMACgAAAwhYRMrb8ElHEwAh+QQFCgAFACwAAAEADAAKAAADHlgzRVRCQLnai1Mxl3HlmLddkmh11IhqZ5i25QvGCQAh+QQFCgAFACwAAAEACQAKAAADGVgiNVOEKOagXO3FmS2vGwZelEZ2YemJZgIAIfkEBQoABQAsBAABAAgACgAAAxYYUTNFRDEHZXtx3appnpjliWFXglACACH5BAUKAAUALAcAAQAFAAoAAAMNGFEzym61N2WE9FZsEwA7' />");
+            /!*
+             $('.videme-video-element-center').html("\
+             <video controls autoplay>\
+             <source src='https://gu.vide.me/vic?m=" + ticketname + "&messageid=" + messageid + "' type='video/mp4'>\
+             Your browser does not support the <code>video</code> element.\
+             </video>\
+             ");
+             *!/
 
-        /!* Вставить проверку одинаковости файлов*!/
 
-        /!* Сделать запрос *!/
-        $.getJSON("https://api.vide.me/file/shownext/?limit=12&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
-            function (b) {
+            /!* ==
+             $('.videme-panel-actor2').html(b['results'][0]['FromUserName']);
+             $('.videme-panel-date2').html(b['results'][0]['updatedAt']);
+             $('.videme-panel-subject2').html(b['results'][0]['Subject']);
+             $('.videme-panel-message2').html(b['results'][0]['Message']);
+             *!/
+            $(".videme-shownext-tile").html("<img src='data:image/gif;base64,R0lGODlhDQAMAKIAAP///7W1ta2trXNzczExMf4BAgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAFACwAAAAADQAMAAADIgi6zCIghDilejRbgK2fHPRloVaB3Umm5iWqGzuW49bcQAIAIfkEBQoABQAsAAABAAMACgAAAwhYRMrb8ElHEwAh+QQFCgAFACwAAAEADAAKAAADHlgzRVRCQLnai1Mxl3HlmLddkmh11IhqZ5i25QvGCQAh+QQFCgAFACwAAAEACQAKAAADGVgiNVOEKOagXO3FmS2vGwZelEZ2YemJZgIAIfkEBQoABQAsBAABAAgACgAAAxYYUTNFRDEHZXtx3appnpjliWFXglACACH5BAUKAAUALAcAAQAFAAoAAAMNGFEzym61N2WE9FZsEwA7' />");
 
-                if (b.results.length > 2) {
+            /!* Вставить проверку одинаковости файлов*!/
 
-                    /!* Показать первый расклад *!/
-                    var a = [];
-                    $.each(b.results, function (d, c) {
-                        /!* Выйти после 3 интерации *!/
-                        if (d > 2) return false;
-                        a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='shownext' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='https://vide.me/v?m=" + c.File + "' \
-target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
-		<div class=''>" + c.File + "</div>\
-		</a>\
-	</div>\
-</div>\
-				")
-                    });
-                    /!* Всё слепить и показать *!/
-                    $(".videme-shownext-tile").html(a.join(""));
-                    /!* Вычисилить максимальное число страниц *!/
-                    var pagetotal = Math.ceil(b.results.length / 3); //example=2
-                    /!* Объявить экземпляр пейджинатора *!/
-                    $('.videme-shownext-pagination').jqPagination({
-                        //link_string	: '/?page={page_number}',
-                        max_page: pagetotal,
-                        paged: function (page) {
-                            /!* Пропустить страниц = текущая страница * элементов на странице *!/
-                            //var skip = (page - 1) * 4;
-                            var skip = (page - 1) * 3;
-                            $.getJSON("https://api.vide.me/file/shownext/?limit=12&skip=" + skip + "&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
-                                function (b) {
+            /!* Сделать запрос *!/
+            $.getJSON("https://api.vide.me/file/shownext/?limit=12&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
+                function (b) {
 
-                                    var a = [];
-                                    $.each(b.results, function (d, c) {
-                                        /!* Выйти после 3 интерации *!/
-                                        if (d > 2) return false;
-                                        a.push("\
-<div class='box'>\
-	<div class='boxInner'>\
-		<a class='shownext' \
-file-value='#" + c.File + "' \
-messageid-value='#" + c.objectId + "' \
-FromUserName-value='#" + c.FromUserName + "' \
-updatedAt-value='#" + c.updatedAt + "' \
-Subject-value='#" + c.Subject + "' \
-Message-value='#" + c.Message + "' \
-href='https://vide.me/v?m=" + c.File + "' \
-target='_blank'>\
-			<img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
-		<div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
-		<div class=''>" + c.File + "</div>\
-		</a>\
-	</div>\
-</div>\
-					")
+                    if (b.results.length > 2) {
+
+                        /!* Показать первый расклад *!/
+                        var a = [];
+                        $.each(b.results, function (d, c) {
+                            /!* Выйти после 3 интерации *!/
+                            if (d > 2) return false;
+                            a.push("\
+    <div class='box'>\
+        <div class='boxInner'>\
+            <a class='shownext' \
+    file-value='#" + c.File + "' \
+    messageid-value='#" + c.objectId + "' \
+    FromUserName-value='#" + c.FromUserName + "' \
+    updatedAt-value='#" + c.updatedAt + "' \
+    Subject-value='#" + c.Subject + "' \
+    Message-value='#" + c.Message + "' \
+    href='https://vide.me/v?m=" + c.File + "' \
+    target='_blank'>\
+                <img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+            <div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+            <div class=''>" + c.File + "</div>\
+            </a>\
+        </div>\
+    </div>\
+                    ")
+                        });
+                        /!* Всё слепить и показать *!/
+                        $(".videme-shownext-tile").html(a.join(""));
+                        /!* Вычисилить максимальное число страниц *!/
+                        var pagetotal = Math.ceil(b.results.length / 3); //example=2
+                        /!* Объявить экземпляр пейджинатора *!/
+                        $('.videme-shownext-pagination').jqPagination({
+                            //link_string	: '/?page={page_number}',
+                            max_page: pagetotal,
+                            paged: function (page) {
+                                /!* Пропустить страниц = текущая страница * элементов на странице *!/
+                                //var skip = (page - 1) * 4;
+                                var skip = (page - 1) * 3;
+                                $.getJSON("https://api.vide.me/file/shownext/?limit=12&skip=" + skip + "&prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
+                                    function (b) {
+
+                                        var a = [];
+                                        $.each(b.results, function (d, c) {
+                                            /!* Выйти после 3 интерации *!/
+                                            if (d > 2) return false;
+                                            a.push("\
+    <div class='box'>\
+        <div class='boxInner'>\
+            <a class='shownext' \
+    file-value='#" + c.File + "' \
+    messageid-value='#" + c.objectId + "' \
+    FromUserName-value='#" + c.FromUserName + "' \
+    updatedAt-value='#" + c.updatedAt + "' \
+    Subject-value='#" + c.Subject + "' \
+    Message-value='#" + c.Message + "' \
+    href='https://vide.me/v?m=" + c.File + "' \
+    target='_blank'>\
+                <img src=\"https://api.vide.me/img/?i=" + c.File + ".jpg\" alt=\"" + c.updatedAt + "\" title=\"" + c.updatedAt + "\" onerror='imgError(this);'>\
+            <div class='videme-tile-signboard-true'>" + c.updatedAt + "</div>\
+            <div class=''>" + c.File + "</div>\
+            </a>\
+        </div>\
+    </div>\
+                        ")
+                                        });
+                                        /!* Всё слепить и показать *!/
+                                        $(".videme-shownext-tile").html(a.join(""));
+
                                     });
-                                    /!* Всё слепить и показать *!/
-                                    $(".videme-shownext-tile").html(a.join(""));
+                            }
+                        });
+                    } else {
+                        $('.videme-shownext-pagination').hide('fast');
+                    }
 
-                                });
-                        }
-                    });
-                } else {
-                    $('.videme-shownext-pagination').hide('fast');
-                }
-
-            })
-            .done(function (data) {
-            })
-            .fail(function (data) {
-                tempObject.html(showError(data));
-            })
-            .always(function () {
-            });
-        //==});
-    };
-*/
+                })
+                .done(function (data) {
+                })
+                .fail(function (data) {
+                    tempObject.html(showError(data));
+                })
+                .always(function () {
+                });
+            //==});
+        };
+    */
 
     function showTile(showFile, tempObject, actionUrlClass) {
         if (tempObject.width() < 500) {
@@ -1876,22 +1919,22 @@ target='_blank'>\
         }, options);
         $(this).html(VidemeProgress);
         //return this.each(function () {
-            var TempObject = $(this);
-            $.getJSON("https://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
-                function (data) {
-                    TempObject.html($.fn.showArticle({
-                        showArticle: parseArticleShowNew(data),
-                        TempObject: TempObject,
-                        button: "own"
-                    }));
-                })
-                .done(function () {
-                })
-                .fail(function (data) {
-                    TempObject.html(showError(data));
-                })
-                .always(function () {
-                });
+        var TempObject = $(this);
+        $.getJSON("https://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
+            function (data) {
+                TempObject.html($.fn.showArticle({
+                    showArticle: parseArticleShowNew(data),
+                    TempObject: TempObject,
+                    button: "own"
+                }));
+            })
+            .done(function () {
+            })
+            .fail(function (data) {
+                TempObject.html(showError(data));
+            })
+            .always(function () {
+            });
         //});
     };
 
@@ -1901,22 +1944,22 @@ target='_blank'>\
         }, options);
         $(this).html(VidemeProgress);
         //return this.each(function () {
-            var TempObject = $(this);
-            $.getJSON("https://api.vide.me/article/mydraft/?limit=" + articleShowMyDraftSettings.limit + "&videmecallback=?",
-                function (data) {
-                    TempObject.html($.fn.showArticle({
-                        showArticle: parseArticleShowNew(data),
-                        TempObject: TempObject,
-                        button: "own"
-                    }));
-                })
-                .done(function () {
-                })
-                .fail(function (data) {
-                    TempObject.html(showError(data));
-                })
-                .always(function () {
-                });
+        var TempObject = $(this);
+        $.getJSON("https://api.vide.me/article/mydraft/?limit=" + articleShowMyDraftSettings.limit + "&videmecallback=?",
+            function (data) {
+                TempObject.html($.fn.showArticle({
+                    showArticle: parseArticleShowNew(data),
+                    TempObject: TempObject,
+                    button: "own"
+                }));
+            })
+            .done(function () {
+            })
+            .fail(function (data) {
+                TempObject.html(showError(data));
+            })
+            .always(function () {
+            });
         //});
     };
 
@@ -1967,26 +2010,26 @@ target='_blank'>\
         //var tempObject = $(this);
 
         //return this.each(function () {
-            console.log("$.fn.showTileButton showTileButtonSettings.button -----> " + showTileButtonSettings.button);
-            //var TempObject = $(this);
-            //var button = [];
-            switch (showTileButtonSettings.button) {
-                case 'own':
-                    console.log("$.fn.showTileButton showTileButtonSettings.button -----> case \"own\"");
-                    button = "\
+        console.log("$.fn.showTileButton showTileButtonSettings.button -----> " + showTileButtonSettings.button);
+        //var TempObject = $(this);
+        //var button = [];
+        switch (showTileButtonSettings.button) {
+            case 'own':
+                console.log("$.fn.showTileButton showTileButtonSettings.button -----> case \"own\"");
+                button = "\
                         <div class=\"videme-article-down\">\
                         <a class=\"btn btn-default\" href=\"https://vide.me/article/update/html/?article=" + showTileButtonSettings.article + "\" role=\"button\">Edit</a>\
                         </div>\
 		 	        ";
-                    break;
-                case 'new':
-                    // share button
-                    button = " ";
-                    break;
-                default:
-                    //console.log("Sorry, we are out of " + expr + ".");
-                    button = " ";
-            }
+                break;
+            case 'new':
+                // share button
+                button = " ";
+                break;
+            default:
+                //console.log("Sorry, we are out of " + expr + ".");
+                button = " ";
+        }
         //});
         //console.log("$.fn.showTileButton button -----> " + button);
         //return tempObject;
@@ -2024,8 +2067,8 @@ target='_blank'>\
 									</a>\
 									"
                 + $.fn.showTileButton(showArticleSettings) +
-         "</div>\
-		 	");
+                "</div>\
+                    ");
         });
         return html;
     };
@@ -2353,7 +2396,7 @@ target='_blank'>\
     /*************************************************************
      v2 Событие 3: нажата кнопка вызова и отрисовки контактов в модальном окне
      **************************************************************/
-        // TODO: Попробовать так:
+    // TODO: Попробовать так:
     /*
     $('#myTabs a').click(function (e) {
         e.preventDefault()
@@ -4176,7 +4219,7 @@ message-value='#" + Message.substr(1) + "'>\
      Событие 1: Click button FB send message
      **************************************************************/
     $( "#fb-send-message" ).click(function() {
-    //$("#fb-send-message-by-url").on('click', function () {
+        //$("#fb-send-message-by-url").on('click', function () {
         console.log("a.fb-send-message-by-url -----> click");
         console.log("a.fb-send-message-by-url -----> m " + $(this).attr('m'));
         console.log("a.fb-send-message-by-url -----> messageid " + $(this).attr('messageid'));
