@@ -327,7 +327,7 @@ body {
 }
 
 /*========================================================================*/
-.navbar-brand {
+/*.navbar-brand {
     background: url("https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/logon.png") no-repeat center;
     background-position: 10px 6px;
     height: 44px;
@@ -347,7 +347,7 @@ body {
     z-index:9998;
     border-bottom:2px solid;
     border-color: rgba(217, 238, 250, 0.5);
-}
+}*/
 
 .videme-tile-my {
 

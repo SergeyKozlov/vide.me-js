@@ -233,18 +233,15 @@
         //==tempObjectPopVideo.append('https://api.vide.me/opportunities/?subject=' + showNewRecSettings.subject + "&message=" +showNewRecSettings.message + "&email=" + showNewRecSettings.email + "&m=" + showNewRecSettings.file + "&messageid=" + showNewRecSettings.messageid);
         tempObjectPopVideo.prepend(
             '<hr>' +
-            '<div class="card" style="width: 20rem;">' +
-            '<img class="card-img-top" src="https://api.vide.me/img/?i=' + showNewRecSettings.file + '.jpg" alt="' + showNewRecSettings.subject + '">' +
-            '<div class="card-block">' +
-            '<h4 class="card-title">' + showNewRecSettings.subject + '</h4>' +
-            '<h6 class="card-subtitle mb-2 text-muted">From: <b>' + showNewRecSettings.femail + '</b>' +
-            '<span class="pull-right">To: <b>' + showNewRecSettings.email + '</b></span></h6>' +
+            'From: <b>' + showNewRecSettings.femail + '</b>' +
+            '<span class="pull-right">To: <b>' + showNewRecSettings.email + '</b></span>' +
             '<br>' +
             '<p class="text-muted">at: ' + convertTimestamp(showNewRecSettings.time) + '</p>' +
-            '<p class="card-text">' + showNewRecSettings.message + '</p>' +
-            '<a href="https://vide.me/v?m=' + showNewRecSettings.file + '" class="btn btn-primary">Go somewhere</a>' +
-            '</div>' +
-            '</div>');
+            '<strong>' + showNewRecSettings.subject + '</strong>' +
+            '<p>' + showNewRecSettings.message + '</p>' +
+            '<a href="https://vide.me/v?m=' + showNewRecSettings.file + '" target="_blank">' +
+            '<img src="https://api.vide.me/img/?i=' + showNewRecSettings.file + '.jpg" alt="..." class="img-thumbnail">' +
+            '</a>');
         return tempObjectPopVideo;
         //return VidemeProgress;
     };
