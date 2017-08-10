@@ -1007,8 +1007,8 @@
 						 <img src='https://api.vide.me/img/?i=" + value.img + ".jpg' alt=''>\
 						 </img>\
 					<div class='videme-tile-signboard-true'></div>\
-					</div>\
 			</a>\
+			</div>\
 				</div>\
 		 	")
         });
@@ -2070,8 +2070,7 @@
 						 <img src='" + value.img + "' alt=''>\
 						 </img>\
 					 <div class='videme-tile-signboard-true'></div>\
-				</div>\
-									</a>\
+									</a></div>\
 									"
                 + $.fn.showTileButton(showArticleSettings) +
                 "</div>\
