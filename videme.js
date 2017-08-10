@@ -68,6 +68,8 @@
                 function (data) {
                     //error if (typeof data !== 'undefined' && data.length > 0) {
                     if (!$.isEmptyObject(data)) {
+                        $('.authorize-false').remove();
+
                         console.log("user/info data -----> " + JSON.stringify(data));
                         if (data.hasOwnProperty('userEmail')) { // TODO: Вынести в отдельную функцию
                             console.log("$.fn.getAuthorized -----> yes " + data.userEmail);
@@ -102,7 +104,6 @@
             //console.log("vide_nad -----> " + $.cookie('vide_nad'));
             $('#nad').val($.cookie('vide_nad'));
             /*============================================================================*/
-            $('.authorize-false').remove();
         } else {
             console.log("$.fn.getAuthorized -----> no cookie");
             $('.videme-form-user-info').remove();
