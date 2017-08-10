@@ -1006,7 +1006,7 @@
 			</div>\
 						 <img src='https://api.vide.me/img/?i=" + value.img + ".jpg' alt=''>\
 						 </img>\
-					<div class='videme-tile-signboard-true'>\
+					<div class='videme-tile-signboard-true'></div>\
 					</div>\
 			</a>\
 				</div>\
@@ -2060,14 +2060,15 @@
 
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
-									<a class='' href='https://vide.me/article/" + value.href + "'>\
 				<div class='boxInner'>\
+									<a class='' href='https://vide.me/article/" + value.href + "'>\
 					<div class='titleTop'>\
 						 " + value.a + "<br>\
 						 " + value.b + "<br>\
 						 " + value.c + "<br>\
 					</div>\
 						 <img src='" + value.img + "' alt=''>\
+						 </img>\
 					 <div class='videme-tile-signboard-true'></div>\
 				</div>\
 									</a>\
