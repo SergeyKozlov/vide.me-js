@@ -287,20 +287,24 @@
             showcaseVideo: "#videme-tile"
         }, options);
         if ($(this).length) {
-            console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
+            //console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            //console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
             var tempObject = $(fileInboxSettings.showcaseVideo);
         }
         console.log("$.fn.fileInbox tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
+        var start_time = performance.now();
         $.getJSON("https://api.vide.me/file/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
             function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
-                    console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
+                    //console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileInbox(data), tempObject, "file-inbox-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonInbox(data[0]));
                 } else {
@@ -325,18 +329,21 @@
             showcaseVideo: "#videme-tile"
         }, options);
         if ($(this).length) {
-            console.log("$.fn.fileSent $(this) -----> yes " + $(this).length);
+            //console.log("$.fn.fileSent $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             console.log("$.fn.fileSent $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(fileSentSettings.showcaseVideo);
+            //var tempObject = $(fileSentSettings.showcaseVideo);
         }
         console.log("$.fn.fileSent tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
+        var start_time = performance.now();
         $.getJSON("https://api.vide.me/file/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
             function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
-                    console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
+                    //console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileSent(data), tempObject, "file-sent-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonSent(data[0]));
                 } else {
@@ -360,18 +367,21 @@
             showcaseVideo: "#videme-tile"
         }, options);
         if ($(this).length) {
-            console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
+            //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
             var tempObject = $(fileMySettings.showcaseVideo);
         }
         console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
+        var start_time = performance.now();
         $.getJSON("https://api.vide.me/file/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
             function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
-                    console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileMy(data), tempObject, "file-my-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
                 } else {
@@ -395,18 +405,21 @@
             showcaseVideo: "#videme-tile"
         }, options);
         if ($(this).length) {
-            console.log("$.fn.fileMySpring $(this) -----> yes " + $(this).length);
+            //console.log("$.fn.fileMySpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            console.log("$.fn.fileMySpring $(this) -----> nooo! " + $(this).length);
+            //console.log("$.fn.fileMySpring $(this) -----> nooo! " + $(this).length);
             var tempObject = $(fileMySpringSettings.showcaseVideo);
         }
         console.log("$.fn.fileMySpring tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
+        var start_time = performance.now();
         $.getJSON("https://api.vide.me/file/myspring/?limit=" + fileMySpringSettings.limit + "&videmecallback=?",
             function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
-                    console.log("$.fn.fileMySpring data -----> yes" + JSON.stringify(data));
+                    //console.log("$.fn.fileMySpring data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseFileMySpring(data), tempObject, "file-myspring-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
                 } else {
@@ -423,16 +436,59 @@
             });
     };
 
+    $.fn.fileSpring = function (options) {
+        console.log("$.fn.fileSpring -----> ok");
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        console.log("$.fn.fileSpring tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/file/spring/?spring=" + fileSpringSettings.spring + "&list=" + fileSpringSettings.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (data) {
+                    //console.log("$.fn.fileSpring data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseFileSpring(data), tempObject, "file-spring-url"));
+                    $.fn.showcaseVideoTextButton(paddingButtonSpring(data[0]));
+                } else {
+                    console.log("$.fn.fileSpring data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+
     $.fn.showMyTask = function (options) {
         showMyTaskSettings = $.extend({
             limit: 6,
             showcaseMyTask: "#videme-my-task"
         }, options);
         if ($(this).length) {
-            console.log("$.fn.showMyTask $(this) -----> yes " + $(this).length);
+            //console.log("$.fn.showMyTask $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            console.log("$.fn.showMyTask $(this) -----> nooo! " + $(this).length);
+            //console.log("$.fn.showMyTask $(this) -----> nooo! " + $(this).length);
             var tempObject = $(showMyTaskSettings.showcaseMyTask);
         }
         $.getJSON("https://api.vide.me/upload/getmytask/?limit=" + showMyTaskSettings.limit + "&videmecallback=?",
@@ -441,8 +497,8 @@
                     var htmlResult = [];
                     var rowClass;
                     $.each(data, function (key, value) {
-                        console.log("showMyTask value.value.type -----> " + JSON.stringify(value.value.type));
-                        console.log("showMyTask value.value.status -----> " + JSON.stringify(value.value.status));
+                        //console.log("showMyTask value.value.type -----> " + JSON.stringify(value.value.type));
+                        //console.log("showMyTask value.value.status -----> " + JSON.stringify(value.value.status));
                         //switch (value.value.type) {
                         switch (value.value.status) {
                             case "awaiting":
@@ -469,7 +525,7 @@
                         <td>" + value.value['videoDuration'] + "</td>\
                     </tr>")
                     });
-                    console.log("showMyTask value -----> html" + "<table>" + htmlResult.join("") + "</table>");
+                    //console.log("showMyTask value -----> html" + "<table>" + htmlResult.join("") + "</table>");
                     tempObject.html("<table class=\"table\" >\
                                 <tr class=\"\">\
                         <td>createdAt</td>\
@@ -483,7 +539,7 @@
                     </tr>" + htmlResult.join("") + "</table>");
                     //});
                 } else {
-                    console.log("$.fn.showMyTask data -----> no");
+                    //console.log("$.fn.showMyTask data -----> no");
                     tempObject.html("No results");
                 }
             })
@@ -943,7 +999,7 @@
         //maxTile = (maxTile - 1) || 18;
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
-            console.log("showTile ---> " + JSON.stringify(value));
+            //console.log("showTile ---> " + JSON.stringify(value));
             //if (d > maxTile) return false;
 
             var a;
@@ -971,8 +1027,8 @@
                 d = "";
             }
             var videoDuration;
-            if (value.videoDuration) {
-                videoDuration = sec2str(value.videoDuration) + "<br>";
+            if (value.videoduration) {
+                videoDuration = sec2str(value.videoduration) + "<br>";
             } else {
                 videoDuration = "";
             }
@@ -980,15 +1036,15 @@
             //if (value.messageid) {
             //if (value.indexOf("messageid")) {
             //if ("messageid" in value) {
-            if (value.messageid && value.messageid != "undefined") {
+            if (value.message_id && value.message_id != "undefined") {
                 href = "https://vide.me/v?m=" + value.href + "&messageid=" + value.messageid;
             } else {
                 href = "https://vide.me/v?m=" + value.href;
             }
             if (value.tags) {
-                console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
+                //console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
             } else {
-                console.log("showTile value.tags -----> empty");
+                //console.log("showTile value.tags -----> empty");
             }
 
             html.push("\
@@ -996,10 +1052,10 @@
 				<div class='boxInner'>\
 				<a class='" + actionUrlClass + "' \
 						file='" + value.file + "' \
-						messageid='" + value.messageid + "' \
-						fromUserName='" + value.fromUserName + "' \
-						toUserName='" + value.toUserName + "' \
-						updatedAt='" + convertTimestamp(value.updatedAt) + "' \
+						message_id='" + value.message_id + "' \
+						from_user_name='" + value.from_user_name + "' \
+						to_user_name='" + value.to_user_name + "' \
+						updated_at='" + value.updated_at + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
 						href='" + href + "' target='_blank'>\
@@ -1059,7 +1115,7 @@
 
     function parseFileInbox(parseFileInbox) {
         $.each(parseFileInbox, function (key, value) {
-            console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
+            //console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
             //console.log("parseFileInbox paddingData ----->" + paddingData(value)); // <<-------------------
             //console.log("parseFileInbox value ----->" + JSON.stringify(value));
             parseFileInbox[key] = {
@@ -1069,18 +1125,18 @@
                 'd': value.value.updatedAt,
                 'img': value.value.file,
                 'href': value.value.file,
-                'fromUserName': value.value.fromUserName,
+                'from_user_name': value.value.fromUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
-                'updatedAt': value.value.updatedAt,
+                'updated_at': value.value.updatedAt,
                 'file': value.value.file,
-                'messageid': value.id,
-                'videoDuration': value.value.videoDuration,
+                'message_id': value.id,
+                'video_duration': value.value.videoDuration,
                 'tags': value.value.tags
             };
         });
         //delete parseFileInbox.results;
-        console.log("parseFileInbox ----->" + JSON.stringify(parseFileInbox));
+        //console.log("parseFileInbox ----->" + JSON.stringify(parseFileInbox));
         return parseFileInbox;
     }
 
@@ -1093,14 +1149,14 @@
                 'd': value.value.updatedAt,
                 'img': value.value.file,
                 'href': value.value.file,
-                'toUserName': value.value.toUserName,
+                'to_user_name': value.value.toUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
-                'updatedAt': value.value.updatedAt,
+                'updated_at': value.value.updatedAt,
                 'file': value.value.file,
                 //'objectId': value.objectId
-                'messageid': value.id,
-                'videoDuration': value.value.videoDuration,
+                'message_id': value.id,
+                'video_duration': value.value.videoDuration,
                 'tags': value.value.tags
             };
         });
@@ -1132,9 +1188,9 @@
                 //'toUserName': value.ToUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
-                'updatedAt': value.value.updatedAt,
+                'updated_at': value.value.updatedAt,
                 'file': value.value.file,
-                'videoDuration': value.value.videoDuration,
+                'video_duration': value.value.videoDuration,
                 'tags': value.value.tags
             };
         });
@@ -1155,13 +1211,39 @@
                 //'toUserName': value.ToUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
-                'updatedAt': value.value.updatedAt,
-                'file': value.file
+                'updated_at': value.value.updatedAt,
+                'file': value.file,
+                'video_duration': value.value.videoDuration,
+                'tags': value.value.tags
             };
         });
         delete parseFileMySpring.results;
         console.log("parseFileMySpring ----->" + JSON.stringify(parseFileMySpring));
         return parseFileMySpring;
+    }
+
+    function parseFileSpring(parseFileSpring) {
+        $.each(parseFileSpring, function (key, value) {
+            console.log("parseFileSpring[key] ----->" + JSON.stringify(parseFileSpring[key]));
+            parseFileSpring[key] = {
+                //'a': value.ToUserName,
+                'a': value.value.subject,
+                'b': value.value.message,
+                'd': value.value.updatedAt,
+                'img': value.value.file,
+                'href': value.value.file,
+                //'toUserName': value.ToUserName,
+                'subject': value.value.subject,
+                'message': value.value.message,
+                'updated_at': value.value.updatedAt,
+                'file': value.value.file,
+                'video_duration': value.value.videoDuration,
+                'tags': value.value.tags
+            };
+        });
+        delete parseFileSpring.results;
+        console.log("parseFileSpring ----->" + JSON.stringify(parseFileSpring));
+        return parseFileSpring;
     }
 
     function parseShowNewVideo(parseShowNewVideo) {
@@ -1177,7 +1259,7 @@
                 //'toUserName': value.ToUserName,
                 'subject': value.Subject,
                 'message': value.Message,
-                'updatedAt': value.updatedAt,
+                'updated_at': value.updatedAt,
                 'file': value.File
             };
         });
@@ -1315,6 +1397,27 @@
             }
         };
         return paddingButtonMySpring;
+    }
+
+    function paddingButtonSpring(paddingButtonSpring) {
+        console.log("paddingButtonSpring -----> " + JSON.stringify(paddingButtonSpring));
+        paddingButtonSpring.showcaseButton = {
+            'contact-toggle': {
+                'file': paddingButtonSpring.file,
+                'subject': paddingButtonSpring.subject,
+                'message': paddingButtonSpring.message
+            },
+            'fb-send-message': {
+                'file': paddingButtonSpring.file
+                //'messageid': paddingButtonSpring.messageid // del
+            },
+            'list-toggle': {
+                'file': paddingButtonSpring.file,
+                'subject': paddingButtonSpring.subject,
+                'message': paddingButtonSpring.message
+            }
+        };
+        return paddingButtonSpring;
     }
 
     $.fn.showcaseVideo = function (options) {
@@ -1639,9 +1742,10 @@
 
     $.fn.showcaseText = function (options) {
         showcaseTextSettings = $.extend({}, options);
+        console.log("$.fn.showcaseText showcaseTextSettings -----> " + JSON.stringify(showcaseTextSettings));
         $(".videme-showcase-subject").html(showcaseTextSettings.subject);
         $(".videme-showcase-message").html(showcaseTextSettings.message);
-        $(".videme-showcase-updatedat").html(convertTimestamp(showcaseTextSettings.updatedAt));
+        $(".videme-showcase-updatedat").html(convertTimestamp(showcaseTextSettings.updated_at));
         if (showcaseTextSettings.tags) {
             console.log("$.fn.showcaseText showcaseTextSettings.tags -----> " + JSON.stringify(showcaseTextSettings.tags));
         } else {
@@ -2219,6 +2323,97 @@
             });
     };
 
+
+    /***************************************************************************
+     v2 Show List of Spring
+     https://github.com/SergeyKozlov/vide.me-js/wiki/en:API_All#show-list-of-spring
+     ***************************************************************************/
+    $.fn.showListOfSpring = function (options) {
+        console.log("$.fn.showListOfSpring -----> ok");
+        showListOfSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            //limit: 6,
+            showListOfSpring: "#videme-list-of-spring"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.showListOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showListOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showListOfSpringSettings.showListOfSpring);
+        }
+        console.log("$.fn.showListOfSpring tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        $.getJSON("https://api.vide.me/file/spring/showlist/?spring=" + showListOfSpringSettings.spring + "&videmecallback=?",
+            function (data) {
+                if (data) {
+                    console.log("$.fn.showListOfSpring data -----> yes" + JSON.stringify(data));
+                    var results = [];
+                    //$.each(data['results'], function (key, value) {
+                    results.push("<ul class=\"list-group\">");
+                    $.each(data, function (key, value) {
+                        results.push("\
+                        <li class=\"list-group-item\">\
+                            <a href='https://vide.me/" + showListOfSpringSettings.spring + "/?list=" + value.value.list + "'>\
+                                " + value.value.list + "\
+                            </a>\
+                        </li>\
+                        ");
+                    });
+                    results.push("</ul>");
+
+                    tempObject.html(results.join(""));
+                } else {
+                    console.log("$.fn.showList data -----> no");
+                    tempObject.html("No list");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.getShareByOwnerId = function (options) {
+        getShareByOwnerId = $.extend({
+            limit: 100,
+            showcaseCount: "#videme-count-user-lists"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.getShareByOwnerId $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.getShareByOwnerId $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(getShareByOwnerId.showcaseCount);
+        }
+        if (getShareByOwnerId.spring) {
+            console.log("$.fn.getShareByOwnerId  -----> getShareByOwnerId.userId " + getShareByOwnerId.spring);
+            tempObject.html(VidemeProgress);
+            $.getJSON("https://api.vide.me/file/byuser/?spring=" + getShareByOwnerId.spring + "&limit=" + getShareByOwnerId.limit + "&videmecallback=?",
+                function (obj) {
+                    if (obj.length) {
+                        console.log("$.fn.getShareByOwnerId length -----> " + obj.length);
+                        tempObject.html("<b>" + obj.length + "</b>");
+                    } else {
+                        console.log("$.fn.getShareByOwnerId data -----> no");
+                        tempObject.html("No files");
+                    }
+                })
+                .done(function (data) {
+                })
+                .fail(function (data) {
+                    tempObject.html("Error");
+                })
+                .always(function () {
+                });
+        } else {
+            tempObject.append("No spring");
+        }
+    };
+
     /***************************************************************************
      Функции Нотификации
      ***************************************************************************/
@@ -2372,6 +2567,7 @@
         console.log("a.file-inbox-url -----> click");
         console.log("a.file-inbox-url $(this).getAttributes() -----> " + JSON.stringify($(this).getAttributes()));
         event.preventDefault();
+        $('html, body').animate({scrollTop: '0px'}, 300);
         $.fn.showcaseVideoTextButton(paddingButtonInbox($(this).getAttributes()));
     });
 
@@ -2382,6 +2578,7 @@
     $(document).on('click', 'a.file-sent-url', function (event) {
         console.log("a.file-sent-url -----> click");
         event.preventDefault();
+        $('html, body').animate({scrollTop: '0px'}, 300);
         $.fn.showcaseVideoTextButton(paddingButtonSent($(this).getAttributes()));
     });
 
@@ -2392,6 +2589,7 @@
     $(document).on('click', 'a.file-my-url', function (event) {
         console.log("a.file-my-url -----> click");
         event.preventDefault();
+        $('html, body').animate({scrollTop: '0px'}, 300);
         $.fn.showcaseVideoTextButton(paddingButtonMy($(this).getAttributes()));
     });
 
@@ -2402,7 +2600,19 @@
     $(document).on('click', 'a.file-myspring-url', function (event) {
         console.log("a.file-myspring-url -----> click");
         event.preventDefault();
+        $('html, body').animate({scrollTop: '0px'}, 300);
         $.fn.showcaseVideoTextButton(paddingButtonMySpring($(this).getAttributes()));
+    });
+
+    /*************************************************************
+     v2 Событие 2: нажата ссылка на файл из плитки Spring,
+     отрисовка текста и кнопок в панель
+     **************************************************************/
+    $(document).on('click', 'a.file-spring-url', function (event) {
+        console.log("a.file-spring-url -----> click");
+        event.preventDefault();
+        $('html, body').animate({scrollTop: '0px'}, 300);
+        $.fn.showcaseVideoTextButton(paddingButtonSpring($(this).getAttributes()));
     });
 
     /*************************************************************
