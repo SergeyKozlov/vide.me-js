@@ -2005,16 +2005,16 @@
     };
 
     $.fn.showNewArticle = function (options) {
-        articleShowNewSettings = $.extend({
+        showNewArticleSettings = $.extend({
             limit: 3
         }, options);
         $(this).html(VidemeProgress);
         return this.each(function () {
             var TempObject = $(this);
-            $.getJSON("https://api.vide.me/article/shownew/?limit=" + articleShowNewSettings.limit + "&videmecallback=?",
+            $.getJSON("https://api.vide.me/article/shownew/?limit=" + showNewArticleSettings.limit + "&videmecallback=?",
                 function (data) {
-                    TempObject.html($.fn.showArticle({
-                        showArticle: parseArticleShowNew(data),
+                    TempObject.html($.fn.showArticleTile({
+                        showArticleTile: parseArticleShowNew(data),
                         TempObject: TempObject,
                         button: "new"
                     }));
@@ -2029,6 +2029,55 @@
         });
     };
 
+    $.fn.showSearchArticle = function (options) {
+        showSearchArticleSettings = $.extend({
+            limit: 3,
+            showcaseSearchArticle: "#videme-search-article-tile"
+        }, options);
+        //$(this).html(VidemeProgress);
+        //return this.each(function () {
+        //var TempObject = $(this);
+        if ($(this).length) {
+            console.log("$.fn.showSearchArticle $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showSearchArticle $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showSearchArticleSettings.showcaseSearchArticle);
+        }
+        console.log("$.fn.showSearchArticle tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/article/search/?q=" + showSearchArticleSettings.q + "&limit=" + showSearchArticleSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (data) {
+                    tempObject.html($.fn.showArticleTile({
+                        showArticleTile: parseSearchArticle(data),
+                        TempObject: tempObject,
+                        button: "new"
+                    }));
+                    /*console.log("$.fn.showSearchArticle parseSearchArticle -----> " + $.fn.showArticleTile({
+                        showArticleTile: parseSearchArticle(data),
+                        TempObject: tempObject,
+                        button: "new"
+                    }));*/
+
+                } else {
+                    console.log("$.fn.showSearchArticle data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function () {
+            })
+            .fail(function (data) {
+                TempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
     $.fn.showMyArticle = function (options) {
         articleShowMySettings = $.extend({
             limit: 12
@@ -2038,8 +2087,8 @@
         var TempObject = $(this);
         $.getJSON("https://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
             function (data) {
-                TempObject.html($.fn.showArticle({
-                    showArticle: parseArticleShowNew(data),
+                TempObject.html($.fn.showArticleTile({
+                    showArticleTile: parseArticleShowNew(data),
                     TempObject: TempObject,
                     button: "own"
                 }));
@@ -2063,8 +2112,8 @@
         var TempObject = $(this);
         $.getJSON("https://api.vide.me/article/mydraft/?limit=" + articleShowMyDraftSettings.limit + "&videmecallback=?",
             function (data) {
-                TempObject.html($.fn.showArticle({
-                    showArticle: parseArticleShowNew(data),
+                TempObject.html($.fn.showArticleTile({
+                    showArticleTile: parseArticleShowNew(data),
                     TempObject: TempObject,
                     button: "own"
                 }));
@@ -2152,7 +2201,7 @@
         return button;
     };
 
-    $.fn.showArticle = function (options) {
+    $.fn.showArticleTile = function (options) {
         showArticleSettings = $.extend({}, options);
         // TODO: при развороте на большой экран маленькие артикли становятся очень маленькими
         console.log("$.fn.showArticle showArticleSettings.TempObject.width() -----> " + showArticleSettings.TempObject.width());
@@ -2164,8 +2213,9 @@
         //console.log("$.fn.showArticle showArticleSettings.button -----> " + showArticleSettings.button);
         var html = [];
         var button = $.fn.showTileButton(showArticleSettings);
+        console.log("$.fn.showArticle showArticleSettings.showArticleTile -----> " + JSON.stringify(showArticleSettings.showArticleTile));
 
-        $.each(showArticleSettings.showArticle, function (key, value) {
+        $.each(showArticleSettings.showArticleTile, function (key, value) {
             showArticleSettings.article = value.href;
 
             html.push("\
@@ -2173,7 +2223,7 @@
 				<div class='boxInner'>\
 									<a class='' href='https://vide.me/article/" + value.href + "'>\
 					<div class='titleTop'>\
-						 " + value.a + "<br>\
+						 " + convertTimestamp(value.a) + "<br>\
 						 " + value.b + "<br>\
 						 " + value.c + "<br>\
 					</div>\
@@ -2186,6 +2236,7 @@
                 "</div>\
                     ");
         });
+        console.log("$.fn.showArticle html -----> " + html);
         return html;
     };
 
@@ -2193,7 +2244,7 @@
         console.log("parseArticleShowNew -----> " + JSON.stringify(parseArticleShowNew));
         $.each(parseArticleShowNew, function (key, value) {
             parseArticleShowNew[key] = {
-                'a': value.value.date,
+                'a': value.value.updatedAt,
                 'b': value.value.userDisplayName,
                 'c': value.value.title,
                 'img': value.value.cover,
@@ -2201,6 +2252,21 @@
             };
         });
         return parseArticleShowNew;
+    }
+
+    function parseSearchArticle(parseSearchArticle) {
+        console.log("parseSearchArticle -----> " + JSON.stringify(parseSearchArticle));
+        $.each(parseSearchArticle, function (key, value) {
+            parseSearchArticle[key] = {
+                'a': value.updatedAt,
+                'b': value.userDisplayName,
+                'c': value.title,
+                'img': value.cover,
+                'href': value.id
+            };
+        });
+        console.log("parseSearchArticle parseSearchArticle -----> " + JSON.stringify(parseSearchArticle));
+        return parseSearchArticle;
     }
 
     /***************************************************************************
