@@ -2006,10 +2006,18 @@
 
     $.fn.showNewArticle = function (options) {
         showNewArticleSettings = $.extend({
+            showcase: 'videme-new-article-bottom',
             limit: 3
         }, options);
-        $(this).html(VidemeProgress);
-        return this.each(function () {
+        if ($(this).length) {
+            console.log("$.fn.showNewArticle $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showNewArticle $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showNewArticleSettings.showcase);
+        }
+        console.log("$.fn.showNewArticle tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);        return this.each(function () {
             var TempObject = $(this);
             $.getJSON("https://api.vide.me/article/shownew/?limit=" + showNewArticleSettings.limit + "&videmecallback=?",
                 function (data) {
@@ -2051,7 +2059,8 @@
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
-                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                //$('#article-search-result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                $(showSearchArticleSettings.showcaseResultResponse).append('<small>API response time: ' + response_time + ' milliseconds. ' + data.length + ' items. </small>');
                 if (data) {
                     tempObject.html($.fn.showArticleTile({
                         showArticleTile: parseSearchArticle(data),
@@ -2066,6 +2075,54 @@
 
                 } else {
                     console.log("$.fn.showSearchArticle data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function () {
+            })
+            .fail(function (data) {
+                TempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.showArticleMostPopTags = function (options) {
+        showArticleMostPopTagsSettings = $.extend({
+            /*limit: 3,*/
+            showcaseArticleMostPopTags: "#videme-article-pop-tags"
+        }, options);
+        //$(this).html(VidemeProgress);
+        //return this.each(function () {
+        //var TempObject = $(this);
+        if ($(this).length) {
+            console.log("$.fn.showArticleMostPopTags $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showArticleMostPopTags $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showArticleMostPopTagsSettings.showcaseArticleMostPopTags);
+        }
+        console.log("$.fn.showArticleMostPopTags tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var html = [];
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/article/getpoptags/?videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showArticleMostPopTags getJSON -----> " + JSON.stringify(data));
+                //console.log("$.fn.showArticleMostPopTags getJSON data.tags -----> " + JSON.stringify(data.tags));
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                $(showArticleMostPopTagsSettings.showcaseResultResponse).append('<p><small>API response time: ' + response_time + ' milliseconds</small></p>');
+                if (data.tags) {
+                    //console.log("$.fn.showArticleMostPopTags data.tags -----> yes");
+
+                    $.each(data.tags, function (key, value) {
+                        //console.log("$.fn.showArticleMostPopTags data.tags -----> cnt: " + value.cnt + " tag " + value.tag);
+                        html.push("<a href=\"https://vide.me/search/?q=" + value.tag + "\" class=\"badge badge-primary\"> " + value.tag + " </a> ");
+                    });
+                    tempObject.html(html);
+                } else {
+                    console.log("$.fn.showArticleMostPopTags data.tags -----> no");
                     tempObject.html("No results");
                 }
             })
