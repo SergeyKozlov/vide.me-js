@@ -83,7 +83,7 @@
                             $('#nav_user_brand').attr('src', 'https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png');
                         } else {
                             $('#user_brand').html("<a href='" + data.userLink + "' target='_blank'> <img src='" + data.userPicture + "' width='48' height='48' alt='" + data.userDisplayName + "'></a>");
-                            $('#nav_user_brand').attr('src', 'userPicture');
+                            $('#nav_user_brand').attr('src', data.userPicture);
                         }
                         $('#user_name').html("<a href='" + data.userLink + "' target='_blank'>" + data.userDisplayName + "</a>");
                         $('#user_email').html(data.userEmail);
