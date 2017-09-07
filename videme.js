@@ -1054,6 +1054,7 @@
 						message_id='" + value.message_id + "' \
 						from_user_name='" + value.from_user_name + "' \
 						to_user_name='" + value.to_user_name + "' \
+						created_at='" + value.created_at + "' \
 						updated_at='" + value.updated_at + "' \
 						subject='" + value.subject + "' \
 						message='" + value.message + "' \
@@ -2362,7 +2363,7 @@
                         results.push("\
                         <div class='well well-lg'>\
                             <span class=\"badge\">" + (key + 1) + "</span>\
-	<a href='https://vide.me/rec.html?email=" + value.value.userEmail + "'>\
+	<a href='https://vide.me/rec/?email=" + value.value.userEmail + "'>\
 		" + value.value.userEmail + "\
 		<button type='button' \
 			class='btn btn-default pull-right btn-sm' data-toggle='modal' \
