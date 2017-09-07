@@ -1000,8 +1000,8 @@
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
             //console.log("showTile ---> " + JSON.stringify(value));
+            //console.log("showTile value.file ---> " + JSON.stringify(value.file));
             //if (d > maxTile) return false;
-
             var a;
             if (value.a) {
                 a = value.a + "<br>";
@@ -1046,7 +1046,6 @@
             } else {
                 //console.log("showTile value.tags -----> empty");
             }
-
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
@@ -1072,7 +1071,7 @@
 			</a>\
 			</div>\
 				</div>\
-		 	")
+		 	");
         });
         return html;
     }
@@ -1128,6 +1127,7 @@
                 'from_user_name': value.value.fromUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
+                'created_at': value.value.createdAt,
                 'updated_at': value.value.updatedAt,
                 'file': value.value.file,
                 'message_id': value.id,
@@ -1152,6 +1152,7 @@
                 'to_user_name': value.value.toUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
+                'created_at': value.value.createdAt,
                 'updated_at': value.value.updatedAt,
                 'file': value.value.file,
                 //'objectId': value.objectId
@@ -1182,12 +1183,13 @@
                 //'a': value.ToUserName,
                 'a': subject,
                 'b': message,
-                'd': value.value.updatedAt,
+                'd': value.value.createdAt,
                 'img': value.value.file,
                 'href': value.value.file,
                 //'toUserName': value.ToUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
+                'created_at': value.value.createdAt,
                 'updated_at': value.value.updatedAt,
                 'file': value.value.file,
                 'video_duration': value.value.videoDuration,
@@ -1211,6 +1213,7 @@
                 //'toUserName': value.ToUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
+                'created_at': value.value.createdAt,
                 'updated_at': value.value.updatedAt,
                 'file': value.file,
                 'video_duration': value.value.videoDuration,
@@ -1235,6 +1238,7 @@
                 //'toUserName': value.ToUserName,
                 'subject': value.value.subject,
                 'message': value.value.message,
+                'created_at': value.value.createdAt,
                 'updated_at': value.value.updatedAt,
                 'file': value.value.file,
                 'video_duration': value.value.videoDuration,
@@ -1259,6 +1263,7 @@
                 //'toUserName': value.ToUserName,
                 'subject': value.Subject,
                 'message': value.Message,
+                'created_at': value.createdAt,
                 'updated_at': value.updatedAt,
                 'file': value.File
             };
@@ -1745,7 +1750,7 @@
         console.log("$.fn.showcaseText showcaseTextSettings -----> " + JSON.stringify(showcaseTextSettings));
         $(".videme-showcase-subject").html(showcaseTextSettings.subject);
         $(".videme-showcase-message").html(showcaseTextSettings.message);
-        $(".videme-showcase-updatedat").html(convertTimestamp(showcaseTextSettings.updated_at));
+        $(".videme-showcase-createdat").html(convertTimestamp(showcaseTextSettings.createdAt));
         if (showcaseTextSettings.tags) {
             console.log("$.fn.showcaseText showcaseTextSettings.tags -----> " + JSON.stringify(showcaseTextSettings.tags));
         } else {
