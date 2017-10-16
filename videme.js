@@ -679,7 +679,7 @@
                 });*/
         //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
-
+        // TODO: Add limit
         $.getJSON("https://api.vide.me/file/shownew/?videmecallback=?",
             function (jsonData) {
                 /* Показать первый расклад */
@@ -1050,13 +1050,12 @@
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
 				<a class='" + actionUrlClass + "' \
-						file='" + value.file + "' \
+						file='" + value.video + "' \
 						message_id='" + value.message_id + "' \
 						from_user_name='" + value.from_user_name + "' \
 						to_user_name='" + value.to_user_name + "' \
 						created_at='" + value.created_at + "' \
 						updated_at='" + value.updated_at + "' \
-						subject='" + value.subject + "' \
 						message='" + value.message + "' \
 						href='" + href + "' target='_blank'>\
 			<div class='titleTop'>\
@@ -1066,7 +1065,7 @@
 						 " + d + "\
 						 " + videoDuration + "\
 			</div>\
-						 <img src='https://api.vide.me/img/?i=" + value.img + ".jpg' alt=''>\
+						 <img src='https://s3.amazonaws.com/img.vide.me/" + value.img + ".jpg' alt=''>\
 						 </img>\
 					<div class='videme-tile-signboard-true'></div>\
 			</a>\
@@ -1173,33 +1172,32 @@
             console.log("parseFileMy[key] ----->" + JSON.stringify(parseFileMy[key]));
             console.log("parseFileMy[value] ----->" + JSON.stringify(parseFileMy[value]));
 
-            var subject;
+            /*var subject;
             if (value.value.subject) {
                 subject = value.value.subject;
             } else {
                 subject = "";
-            }
+            }*/
             var message;
-            if (value.value.message) {
-                message = value.value.message;
+            if (value.message) {
+                message = value.message;
             } else {
                 message = "";
             }
             parseFileMy[key] = {
                 //'a': value.ToUserName,
-                'a': subject,
+                'a': 'subject',
                 'b': message,
-                'd': value.value.createdAt,
-                'img': value.value.file,
-                'href': value.value.file,
+                'd': value.createdAt,
+                'img': value.video,
+                'href': value.video,
                 //'toUserName': value.ToUserName,
-                'subject': value.value.subject,
-                'message': value.value.message,
-                'created_at': value.value.createdAt,
-                'updated_at': value.value.updatedAt,
-                'file': value.value.file,
-                'video_duration': value.value.videoDuration,
-                'tags': value.value.tags
+                'message': value.message,
+                'created_at': value.createdAt,
+                'updated_at': value.updatedAt,
+                'video': value.video,
+                'video_duration': value.videoDuration,
+                'tags': value.tags
             };
         });
         //delete parseFileMy.results;
