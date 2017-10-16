@@ -247,7 +247,7 @@
             '<strong>' + showNewRecSettings.subject + '</strong>' +
             '<p>' + showNewRecSettings.message + '</p>' +
             '<a href="https://vide.me/v?m=' + showNewRecSettings.file + '" target="_blank">' +
-            '<img src="https://api.vide.me/img/?i=' + showNewRecSettings.file + '.jpg" alt="..." class="img-thumbnail">' +
+            '<img src="https://s3.amazonaws.com/img.vide.me/' + showNewRecSettings.file + '.jpg" alt="..." class="img-thumbnail">' +
             '</a>');
         return tempObjectPopVideo;
         //return VidemeProgress;
@@ -1167,7 +1167,12 @@
     }
 
     function parseFileMy(parseFileMy) {
+        console.log("parseFileMy ----->" + JSON.stringify(parseFileMy));
+
         $.each(parseFileMy, function (key, value) {
+            console.log("parseFileMy[key] ----->" + JSON.stringify(parseFileMy[key]));
+            console.log("parseFileMy[value] ----->" + JSON.stringify(parseFileMy[value]));
+
             var subject;
             if (value.value.subject) {
                 subject = value.value.subject;
@@ -1439,10 +1444,10 @@
 
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
-            var sourseURL = "https://gu.vide.me/vic?m=";
+            var sourseURL = "https://s3.amazonaws.com/video.vide.me/";
         } else {
             console.log("authorized ------> false");
-            var sourseURL = "https://gu.vide.me/vi/?m=";
+            var sourseURL = "https://s3.amazonaws.com/video.vide.me/";
         }
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
@@ -1479,7 +1484,8 @@
 
             showcasePlayerFunc.src({
                 type: "video/mp4",
-                src: sourseURL + showcaseVideoSettings.file + messageAdd
+                //src: sourseURL + showcaseVideoSettings.file + messageAdd
+                src: sourseURL + showcaseVideoSettings.file + '.mp4'
             });
             showcasePlayerFunc.controls(true);
             showcasePlayerFunc.load();
@@ -1519,7 +1525,8 @@
                 scrollSetting(miniPlayerFunc);
                 //miniPlayer.hide();
                 miniPlayerFunc.muted(true);
-                miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.file});
+                //miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.file});
+                miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.file + '.mp4'});
                 miniPlayerFunc.load();
                 miniPlayerFunc.play();
                 miniPlayerFunc.on('ended', function () {
