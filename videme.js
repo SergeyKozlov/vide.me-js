@@ -800,7 +800,8 @@
         //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
-        $.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
+        //$.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/post/showpop/?videmecallback=?",
             function (jsonData) {
                 console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
 
@@ -857,12 +858,13 @@
         //console.log("$.fn.showNextVideoPagination showNextVideoPaginationSettings -----> " + JSON.stringify(showNextVideoPaginationSettings));
         //console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(data));
 
-        var prevfile = $.cookie('vide_prev_file');
-        var file = showNextVideoPaginationSettings.file;
+        //==var prevfile = $.cookie('vide_prev_file');
+        //==var file = showNextVideoPaginationSettings.file;
         //$.cookie("vide_prev_file", file);
-        $.cookie("vide_prev_file", file, {expires: 14, path: '/', domain: 'vide.me', secure: true});
+        //==$.cookie("vide_prev_file", file, {expires: 14, path: '/', domain: 'vide.me', secure: true});
 
-        $.getJSON("https://api.vide.me/file/shownext/?prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
+        //$.getJSON("https://api.vide.me/file/shownext/?prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/post/shownext/?prev_item_id=" + showNextVideoPaginationSettings.prev_item_id + "&next_item_id=" + showNextVideoPaginationSettings.next_item_id + "&videmecallback=?",
 
             function (jsonData) {
                 console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(jsonData));
@@ -930,7 +932,7 @@
             var file = showNextVideoPaginationSettings.file;
             var ticketname = showNextVideoPaginationSettings.ticketName;
             var messageid = showNextVideoPaginationSettings.messageid;
-            $.cookie("vide_prev_file", file);
+            $.cookie("vide_prev`_file", file);
 
     //	var updatedAt = $this.attr('updatedAt-value');
     //	var Subject = $this.attr('Subject-value');
@@ -1100,7 +1102,12 @@
             //if (value.indexOf("messageid")) {
             //if ("messageid" in value) {
             if (value.message_id && value.message_id != "undefined") {
-                href = "https://vide.me/v?m=" + value.href + "&messageid=" + value.message_id;
+                href = "https://vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
+            } else {
+                href = "https://vide.me/v?m=" + value.href;
+            }
+            if (value.post_id && value.post_id != "undefined") {
+                href = "https://vide.me/v?m=" + value.href + "&post_id=" + value.post_id;
             } else {
                 href = "https://vide.me/v?m=" + value.href;
             }
@@ -1108,6 +1115,11 @@
                 //console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
             } else {
                 //console.log("showTile value.tags -----> empty");
+            }
+            if (value.count) {
+                count = value.count
+            } else {
+                count = '' + '<br>';
             }
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
@@ -1127,6 +1139,7 @@
 						 " + c + "\
 						 " + d + "\
 						 " + videoDuration + "\
+						 " + count + "\
 			</div>\
 						 <img src='https://s3.amazonaws.com/img.vide.me/" + value.img + ".jpg' alt=''>\
 						 </img>\
@@ -1255,13 +1268,15 @@
                 'd': value.created_at,
                 'img': value.item_id,
                 'href': value.item_id,
+                'post_id': value.post_id,
                 //'toUserName': value.ToUserName,
                 'message': value.message,
                 'created_at': value.created_at,
                 'updated_at': value.updated_at,
                 'video': value.item_id,
                 'video_duration': value.video_duration,
-                'tags': value.tags
+                'tags': value.tags,
+                'count': value.item_count_show
             };
         });
         //delete parseFileMy.results;
@@ -1510,9 +1525,11 @@
 
         if (showcaseVideoSettings.authorized) {
             console.log("authorized -----> true");
+            //var sourseURL = "https://gu.vide.me/vic?m=";
             var sourseURL = "https://s3.amazonaws.com/video.vide.me/";
         } else {
             console.log("authorized ------> false");
+            //var sourseURL = "https://gu.vide.me/vi?m=";
             var sourseURL = "https://s3.amazonaws.com/video.vide.me/";
         }
         if ($(this).length) {
@@ -2117,7 +2134,7 @@
         });
     };
 
-    $.fn.showSearchArticle = function (options) {
+    $.fn.showSearchArticle = function (options) { // TODO: Remove
         showSearchArticleSettings = $.extend({
             limit: 3,
             showcaseSearchArticle: "#videme-search-article-tile"
@@ -2147,6 +2164,57 @@
                         TempObject: tempObject,
                         button: "new"
                     }));
+                    /*console.log("$.fn.showSearchArticle parseSearchArticle -----> " + $.fn.showArticleTile({
+                        showArticleTile: parseSearchArticle(data),
+                        TempObject: tempObject,
+                        button: "new"
+                    }));*/
+
+                } else {
+                    console.log("$.fn.showSearchArticle data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function () {
+            })
+            .fail(function (data) {
+                TempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.showSearchItemByTag = function (options) {
+        showSearchItemByTagSettings = $.extend({
+            limit: 3,
+            showcaseSearchArticle: "#videme-search-article-tile"
+        }, options);
+        //$(this).html(VidemeProgress);
+        //return this.each(function () {
+        //var TempObject = $(this);
+        if ($(this).length) {
+            console.log("$.fn.showSearchArticle $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            console.log("$.fn.showSearchArticle $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showSearchItemByTagSettings.showcaseSearchArticle);
+        }
+        console.log("$.fn.showSearchArticle tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/post/search/?q=" + showSearchItemByTagSettings.q + "&limit=" + showSearchItemByTagSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                //$('#article-search-result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                $(showSearchItemByTagSettings.showcaseResultResponse).append('<small>API response time: ' + response_time + ' milliseconds. ' + data.length + ' items. </small>');
+                if (data) {
+                    /*tempObject.html($.fn.showArticleTile({
+                        showArticleTile: parseSearchArticle(data),
+                        TempObject: tempObject,
+                        button: "new"
+                    }));*/
+                    tempObject.html(showTile(parseFileMy(data), tempObject, "shownext"));
                     /*console.log("$.fn.showSearchArticle parseSearchArticle -----> " + $.fn.showArticleTile({
                         showArticleTile: parseSearchArticle(data),
                         TempObject: tempObject,
