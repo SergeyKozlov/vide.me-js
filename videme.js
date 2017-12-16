@@ -300,14 +300,16 @@
         //==return this.each(function () {
         //var tempObject = $(this);
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/file/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
+        //$.getJSON("https://api.vide.me/file/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/message/inbox/?limit=" + fileInboxSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
                     //console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseFileInbox(data), tempObject, "file-inbox-url"));
+                    console.log("$.fn.fileInbox data[0] -----> " + JSON.stringify(data[0]));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-inbox-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonInbox(data[0]));
                 } else {
                     console.log("$.fn.fileInbox data -----> no");
@@ -340,13 +342,13 @@
         console.log("$.fn.fileSent tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/file/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/message/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
                     //console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseFileSent(data), tempObject, "file-sent-url"));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-sent-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonSent(data[0]));
                 } else {
                     console.log("$.fn.fileSent data -----> no");
@@ -378,13 +380,13 @@
         console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/file/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/message/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
                     //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseFileMy(data), tempObject, "file-my-url"));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
                 } else {
                     console.log("$.fn.fileMy data -----> no");
@@ -774,6 +776,66 @@
         //==});
     };
 
+    $.fn.showNewArticlePagination = function (options) {
+        console.log("$.fn.showNewPostsPagination -----> ok");
+        showNewArticlePaginationSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 3,
+            showNewPosts: ".videme-new-article-bottom"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.showNewArticlePagination $(this) -----> yes " + $(this).length);
+            var tempObjectNewPosts = $(this);
+        } else {
+            console.log("$.fn.showNewArticlePagination $(this) -----> nooo! " + $(this).length);
+            var tempObjectNewPosts = $(showNewPostsPaginationSettings.showNewPosts);
+        }
+        console.log("$.fn.showNewArticlePagination tempObject -----> " + tempObjectNewPosts.length);
+        tempObjectNewPosts.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        /* Сделать запрос */
+        /*
+                var data = $.fn.showNewVideo({
+                    //msg: msg
+                });*/
+        //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
+        //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
+        // TODO: Add limit
+        $.getJSON("https://api.vide.me/v2/post/new_article/?videmecallback=?",
+            function (jsonData) {
+                console.log("$.fn.showNewArticlePagination data -----> " + JSON.stringify(jsonData));
+
+                /* Показать первый расклад */
+
+                /* Всё слепить и показать */
+                tempObjectNewPosts.html(showTile(parseArticleShowNew(jsonData.slice(0, showNewArticlePaginationSettings.limit)), tempObjectNewPosts, "article"));
+
+                /* Вычисилить максимальное число страниц */
+                var pagetotal = Math.ceil(jsonData.length / showNewArticlePaginationSettings.limit);
+                /* Объявить экземпляр пейджинатора */
+                $('.videme-new-article-pagination').jqPagination({
+                    //link_string	: '/?page={page_number}',
+                    max_page: pagetotal,
+                    paged: function (page) {
+                        var skip = (page - 1) * showNewArticlePaginationSettings.limit;
+                        skip2 = skip;
+                        limit = skip2 + showNewArticlePaginationSettings.limit;
+                        console.log("$.fn.showNewArticlePagination jqPagination -----> skip: " + skip);
+                        tempObjectNewPosts.html(showTile(parseArticleShowNew(jsonData.slice(skip2, limit)), tempObjectNewPosts, "article"));
+                    }
+                });
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObjectNewPosts.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+
     $.fn.showPopVideoPagination = function (options) {
         console.log("$.fn.showPopVideoPagination -----> ok");
         showPopVideoPaginationSettings = $.extend({
@@ -1098,18 +1160,29 @@
                 videoDuration = "";
             }
             var href;
+            var img;
             //if (value.messageid) {
             //if (value.indexOf("messageid")) {
             //if ("messageid" in value) {
-            if (value.message_id && value.message_id != "undefined") {
-                href = "https://vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
+            if (actionUrlClass === 'article'){
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://vide.me/a/?a=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://vide.me/a/?a=" + value.href;
+                }
+                img = value.img;
             } else {
-                href = "https://vide.me/v?m=" + value.href;
-            }
-            if (value.post_id && value.post_id != "undefined") {
-                href = "https://vide.me/v?m=" + value.href + "&post_id=" + value.post_id;
-            } else {
-                href = "https://vide.me/v?m=" + value.href;
+                if (value.message_id && value.message_id != "undefined") {
+                    href = "https://vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
+                } else {
+                    href = "https://vide.me/v?m=" + value.href;
+                }
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://vide.me/v?m=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://vide.me/v?m=" + value.href;
+                }
+                img = "https://s3.amazonaws.com/img.vide.me/" + value.img + ".jpg";
             }
             if (value.tags) {
                 //console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
@@ -1125,13 +1198,13 @@
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
 				<a class='" + actionUrlClass + "' \
-						file='" + value.video + "' \
+						video='" + value.video + "' \
 						message_id='" + value.message_id + "' \
-						from_user_name='" + value.from_user_name + "' \
-						to_user_name='" + value.to_user_name + "' \
+						user_display_name='" + value.user_display_name + "' \
 						created_at='" + value.created_at + "' \
 						updated_at='" + value.updated_at + "' \
-						message='" + value.message + "' \
+						title='" + value.title + "' \
+						content='" + value.content + "' \
 						href='" + href + "' target='_blank'>\
 			<div class='titleTop'>\
 						 " + a + "\
@@ -1141,7 +1214,7 @@
 						 " + videoDuration + "\
 						 " + count + "\
 			</div>\
-						 <img src='https://s3.amazonaws.com/img.vide.me/" + value.img + ".jpg' alt=''>\
+						 <img src='" + img + "' alt=''>\
 						 </img>\
 					<div class='videme-tile-signboard-true'></div>\
 			</a>\
@@ -1194,21 +1267,16 @@
             //console.log("parseFileInbox paddingData ----->" + paddingData(value)); // <<-------------------
             //console.log("parseFileInbox value ----->" + JSON.stringify(value));
             parseFileInbox[key] = {
-                'a': value.value.fromUserName,
-                'b': value.value.subject,
-                'c': value.value.message,
-                'd': value.value.updatedAt,
-                'img': value.value.file,
-                'href': value.value.file,
-                'from_user_name': value.value.fromUserName,
-                'subject': value.value.subject,
-                'message': value.value.message,
-                'created_at': value.value.createdAt,
-                'updated_at': value.value.updatedAt,
-                'file': value.value.file,
-                'message_id': value.id,
-                'video_duration': value.value.videoDuration,
-                'tags': value.value.tags
+                'a': value.user_display_name,
+                'b': value.title,
+                'c': value.content,
+                'd': value.updated_at,
+                'img': value.item_id,
+                'href': value.item_id,
+                'from_user_name': value.user_display_name,
+                'file': value.item_id, // TODO: remove
+                'video_duration': value.video_duration,
+                'tags': value.tags
             };
         });
         //delete parseFileInbox.results;
@@ -1281,6 +1349,39 @@
         });
         //delete parseFileMy.results;
         return parseFileMy;
+    }
+
+    function parseDataArrayToObject(parseDataArrayToObject) {
+        $.each(parseDataArrayToObject, function (key, value) {
+            //console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
+            //console.log("parseFileInbox paddingData ----->" + paddingData(value)); // <<-------
+            //console.log("parseFileInbox value ----->" + JSON.stringify(value));
+            // Array to Object Recognize
+            parseDataArrayToObject[key] = {
+                'a': value.user_display_name,
+                'b': value.title,
+                'c': value.content,
+                'd': value.updated_at,
+                'img': value.item_id,
+                'href': value.item_id,
+                'video': value.item_id,
+                'message_id': value.message_id,
+                'created_at': value.created_at,
+                'updated_at': value.updated_at,
+                'title': value.title,
+                'content': value.content,
+                'to_user_id': value.to_user_id,
+                'from_user_id': value.from_user_id,
+                'from_user_display_name': value.from_user_display_name,
+                'from_user_name': value.user_display_name,
+                'file': value.item_id, // TODO: remove
+                'video_duration': value.video_duration,
+                'tags': value.tags
+            };
+        });
+        //delete parseFileInbox.results;
+        console.log("parseFileInbox ----->" + JSON.stringify(parseDataArrayToObject));
+        return parseDataArrayToObject;
     }
 
     function parseFileMySpring(parseFileMySpring) {
@@ -1388,13 +1489,13 @@
     }
 
     function paddingButtonInbox(paddingButtonInbox) {
+        //console.log("paddingButtonInbox before -----> " + JSON.stringify(paddingButtonInbox));
         paddingButtonInbox.showcaseButton = {
             'reply-toggle': {
-                'video': paddingButtonInbox.video,
+                'item_id': paddingButtonInbox.item_id,
                 'title': paddingButtonInbox.title,
                 'content': paddingButtonInbox.content,
                 'message_id': paddingButtonInbox.message_id,
-                'item_id': paddingButtonInbox.item_id,
                 'recipients': paddingButtonInbox.recipients,
                 'to_user_id': paddingButtonInbox.to_user_id,
                 'from_user_id': paddingButtonInbox.from_user_id,
@@ -1402,43 +1503,44 @@
                 'conference_id': paddingButtonInbox.conference_id
             },
             'contact-toggle': {
-                'video': paddingButtonInbox.video,
+                'video': paddingButtonInbox.item_id,
                 'title': paddingButtonInbox.title,
                 'content': paddingButtonInbox.content,
                 'video_duration': paddingButtonInbox.video_duration,
                 'tags': paddingButtonInbox.tags
             },
             'fb-send-message': {
-                'video': paddingButtonInbox.video,
+                'item_id': paddingButtonInbox.item_id,
                 'message_id': paddingButtonInbox.message_id
             },
             'del-inbox-toggle': {
-                'video': paddingButtonInbox.video,
+                'video': paddingButtonInbox.item_id,
                 'message_id': paddingButtonInbox.message_id
             }
         };
+        //console.log("paddingButtonInbox after ----->" + JSON.stringify(paddingButtonInbox));
         return paddingButtonInbox;
     }
 
     function paddingButtonSent(paddingButtonSend) {
         paddingButtonSend.showcaseButton = {
             'contact-toggle': {
-                'file': paddingButtonSend.file,
-                'subject': paddingButtonSend.subject,
-                'message': paddingButtonSend.message
+                'item_id': paddingButtonSend.item_id,
+                'title': paddingButtonSend.title,
+                'content': paddingButtonSend.content
             },
             'fb-send-message': {
-                'file': paddingButtonSend.file,
-                'messageid': paddingButtonSend.messageid
+                'item_id': paddingButtonSend.item_id,
+                'message_id': paddingButtonSend.message_id
             },
             'list-toggle': {
-                'file': paddingButtonSend.file,
-                'subject': paddingButtonSend.subject,
-                'message': paddingButtonSend.message
+                'item_id': paddingButtonSend.item_id,
+                'title': paddingButtonSend.title,
+                'content': paddingButtonSend.content
             },
             'del-sent-toggle': {
-                'file': paddingButtonSend.file,
-                'messageid': paddingButtonSend.messageid
+                'item_id': paddingButtonSend.item_id,
+                'message_id': paddingButtonSend.message_id
             }
         };
         return paddingButtonSend;
@@ -1447,21 +1549,20 @@
     function paddingButtonMy(paddingButtonMy) {
         paddingButtonMy.showcaseButton = {
             'contact-toggle': {
-                'file': paddingButtonMy.file,
-                'subject': paddingButtonMy.subject,
-                'message': paddingButtonMy.message
+                'item_id': paddingButtonMy.item_id,
+                'title': paddingButtonMy.title,
+                'content': paddingButtonMy.content
             },
             'fb-send-message': {
-                'file': paddingButtonMy.file,
-                //'messageid': paddingButtonMy.messageid
+                'item_id': paddingButtonMy.item_id
             },
             'list-toggle': {
-                'file': paddingButtonMy.file,
-                'subject': paddingButtonMy.subject,
-                'message': paddingButtonMy.message
+                'item_id': paddingButtonMy.item_id,
+                'title': paddingButtonMy.title,
+                'content': paddingButtonMy.content
             },
             'del-my-toggle': {
-                'file': paddingButtonMy.file
+                'item_id': paddingButtonMy.item_id
             }
         };
         return paddingButtonMy;
@@ -1471,21 +1572,20 @@
         console.log("paddingButtonMySpring -----> " + JSON.stringify(paddingButtonMySpring));
         paddingButtonMySpring.showcaseButton = {
             'contact-toggle': {
-                'file': paddingButtonMySpring.file,
-                'subject': paddingButtonMySpring.subject,
-                'message': paddingButtonMySpring.message
+                'item_id': paddingButtonMySpring.item_id,
+                'title': paddingButtonMySpring.title,
+                'content': paddingButtonMySpring.content
             },
             'fb-send-message': {
-                'file': paddingButtonMySpring.file,
-                //'messageid': paddingButtonMySpring.messageid // del
+                'item_id': paddingButtonMySpring.item_id
             },
             'list-toggle': {
-                'file': paddingButtonMySpring.file,
-                'subject': paddingButtonMySpring.subject,
-                'message': paddingButtonMySpring.message
+                'item_id': paddingButtonMySpring.item_id,
+                'title': paddingButtonMySpring.title,
+                'content': paddingButtonMySpring.content
             },
             'del-sharefile-toggle': {
-                'file': paddingButtonMySpring.file
+                'item_id': paddingButtonMySpring.item_id
             }
         };
         return paddingButtonMySpring;
@@ -1495,18 +1595,17 @@
         console.log("paddingButtonSpring -----> " + JSON.stringify(paddingButtonSpring));
         paddingButtonSpring.showcaseButton = {
             'contact-toggle': {
-                'file': paddingButtonSpring.file,
-                'subject': paddingButtonSpring.subject,
-                'message': paddingButtonSpring.message
+                'item_id': paddingButtonSpring.item_id,
+                'title': paddingButtonSpring.title,
+                'content': paddingButtonSpring.content
             },
             'fb-send-message': {
-                'file': paddingButtonSpring.file
-                //'messageid': paddingButtonSpring.messageid // del
+                'item_id': paddingButtonSpring.item_id
             },
             'list-toggle': {
-                'file': paddingButtonSpring.file,
-                'subject': paddingButtonSpring.subject,
-                'message': paddingButtonSpring.message
+                'item_id': paddingButtonSpring.item_id,
+                'title': paddingButtonSpring.title,
+                'content': paddingButtonSpring.content
             }
         };
         return paddingButtonSpring;
@@ -1514,7 +1613,7 @@
 
     $.fn.showcaseVideo = function (options) {
         showcaseVideoSettings = $.extend({
-            video: "9566b5a3475c25aa",
+            video: "no_video",
             miniVideo: true,
             //showcaseVideo: "videme-showcase-video",
             showcaseVideo: "#videme-showcase-video",
@@ -2100,39 +2199,41 @@
         $.fn.showcaseText(showcaseVideoTextButtonSettings);
         $.fn.showcaseButton(showcaseVideoTextButtonSettings);
     };
+    /*
 
-    $.fn.showNewArticle = function (options) {
-        showNewArticleSettings = $.extend({
-            showcase: 'videme-new-article-bottom',
-            limit: 3
-        }, options);
-        if ($(this).length) {
-            console.log("$.fn.showNewArticle $(this) -----> yes " + $(this).length);
-            var tempObject = $(this);
-        } else {
-            console.log("$.fn.showNewArticle $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showNewArticleSettings.showcase);
-        }
-        console.log("$.fn.showNewArticle tempObject -----> " + tempObject.length);
-        tempObject.html(VidemeProgress);        return this.each(function () {
-            var TempObject = $(this);
-            $.getJSON("https://api.vide.me/article/shownew/?limit=" + showNewArticleSettings.limit + "&videmecallback=?",
-                function (data) {
-                    TempObject.html($.fn.showArticleTile({
-                        showArticleTile: parseArticleShowNew(data),
-                        TempObject: TempObject,
-                        button: "new"
-                    }));
-                })
-                .done(function () {
-                })
-                .fail(function (data) {
-                    TempObject.html(showError(data));
-                })
-                .always(function () {
-                });
-        });
-    };
+        $.fn.showNewArticle = function (options) {
+            showNewArticleSettings = $.extend({
+                showcase: 'videme-new-article-bottom',
+                limit: 3
+            }, options);
+            if ($(this).length) {
+                console.log("$.fn.showNewArticle $(this) -----> yes " + $(this).length);
+                var tempObject = $(this);
+            } else {
+                console.log("$.fn.showNewArticle $(this) -----> nooo! " + $(this).length);
+                var tempObject = $(showNewArticleSettings.showcase);
+            }
+            console.log("$.fn.showNewArticle tempObject -----> " + tempObject.length);
+            tempObject.html(VidemeProgress);        return this.each(function () {
+                var TempObject = $(this);
+                $.getJSON("https://api.vide.me/article/shownew/?limit=" + showNewArticleSettings.limit + "&videmecallback=?",
+                    function (data) {
+                        TempObject.html($.fn.showArticleTile({
+                            showArticleTile: parseArticleShowNew(data),
+                            TempObject: TempObject,
+                            button: "new"
+                        }));
+                    })
+                    .done(function () {
+                    })
+                    .fail(function (data) {
+                        TempObject.html(showError(data));
+                    })
+                    .always(function () {
+                    });
+            });
+        };
+    */
 
     $.fn.showSearchArticle = function (options) { // TODO: Remove
         showSearchArticleSettings = $.extend({
@@ -2449,11 +2550,11 @@
         console.log("parseArticleShowNew -----> " + JSON.stringify(parseArticleShowNew));
         $.each(parseArticleShowNew, function (key, value) {
             parseArticleShowNew[key] = {
-                'a': value.value.updatedAt,
-                'b': value.value.userDisplayName,
-                'c': value.value.title,
-                'img': value.value.cover,
-                'href': value.id
+                'a': value.updated_at,
+                'b': value.user_display_name,
+                'c': value.title,
+                'img': value.cover,
+                'href': value.item_id
             };
         });
         return parseArticleShowNew;
@@ -2477,55 +2578,55 @@
     /***************************************************************************
      v2 Функция показать Контакты
      ***************************************************************************/
-    $.fn.showContact = function (options) {
-        console.log("$.fn.showContact -----> ok");
+    $.fn.showRelation = function (options) {
+        console.log("$.fn.showRelation -----> ok");
         showContactSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
-            showContact: "#videme-tile"
+            showRelation: "#videme-tile"
         }, options);
         if ($(this).length) {
-            console.log("$.fn.showContact $(this) -----> yes " + $(this).length);
+            console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            console.log("$.fn.showContact $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showContactSettings.showContact);
+            console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showContactSettings.showRelation);
         }
-        console.log("$.fn.showContact tempObject -----> " + tempObject.length);
+        console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("https://api.vide.me/contact/?limit=" + showContactSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/relation/?limit=" + showContactSettings.limit + "&videmecallback=?",
             function (data) {
                 // TODO: Попробовать без куки nad
-                console.log("$.fn.showContact data -----> " + data);
+                console.log("$.fn.showRelation data -----> " + data);
                 if (data) {
-                    console.log("$.fn.showContact data -----> yes" + JSON.stringify(data));
+                    console.log("$.fn.showRelation data -----> yes" + JSON.stringify(data));
                     var results = [];
                     //$.each(data['results'], function (key, value) {
                     $.each(data, function (key, value) {
                         results.push("\
                         <div class='well well-lg'>\
                             <span class=\"badge\">" + (key + 1) + "</span>\
-	<a href='https://vide.me/rec/?email=" + value.value.userEmail + "'>\
-		" + value.value.userEmail + "\
+	<a href='https://vide.me/rec/?email=" + value.user_email + "'>\
+		" + value.user_email + "\
 		<button type='button' \
 			class='btn btn-default pull-right btn-sm' data-toggle='modal' \
-			email-value='#" + value.value.userEmail + "'> \
+			email-value='#" + value.user_email + "'> \
 			<span class='glyphicon glyphicon-envelope'></span> Send video email\
 		</button>\
 	</a>\
 	<button type='button' \
 		class='btn btn-default pull-right btn-sm contact-edit-toggle' data-toggle='modal' \
 		data-target='#modal-edit-contact' \
-		email='" + value.value.userEmail + "'>\
+		email='" + value.user_email + "'>\
 		<span class='glyphicon glyphicon-edit'></span> Edit\
 	</button>\
-	(last update at: " + convertTimestamp(value.value.updatedAt) + ")\
+	(Created at: " + value.created_at + ")\
 </div>\
 ");
                     });
                     tempObject.html(results.join(""));
                 } else {
-                    console.log("$.fn.showContact data -----> no");
+                    console.log("$.fn.showRelation data -----> no");
                     tempObject.html("No contact");
                 }
             })
@@ -3896,7 +3997,7 @@ message-value='#" + Message.substr(1) + "'>\
                 },
                 success: function (msg) {
                     $('#modal-edit-contact').modal('hide');
-                    $.fn.showContact();
+                    $.fn.showRelation();
                     $.fn.successNotification({
                         msg: msg
                     });
@@ -3940,7 +4041,7 @@ message-value='#" + Message.substr(1) + "'>\
                 success: function (msg) {
                     $('#modal-del-contact').modal('hide');
                     $('#modal-edit-contact').modal('hide');
-                    $.fn.showContact();
+                    $.fn.showRelation();
                     $.fn.successNotification({
                         msg: msg
                     });
@@ -3984,7 +4085,7 @@ message-value='#" + Message.substr(1) + "'>\
                 },
                 success: function (msg) {
                     $('#modal-create-contact').modal('hide');
-                    $.fn.showContact();
+                    $.fn.showRelation();
                     $.fn.successNotification({
                         msg: msg
                     });
