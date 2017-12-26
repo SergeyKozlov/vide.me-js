@@ -440,36 +440,38 @@
             });
     };
 
-    $.fn.fileSpring = function (options) {
-        console.log("$.fn.fileSpring -----> ok");
+    $.fn.postsOfSpring = function (options) {
+        console.log("$.fn.postsOfSpring -----> ok");
         fileSpringSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile"
         }, options);
         if ($(this).length) {
-            //console.log("$.fn.fileSpring $(this) -----> yes " + $(this).length);
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            //console.log("$.fn.fileSpring $(this) -----> nooo! " + $(this).length);
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
             var tempObject = $(fileSpringSettings.showcaseVideo);
         }
-        console.log("$.fn.fileSpring tempObject -----> " + tempObject.length);
+        console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
+        console.log("$.fn.postsOfSpring spring -----> " + fileSpringSettings.spring);
+        console.log("$.fn.postsOfSpring list -----> " + fileSpringSettings.list);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/file/spring/?spring=" + fileSpringSettings.spring + "&list=" + fileSpringSettings.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/items/?spring=" + fileSpringSettings.spring + "&list=" + fileSpringSettings.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
-                    //console.log("$.fn.fileSpring data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseFileSpring(data), tempObject, "file-spring-url"));
-                    $.fn.showcaseVideoTextButton(paddingButtonSpring(data[0]));
+                    console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
                 } else {
-                    console.log("$.fn.fileSpring data -----> no");
+                    console.log("$.fn.postsOfSpring data -----> no");
                     tempObject.html("No results");
                 }
             })
@@ -504,7 +506,7 @@
                         //console.log("showMyTask value.value.type -----> " + JSON.stringify(value.value.type));
                         //console.log("showMyTask value.value.status -----> " + JSON.stringify(value.value.status));
                         //switch (value.value.type) {
-                        switch (value.value.status) {
+                        switch (value.task_status) {
                             case "awaiting":
                                 rowClass = "active";
                                 break;
@@ -519,20 +521,20 @@
                         }
                         htmlResult.push("\
                     <tr class=\"" + rowClass + "\">\
-                        <td>" + convertTimestamp(value.value['createdAt']) + "</td>\
-                        <td>" + value.value['status'] + "</td>\
-                        <!--<td>" + value.value['fileSizeStart'] + "</td>\
-                        <td>" + value.value['fileSizeDone'] + "</td>\
-                        <td>" + value.value['file'] + "</td>-->\
-                        <td>" + value.value['subject'] + "</td>\
-                        <td>" + value.value['message'] + "</td>\
-                        <td>" + value.value['videoDuration'] + "</td>\
+                        <td>" + value['created_at'] + "</td>\
+                        <td>" + value['task_status'] + "</td>\
+                        <!--<td>" + value['file_size_start'] + "</td>\
+                        <td>" + value['file_size_done'] + "</td>\
+                        <td>" + value['file'] + "</td>-->\
+                        <td>" + value['title'] + "</td>\
+                        <td>" + value['content'] + "</td>\
+                        <td>" + value['video_duration'] + "</td>\
                     </tr>")
                     });
                     //console.log("showMyTask value -----> html" + "<table>" + htmlResult.join("") + "</table>");
                     tempObject.html("<table class=\"table\" >\
                                 <tr class=\"\">\
-                        <td>createdAt</td>\
+                        <td>created_at</td>\
                         <td>status</td>\
                         <!--<td>fileSizeStart</td>\
                         <td>fileSizeDone</td>\
@@ -749,7 +751,7 @@
                 /* Показать первый расклад */
 
                 /* Всё слепить и показать */
-                tempObjectNewPosts.html(showTile(parseFileMy(jsonData.slice(0, showNewPostsPaginationSettings.limit)), tempObjectNewPosts, "shownext"));
+                tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(0, showNewPostsPaginationSettings.limit)), tempObjectNewPosts, "shownext"));
 
                 /* Вычисилить максимальное число страниц */
                 var pagetotal = Math.ceil(jsonData.length / showNewPostsPaginationSettings.limit);
@@ -762,7 +764,7 @@
                         skip2 = skip;
                         limit = skip2 + showNewPostsPaginationSettings.limit;
                         console.log("$.fn.showNewPostsPagination jqPagination -----> skip: " + skip);
-                        tempObjectNewPosts.html(showTile(parseFileMy(jsonData.slice(skip2, limit)), tempObjectNewPosts, "shownext"));
+                        tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectNewPosts, "shownext"));
                     }
                 });
             })
@@ -809,7 +811,8 @@
                 /* Показать первый расклад */
 
                 /* Всё слепить и показать */
-                tempObjectNewPosts.html(showTile(parseArticleShowNew(jsonData.slice(0, showNewArticlePaginationSettings.limit)), tempObjectNewPosts, "article"));
+                //tempObjectNewPosts.html(showTile(parseArticleShowNew(jsonData.slice(0, showNewArticlePaginationSettings.limit)), tempObjectNewPosts, "article"));
+                tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(0, showNewArticlePaginationSettings.limit)), tempObjectNewPosts, "article"));
 
                 /* Вычисилить максимальное число страниц */
                 var pagetotal = Math.ceil(jsonData.length / showNewArticlePaginationSettings.limit);
@@ -822,7 +825,8 @@
                         skip2 = skip;
                         limit = skip2 + showNewArticlePaginationSettings.limit;
                         console.log("$.fn.showNewArticlePagination jqPagination -----> skip: " + skip);
-                        tempObjectNewPosts.html(showTile(parseArticleShowNew(jsonData.slice(skip2, limit)), tempObjectNewPosts, "article"));
+                        //tempObjectNewPosts.html(showTile(parseArticleShowNew(jsonData.slice(skip2, limit)), tempObjectNewPosts, "article"));
+                        tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectNewPosts, "article"));
                     }
                 });
             })
@@ -866,11 +870,9 @@
         $.getJSON("https://api.vide.me/v2/post/showpop/?videmecallback=?",
             function (jsonData) {
                 console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
-
-                tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
-
+                //tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
+                tempObjectPopVideo.html(showTile(parseDataArrayToObject(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
                 var pagetotal = Math.ceil(jsonData.length / showPopVideoPaginationSettings.limit); //example=2
-
                 $('.videme-showpop-pagination').jqPagination({
                     //link_string	: '/?page={page_number}',
                     max_page: pagetotal,
@@ -879,10 +881,10 @@
                         skip2 = skip;
                         limit = skip2 + showPopVideoPaginationSettings.limit;
                         console.log("$.fn.showPopVideoPagination jqPagination -----> skip: " + skip);
-                        tempObjectPopVideo.html(showTile(parseFileMy(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
+                        //tempObjectPopVideo.html(showTile(parseFileMy(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
+                        tempObjectPopVideo.html(showTile(parseDataArrayToObject(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
                     }
                 });
-
             })
             .done(function (data) {
             })
@@ -1122,6 +1124,7 @@
         }
         var html = [];
         console.log("showTile showFile.length -----> " + showFile.length);
+        console.log("showTile showFile -----> " + JSON.stringify(showFile));
         //maxTile = (maxTile - 1) || 18;
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
@@ -1153,6 +1156,12 @@
             } else {
                 d = "";
             }
+            var spring;
+            if (value.spring) {
+                spring = value.spring;
+            } else {
+                spring = '';
+            }
             var videoDuration;
             if (value.video_duration) {
                 videoDuration = sec2str(value.video_duration) + "<br>";
@@ -1170,7 +1179,7 @@
                 } else {
                     href = "https://vide.me/a/?a=" + value.href;
                 }
-                img = value.img;
+                img = value.cover;
             } else {
                 if (value.message_id && value.message_id != "undefined") {
                     href = "https://vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
@@ -1194,6 +1203,7 @@
             } else {
                 count = '' + '<br>';
             }
+            //console.log("showTile spring -----> <a href='https://www.vide.me/" + spring + "'>" + a + "</a>");
             html.push("\
 				<div class='box" + tempObjectClass + "'>\
 				<div class='boxInner'>\
@@ -1216,8 +1226,8 @@
 			</div>\
 						 <img src='" + img + "' alt=''>\
 						 </img>\
-					<div class='videme-tile-signboard-true'></div>\
-			</a>\
+                <div class='videme-tile-signboard-true'></div>\
+				</a>\
 			</div>\
 				</div>\
 		 	");
@@ -1363,19 +1373,25 @@
                 'c': value.content,
                 'd': value.updated_at,
                 'img': value.item_id,
+                'cover': value.cover,
                 'href': value.item_id,
                 'video': value.item_id,
+                'post_id': value.post_id,
                 'message_id': value.message_id,
                 'created_at': value.created_at,
                 'updated_at': value.updated_at,
                 'title': value.title,
                 'content': value.content,
+                'spring': value.spring,
+                'user_email': value.user_email,
+                'user_picture': value.user_picture,
                 'to_user_id': value.to_user_id,
                 'from_user_id': value.from_user_id,
                 'from_user_display_name': value.from_user_display_name,
                 'from_user_name': value.user_display_name,
                 'file': value.item_id, // TODO: remove
                 'video_duration': value.video_duration,
+                'count': value.item_count_show,
                 'tags': value.tags
             };
         });
@@ -1944,10 +1960,34 @@
         $(".videme-showcase-createdat").html(showcaseTextSettings.created_at);
         if (showcaseTextSettings.tags) {
             console.log("$.fn.showcaseText showcaseTextSettings.tags -----> " + JSON.stringify(showcaseTextSettings.tags));
+            var tags = [];
+            tags = $.parseJSON(showcaseTextSettings.tags);
+            //console.log("$.fn.showcaseText tags -----> " + tags);
+            $.each(tags, function (key, value) {
+                //console.log("$.fn.showcaseText tags -----> " + value);
+                $(".videme-showcase-tags").append('<a href="https://vide.me/search/?q=' + value + '" class="badge badge-primary">' + value + '</span> ');
+
+            });
         } else {
-            console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
+            //console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
         }
     };
+
+    $.fn.showcaseUserInfo = function (options) {
+        showcaseUserInfoSettings = $.extend({}, options);
+        console.log("$.fn.showcaseUserInfo showcaseUserInfoSettings -----> " + JSON.stringify(showcaseUserInfoSettings));
+        $(".videme-showcase-from_user_name").html(showcaseUserInfoSettings.from_user_name);
+        $('#nav_form_user_name').html("<a href='" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
+        //$('#nav_form_user_email').html(showcaseUserInfoSettings.user_email);
+    };
+
+    $.fn.showcaseUserPicture = function (options) {
+        showcaseUserPictureSettings = $.extend({}, options);
+        console.log("$.fn.showcaseUserPicture -----> " + JSON.stringify(showcaseUserPictureSettings));
+        $(".videme-showcase-user_picture").html('<a href="https://www.vide.me/' + showcaseUserPictureSettings.spring + '" ><img src="' + showcaseUserPictureSettings.user_picture +  '" width="46" height="46" alt="' + showcaseUserPictureSettings.from_user_name + '"></a>');
+        $('#nav_user_brand').attr('src', showcaseUserPictureSettings.user_picture);
+    };
+
 
     /*function getAuthorizedData (handleData) { // Избыточно
         /!*getAuthorizedDataSettings = $.extend({
@@ -2188,6 +2228,8 @@
         showcaseVideoTextButtonSettings = $.extend({}, options);
         console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
         $.fn.showcaseVideo(showcaseVideoTextButtonSettings);
+        $.fn.showcaseUserPicture(showcaseVideoTextButtonSettings);
+        $.fn.showcaseUserInfo(showcaseVideoTextButtonSettings);
         $.fn.showcaseText(showcaseVideoTextButtonSettings);
         $.fn.showcaseButton(showcaseVideoTextButtonSettings);
     };
@@ -2704,34 +2746,34 @@
      v2 Show List of Spring
      https://github.com/SergeyKozlov/vide.me-js/wiki/en:API_All#show-list-of-spring
      ***************************************************************************/
-    $.fn.showListOfSpring = function (options) {
-        console.log("$.fn.showListOfSpring -----> ok");
+    $.fn.showSignsOfSpring = function (options) {
+        console.log("$.fn.showSignsOfSpring -----> ok");
         showListOfSpringSettings = $.extend({
             // TODO: добавить limit в NAD
             //limit: 6,
-            showListOfSpring: "#videme-list-of-spring"
+            showSignsOfSpring: "#videme-list-of-spring"
         }, options);
         if ($(this).length) {
-            console.log("$.fn.showListOfSpring $(this) -----> yes " + $(this).length);
+            console.log("$.fn.showSignsOfSpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            console.log("$.fn.showListOfSpring $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showListOfSpringSettings.showListOfSpring);
+            console.log("$.fn.showSignsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showListOfSpringSettings.showSignsOfSpring);
         }
-        console.log("$.fn.showListOfSpring tempObject -----> " + tempObject.length);
+        console.log("$.fn.showSignsOfSpring tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("https://api.vide.me/file/spring/showlist/?spring=" + showListOfSpringSettings.spring + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/signs/?spring=" + showListOfSpringSettings.spring + "&videmecallback=?",
             function (data) {
                 if (data) {
-                    console.log("$.fn.showListOfSpring data -----> yes" + JSON.stringify(data));
+                    console.log("$.fn.showSignsOfSpring data -----> yes" + JSON.stringify(data));
                     var results = [];
                     //$.each(data['results'], function (key, value) {
                     results.push("<ul class=\"list-group\">");
                     $.each(data, function (key, value) {
                         results.push("\
                         <li class=\"list-group-item\">\
-                            <a href='https://vide.me/" + showListOfSpringSettings.spring + "/?list=" + value.value.list + "'>\
-                                " + value.value.list + "\
+                            <a href='https://vide.me/" + showListOfSpringSettings.spring + "/?list=" + value.title + "'>\
+                                " + value.title + "\
                             </a>\
                         </li>\
                         ");
