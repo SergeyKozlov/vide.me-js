@@ -120,6 +120,50 @@
         return authorized;
     };
 
+    $.fn.userSpringInfo = function (options) {
+        userSpringInfoSettings = $.extend({}, options);
+        console.log("$.fn.userSpringInfo -----> ok");
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        var url = parseUrl();
+        //tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        $.getJSON("https://api.vide.me/v2/spring/info/?spring=" + url.spring + "&videmecallback=?",
+            function (data) {
+                console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+                if (data) {
+                    if (data.user_cover) {
+                        $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                    } else {
+                        $('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
+                    }
+                    if (data.user_display_name !== '') {
+                        $('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
+                    } else {
+                        $('.user_display_name').html('');
+                    }
+                } else {
+                    console.log("$.fn.userSpringInfo data -----> no");
+                    //tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+
+            })
+            .fail(function (data) {
+                //tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
     $.fn.getAuthorized(); // TODO: Убрать повторное использование
     //$.fn.getAuthorizedData(); // TODO: Убрать повторное использование
     //authorizedData = $.fn.getAuthorizedData(); // TODO: Убрать повторное использование
@@ -144,7 +188,7 @@
 
             FB.ui({
                 method: 'send',
-                link: 'https://vide.me/v?m=' + fbSentMessageSettings.file + '&messageid=' + fbSentMessageSettings.messageid
+                link: 'https://www.vide.me/v?m=' + fbSentMessageSettings.file + '&messageid=' + fbSentMessageSettings.messageid
             });
         });
     };
@@ -173,6 +217,46 @@
             console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> no " + oneTimeInboxSettings.authorized);
             $.fn.showcaseVideoTextButton(paddingButtonOneTime(oneTimeInboxSettings));
         }
+    };
+
+    $.fn.itemCard = function (options) {
+        itemCardSettings = $.extend({
+            authorized: authorized
+        }, options);
+
+        //console.log("$.fn.itemCard itemCardSettings -----> " + JSON.stringify(itemCardSettings));
+        //var element = options,
+        var attributes = {};
+        //$.each(element.get(0).attributes, function(i, attrib){
+        $.each(options.get(0).attributes, function(i, attrib){
+            if (attrib.value) {
+                attributes[attrib.name] = attrib.value;
+            }
+        });
+        //attributes = filter_array(attributes);
+        //attributes = filter_obj(attributes);
+        //attributes = attributes.filter(function(e){return e});
+        //attributes = jQuery.grep(attributes, function(n){ return (n); });
+        /*var my_array = attributes.filter(function(x){
+            return (x !== (undefined || null || ''));
+        });*/
+        console.log("$.fn.itemCard attributes -----> " + JSON.stringify(attributes));
+        //var tempObject = $(this);
+
+        this.html(
+            "<div class=\"card\" style=\"width: 18rem;\">\n" +
+            "  <img class=\"card-img-top\" src=\"https://s3.amazonaws.com/img.vide.me/" + attributes.item_id + ".jpg\" alt=\"Card image cap\">\n" +
+            "  <div class=\"card-body\">\n" +
+            "    <h5 class=\"card-title\">" + attributes.title + "</h5>\n" +
+            "    <p class=\"card-text\">" + attributes.user_display_name + "</p>\n" +
+            "    <p class=\"card-text\">" + attributes.content + "</p>\n" +
+            "    <p class=\"card-text\">" + attributes.created_at + "</p>\n" +
+            "  </div>\n" +
+            "</div>");
+        //tempObject.html("$.fn.itemCard attributes -----> " + JSON.stringify(attributes));
+        return this;
+        //return tempObject;
+
     };
 
     $.fn.showNewRec = function (options) {
@@ -380,7 +464,7 @@
         console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/message/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/items/my/?limit=" + fileMySettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
@@ -441,12 +525,13 @@
     };
 
     $.fn.postsOfSpring = function (options) {
-        console.log("$.fn.postsOfSpring -----> ok");
         fileSpringSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile"
         }, options);
+        console.log("$.fn.postsOfSpring -----> ok");
+
         if ($(this).length) {
             //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
@@ -454,14 +539,16 @@
             //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
             var tempObject = $(fileSpringSettings.showcaseVideo);
         }
-        console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
-        console.log("$.fn.postsOfSpring spring -----> " + fileSpringSettings.spring);
-        console.log("$.fn.postsOfSpring list -----> " + fileSpringSettings.list);
+        //console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
+        //console.log("$.fn.postsOfSpring spring -----> " + fileSpringSettings.spring);
+        //console.log("$.fn.postsOfSpring list -----> " + fileSpringSettings.list);
         tempObject.html(VidemeProgress);
         //==return this.each(function () {
         //var tempObject = $(this);
+        var url = parseUrl();
+        console.log("postsOfSpring url -----> " + JSON.stringify(url));
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/spring/items/?spring=" + fileSpringSettings.spring + "&list=" + fileSpringSettings.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/items/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
@@ -1215,7 +1302,21 @@
 						updated_at='" + value.updated_at + "' \
 						title='" + value.title + "' \
 						content='" + value.content + "' \
-						href='" + href + "' target='_blank'>\
+                        cover='" + value.cover + "' \
+                        item_id='" + value.item_id + "' \
+                        post_id='" + value.post_id + "' \
+                        spring='" + value.spring + "' \
+                        user_picture='" + value.user_picture + "' \
+                        to_user_id='" + value.to_user_id + "' \
+                        from_user_id='" + value.from_user_id + "' \
+                        from_user_display_name='" + value.from_user_display_name + "' \
+                        from_user_name='" + value.user_display_name + "' \
+                        file='" + value.item_id + "' \
+                        video_duration='" + value.video_duration + "' \
+                        count='" + value.item_count_show + "' \
+                        access='" + value.access + "' \
+                        tags='" + JSON.stringify(value.tags) + "' \
+						href='" + href + "' id='el_" + key + "' target='_blank'>\
 			<div class='titleTop'>\
 						 " + a + "\
 						 " + b + "\
@@ -1231,6 +1332,7 @@
 			</div>\
 				</div>\
 		 	");
+            //$("#el_" + key).attr(value);
         });
         return html;
     }
@@ -1362,6 +1464,7 @@
     }
 
     function parseDataArrayToObject(parseDataArrayToObject) {
+        console.log("parseDataArrayToObject -----> " + JSON.stringify(parseDataArrayToObject));
         $.each(parseDataArrayToObject, function (key, value) {
             //console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
             //console.log("parseFileInbox paddingData ----->" + paddingData(value)); // <<-------
@@ -1375,6 +1478,7 @@
                 'img': value.item_id,
                 'cover': value.cover,
                 'href': value.item_id,
+                'item_id': value.item_id,
                 'video': value.item_id,
                 'post_id': value.post_id,
                 'message_id': value.message_id,
@@ -1392,6 +1496,7 @@
                 'file': value.item_id, // TODO: remove
                 'video_duration': value.video_duration,
                 'count': value.item_count_show,
+                'access': value.access,
                 'tags': value.tags
             };
         });
@@ -1473,6 +1578,20 @@
         return parseShowNewVideo;
     }
 
+    function parseUrl() {
+        var parseUrl = {};
+        parseUrl.location = window.location.pathname;
+        parseUrl.path = parseUrl.location.substring(0, parseUrl.location.lastIndexOf("/"));
+        //springRaw = parseUrl.path.substring(parseUrl.path.lastIndexOf("/")+1);
+        parseUrl.spring = parseUrl.location.replace(/^\/|\/$/g, '');
+        if (getParameterByName('list')) {
+            parseUrl.list = getParameterByName('list');
+        } else {
+            parseUrl.list = '';
+        }
+        return parseUrl;
+    }
+
     function paddingButtonOneTime(paddingButtonOneTime) {
         /*file: '',
          messageid: '',
@@ -1519,19 +1638,30 @@
                 'conference_id': paddingButtonInbox.conference_id
             },
             'contact-toggle': {
-                'video': paddingButtonInbox.item_id,
+                'item_id': paddingButtonInbox.item_id,
+                'user_display_name': paddingButtonInbox.user_display_name,
                 'title': paddingButtonInbox.title,
                 'content': paddingButtonInbox.content,
-                'video_duration': paddingButtonInbox.video_duration,
-                'tags': paddingButtonInbox.tags
+                'created_at': paddingButtonInbox.created_at,
+                'updated_at': paddingButtonInbox.updated_at
             },
             'fb-send-message': {
                 'item_id': paddingButtonInbox.item_id,
                 'message_id': paddingButtonInbox.message_id
             },
+            'list-toggle': {
+                'item_id': paddingButtonInbox.item_id,
+                'title': paddingButtonInbox.title,
+                'content': paddingButtonInbox.content
+            },
             'del-inbox-toggle': {
-                'video': paddingButtonInbox.item_id,
-                'message_id': paddingButtonInbox.message_id
+                'message_id': paddingButtonInbox.message_id,
+                'item_id': paddingButtonInbox.item_id,
+                'user_display_name': paddingButtonInbox.user_display_name,
+                'title': paddingButtonInbox.title,
+                'content': paddingButtonInbox.content,
+                'created_at': paddingButtonInbox.created_at,
+                'updated_at': paddingButtonInbox.updated_at
             }
         };
         //console.log("paddingButtonInbox after ----->" + JSON.stringify(paddingButtonInbox));
@@ -1555,30 +1685,53 @@
                 'content': paddingButtonSend.content
             },
             'del-sent-toggle': {
+                'message_id': paddingButtonSend.message_id,
                 'item_id': paddingButtonSend.item_id,
-                'message_id': paddingButtonSend.message_id
+                'user_display_name': paddingButtonSend.user_display_name,
+                'title': paddingButtonSend.title,
+                'content': paddingButtonSend.content,
+                'created_at': paddingButtonSend.created_at,
+                'updated_at': paddingButtonSend.updated_at
             }
         };
         return paddingButtonSend;
     }
 
     function paddingButtonMy(paddingButtonMy) {
+        console.log("paddingButtonMy -----> " + JSON.stringify(paddingButtonMy));
         paddingButtonMy.showcaseButton = {
             'contact-toggle': {
                 'item_id': paddingButtonMy.item_id,
                 'title': paddingButtonMy.title,
-                'content': paddingButtonMy.content
+                'content': paddingButtonMy.content,
+                'created_at': paddingButtonMy.created_at,
+                'updated_at': paddingButtonMy.updated_at
             },
             'fb-send-message': {
-                'item_id': paddingButtonMy.item_id
+                'item_id': paddingButtonMy.item_id,
+                'created_at': paddingButtonMy.created_at,
+                'updated_at': paddingButtonMy.updated_at
             },
             'list-toggle': {
                 'item_id': paddingButtonMy.item_id,
                 'title': paddingButtonMy.title,
-                'content': paddingButtonMy.content
+                'content': paddingButtonMy.content,
+                'created_at': paddingButtonMy.created_at,
+                'updated_at': paddingButtonMy.updated_at
             },
             'del-my-toggle': {
-                'item_id': paddingButtonMy.item_id
+                'item_id': paddingButtonMy.item_id,
+                'user_display_name': paddingButtonMy.user_display_name,
+                'title': paddingButtonMy.title,
+                'content': paddingButtonMy.content,
+                'created_at': paddingButtonMy.created_at,
+                'updated_at': paddingButtonMy.updated_at
+            },
+            'item-edit-toggle': {
+                'item_id': paddingButtonMy.item_id,
+                'title': paddingButtonMy.title,
+                'content': paddingButtonMy.content,
+                'access': paddingButtonMy.access
             }
         };
         return paddingButtonMy;
@@ -2208,6 +2361,7 @@
         if (showcaseButtonSettings.showcaseButton['del-inbox-toggle']) $(".del-inbox-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-inbox-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-sent-toggle']) $(".del-sent-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-sent-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-my-toggle']) $(".del-my-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-my-toggle']);
+        if (showcaseButtonSettings.showcaseButton['item-edit-toggle']) $(".item-edit-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['item-edit-toggle']);
         if (showcaseButtonSettings.showcaseButton['del-sharefile-toggle']) $(".del-sharefile-toggle").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['del-sharefile-toggle']);
         if (showcaseButtonSettings.showcaseButton['fb-send-message']) $(".fb-send-message").removeClass("hidden").attr(showcaseButtonSettings.showcaseButton['fb-send-message']);
     };
@@ -2762,7 +2916,8 @@
         }
         console.log("$.fn.showSignsOfSpring tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("https://api.vide.me/v2/spring/signs/?spring=" + showListOfSpringSettings.spring + "&videmecallback=?",
+        var url = parseUrl();
+        $.getJSON("https://api.vide.me/v2/spring/signs/?spring=" + url.spring + "&videmecallback=?",
             function (data) {
                 if (data) {
                     console.log("$.fn.showSignsOfSpring data -----> yes" + JSON.stringify(data));
@@ -2772,14 +2927,13 @@
                     $.each(data, function (key, value) {
                         results.push("\
                         <li class=\"list-group-item\">\
-                            <a href='https://vide.me/" + showListOfSpringSettings.spring + "/?list=" + value.title + "'>\
+                            <a href='https://vide.me/" + url.spring + "/?list=" + value.title + "'>\
                                 " + value.title + "\
                             </a>\
                         </li>\
                         ");
                     });
                     results.push("</ul>");
-
                     tempObject.html(results.join(""));
                 } else {
                     console.log("$.fn.showList data -----> no");
@@ -3046,18 +3200,17 @@
     $(document).on('click', '.contact-toggle', function (event) {
         console.log(".contact-toggle -----> click");
         event.stopPropagation();
-        if ($('.contact-toggle').attr('file')) {
+        if ($('.contact-toggle').attr('item_id')) {
+            $(".videme_item_card").itemCard($('.contact-toggle'));
             $(".videme-contact-list").html(VidemeProgress);
-            $(".videme-mini-img").html(VidemeProgress); // TODO: Проверить, может убрать
-            $(".videme-mini-img").html("<img src='https://api.vide.me/img/?i=" + $('.contact-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
-            $.getJSON("https://api.vide.me/contact/?videmecallback=?",
+            $.getJSON("https://api.vide.me/v2/relation/?videmecallback=?",
                 function (data) {
                     // TODO: Попробовать без куки nad
                     if (data) {
                         console.log(".contact-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
                         $.each(data, function (key, value) {
-                            results.push("<a class='contact-url' href='https://api.vide.me/file/resend/?email=" + value.value.userEmail + "&file=" + $('.contact-toggle').attr('file') + "&subject=Re: " + $('.contact-toggle').attr('subject') + "&message=" + $('.contact-toggle').attr('message') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.value.userEmail + "</span></a> ");
+                            results.push("<a class='badge badge-primary contact-url' href='https://api.vide.me/v2/items/resend/?email=" + value.user_email + "&item_id=" + $('.contact-toggle').attr('item_id') + "&subject=Re: " + $('.contact-toggle').attr('title') + "&message=" + $('.contact-toggle').attr('content') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>" + value.user_email + "</a> ");
                         });
                         $('.videme-contact-list').html(results.join(""));
                     } else {
@@ -3083,19 +3236,23 @@
     $(document).on('click', '.list-toggle', function (event) {
         console.log(".list-toggle -----> click");
         event.stopPropagation();
-        if ($('.list-toggle').attr('file')) {
+        if ($('.list-toggle').attr('item_id')) {
             $(".videme-list-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://api.vide.me/img/?i=" + $('.list-toggle').attr('file') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
-            $(".videme-file-info").html("<b>" + $('.list-toggle').attr('subject') + "</b><br>" + $('.list-toggle').attr('message') + "<br>" + $('.list-toggle').attr('updatedat') + "<br>");
+            $(".videme-mini-img").html("<img src='https://s3.amazonaws.com/img.vide.me/" + $('.list-toggle').attr('item_id') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
+            if ($('.list-toggle').attr('title')) $(".videme-file-info").append("<b>" + $('.list-toggle').attr('title') + "</b><br>");
+            if ($('.list-toggle').attr('content')) $(".videme-file-info").append($('.list-toggle').attr('content') + "<br>");
+            if ($('.list-toggle').attr('created_at')) $(".videme-file-info").append($('.list-toggle').attr('created_at') + "<br>");
+
+            //$(".videme-file-info").html("<b>" + $('.list-toggle').attr('title') + "</b><br>" + $('.list-toggle').attr('content') + "<br>" + $('.list-toggle').attr('created_at') + "<br>");
             $('#file').val($('.list-toggle').attr('file'));
             $.getJSON("https://api.vide.me/v2/list/?videmecallback=?",
                 function (data) {
-                    if (data.results) {
+                    if (data) {
                         console.log(".list-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
-                        $.each(data['results'], function (key, value) {
-                            results.push("<a class='list-url' href='https://api.vide.me/file/share/?file=" + $('.list-toggle').attr('file') + "&list=" + value.ListName + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.ListName + "</span></a> ");
+                        $.each(data, function (key, value) {
+                            results.push("<a class='list-url' href='https://api.vide.me/v2/items/share/?item=" + $('.list-toggle').attr('item_id') + "&list=" + value.title + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.title + "</span></a> ");
                         });
                         //$(".videme-list-list").html("empty");
                         $('.videme-list-list').html(results.join(""));
@@ -3123,20 +3280,18 @@
     $(document).on('click', '.del-inbox-toggle', function (event) {
         console.log(".del-inbox-toggle -----> click");
         event.stopPropagation();
-        if ($('.del-inbox-toggle').attr('file')) {
-            $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://api.vide.me/img/?i=" + $('.del-inbox-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+        if ($('.del-inbox-toggle').attr('message_id')) {
+            $(".videme_item_card").itemCard($('.del-inbox-toggle'));
             $('.videme-del-list').html("\
-<button type='button' class='btn btn-primary' data-dismiss='modal'>\
-	Сancel\
-</button> \
-<a class='del-inbox-url' file='https://api.vide.me/file/delinbox/?messageid=" + $('.del-inbox-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
-<button type='button' class='btn btn-danger' id='do'>\
-Delete\
-<div class='videme-progress'></div>\
-</button>\
-</a>\
-");
+                <button type='button' class='btn btn-primary' data-dismiss='modal'>\
+                    Сancel\
+                </button> \
+                <a class='del-inbox-url' message_id='https://api.vide.me/v2/message/inbox/delete/?message_id=" + $('.del-inbox-toggle').attr('message_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+                <button type='button' class='btn btn-danger' id='do'>\
+                Delete\
+                <div class='videme-progress'></div>\
+                </button>\
+                </a>");
         } else {
             $('.videme-del-list').html(showError("No file"));
         }
@@ -3149,20 +3304,18 @@ Delete\
     $(document).on('click', '.del-sent-toggle', function (event) {
         console.log(".del-sent-toggle -----> click");
         event.stopPropagation();
-        if ($('.del-sent-toggle').attr('file')) {
-            $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://api.vide.me/img/?i=" + $('.del-sent-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+        if ($('.del-sent-toggle').attr('message_id')) {
+            $(".videme_item_card").itemCard($('.del-sent-toggle'));
             $('.videme-del-list').html("\
-<button type='button' class='btn btn-primary' data-dismiss='modal'>\
-	Сancel\
-</button> \
-<a class='del-sent-url' file='https://api.vide.me/file/delsent/?messageid=" + $('.del-sent-toggle').attr('messageid') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
-<button type='button' class='btn btn-danger' id='do'>\
-Delete\
-<div class='videme-progress'></div>\
-</button>\
-</a>\
-");
+                <button type='button' class='btn btn-primary' data-dismiss='modal'>\
+                    Сancel\
+                </button> \
+                <a class='del-sent-url' item_id='https://api.vide.me/v2/message/sent/delete/?message_id=" + $('.del-sent-toggle').attr('message_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+                <button type='button' class='btn btn-danger' id='do'>\
+                Delete\
+                <div class='videme-progress'></div>\
+                </button>\
+                </a>");
         } else {
             $('.videme-del-list').html(showError("No file"));
         }
@@ -3175,22 +3328,44 @@ Delete\
     $(document).on('click', '.del-my-toggle', function (event) {
         console.log(".del-my-toggle -----> click");
         event.stopPropagation();
-        if ($('.del-my-toggle').attr('file')) {
-            $(".videme-mini-img").html(VidemeProgress);
-            $(".videme-mini-img").html("<img src='https://api.vide.me/img/?i=" + $('.del-my-toggle').attr('file') + ".jpg' class='videme-mini-img' width='190' height='108'>");
+        if ($('.del-my-toggle').attr('item_id')) {
+            $(".videme_item_card").itemCard($('.del-my-toggle'));
             $('.videme-del-list').html("\
-<button type='button' class='btn btn-primary' data-dismiss='modal'>\
-	Сancel\
-</button> \
-<a class='del-my-url' file='https://api.vide.me/file/delfile/?file=" + $('.del-my-toggle').attr('file') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
-<button type='button' class='btn btn-danger' id='do'>\
-Delete\
-<div class='videme-progress'></div>\
-</button>\
-</a>\
-");
+                <button type='button' class='btn btn-primary' data-dismiss='modal'>\
+                    Сancel\
+                </button> \
+                <a class='del-my-url' item_id='https://api.vide.me/v2/items/my/delete/?item_id=" + $('.del-my-toggle').attr('item_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+                <button type='button' class='btn btn-danger' id='do'>\
+                Delete\
+                <div class='videme-progress'></div>\
+                </button>\
+                </a>");
         } else {
             $('.videme-del-list').html(showError("No file"));
+        }
+    });
+
+    /*************************************************************
+     v2 Событие 1: нажата кнопка вызова и отрисовки
+     кнопки edit MY
+     **************************************************************/
+    $(document).on('click', '.item-edit-toggle', function (event) {
+        console.log(".item-edit-toggle -----> click");
+        event.stopPropagation();
+        if ($('.item-edit-toggle').attr('item_id')) {
+            if ($.cookie('vide_nad')) {
+                $('#nad').val($.cookie('vide_nad'));
+            } else {
+                console.log("item-edit-toggle -----> no cookie");
+            }
+            $('#item_id').val($('.item-edit-toggle').attr('item_id'));
+            $('#cover').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $('.item-edit-toggle').attr('item_id') + '.jpg');
+            $('#title').val($('.item-edit-toggle').attr('title'));
+            $('#content').val($('.item-edit-toggle').attr('content'));
+            $('#access').val($('.item-edit-toggle').attr('access'));
+            console.log("item-edit-toggle access -----> " + $('.item-edit-toggle').attr('access'));
+        } else {
+            $('.title').html(showError("No file"));
         }
     });
 
@@ -3249,7 +3424,7 @@ Delete\
         console.log("a.del-inbox-url -----> click");
         event.preventDefault();
         var $this = $(this);
-        var href = $this.attr('file');
+        var href = $this.attr('message_id');
         href.replace(/.*(?=#[^\s]+$)/, '');
         $.ajax({
             //type: 'post',
@@ -3281,7 +3456,7 @@ Delete\
         console.log("a.del-sent-url -----> click");
         event.preventDefault();
         var $this = $(this);
-        var href = $this.attr('file');
+        var href = $this.attr('message_id');
         href.replace(/.*(?=#[^\s]+$)/, '');
         $.ajax({
             type: 'post',
@@ -3313,7 +3488,7 @@ Delete\
         console.log("a.del-my-url -----> click");
         event.preventDefault();
         var $this = $(this);
-        var href = $this.attr('file');
+        var href = $this.attr('item_id');
         href.replace(/.*(?=#[^\s]+$)/, '');
         $.ajax({
             type: 'post',
@@ -4014,6 +4189,47 @@ message-value='#" + Message.substr(1) + "'>\
     /*************************************************************
      v2 Событие 4: нажата кнопка Сохранить Contact в первом модальном окне
      **************************************************************/
+    $('#item-edit-form').validate({
+        rules: {
+            "title": {
+                required: true,
+                maxlength: 40
+            }
+        },
+        messages: {
+            "title": {
+                required: "<-",
+                //email: "Enter true title"
+            }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'https://api.vide.me/v2/items/update/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $.fn.processNotification();
+                },
+                success: function (msg) {
+                    $('#modal-item-edit').modal('hide');
+                    $.fn.successNotification({
+                        msg: msg
+                    });
+                },
+                error: function (msg) {
+                    $('#modal-item-edit').modal('hide');
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
+                }
+            });
+        }
+    });
+
+    /*************************************************************
+     v2 Событие 4: нажата кнопка Сохранить Contact в первом модальном окне
+     **************************************************************/
     $('#contact-edit-form').validate({
         rules: {
             "newemail": {
@@ -4392,7 +4608,7 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://api.vide.me/user/update/info/',
+                url: 'https://api.vide.me/v2/user/update/info/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -5071,4 +5287,70 @@ function fetch(token) {
             });
         }
     });
+}
+
+function filter_array(test_array) {
+    var index = -1,
+        arr_length = test_array ? test_array.length : 0,
+        resIndex = -1,
+        result = [];
+
+    while (++index < arr_length) {
+        var value = test_array[index];
+
+        if (value) {
+            result[++resIndex] = value;
+        }
+    }
+
+    return result;
+}
+
+function filter_obj(obj) {
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined) {
+            delete obj[propName];
+        }
+    }
+}
+
+function padding_item_object(padding_item_object) {
+    if (padding_item_object.item_id)
+        true_item.item_id = padding_item_object.item_id;
+    if (padding_item_object.cover)
+        true_item.cover = padding_item_object.cover;
+    if (padding_item_object.href)
+        true_item.href = padding_item_object.href;
+    if (padding_item_object.post_id)
+        true_item.post_id = padding_item_object.post_id;
+    if (padding_item_object.message_id)
+        true_item.message_id = padding_item_object.message_id;
+    if (padding_item_object.created_at)
+        true_item.created_at = padding_item_object.created_at;
+    if (padding_item_object.updated_at)
+        true_item.updated_at = padding_item_object.updated_at;
+    if (padding_item_object.title)
+        true_item.title = padding_item_object.title;
+    if (padding_item_object.content)
+        true_item.content = padding_item_object.content;
+    if (padding_item_object.spring)
+        true_item.spring = padding_item_object.spring;
+    if (padding_item_object.user_email)
+        true_item.user_email = padding_item_object.user_email;
+    if (padding_item_object.user_picture)
+        true_item.user_picture = padding_item_object.user_picture;
+    if (padding_item_object.to_user_id)
+        true_item.to_user_id = padding_item_object.to_user_id;
+    if (padding_item_object.from_user_id)
+        true_item.from_user_id = padding_item_object.from_user_id;
+    if (padding_item_object.from_user_display_name)
+        true_item.from_user_display_name = padding_item_object.from_user_display_name;
+    if (padding_item_object.from_user_name)
+        true_item.from_user_name = padding_item_object.from_user_name;
+    if (padding_item_object.video_duration)
+        true_item.video_duration = padding_item_object.video_duration;
+    if (padding_item_object.count)
+        true_item.count = padding_item_object.count;
+    if (padding_item_object.tags)
+        true_item.tags = padding_item_object.tags;
 }
