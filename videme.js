@@ -959,7 +959,7 @@
         // TODO: Add limit
         $.getJSON("https://api.vide.me/v2/post/shownew/?videmecallback=?",
             function (jsonData) {
-                console.log("$.fn.showNewPostsPagination data -----> " + JSON.stringify(jsonData));
+                //console.log("$.fn.showNewPostsPagination data -----> " + JSON.stringify(jsonData));
 
                 /* Показать первый расклад */
 
@@ -1469,10 +1469,16 @@
 				</div>");
             //$("#el_" + key).attr(value);
         });*/
-            html.push("<li class='list-group-item'>" +
+            html.push("<li class='list-group-item videme-tile-item'>" +
                 "<img src='" + value.user_picture + "' alt='' class='img-thumbnail videme-relation-card-img'>" +
-                "<div class='font-weight-bold videme-relation-card-user'>" + value.user_display_name + "</div>" +
+                "<div class='videme-tile-item-1-line'>" +
+                "<div class='font-weight-bold videme-tile-item-user'>" + value.user_display_name + "</div>" +
                 "<div class='text-right videme-tile-item-created-at'>" + created_at + "</div>" +
+                "</div>" +
+                "<div class='videme-tile-item-2-line'>" +
+                "<div class='videme-tile-item-title'>" + value.title + "</div>" +
+                "<span class='iconic' data-glyph='star' title='star' aria-hidden='true'></span>" +
+                "</div>" +
                 "<div class='box" + tempObjectClass + "'>\
                 <div class='boxInner'>\
 				<a class='" + actionUrlClass + "' \
@@ -1512,6 +1518,7 @@
 				</a>\
 			</div>\
 				</div>\
+				<span class='iconic' data-glyph='star' title='star' aria-hidden='true'></span>\
 				</li>\
 				");
             //$("#el_" + key).attr(value);
@@ -1802,7 +1809,7 @@
     }
 
     function parseDataArrayToObject(parseDataArrayToObject) {
-        console.log("parseDataArrayToObject -----> " + JSON.stringify(parseDataArrayToObject));
+        //console.log("parseDataArrayToObject -----> " + JSON.stringify(parseDataArrayToObject));
         $.each(parseDataArrayToObject, function (key, value) {
             //console.log("parseFileInbox[key] ----->" + JSON.stringify(parseFileInbox[key]));
             //console.log("parseFileInbox paddingData ----->" + paddingData(value)); // <<-------
@@ -1840,7 +1847,7 @@
             };
         });
         //delete parseFileInbox.results;
-        console.log("parseFileInbox ----->" + JSON.stringify(parseDataArrayToObject));
+        //console.log("parseFileInbox ----->" + JSON.stringify(parseDataArrayToObject));
         return parseDataArrayToObject;
     }
 
