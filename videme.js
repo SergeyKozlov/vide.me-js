@@ -13,6 +13,7 @@
         show : function( ) {
             console.log("tooltip -----> show");
         },
+
         hide : function( ) {
             console.log("tooltip -----> hide");
         },
@@ -529,22 +530,77 @@
             //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
             var tempObject = $(fileMyConnectSettings.showcaseVideo);
         }
-        console.log("$.fn.fileMyConnect tempObject -----> " + tempObject.length);
+        //console.log("$.fn.fileMyConnect tempObject -----> " + tempObject.length);
+        if ($.cookie('vide_nad')) {
+            $('.update').removeClass('hidden');
+            tempObject.html(VidemeProgress);
+            var start_time = performance.now();
+            $.getJSON("https://api.vide.me/v2/items/connect/?limit=" + fileMyConnectSettings.limit + "&videmecallback=?",
+                function (data) {
+                    //if (typeof data  !== 'undefined' && data.length > 0) {
+                    //if (data.length > 0) {
+                    if (jQuery.isEmptyObject(data)) {
+                        console.log("$.fn.fileMyConnect data -----> no");
+                        tempObject.html('');
+                        $('.itemscope').hide();
+                        tempObject.append('Create new connect:');
+                        $('#videme-connect').removeClass('hidden');
+                        $('#videme-connect').showPopConnect({
+                            limit: 18
+                        });
+                        //$.fn.showPopConnect();
+                    } else {
+                        var response_time = Math.round(performance.now() - start_time);
+                        $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                        //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                        tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
+                        $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+                    }
+                })
+                .done(function (data) {
+                })
+                .fail(function (data) {
+                    tempObject.html(showError(data));
+                })
+                .always(function () {
+                });
+        } else {
+            //$('#modal-signin').modal('show');
+            //$(".signin-toggle").removeClass("hidden");
+            $(".itemscope").addClass("hidden");
+        }
+    };
+
+    $.fn.showPopConnect = function (options) {
+        /*showPopConnectSettings = $.extend({
+            size: '',
+            limit: 16,
+            showcaseVideo: "#videme-tile"
+        }, options);*/
+        var showPopConnectSettings = $.extend( {
+            size: '',
+            limit: 16,
+            showcaseVideo: "#videme-tile"
+        }, $.fn.showPopConnect.defaults, options );
+        if ($(this).length) {
+            //if (jQuery.isEmptyObject($(this))) {
+            //console.log("$.fn.showPopConnect $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showPopConnect $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showPopConnectSettings.showcaseVideo);
+        }
+        //console.log("$.fn.showPopConnect tempObject -----> " + tempObject.length);
+        //console.log("$.fn.showPopConnect showPopConnectSettings -----> " + JSON.stringify(showPopConnectSettings));
         tempObject.html(VidemeProgress);
-        var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/items/connect/?limit=" + fileMyConnectSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/connect/pop/?videmecallback=?",
             function (data) {
-                //if (typeof data  !== 'undefined' && data.length > 0) {
-                //if (data.length > 0) {
                 if (jQuery.isEmptyObject(data)) {
-                    console.log("$.fn.fileMyConnect data -----> no");
+                    console.log("$.fn.showPopConnect data -----> no");
                     tempObject.html("No results");
                 } else {
-                    var response_time = Math.round(performance.now() - start_time);
-                    $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
-                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
-                    $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+                    console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTileRelation(data, tempObject, showPopConnectSettings.size));
                 }
             })
             .done(function (data) {
@@ -1282,11 +1338,14 @@
         }
         var html = [];
         console.log("showTile showFile.length -----> " + showFile.length);
-        console.log("showTile showFile -----> " + JSON.stringify(showFile));
+        //console.log("showTile showFile -----> " + JSON.stringify(showFile));
+        //showFile = $.parseJSON(showFile);
+        //console.log("showTile showFile parseJSON -----> " + JSON.stringify(showFile));
         //maxTile = (maxTile - 1) || 18;
+        html.push("<ul class=\'list-group\'>");
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
-            //console.log("showTile ---> " + JSON.stringify(value));
+            //console.log("showTile value ---> " + JSON.stringify(value));
             //console.log("showTile value.video_duration ---> " + JSON.stringify(value.created_at));
             //if (d > maxTile) return false;
             var a;
@@ -1326,6 +1385,13 @@
             } else {
                 videoDuration = "";
             }
+            var created_at;
+            if (value.created_at) {
+                var currentTime = Date();
+                created_at = timeToWord(value.created_at);
+            } else {
+                created_at = "";
+            }
             var href;
             var img;
             //if (value.messageid) {
@@ -1362,9 +1428,53 @@
                 count = '' + '<br>';
             }
             //console.log("showTile spring -----> <a href='https://www.vide.me/" + spring + "'>" + a + "</a>");
-            html.push("\
-				<div class='box" + tempObjectClass + "'>\
-				<div class='boxInner'>\
+            /*html.push("<div class='box" + tempObjectClass + "'>\
+                <div class='boxInner'>\
+				<a class='" + actionUrlClass + "' \
+						video='" + value.video + "' \
+						message_id='" + value.message_id + "' \
+						user_display_name='" + value.user_display_name + "' \
+						created_at='" + value.created_at + "' \
+						updated_at='" + value.updated_at + "' \
+						title='" + value.title + "' \
+						content='" + value.content + "' \
+                        cover='" + value.cover + "' \
+                        item_id='" + value.item_id + "' \
+                        post_id='" + value.post_id + "' \
+                        spring='" + value.spring + "' \
+                        user_picture='" + value.user_picture + "' \
+                        to_user_id='" + value.to_user_id + "' \
+                        from_user_id='" + value.from_user_id + "' \
+                        from_user_display_name='" + value.from_user_display_name + "' \
+                        from_user_name='" + value.user_display_name + "' \
+                        file='" + value.item_id + "' \
+                        video_duration='" + value.video_duration + "' \
+                        count='" + value.item_count_show + "' \
+                        access='" + value.access + "' \
+                        tags='" + JSON.stringify(value.tags) + "' \
+						href='" + href + "' id='el_" + key + "' target='_blank'>\
+			<div class='titleTop'>\
+						 " + a + "\
+						 " + b + "\
+						 " + c + "\
+						 " + d + "\
+						 " + videoDuration + "\
+						 " + count + "\
+			</div>\
+						 <img src='" + img + "' alt=''>\
+						 </img>\
+                <div class='videme-tile-signboard-true'></div>\
+				</a>\
+			</div>\
+				</div>");
+            //$("#el_" + key).attr(value);
+        });*/
+            html.push("<li class='list-group-item'>" +
+                "<img src='" + value.user_picture + "' alt='' class='img-thumbnail videme-relation-card-img'>" +
+                "<div class='font-weight-bold videme-relation-card-user'>" + value.user_display_name + "</div>" +
+                "<div class='text-right videme-tile-item-created-at'>" + created_at + "</div>" +
+                "<div class='box" + tempObjectClass + "'>\
+                <div class='boxInner'>\
 				<a class='" + actionUrlClass + "' \
 						video='" + value.video + "' \
 						message_id='" + value.message_id + "' \
@@ -1402,10 +1512,167 @@
 				</a>\
 			</div>\
 				</div>\
-		 	");
+				</li>\
+				");
             //$("#el_" + key).attr(value);
         });
+        html.push("</ul>");
+
+        console.log("showTile html -----> " + html);
+
+        //return "<ul class='list-group'>" + html + "</ul>";
+        //return html;
+        return html.join('');
+    }
+
+    function showTileRelation(relationArray, tempObject, size) {
+        console.log('showTileRelation tempObject.width ---> ' + tempObject.width());
+        console.log('showTileRelation size ---> ' + size);
+        var html = [];
+        //if (tempObject.width() < 500) {
+        if (size == 'small') {
+            $.each(relationArray, function (key, value) {
+                var trueValue = paddingUserInfo(value);
+                html.push(showRelationCardSmall(trueValue));
+            });
+        } else {
+            $.each(relationArray, function (key, value) {
+                var trueValue = paddingUserInfo(value);
+                html.push(showRelationCard(trueValue));
+            });
+        }
         return html;
+    }
+
+    function showRelationCard(showRelationCard) {
+        return "<div class=\"card\" style=\"width: 50%;float: left;\">\n" +
+            "  <img class=\"card-img-top\" src=\"" + showRelationCard.user_cover + "\" alt=\"Card image cap\">\n" +
+            "  <div class=\"card-body\">\n" +
+            "    <h5 class=\"card-title\"><a href='https://www.vide.me/" + showRelationCard.spring + "/' target='_blank'>" + showRelationCard.user_display_name + "</a></h5>\n" +
+            "    <p class=\"card-text\"></p>\n" +
+            "    <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCard.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-primary relation_connect\" user_id='" + showRelationCard.user_id + "'>Connect</a>\n" +
+            "  </div>\n" +
+            "</div>";
+    }
+
+    function showRelationCardSmall(showRelationCardSmall) {
+        return "\
+            <div class=\"videme-ralation-card-small\">\
+              <img class=\"img-thumbnail videme-relation-card-img\" src=\"" + showRelationCardSmall.user_picture + "\" alt=\"\" />\
+                <div class=\"videme-relation-card-user\"><a href='https://www.vide.me/" + showRelationCardSmall.spring + "/' target='_blank'>" + showRelationCardSmall.user_display_name + "</a></div>\
+                <p class=\"\"></p>\
+                <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "'>Connect</a>\
+            </div>";
+    }
+
+    function paddingUserInfo(paddingUserInfo) {
+        console.log('paddingUserInfo paddingUserInfo ---> ' + JSON.stringify(paddingUserInfo));
+        var trueUserInfo = {};
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_id)) {
+            trueUserInfo.user_id = paddingUserInfo.user_id;
+        } else {
+            trueUserInfo.user_id = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_email)) {
+            trueUserInfo.user_email = paddingUserInfo.user_email;
+        } else {
+            trueUserInfo.user_email = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_display_name)) {
+            trueUserInfo.user_display_name = paddingUserInfo.user_display_name;
+        } else {
+            trueUserInfo.user_display_name = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_first_name)) {
+            trueUserInfo.user_first_name = paddingUserInfo.user_first_name;
+        } else {
+            trueUserInfo.user_first_name = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_last_name)) {
+            trueUserInfo.user_last_name = paddingUserInfo.user_last_name;
+        } else {
+            trueUserInfo.user_last_name = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_link)) {
+            trueUserInfo.user_link = paddingUserInfo.user_link;
+        } else {
+            trueUserInfo.user_link = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_gender)) {
+            trueUserInfo.user_gender = paddingUserInfo.user_gender;
+        } else {
+            trueUserInfo.user_gender = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_birthday)) {
+            trueUserInfo.user_birthday = paddingUserInfo.user_birthday;
+        } else {
+            trueUserInfo.user_birthday = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_locale)) {
+            trueUserInfo.user_locale = paddingUserInfo.user_locale;
+        } else {
+            trueUserInfo.user_locale = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_picture)) {
+            trueUserInfo.user_picture = paddingUserInfo.user_picture;
+        } else {
+            trueUserInfo.user_picture = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.spring)) {
+            trueUserInfo.spring = paddingUserInfo.spring;
+        } else {
+            trueUserInfo.spring = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.facebook)) {
+            trueUserInfo.facebook = paddingUserInfo.facebook;
+        } else {
+            trueUserInfo.facebook = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.google)) {
+            trueUserInfo.google = paddingUserInfo.google;
+        } else {
+            trueUserInfo.google = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.microsoft)) {
+            trueUserInfo.microsoft = paddingUserInfo.microsoft;
+        } else {
+            trueUserInfo.microsoft = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.last_login)) {
+            trueUserInfo.last_login = paddingUserInfo.last_login;
+        } else {
+            trueUserInfo.last_login = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.last_active)) {
+            trueUserInfo.last_active = paddingUserInfo.last_active;
+        } else {
+            trueUserInfo.last_active = '';
+        }
+        if (!jQuery.isEmptyObject(paddingUserInfo.user_cover)) {
+            trueUserInfo.user_cover = paddingUserInfo.user_cover;
+        } else {
+            trueUserInfo.user_cover = getRandomImage();
+        }
+        console.log('paddingUserInfo trueUserInfo ---> ' + JSON.stringify(trueUserInfo));
+        return trueUserInfo;
+    }
+
+    function getRandomImage() {
+        var image = [
+            'https://www.japan-guide.com/thumb/interest_flowers.jpg',
+            'https://www.freewebheaders.com/wordpress/wp-content/gallery/clouds-sky/clouds-sky-header-2067-1024x300.jpg',
+            'https://assets.answersingenesis.org/img/cms/content/contentnode/header_image/aquatic-animals.jpg',
+            'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX2255721.jpg',
+            'https://media.mnn.com/assets/images/2014/11/burrowing-owls-parliament.jpg.653x0_q80_crop-smart.jpg',
+            'https://climatekids.nasa.gov/review/tree-rings/trees.jpg',
+            'https://t-ec.bstatic.com/images/hotel/max1024x768/788/78809294.jpg',
+            'https://cdn.shopify.com/s/files/1/0690/0531/files/sand-01_1024x1024.jpg',
+            'https://uiuccmda.files.wordpress.com/2012/01/winter-scene.jpg',
+            'https://media.cntraveler.com/photos/58af182429676a553e60cedf/master/w_775,c_limit/nemophila-hitachi-seaside-park-japan-GettyImages-545033958.jpg',
+            'https://localtvwghp.files.wordpress.com/2015/06/hot1.jpg',
+            'http://res.freestockphotos.biz/pictures/12/12734-fall-landscape-reflecting-on-a-lake-pv.jpg'
+        ];
+        return image[Math.floor(Math.random() * image.length)];
     }
 
     function convertTimestamp(timestamp) {
@@ -1564,6 +1831,7 @@
                 'from_user_id': value.from_user_id,
                 'from_user_display_name': value.from_user_display_name,
                 'from_user_name': value.user_display_name,
+                'user_display_name': value.user_display_name,
                 'file': value.item_id, // TODO: remove
                 'video_duration': value.video_duration,
                 'count': value.item_count_show,
@@ -2177,7 +2445,7 @@
 
     $.fn.showcaseText = function (options) {
         showcaseTextSettings = $.extend({}, options);
-        console.log("$.fn.showcaseText showcaseTextSettings -----> " + JSON.stringify(showcaseTextSettings));
+        //console.log("$.fn.showcaseText showcaseTextSettings -----> " + JSON.stringify(showcaseTextSettings));
         $(".videme-showcase-subject").html(showcaseTextSettings.title);
         $(".videme-showcase-message").html(showcaseTextSettings.content);
         //$(".videme-showcase-createdat").html(convertTimestamp(showcaseTextSettings.created_at));
@@ -3507,10 +3775,10 @@ Delete\
 });
 
 /*************************************************************
- v2 Событие 4: нажата ссылка из кнопки relation_read
+ v2 Событие 4: нажата ссылка из кнопки relation_connect
  **************************************************************/
-$(document).on('click', 'a.relation_read', function (event) {
-    console.log("a.relation_read -----> click");
+$(document).on('click', 'a.relation_connect', function (event) {
+    console.log("a.relation_connect -----> click");
     event.preventDefault();
     var $this = $(this);
     if ($.cookie('vide_nad')) {
@@ -3518,7 +3786,7 @@ $(document).on('click', 'a.relation_read', function (event) {
         user_id.replace(/.*(?=#[^\s]+$)/, '');
         $.ajax({
             //type: 'post',
-            url: 'https://api.vide.me/v2/relation/read/?user_id=' + user_id,
+            url: 'https://api.vide.me/v2/relation/connect/?user_id=' + user_id + '&nad=' + $.cookie('vide_nad'),
             beforeSend: function () {
                 $.fn.processNotification();
             },
@@ -4718,6 +4986,7 @@ message-value='#" + Message.substr(1) + "'>\
                         msg: msg
                     });
                     $('#modal-signin').modal('hide');
+                    //$(".signin-toggle").addClass("hidden");
                     location.reload();
                 },
                 error: function (msg) {
@@ -5395,6 +5664,54 @@ function getRealTime() {
     }
     var getRealTime = hour + ':' + minute + ':' + second;
     return getRealTime;
+}
+
+function timeToWord(previous) {
+    //var currentCommon = new Date();
+    //var current = currentCommon.toISOString();
+    //var prevCommon = new Date(previous);
+    //previous = prevCommon.toISOString();
+    //var current = (new Date()).toLocaleDateString();
+    var current = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    //var current = new Date('dd/MM/yyyy HH:mm:ss fff');
+    //var current = new Date().format("yyyy-mm-dd HH:MM:ss l");
+    previous = previous.substr(0, 19);
+    console.log("timeToWord current --->" + current);
+    console.log("timeToWord previous --->" + previous);
+
+    return previous;
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+        return Math.round(elapsed/1000) + ' seconds ago';
+    }
+
+    else if (elapsed < msPerHour) {
+        return Math.round(elapsed/msPerMinute) + ' minutes ago';
+    }
+
+    else if (elapsed < msPerDay ) {
+        return Math.round(elapsed/msPerHour ) + ' hours ago';
+    }
+
+    else if (elapsed < msPerMonth) {
+        return 'approximately ' + Math.round(elapsed/msPerDay) + ' days ago';
+    }
+
+    else if (elapsed < msPerYear) {
+        return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months ago';
+    }
+
+    else {
+        return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years ago';
+    }
 }
 
 /*
