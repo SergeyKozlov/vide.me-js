@@ -553,7 +553,7 @@
                         var response_time = Math.round(performance.now() - start_time);
                         $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                         //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
-                        tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
+                        tempObject.html(showTile(parseDataArrayToObject(data), tempObject, ""));
                         $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
                     }
                 })
@@ -599,7 +599,7 @@
                     console.log("$.fn.showPopConnect data -----> no");
                     tempObject.html("No results");
                 } else {
-                    console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    //console.log("$.fn.showPopConnect data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTileRelation(data, tempObject, showPopConnectSettings.size));
                 }
             })
@@ -1019,7 +1019,7 @@
         // TODO: Add limit
         $.getJSON("https://api.vide.me/v2/post/new_article/?videmecallback=?",
             function (jsonData) {
-                console.log("$.fn.showNewArticlePagination data -----> " + JSON.stringify(jsonData));
+                //console.log("$.fn.showNewArticlePagination data -----> " + JSON.stringify(jsonData));
 
                 /* Показать первый расклад */
 
@@ -1082,7 +1082,7 @@
         //$.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
         $.getJSON("https://api.vide.me/v2/post/showpop/?videmecallback=?",
             function (jsonData) {
-                console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
+                //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
                 //tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
                 tempObjectPopVideo.html(showTile(parseDataArrayToObject(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
                 var pagetotal = Math.ceil(jsonData.length / showPopVideoPaginationSettings.limit); //example=2
@@ -1397,23 +1397,23 @@
             //if (value.messageid) {
             //if (value.indexOf("messageid")) {
             //if ("messageid" in value) {
-            if (actionUrlClass === 'article') {
+            if (value.type === 'article') {
                 if (value.post_id && value.post_id != "undefined") {
-                    href = "https://vide.me/a/?a=" + value.href + "&post_id=" + value.post_id;
+                    href = "https://www.vide.me/a/?a=" + value.href + "&post_id=" + value.post_id;
                 } else {
-                    href = "https://vide.me/a/?a=" + value.href;
+                    href = "https://www.vide.me/a/?a=" + value.href;
                 }
                 img = value.cover;
             } else {
                 if (value.message_id && value.message_id != "undefined") {
-                    href = "https://vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
+                    href = "https://www.vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
                 } else {
-                    href = "https://vide.me/v?m=" + value.href;
+                    href = "https://www.vide.me/v?m=" + value.href;
                 }
                 if (value.post_id && value.post_id != "undefined") {
-                    href = "https://vide.me/v?m=" + value.href + "&post_id=" + value.post_id;
+                    href = "https://www.vide.me/v?m=" + value.href + "&post_id=" + value.post_id;
                 } else {
-                    href = "https://vide.me/v?m=" + value.href;
+                    href = "https://www.vide.me/v?m=" + value.href;
                 }
                 img = "https://s3.amazonaws.com/img.vide.me/" + value.img + ".jpg";
             }
@@ -1503,7 +1503,7 @@
                         count='" + value.item_count_show + "' \
                         access='" + value.access + "' \
                         tags='" + JSON.stringify(value.tags) + "' \
-						href='" + href + "' id='el_" + key + "' target='_blank'>\
+						href='" + href + "' id='el_" + key + "'>\
 			<div class='titleTop'>\
 						 " + a + "\
 						 " + b + "\
@@ -1518,14 +1518,15 @@
 				</a>\
 			</div>\
 				</div>\
-				<span class='iconic' data-glyph='star' title='star' aria-hidden='true'></span>\
+				<i class='fa fa-eye'></i>\
+				" + value.item_count_show + "\
 				</li>\
 				");
             //$("#el_" + key).attr(value);
         });
         html.push("</ul>");
 
-        console.log("showTile html -----> " + html);
+        //console.log("showTile html -----> " + html);
 
         //return "<ul class='list-group'>" + html + "</ul>";
         //return html;
@@ -1573,7 +1574,7 @@
     }
 
     function paddingUserInfo(paddingUserInfo) {
-        console.log('paddingUserInfo paddingUserInfo ---> ' + JSON.stringify(paddingUserInfo));
+        //console.log('paddingUserInfo paddingUserInfo ---> ' + JSON.stringify(paddingUserInfo));
         var trueUserInfo = {};
         if (!jQuery.isEmptyObject(paddingUserInfo.user_id)) {
             trueUserInfo.user_id = paddingUserInfo.user_id;
@@ -1660,7 +1661,7 @@
         } else {
             trueUserInfo.user_cover = getRandomImage();
         }
-        console.log('paddingUserInfo trueUserInfo ---> ' + JSON.stringify(trueUserInfo));
+        //console.log('paddingUserInfo trueUserInfo ---> ' + JSON.stringify(trueUserInfo));
         return trueUserInfo;
     }
 
@@ -1822,6 +1823,7 @@
                 'd': value.updated_at,
                 'img': value.item_id,
                 'cover': value.cover,
+                'type': value.type,
                 'href': value.item_id,
                 'item_id': value.item_id,
                 'video': value.item_id,
@@ -1841,6 +1843,7 @@
                 'user_display_name': value.user_display_name,
                 'file': value.item_id, // TODO: remove
                 'video_duration': value.video_duration,
+                'item_count_show': value.item_count_show,
                 'count': value.item_count_show,
                 'access': value.access,
                 'tags': value.tags
@@ -2857,7 +2860,7 @@
                         TempObject: tempObject,
                         button: "new"
                     }));*/
-                    tempObject.html(showTile(parseFileMy(data), tempObject, "shownext"));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
                     /*console.log("$.fn.showSearchArticle parseSearchArticle -----> " + $.fn.showArticleTile({
                         showArticleTile: parseSearchArticle(data),
                         TempObject: tempObject,
@@ -5810,7 +5813,7 @@ function filter_obj(obj) {
     }
 }
 
-function padding_item_object(padding_item_object) {
+function padding_item_object(padding_item_object) { // TODO: delete
     if (padding_item_object.item_id)
         true_item.item_id = padding_item_object.item_id;
     if (padding_item_object.cover)
