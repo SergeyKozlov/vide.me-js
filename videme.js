@@ -1505,12 +1505,7 @@
                         tags='" + JSON.stringify(value.tags) + "' \
 						href='" + href + "' id='el_" + key + "'>\
 			<div class='titleTop'>\
-						 " + a + "\
-						 " + b + "\
-						 " + c + "\
-						 " + d + "\
-						 " + videoDuration + "\
-						 " + count + "\
+						 " + value.type + "\
 			</div>\
 						 <img src='" + img + "' alt=''>\
 						 </img>\
@@ -1520,6 +1515,8 @@
 				</div>\
 				<i class='fa fa-eye'></i>\
 				" + value.item_count_show + "\
+				<i class='fa fa-clock-o'></i>\
+				" + videoDuration + "\
 				</li>\
 				");
             //$("#el_" + key).attr(value);
