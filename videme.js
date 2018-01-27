@@ -100,7 +100,7 @@
                         $('.authorize-false').remove();
                         if (data.user_display_name === null) data.user_display_name = 'No name';
 
-                        console.log("user/info data -----> " + JSON.stringify(data));
+                        //console.log("user/info data -----> " + JSON.stringify(data));
                         if (data.hasOwnProperty('user_mail')) { // TODO: Вынести в отдельную функцию
                             console.log("$.fn.getAuthorized -----> yes " + data.user_email);
                             authorized = true;
@@ -423,7 +423,7 @@
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (data) {
                     //console.log("$.fn.fileInbox data -----> yes" + JSON.stringify(data));
-                    console.log("$.fn.fileInbox data[0] -----> " + JSON.stringify(data[0]));
+                    //console.log("$.fn.fileInbox data[0] -----> " + JSON.stringify(data[0]));
                     tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-inbox-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonInbox(data[0]));
                 } else {
@@ -675,6 +675,53 @@
         console.log("postsOfSpring url -----> " + JSON.stringify(url));
         var start_time = performance.now();
         $.getJSON("https://api.vide.me/v2/spring/items/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (data) {
+                    console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                } else {
+                    console.log("$.fn.postsOfSpring data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+    $.fn.postsOfSpringVideoOnly = function (options) {
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        console.log("$.fn.postsOfSpring -----> ok");
+
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        //console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
+        //console.log("$.fn.postsOfSpring spring -----> " + fileSpringSettings.spring);
+        //console.log("$.fn.postsOfSpring list -----> " + fileSpringSettings.list);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        var url = parseUrl();
+        console.log("postsOfSpring url -----> " + JSON.stringify(url));
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/spring/video/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
@@ -1969,162 +2016,8 @@
         return paddingButtonOneTime;
     }
 
-    function paddingButtonInbox(paddingButtonInbox) {
-        //console.log("paddingButtonInbox before -----> " + JSON.stringify(paddingButtonInbox));
-        paddingButtonInbox.showcaseButton = {
-            'reply-toggle': {
-                'item_id': paddingButtonInbox.item_id,
-                'title': paddingButtonInbox.title,
-                'content': paddingButtonInbox.content,
-                'message_id': paddingButtonInbox.message_id,
-                'recipients': paddingButtonInbox.recipients,
-                'to_user_id': paddingButtonInbox.to_user_id,
-                'from_user_id': paddingButtonInbox.from_user_id,
-                'from_user_display_name': paddingButtonInbox.from_user_display_name,
-                'conference_id': paddingButtonInbox.conference_id
-            },
-            'contact-toggle': {
-                'item_id': paddingButtonInbox.item_id,
-                'user_display_name': paddingButtonInbox.user_display_name,
-                'title': paddingButtonInbox.title,
-                'content': paddingButtonInbox.content,
-                'created_at': paddingButtonInbox.created_at,
-                'updated_at': paddingButtonInbox.updated_at
-            },
-            'fb-send-message': {
-                'item_id': paddingButtonInbox.item_id,
-                'message_id': paddingButtonInbox.message_id
-            },
-            'list-toggle': {
-                'item_id': paddingButtonInbox.item_id,
-                'title': paddingButtonInbox.title,
-                'content': paddingButtonInbox.content
-            },
-            'del-inbox-toggle': {
-                'message_id': paddingButtonInbox.message_id,
-                'item_id': paddingButtonInbox.item_id,
-                'user_display_name': paddingButtonInbox.user_display_name,
-                'title': paddingButtonInbox.title,
-                'content': paddingButtonInbox.content,
-                'created_at': paddingButtonInbox.created_at,
-                'updated_at': paddingButtonInbox.updated_at
-            }
-        };
-        //console.log("paddingButtonInbox after ----->" + JSON.stringify(paddingButtonInbox));
-        return paddingButtonInbox;
-    }
 
-    function paddingButtonSent(paddingButtonSend) {
-        paddingButtonSend.showcaseButton = {
-            'contact-toggle': {
-                'item_id': paddingButtonSend.item_id,
-                'title': paddingButtonSend.title,
-                'content': paddingButtonSend.content
-            },
-            'fb-send-message': {
-                'item_id': paddingButtonSend.item_id,
-                'message_id': paddingButtonSend.message_id
-            },
-            'list-toggle': {
-                'item_id': paddingButtonSend.item_id,
-                'title': paddingButtonSend.title,
-                'content': paddingButtonSend.content
-            },
-            'del-sent-toggle': {
-                'message_id': paddingButtonSend.message_id,
-                'item_id': paddingButtonSend.item_id,
-                'user_display_name': paddingButtonSend.user_display_name,
-                'title': paddingButtonSend.title,
-                'content': paddingButtonSend.content,
-                'created_at': paddingButtonSend.created_at,
-                'updated_at': paddingButtonSend.updated_at
-            }
-        };
-        return paddingButtonSend;
-    }
 
-    function paddingButtonMy(paddingButtonMy) {
-        console.log("paddingButtonMy -----> " + JSON.stringify(paddingButtonMy));
-        paddingButtonMy.showcaseButton = {
-            'contact-toggle': {
-                'item_id': paddingButtonMy.item_id,
-                'title': paddingButtonMy.title,
-                'content': paddingButtonMy.content,
-                'created_at': paddingButtonMy.created_at,
-                'updated_at': paddingButtonMy.updated_at
-            },
-            'fb-send-message': {
-                'item_id': paddingButtonMy.item_id,
-                'created_at': paddingButtonMy.created_at,
-                'updated_at': paddingButtonMy.updated_at
-            },
-            'list-toggle': {
-                'item_id': paddingButtonMy.item_id,
-                'title': paddingButtonMy.title,
-                'content': paddingButtonMy.content,
-                'created_at': paddingButtonMy.created_at,
-                'updated_at': paddingButtonMy.updated_at
-            },
-            'del-my-toggle': {
-                'item_id': paddingButtonMy.item_id,
-                'user_display_name': paddingButtonMy.user_display_name,
-                'title': paddingButtonMy.title,
-                'content': paddingButtonMy.content,
-                'created_at': paddingButtonMy.created_at,
-                'updated_at': paddingButtonMy.updated_at
-            },
-            'item-edit-toggle': {
-                'item_id': paddingButtonMy.item_id,
-                'title': paddingButtonMy.title,
-                'content': paddingButtonMy.content,
-                'access': paddingButtonMy.access
-            }
-        };
-        return paddingButtonMy;
-    }
-
-    function paddingButtonMySpring(paddingButtonMySpring) {
-        console.log("paddingButtonMySpring -----> " + JSON.stringify(paddingButtonMySpring));
-        paddingButtonMySpring.showcaseButton = {
-            'contact-toggle': {
-                'item_id': paddingButtonMySpring.item_id,
-                'title': paddingButtonMySpring.title,
-                'content': paddingButtonMySpring.content
-            },
-            'fb-send-message': {
-                'item_id': paddingButtonMySpring.item_id
-            },
-            'list-toggle': {
-                'item_id': paddingButtonMySpring.item_id,
-                'title': paddingButtonMySpring.title,
-                'content': paddingButtonMySpring.content
-            },
-            'del-sharefile-toggle': {
-                'item_id': paddingButtonMySpring.item_id
-            }
-        };
-        return paddingButtonMySpring;
-    }
-
-    function paddingButtonSpring(paddingButtonSpring) {
-        console.log("paddingButtonSpring -----> " + JSON.stringify(paddingButtonSpring));
-        paddingButtonSpring.showcaseButton = {
-            'contact-toggle': {
-                'item_id': paddingButtonSpring.item_id,
-                'title': paddingButtonSpring.title,
-                'content': paddingButtonSpring.content
-            },
-            'fb-send-message': {
-                'item_id': paddingButtonSpring.item_id
-            },
-            'list-toggle': {
-                'item_id': paddingButtonSpring.item_id,
-                'title': paddingButtonSpring.title,
-                'content': paddingButtonSpring.content
-            }
-        };
-        return paddingButtonSpring;
-    }
 
     $.fn.showcaseVideo = function (options) {
         showcaseVideoSettings = $.extend({
@@ -2474,7 +2367,7 @@
 
     $.fn.showcaseUserInfo = function (options) {
         showcaseUserInfoSettings = $.extend({}, options);
-        console.log("$.fn.showcaseUserInfo showcaseUserInfoSettings -----> " + JSON.stringify(showcaseUserInfoSettings));
+        //console.log("$.fn.showcaseUserInfo showcaseUserInfoSettings -----> " + JSON.stringify(showcaseUserInfoSettings));
         $(".videme-showcase-from_user_name").html(showcaseUserInfoSettings.from_user_name);
         $('#nav_form_user_name').html("<a href='" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
         //$('#nav_form_user_email').html(showcaseUserInfoSettings.user_email);
@@ -2482,7 +2375,7 @@
 
     $.fn.showcaseUserPicture = function (options) {
         showcaseUserPictureSettings = $.extend({}, options);
-        console.log("$.fn.showcaseUserPicture -----> " + JSON.stringify(showcaseUserPictureSettings));
+        //console.log("$.fn.showcaseUserPicture -----> " + JSON.stringify(showcaseUserPictureSettings));
         $(".videme-showcase-user_picture").html('<a href="https://www.vide.me/' + showcaseUserPictureSettings.spring + '" ><img src="' + showcaseUserPictureSettings.user_picture + '" width="46" height="46" alt="' + showcaseUserPictureSettings.from_user_name + '"></a>');
         $('#nav_user_brand').attr('src', showcaseUserPictureSettings.user_picture);
     };
@@ -2605,7 +2498,7 @@
 
     $.fn.showcaseButton = function (options) {
         showcaseButtonSettings = $.extend({}, options);
-        console.log("$.fn.showcaseButton showcaseButtonSettings -----> " + JSON.stringify(showcaseButtonSettings));
+        //console.log("$.fn.showcaseButton showcaseButtonSettings -----> " + JSON.stringify(showcaseButtonSettings));
         // For reply button
 
 
@@ -2726,7 +2619,7 @@
 
     $.fn.showcaseVideoTextButton = function (options) {
         showcaseVideoTextButtonSettings = $.extend({}, options);
-        console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
+        //console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
         $.fn.showcaseVideo(showcaseVideoTextButtonSettings);
         $.fn.showcaseUserPicture(showcaseVideoTextButtonSettings);
         $.fn.showcaseUserInfo(showcaseVideoTextButtonSettings);
@@ -5584,6 +5477,163 @@ function sidebarToggleShow() {
     );
 }
 
+function paddingButtonInbox(paddingButtonInbox) {
+    //console.log("paddingButtonInbox before -----> " + JSON.stringify(paddingButtonInbox));
+    paddingButtonInbox.showcaseButton = {
+        'reply-toggle': {
+            'item_id': paddingButtonInbox.item_id,
+            'title': paddingButtonInbox.title,
+            'content': paddingButtonInbox.content,
+            'message_id': paddingButtonInbox.message_id,
+            'recipients': paddingButtonInbox.recipients,
+            'to_user_id': paddingButtonInbox.to_user_id,
+            'from_user_id': paddingButtonInbox.from_user_id,
+            'from_user_display_name': paddingButtonInbox.from_user_display_name,
+            'conference_id': paddingButtonInbox.conference_id
+        },
+        'contact-toggle': {
+            'item_id': paddingButtonInbox.item_id,
+            'user_display_name': paddingButtonInbox.user_display_name,
+            'title': paddingButtonInbox.title,
+            'content': paddingButtonInbox.content,
+            'created_at': paddingButtonInbox.created_at,
+            'updated_at': paddingButtonInbox.updated_at
+        },
+        'fb-send-message': {
+            'item_id': paddingButtonInbox.item_id,
+            'message_id': paddingButtonInbox.message_id
+        },
+        'list-toggle': {
+            'item_id': paddingButtonInbox.item_id,
+            'title': paddingButtonInbox.title,
+            'content': paddingButtonInbox.content
+        },
+        'del-inbox-toggle': {
+            'message_id': paddingButtonInbox.message_id,
+            'item_id': paddingButtonInbox.item_id,
+            'user_display_name': paddingButtonInbox.user_display_name,
+            'title': paddingButtonInbox.title,
+            'content': paddingButtonInbox.content,
+            'created_at': paddingButtonInbox.created_at,
+            'updated_at': paddingButtonInbox.updated_at
+        }
+    };
+    //console.log("paddingButtonInbox after ----->" + JSON.stringify(paddingButtonInbox));
+    return paddingButtonInbox;
+}
+
+function paddingButtonSent(paddingButtonSend) {
+    paddingButtonSend.showcaseButton = {
+        'contact-toggle': {
+            'item_id': paddingButtonSend.item_id,
+            'title': paddingButtonSend.title,
+            'content': paddingButtonSend.content
+        },
+        'fb-send-message': {
+            'item_id': paddingButtonSend.item_id,
+            'message_id': paddingButtonSend.message_id
+        },
+        'list-toggle': {
+            'item_id': paddingButtonSend.item_id,
+            'title': paddingButtonSend.title,
+            'content': paddingButtonSend.content
+        },
+        'del-sent-toggle': {
+            'message_id': paddingButtonSend.message_id,
+            'item_id': paddingButtonSend.item_id,
+            'user_display_name': paddingButtonSend.user_display_name,
+            'title': paddingButtonSend.title,
+            'content': paddingButtonSend.content,
+            'created_at': paddingButtonSend.created_at,
+            'updated_at': paddingButtonSend.updated_at
+        }
+    };
+    return paddingButtonSend;
+}
+
+function paddingButtonMy(paddingButtonMy) {
+    console.log("paddingButtonMy -----> " + JSON.stringify(paddingButtonMy));
+    paddingButtonMy.showcaseButton = {
+        'contact-toggle': {
+            'item_id': paddingButtonMy.item_id,
+            'title': paddingButtonMy.title,
+            'content': paddingButtonMy.content,
+            'created_at': paddingButtonMy.created_at,
+            'updated_at': paddingButtonMy.updated_at
+        },
+        'fb-send-message': {
+            'item_id': paddingButtonMy.item_id,
+            'created_at': paddingButtonMy.created_at,
+            'updated_at': paddingButtonMy.updated_at
+        },
+        'list-toggle': {
+            'item_id': paddingButtonMy.item_id,
+            'title': paddingButtonMy.title,
+            'content': paddingButtonMy.content,
+            'created_at': paddingButtonMy.created_at,
+            'updated_at': paddingButtonMy.updated_at
+        },
+        'del-my-toggle': {
+            'item_id': paddingButtonMy.item_id,
+            'user_display_name': paddingButtonMy.user_display_name,
+            'title': paddingButtonMy.title,
+            'content': paddingButtonMy.content,
+            'created_at': paddingButtonMy.created_at,
+            'updated_at': paddingButtonMy.updated_at
+        },
+        'item-edit-toggle': {
+            'item_id': paddingButtonMy.item_id,
+            'title': paddingButtonMy.title,
+            'content': paddingButtonMy.content,
+            'access': paddingButtonMy.access
+        }
+    };
+    return paddingButtonMy;
+}
+
+function paddingButtonMySpring(paddingButtonMySpring) {
+    console.log("paddingButtonMySpring -----> " + JSON.stringify(paddingButtonMySpring));
+    paddingButtonMySpring.showcaseButton = {
+        'contact-toggle': {
+            'item_id': paddingButtonMySpring.item_id,
+            'title': paddingButtonMySpring.title,
+            'content': paddingButtonMySpring.content
+        },
+        'fb-send-message': {
+            'item_id': paddingButtonMySpring.item_id
+        },
+        'list-toggle': {
+            'item_id': paddingButtonMySpring.item_id,
+            'title': paddingButtonMySpring.title,
+            'content': paddingButtonMySpring.content
+        },
+        'del-sharefile-toggle': {
+            'item_id': paddingButtonMySpring.item_id
+        }
+    };
+    return paddingButtonMySpring;
+}
+
+function paddingButtonSpring(paddingButtonSpring) { // not work into jquery block
+    console.log("paddingButtonSpring -----> " + JSON.stringify(paddingButtonSpring));
+    paddingButtonSpring.showcaseButton = {
+        'contact-toggle': {
+            'item_id': paddingButtonSpring.item_id,
+            'title': paddingButtonSpring.title,
+            'content': paddingButtonSpring.content
+        },
+        'fb-send-message': {
+            'item_id': paddingButtonSpring.item_id
+        },
+        'list-toggle': {
+            'item_id': paddingButtonSpring.item_id,
+            'title': paddingButtonSpring.title,
+            'content': paddingButtonSpring.content
+        }
+    };
+    return paddingButtonSpring;
+}
+
 function sidebarToggleButton() {
     $('#videme-sidebar-button-icon').toggleClass('glyphicon-menu-hamburger');
     $('#videme-sidebar-button-icon').toggleClass('glyphicon-menu-left');
@@ -5673,51 +5723,43 @@ function getRealTime() {
     return getRealTime;
 }
 
-function timeToWord(previous) {
-    //var currentCommon = new Date();
-    //var current = currentCommon.toISOString();
-    //var prevCommon = new Date(previous);
-    //previous = prevCommon.toISOString();
-    //var current = (new Date()).toLocaleDateString();
-    var current = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    //var current = new Date('dd/MM/yyyy HH:mm:ss fff');
-    //var current = new Date().format("yyyy-mm-dd HH:MM:ss l");
-    previous = previous.substr(0, 19);
-    console.log("timeToWord current --->" + current);
-    console.log("timeToWord previous --->" + previous);
-
-    return previous;
-
-    var msPerMinute = 60 * 1000;
-    var msPerHour = msPerMinute * 60;
-    var msPerDay = msPerHour * 24;
-    var msPerMonth = msPerDay * 30;
-    var msPerYear = msPerDay * 365;
-
+function timeToWord(timeToWord) {
+    var current =Math.floor(Date.now() / 1000);
+    timeToWord = timeToWord.substr(0, 19);
+    var previousMs = new Date(timeToWord);
+    var previous = previousMs.getTime() / 1000;
     var elapsed = current - previous;
+    //console.log("timeToWord current --->" + current);
+    //console.log("timeToWord previous --->" + previous);
+    //console.log("timeToWord elapsed --->" + elapsed);
+    var perMinute = 60;
+    var perHour = perMinute * 60;
+    var perDay = perHour * 24;
+    var perMonth = perDay * 30;
+    var perYear = perDay * 365;
 
-    if (elapsed < msPerMinute) {
+    if (elapsed < perMinute) {
         return Math.round(elapsed/1000) + ' seconds ago';
     }
 
-    else if (elapsed < msPerHour) {
-        return Math.round(elapsed/msPerMinute) + ' minutes ago';
+    else if (elapsed < perHour) {
+        return Math.round(elapsed/perMinute) + ' minutes ago';
     }
 
-    else if (elapsed < msPerDay ) {
-        return Math.round(elapsed/msPerHour ) + ' hours ago';
+    else if (elapsed < perDay ) {
+        return Math.round(elapsed/perHour ) + ' hours ago';
     }
 
-    else if (elapsed < msPerMonth) {
-        return 'approximately ' + Math.round(elapsed/msPerDay) + ' days ago';
+    else if (elapsed < perMonth) {
+        return Math.round(elapsed/perDay) + ' days ago';
     }
 
-    else if (elapsed < msPerYear) {
-        return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months ago';
+    else if (elapsed < perYear) {
+        return Math.round(elapsed/perMonth) + ' months ago';
     }
 
     else {
-        return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years ago';
+        return Math.round(elapsed/perYear ) + ' years ago';
     }
 }
 
