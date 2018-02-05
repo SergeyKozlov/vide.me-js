@@ -97,8 +97,11 @@
                 function (data) {
                     //error if (typeof data !== 'undefined' && data.length > 0) {
                     if (!$.isEmptyObject(data)) {
+                        authorized = true;
+
                         $('.authorize-false').remove();
-                        if (data.user_display_name === null) data.user_display_name = 'No name';
+                        var trueUserInfo = paddingUserInfo(data);
+                        /*if (data.user_display_name === null) data.user_display_name = 'No name';
 
                         //console.log("user/info data -----> " + JSON.stringify(data));
                         if (data.hasOwnProperty('user_mail')) { // TODO: Вынести в отдельную функцию
@@ -122,12 +125,18 @@
                             $('#nav_form_user_brand').html("<a href='" + data.user_link + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.user_display_name + "'></a>");
                         } else {
                             $('#form_user_brand').html("<a href='" + data.user_link + "' target='_blank'> <img src='" + data.user_picture + "' alt='" + data.user_display_name + "'></a>");
-                        }
-                        $('#form_user_name').html("<a href='" + data.user_link + "' target='_blank'>" + data.user_display_name + "</a>");
-                        $('#nav_form_user_name').html("<a href='" + data.user_link + "' target='_blank'>" + data.user_display_name + "</a>");
-                        $('#form_user_email').html(data.user_email);
-                        $('#nav_form_user_email').html(data.user_email);
-                        $('#sidebar_user_name').html(data.user_display_name);
+                        }*/
+
+                        $('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        $('#nav_user_cover').attr('src', trueUserInfo.user_cover);
+                        $('#nav_user_brand').attr('src', trueUserInfo.user_picture);
+                        $('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' alt='" + trueUserInfo.user_display_name + "'></a>");
+
+                        $('#form_user_name').html("<a href='" + trueUserInfo.user_link + "' target='_blank'>" + trueUserInfo.user_display_name + "</a>");
+                        $('#nav_form_user_name').html("<a href='" + trueUserInfo.user_link + "' target='_blank'>" + trueUserInfo.user_display_name + "</a>");
+                        $('#form_user_email').html(trueUserInfo.user_email);
+                        $('#nav_form_user_email').html(trueUserInfo.user_email);
+                        $('#sidebar_user_name').html(trueUserInfo.user_display_name);
                     } else {
                         console.log("$.fn.getAuthorized -----> getJSON empty");
                         $('.videme-form-user-info').remove();
@@ -165,7 +174,11 @@
         $.getJSON("https://api.vide.me/v2/spring/info/?spring=" + url.spring + "&videmecallback=?",
             function (data) {
                 console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
-                if (data) {
+                data = paddingUserInfo(data);
+                $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                $('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
+
+                /*if (data) {
                     if (data.user_cover) {
                         $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
                     } else {
@@ -181,7 +194,7 @@
                 } else {
                     console.log("$.fn.userSpringInfo data -----> no");
                     //tempObject.html("No results");
-                }
+                }*/
             })
             .done(function (data) {
                 //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
@@ -1633,7 +1646,7 @@
         if (!jQuery.isEmptyObject(paddingUserInfo.user_display_name)) {
             trueUserInfo.user_display_name = paddingUserInfo.user_display_name;
         } else {
-            trueUserInfo.user_display_name = '';
+            trueUserInfo.user_display_name = 'No name';
         }
         if (!jQuery.isEmptyObject(paddingUserInfo.user_first_name)) {
             trueUserInfo.user_first_name = paddingUserInfo.user_first_name;
@@ -1668,7 +1681,7 @@
         if (!jQuery.isEmptyObject(paddingUserInfo.user_picture)) {
             trueUserInfo.user_picture = paddingUserInfo.user_picture;
         } else {
-            trueUserInfo.user_picture = '';
+            trueUserInfo.user_picture = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Antu_im-invisible-user.svg/2000px-Antu_im-invisible-user.svg.png';
         }
         if (!jQuery.isEmptyObject(paddingUserInfo.spring)) {
             trueUserInfo.spring = paddingUserInfo.spring;
@@ -2368,7 +2381,11 @@
     $.fn.showcaseUserInfo = function (options) {
         showcaseUserInfoSettings = $.extend({}, options);
         //console.log("$.fn.showcaseUserInfo showcaseUserInfoSettings -----> " + JSON.stringify(showcaseUserInfoSettings));
-        $(".videme-showcase-from_user_name").html(showcaseUserInfoSettings.from_user_name);
+        if (showcaseUserInfoSettings.spring.length > 0) {
+            $(".videme-showcase-from_user_name").html("<a href='" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
+        } else {
+            $(".videme-showcase-from_user_name").html(showcaseUserInfoSettings.from_user_name);
+        }
         $('#nav_form_user_name').html("<a href='" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
         //$('#nav_form_user_email').html(showcaseUserInfoSettings.user_email);
     };
@@ -2376,7 +2393,7 @@
     $.fn.showcaseUserPicture = function (options) {
         showcaseUserPictureSettings = $.extend({}, options);
         //console.log("$.fn.showcaseUserPicture -----> " + JSON.stringify(showcaseUserPictureSettings));
-        $(".videme-showcase-user_picture").html('<a href="https://www.vide.me/' + showcaseUserPictureSettings.spring + '" ><img src="' + showcaseUserPictureSettings.user_picture + '" width="46" height="46" alt="' + showcaseUserPictureSettings.from_user_name + '"></a>');
+        $(".videme-showcase-user_picture").attr('src', showcaseUserPictureSettings.user_picture);
         $('#nav_user_brand').attr('src', showcaseUserPictureSettings.user_picture);
     };
 
@@ -2619,7 +2636,7 @@
 
     $.fn.showcaseVideoTextButton = function (options) {
         showcaseVideoTextButtonSettings = $.extend({}, options);
-        //console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
+        console.log("$.fn.videme-showcase-user_picture showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
         $.fn.showcaseVideo(showcaseVideoTextButtonSettings);
         $.fn.showcaseUserPicture(showcaseVideoTextButtonSettings);
         $.fn.showcaseUserInfo(showcaseVideoTextButtonSettings);
@@ -2820,13 +2837,13 @@
     };
 
     $.fn.showMyArticle = function (options) {
-        articleShowMySettings = $.extend({
+        /*articleShowMySettings = $.extend({
             limit: 12
         }, options);
         $(this).html(VidemeProgress);
         //return this.each(function () {
         var TempObject = $(this);
-        $.getJSON("https://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/items/my_article/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
             function (data) {
                 TempObject.html($.fn.showArticleTile({
                     showArticleTile: parseArticleShowNew(data),
@@ -2841,7 +2858,43 @@
             })
             .always(function () {
             });
-        //});
+        //});*/
+
+        articleShowMySettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(articleShowMySettings.showcaseVideo);
+        }
+        console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/items/my_article/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (data) {
+                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
+                    //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+                } else {
+                    console.log("$.fn.fileMy data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
     };
 
     $.fn.showMyArticleDraft = function (options) {
@@ -3708,6 +3761,14 @@ $(document).on('click', 'a.relation_connect', function (event) {
     } else {
         $('#modal-signin').modal('show');
     }
+});
+/*************************************************************
+ v2 click on create_new_article
+ **************************************************************/
+$(document).on('click', 'a.create_new_article', function (event) {
+    console.log("a.create_new_article -----> click");
+    event.preventDefault();
+    ifAutorisedGotoUrl($(this));
 });
 /*************************************************************
  v2 Событие 4: нажата ссылка из кнопки удалить файл Inbox
@@ -4969,13 +5030,40 @@ message-value='#" + Message.substr(1) + "'>\
     });
 
     /*************************************************************
+     Событие XX: нажата кнопка изменить Spring
+     **************************************************************/
+    $('#user-spring-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'https://api.vide.me/v2/user/update/spring/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $.fn.processNotification();
+                },
+                success: function (msg) {
+                    $.fn.successNotification({
+                        msg: msg
+                    });
+                },
+                error: function (msg) {
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
+                }
+            });
+        }
+    });
+
+    /*************************************************************
      Событие XX: нажата кнопка изменить пароль
      **************************************************************/
     $('#user-pas-form').validate({
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://api.vide.me/user/update/pas/',
+                url: 'https://api.vide.me/v2/user/update/pas/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -5434,6 +5522,18 @@ message-value='#" + Message.substr(1) + "'>\
 /***************************************************************************
  * Функции Vide.me
  ***************************************************************************/
+
+/* If User autorisid */
+function ifAutorisedGotoUrl(target) {
+    if ($.cookie('vide_nad')) {
+        window.location = target.attr('href');
+        //windo
+
+    } else {
+        $('#modal-signin').modal('show');
+    }
+}
+
 
 function showError(data) {
     var html = [];
