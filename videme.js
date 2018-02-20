@@ -97,8 +97,11 @@
                 function (data) {
                     //error if (typeof data !== 'undefined' && data.length > 0) {
                     if (!$.isEmptyObject(data)) {
+                        authorized = true;
+
                         $('.authorize-false').remove();
-                        if (data.user_display_name === null) data.user_display_name = 'No name';
+                        var trueUserInfo = paddingUserInfo(data);
+                        /*if (data.user_display_name === null) data.user_display_name = 'No name';
 
                         //console.log("user/info data -----> " + JSON.stringify(data));
                         if (data.hasOwnProperty('user_mail')) { // TODO: Вынести в отдельную функцию
@@ -122,12 +125,23 @@
                             $('#nav_form_user_brand').html("<a href='" + data.user_link + "' target='_blank'> <img src='https://ea1116048a2ffc61f8b7-d479f182e30f6e6ac2ebc5ce5ab9de7b.ssl.cf1.rackcdn.com/avatar.png' alt='" + data.user_display_name + "'></a>");
                         } else {
                             $('#form_user_brand').html("<a href='" + data.user_link + "' target='_blank'> <img src='" + data.user_picture + "' alt='" + data.user_display_name + "'></a>");
-                        }
-                        $('#form_user_name').html("<a href='" + data.user_link + "' target='_blank'>" + data.user_display_name + "</a>");
-                        $('#nav_form_user_name').html("<a href='" + data.user_link + "' target='_blank'>" + data.user_display_name + "</a>");
-                        $('#form_user_email').html(data.user_email);
-                        $('#nav_form_user_email').html(data.user_email);
-                        $('#sidebar_user_name').html(data.user_display_name);
+                        }*/
+
+                        $('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        //$('#nav_user_cover').attr('src', trueUserInfo.user_cover);
+                        $('.videme-you-sign-user_cover').attr('src', trueUserInfo.user_cover);
+                        //$('#nav_user_brand').attr('src', trueUserInfo.user_picture);
+                        $('.videme-you-sign-user_picture').attr('src', trueUserInfo.user_picture);
+                        $('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' alt='" + trueUserInfo.user_display_name + "'></a>");
+
+                        $('#form_user_name').html("<a href='" + trueUserInfo.user_link + "' target='_blank'>" + trueUserInfo.user_display_name + "</a>");
+                        $('#nav_form_user_name').html("<a href='" + trueUserInfo.user_link + "' target='_blank'>" + trueUserInfo.user_display_name + "</a>");
+                        $('#form_user_email').html(trueUserInfo.user_email);
+                        //$('#nav_form_user_email').html(trueUserInfo.user_email);
+                        $('.videme-you-sign-bio').html(trueUserInfo.bio);
+                        $('.videme-you-sign-country').html(trueUserInfo.country);
+                        $('.videme-you-sign-city').html(trueUserInfo.city);
+                        $('#sidebar_user_name').html(trueUserInfo.user_display_name);
                     } else {
                         console.log("$.fn.getAuthorized -----> getJSON empty");
                         $('.videme-form-user-info').remove();
@@ -150,7 +164,7 @@
 
     $.fn.userSpringInfo = function (options) {
         userSpringInfoSettings = $.extend({}, options);
-        console.log("$.fn.userSpringInfo -----> ok");
+        //console.log("$.fn.userSpringInfo -----> ok");
         if ($(this).length) {
             //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
@@ -165,11 +179,16 @@
         $.getJSON("https://api.vide.me/v2/spring/info/?spring=" + url.spring + "&videmecallback=?",
             function (data) {
                 console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+                data = paddingUserInfo(data);
+                console.log("$.fn.userSpringInfo after paddingUserInfo: " + JSON.stringify(data));
+                $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                $('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
+
                 if (data) {
                     if (data.user_cover) {
                         $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
                     } else {
-                        $('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
+                        //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
                     }
                     if (data.user_display_name !== '') {
                         $('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
@@ -178,6 +197,7 @@
                     }
                     $('.spring_relation').html('<a class="btn btn-sm align-middle btn-outline-secondary relation_connect" user_id="' + data.user_id + '" href="https://api.vide.me/v2/relation/connect/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Connect at  ' + data.user_display_name + '</a>');
 
+                    //$.fn.ownerSignUserInfo(data);
                 } else {
                     console.log("$.fn.userSpringInfo data -----> no");
                     //tempObject.html("No results");
@@ -237,16 +257,15 @@
              conferenceId: '',*/
             authorized: authorized
         }, options);
-
-        console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> " + oneTimeInboxSettings.authorized);
-
-        console.log("$.fn.oneTimeInbox window.location.pathname -----> " + window.location.pathname);
+        //console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> " + oneTimeInboxSettings.authorized);
+        //console.log("$.fn.oneTimeInbox oneTimeInboxSettings -----> " + JSON.stringify(oneTimeInboxSettings));
+        //console.log("$.fn.oneTimeInbox window.location.pathname -----> " + window.location.pathname);
         if (oneTimeInboxSettings.authorized && window.location.pathname != "/v") {
-            console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> yes " + oneTimeInboxSettings.authorized);
-            $.fn.showcaseVideoTextButton(paddingButtonInbox(oneTimeInboxSettings));
+            //console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> yes " + oneTimeInboxSettings.authorized);
+            $.fn.showcaseVideoTextButton(paddingButtonInbox(paddingUserInfo(oneTimeInboxSettings)));
         } else {
-            console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> no " + oneTimeInboxSettings.authorized);
-            $.fn.showcaseVideoTextButton(paddingButtonOneTime(oneTimeInboxSettings));
+            //console.log("$.fn.oneTimeInbox oneTimeInboxSettings.authorized -----> no " + oneTimeInboxSettings.authorized);
+            $.fn.showcaseVideoTextButton(paddingButtonOneTime(paddingUserInfo(oneTimeInboxSettings)));
         }
     };
 
@@ -539,7 +558,7 @@
                 function (data) {
                     //if (typeof data  !== 'undefined' && data.length > 0) {
                     //if (data.length > 0) {
-                    if (jQuery.isEmptyObject(data)) {
+                    if ($.isEmptyObject(data)) {
                         console.log("$.fn.fileMyConnect data -----> no");
                         tempObject.html('');
                         $('.itemscope').hide();
@@ -595,7 +614,7 @@
         tempObject.html(VidemeProgress);
         $.getJSON("https://api.vide.me/v2/connect/pop/?videmecallback=?",
             function (data) {
-                if (jQuery.isEmptyObject(data)) {
+                if ($.isEmptyObject(data)) {
                     console.log("$.fn.showPopConnect data -----> no");
                     tempObject.html("No results");
                 } else {
@@ -1602,7 +1621,7 @@
             "  <div class=\"card-body\">\n" +
             "    <h5 class=\"card-title\"><a href='https://www.vide.me/" + showRelationCard.spring + "/' target='_blank'>" + showRelationCard.user_display_name + "</a></h5>\n" +
             "    <p class=\"card-text\"></p>\n" +
-            "    <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCard.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-primary relation_connect\" user_id='" + showRelationCard.user_id + "'>Connect</a>\n" +
+            "    <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCard.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-primary relation_connect\" user_id='" + showRelationCard.user_id + "' feedback='https://www.vide.me/\" + showRelationCardSmall.spring + \"'>Connect</a>\n" +
             "  </div>\n" +
             "</div>";
     }
@@ -1613,97 +1632,174 @@
               <img class=\"img-thumbnail videme-relation-card-img\" src=\"" + showRelationCardSmall.user_picture + "\" alt=\"\" />\
                 <div class=\"videme-relation-card-user\"><a href='https://www.vide.me/" + showRelationCardSmall.spring + "/' target='_blank'>" + showRelationCardSmall.user_display_name + "</a></div>\
                 <p class=\"\"></p>\
-                <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "'>Connect</a>\
+                <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "' feedback='https://www.vide.me/" + showRelationCardSmall.spring + "'>Connect</a>\
             </div>";
     }
 
     function paddingUserInfo(paddingUserInfo) {
         //console.log('paddingUserInfo paddingUserInfo ---> ' + JSON.stringify(paddingUserInfo));
         var trueUserInfo = {};
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_id)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_id)) {
             trueUserInfo.user_id = paddingUserInfo.user_id;
         } else {
             trueUserInfo.user_id = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_email)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_email)) {
             trueUserInfo.user_email = paddingUserInfo.user_email;
         } else {
             trueUserInfo.user_email = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_display_name)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_display_name)) {
             trueUserInfo.user_display_name = paddingUserInfo.user_display_name;
         } else {
-            trueUserInfo.user_display_name = '';
+            trueUserInfo.user_display_name = 'No name';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_first_name)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_first_name)) {
             trueUserInfo.user_first_name = paddingUserInfo.user_first_name;
         } else {
             trueUserInfo.user_first_name = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_last_name)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_last_name)) {
             trueUserInfo.user_last_name = paddingUserInfo.user_last_name;
         } else {
             trueUserInfo.user_last_name = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_link)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_link)) {
             trueUserInfo.user_link = paddingUserInfo.user_link;
         } else {
             trueUserInfo.user_link = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_gender)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_gender)) {
             trueUserInfo.user_gender = paddingUserInfo.user_gender;
         } else {
             trueUserInfo.user_gender = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_birthday)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_birthday)) {
             trueUserInfo.user_birthday = paddingUserInfo.user_birthday;
         } else {
             trueUserInfo.user_birthday = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_locale)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_locale)) {
             trueUserInfo.user_locale = paddingUserInfo.user_locale;
         } else {
             trueUserInfo.user_locale = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_picture)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_picture)) {
             trueUserInfo.user_picture = paddingUserInfo.user_picture;
         } else {
-            trueUserInfo.user_picture = '';
+            trueUserInfo.user_picture = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Antu_im-invisible-user.svg/2000px-Antu_im-invisible-user.svg.png';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.spring)) {
+        if (!$.isEmptyObject(paddingUserInfo.spring)) {
             trueUserInfo.spring = paddingUserInfo.spring;
         } else {
             trueUserInfo.spring = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.facebook)) {
+        if (!$.isEmptyObject(paddingUserInfo.facebook)) {
             trueUserInfo.facebook = paddingUserInfo.facebook;
         } else {
             trueUserInfo.facebook = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.google)) {
+        if (!$.isEmptyObject(paddingUserInfo.google)) {
             trueUserInfo.google = paddingUserInfo.google;
         } else {
             trueUserInfo.google = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.microsoft)) {
+        if (!$.isEmptyObject(paddingUserInfo.microsoft)) {
             trueUserInfo.microsoft = paddingUserInfo.microsoft;
         } else {
             trueUserInfo.microsoft = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.last_login)) {
+        if (!$.isEmptyObject(paddingUserInfo.last_login)) {
             trueUserInfo.last_login = paddingUserInfo.last_login;
         } else {
             trueUserInfo.last_login = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.last_active)) {
+        if (!$.isEmptyObject(paddingUserInfo.last_active)) {
             trueUserInfo.last_active = paddingUserInfo.last_active;
         } else {
             trueUserInfo.last_active = '';
         }
-        if (!jQuery.isEmptyObject(paddingUserInfo.user_cover)) {
+        if (!$.isEmptyObject(paddingUserInfo.user_cover)) {
             trueUserInfo.user_cover = paddingUserInfo.user_cover;
         } else {
             trueUserInfo.user_cover = getRandomImage();
+        }
+        if (!$.isEmptyObject(paddingUserInfo.country)) {
+            trueUserInfo.country = paddingUserInfo.country;
+        } else {
+            trueUserInfo.country = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.city)) {
+            trueUserInfo.city = paddingUserInfo.city;
+        } else {
+            trueUserInfo.city = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.bio)) {
+            trueUserInfo.bio = paddingUserInfo.bio;
+        } else {
+            trueUserInfo.bio = '';
+        }
+        /* ****************************************** */
+        if (!$.isEmptyObject(paddingUserInfo.video)) {
+            trueUserInfo.video = paddingUserInfo.video;
+        } else {
+            trueUserInfo.video = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.message_id)) {
+            trueUserInfo.message_id = paddingUserInfo.message_id;
+        } else {
+            trueUserInfo.message_id = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.created_at)) {
+            trueUserInfo.created_at = paddingUserInfo.created_at;
+        } else {
+            trueUserInfo.created_at = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.updated_at)) {
+            trueUserInfo.updated_at = paddingUserInfo.updated_at;
+        } else {
+            trueUserInfo.updated_at = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.title)) {
+            trueUserInfo.title = paddingUserInfo.title;
+        } else {
+            trueUserInfo.title = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.content)) {
+            trueUserInfo.content = paddingUserInfo.content;
+        } else {
+            trueUserInfo.content = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.to_user_id)) {
+            trueUserInfo.to_user_id = paddingUserInfo.to_user_id;
+        } else {
+            trueUserInfo.to_user_id = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.from_user_id)) {
+            trueUserInfo.from_user_id = paddingUserInfo.from_user_id;
+        } else {
+            trueUserInfo.from_user_id = '';
+        }
+        /* remove ****************************************** */
+        if (!$.isEmptyObject(paddingUserInfo.from_user_display_name)) {
+            trueUserInfo.from_user_display_name = paddingUserInfo.from_user_display_name;
+        } else {
+            trueUserInfo.from_user_display_name = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.from_user_name)) {
+            trueUserInfo.from_user_name = paddingUserInfo.from_user_name;
+        } else {
+            trueUserInfo.from_user_name = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.recipients)) {
+            trueUserInfo.recipients = paddingUserInfo.recipients;
+        } else {
+            trueUserInfo.recipients = '';
+        }
+        if (!$.isEmptyObject(paddingUserInfo.conference_id)) {
+            trueUserInfo.conference_id = paddingUserInfo.conference_id;
+        } else {
+            trueUserInfo.conference_id = '';
         }
         //console.log('paddingUserInfo trueUserInfo ---> ' + JSON.stringify(trueUserInfo));
         return trueUserInfo;
@@ -1995,6 +2091,7 @@
          toUserName: '',
          recipients: '',
          conferenceId: '',*/
+        //console.log("paddingButtonOneTime before -----> " + JSON.stringify(paddingButtonOneTime));
         paddingButtonOneTime.showcaseButton = {
             'reply-toggle': {
                 'video': paddingButtonInbox.video,
@@ -2013,6 +2110,7 @@
                 'message_id': paddingButtonInbox.message_id
             }
         };
+        //console.log("paddingButtonOneTime after -----> " + JSON.stringify(paddingButtonOneTime));
         return paddingButtonOneTime;
     }
 
@@ -2368,16 +2466,55 @@
     $.fn.showcaseUserInfo = function (options) {
         showcaseUserInfoSettings = $.extend({}, options);
         //console.log("$.fn.showcaseUserInfo showcaseUserInfoSettings -----> " + JSON.stringify(showcaseUserInfoSettings));
-        $(".videme-showcase-from_user_name").html(showcaseUserInfoSettings.from_user_name);
+        //if (showcaseUserInfoSettings.spring.length > 0) {
+        if (!$.isEmptyObject(showcaseUserInfoSettings.spring)) {
+            $(".videme-showcase-from_user_name").html("<a href='https://vide.me/" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
+        } else {
+            $(".videme-showcase-from_user_name").html(showcaseUserInfoSettings.from_user_name);
+        }
+        //if (!$.isEmptyObject(showcaseUserInfoSettings.bio)) $(".videme-showcase-bio").html(showcaseUserInfoSettings.bio);
+        //if (!$.isEmptyObject(showcaseUserInfoSettings.country)) $(".videme-showcase-country").html(showcaseUserInfoSettings.country);
+        //if (!$.isEmptyObject(showcaseUserInfoSettings.city)) $(".videme-showcase-city").html(showcaseUserInfoSettings.city);
         $('#nav_form_user_name').html("<a href='" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
         //$('#nav_form_user_email').html(showcaseUserInfoSettings.user_email);
+    };
+
+    $.fn.ownerSignUserInfo = function (options) {
+        ownerSignUserInfoSettings = $.extend({}, options);
+        console.log("$.fn.ownerSignUserInfo ownerSignUserInfoSettings -----> " + JSON.stringify(ownerSignUserInfoSettings));
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.user_picture)) {
+            $(".videme-owner-sign-user_picture").attr('src', ownerSignUserInfoSettings.user_picture);
+        }
+        //if (showcaseUserPictureSettings.user_cover.length > 0) {
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.user_cover)) {
+            //console.log("$.fn.showcaseUserPicture user_cover.length > 0 -----> " + JSON.stringify(showcaseUserPictureSettings));
+            $(".videme-owner-sign-user_cover").attr('src', ownerSignUserInfoSettings.user_cover);
+        }
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.spring)) {
+            $(".videme-owner-sign-user_display_name").html("<a href='https://vide.me/" + ownerSignUserInfoSettings.spring + "'>" + ownerSignUserInfoSettings.user_display_name + "</a>");
+        } else {
+            $(".videme-owner-sign-user_display_name").html(ownerSignUserInfoSettings.user_display_name);
+        }
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.bio)) $(".videme-owner-sign-bio").html(ownerSignUserInfoSettings.bio);
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.country)) $(".videme-owner-sign-country").html(ownerSignUserInfoSettings.country);
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.city)) $(".videme-owner-sign-city").html(ownerSignUserInfoSettings.city);
     };
 
     $.fn.showcaseUserPicture = function (options) {
         showcaseUserPictureSettings = $.extend({}, options);
         //console.log("$.fn.showcaseUserPicture -----> " + JSON.stringify(showcaseUserPictureSettings));
-        $(".videme-showcase-user_picture").html('<a href="https://www.vide.me/' + showcaseUserPictureSettings.spring + '" ><img src="' + showcaseUserPictureSettings.user_picture + '" width="46" height="46" alt="' + showcaseUserPictureSettings.from_user_name + '"></a>');
-        $('#nav_user_brand').attr('src', showcaseUserPictureSettings.user_picture);
+        //if (showcaseUserPictureSettings.user_picture.length > 0) {
+        if (!$.isEmptyObject(showcaseUserPictureSettings.user_picture)) {
+            //$(".videme-owner-sign-user_picture").attr('src', showcaseUserPictureSettings.user_picture);
+            $(".videme-showcase-user_picture").attr('src', showcaseUserPictureSettings.user_picture);
+        }
+        //if (showcaseUserPictureSettings.user_cover.length > 0) {
+        if (!$.isEmptyObject(showcaseUserPictureSettings.user_cover)) {
+            //console.log("$.fn.showcaseUserPicture user_cover.length > 0 -----> " + JSON.stringify(showcaseUserPictureSettings));
+            //$(".videme-owner-sign-user_cover").attr('src', showcaseUserPictureSettings.user_cover);
+        }
+        //$('#nav_user_brand').attr('src', showcaseUserPictureSettings.user_picture);
+        //$('.videme-you-sign-user_picture').attr('src', showcaseUserPictureSettings.user_picture);
     };
 
 
@@ -2619,8 +2756,9 @@
 
     $.fn.showcaseVideoTextButton = function (options) {
         showcaseVideoTextButtonSettings = $.extend({}, options);
-        //console.log("$.fn.showcaseVideoTextButton showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
+        //console.log("$.fn.videme-showcase-user_picture showcaseVideoTextButtonSettings -----> " + JSON.stringify(showcaseVideoTextButtonSettings));
         $.fn.showcaseVideo(showcaseVideoTextButtonSettings);
+        $.fn.ownerSignUserInfo(showcaseVideoTextButtonSettings);
         $.fn.showcaseUserPicture(showcaseVideoTextButtonSettings);
         $.fn.showcaseUserInfo(showcaseVideoTextButtonSettings);
         $.fn.showcaseText(showcaseVideoTextButtonSettings);
@@ -2820,13 +2958,13 @@
     };
 
     $.fn.showMyArticle = function (options) {
-        articleShowMySettings = $.extend({
+        /*articleShowMySettings = $.extend({
             limit: 12
         }, options);
         $(this).html(VidemeProgress);
         //return this.each(function () {
         var TempObject = $(this);
-        $.getJSON("https://api.vide.me/article/my/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/items/my_article/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
             function (data) {
                 TempObject.html($.fn.showArticleTile({
                     showArticleTile: parseArticleShowNew(data),
@@ -2841,7 +2979,43 @@
             })
             .always(function () {
             });
-        //});
+        //});*/
+
+        articleShowMySettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(articleShowMySettings.showcaseVideo);
+        }
+        console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/items/my_article/?limit=" + articleShowMySettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (data) {
+                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
+                    //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+                } else {
+                    console.log("$.fn.fileMy data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
     };
 
     $.fn.showMyArticleDraft = function (options) {
@@ -3681,6 +3855,7 @@ $(document).on('click', 'a.relation_connect', function (event) {
     console.log("a.relation_connect -----> click");
     event.preventDefault();
     var $this = $(this);
+    var feedback = $this.attr('feedback');
     if ($.cookie('vide_nad')) {
         var user_id = $this.attr('user_id');
         user_id.replace(/.*(?=#[^\s]+$)/, '');
@@ -3707,7 +3882,16 @@ $(document).on('click', 'a.relation_connect', function (event) {
         });
     } else {
         $('#modal-signin').modal('show');
+        $('#feedback').val(feedback);
     }
+});
+/*************************************************************
+ v2 click on create_new_article
+ **************************************************************/
+$(document).on('click', 'a.create_new_article', function (event) {
+    console.log("a.create_new_article -----> click");
+    event.preventDefault();
+    ifAutorisedGotoUrl($(this));
 });
 /*************************************************************
  v2 Событие 4: нажата ссылка из кнопки удалить файл Inbox
@@ -4025,6 +4209,10 @@ $(document).on('click', 'a.list-url', function (event) {
 
 var VidemeProgress = "<img src='data:image/gif;base64,R0lGODlhDQAMAKIAAP///7W1ta2trXNzczExMf4BAgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFCgAFACwAAAAADQAMAAADIgi6zCIghDilejRbgK2fHPRloVaB3Umm5iWqGzuW49bcQAIAIfkEBQoABQAsAAABAAMACgAAAwhYRMrb8ElHEwAh+QQFCgAFACwAAAEADAAKAAADHlgzRVRCQLnai1Mxl3HlmLddkmh11IhqZ5i25QvGCQAh+QQFCgAFACwAAAEACQAKAAADGVgiNVOEKOagXO3FmS2vGwZelEZ2YemJZgIAIfkEBQoABQAsBAABAAgACgAAAxYYUTNFRDEHZXtx3appnpjliWFXglACACH5BAUKAAUALAcAAQAFAAoAAAMNGFEzym61N2WE9FZsEwA7' />";
 
+/***************************************************************************
+ * Функции Vide.me
+ ***************************************************************************/
+
 $(document).ready(function () {
 
     // Шаги алгоритма ECMA-262, 5-е издание, 15.4.4.18
@@ -4235,6 +4423,7 @@ $(document).ready(function () {
             });
         }
     });
+
 
 
     $('a.set_language_en').click(function () {
@@ -4887,7 +5076,7 @@ message-value='#" + Message.substr(1) + "'>\
                     });
                     $('#modal-signin').modal('hide');
                     //$(".signin-toggle").addClass("hidden");
-                    location.reload();
+                    //location.reload();
                 },
                 error: function (msg) {
                     $.fn.errorNotification({
@@ -4969,13 +5158,40 @@ message-value='#" + Message.substr(1) + "'>\
     });
 
     /*************************************************************
+     Событие XX: нажата кнопка изменить Spring
+     **************************************************************/
+    $('#user-spring-form').validate({
+        submitHandler: function (form) {
+            $.ajax({
+                type: "POST",
+                url: 'https://api.vide.me/v2/user/update/spring/',
+                timeout: 20000,
+                data: $(form).serialize(),
+                beforeSend: function () {
+                    $.fn.processNotification();
+                },
+                success: function (msg) {
+                    $.fn.successNotification({
+                        msg: msg
+                    });
+                },
+                error: function (msg) {
+                    $.fn.errorNotification({
+                        msg: msg
+                    });
+                }
+            });
+        }
+    });
+
+    /*************************************************************
      Событие XX: нажата кнопка изменить пароль
      **************************************************************/
     $('#user-pas-form').validate({
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://api.vide.me/user/update/pas/',
+                url: 'https://api.vide.me/v2/user/update/pas/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -5431,9 +5647,17 @@ message-value='#" + Message.substr(1) + "'>\
 // Конец автозагрузки
 });
 
-/***************************************************************************
- * Функции Vide.me
- ***************************************************************************/
+/* If User autorisid */
+function ifAutorisedGotoUrl(target) {
+    if ($.cookie('vide_nad')) {
+        window.location = target.attr('href');
+        //windo
+
+    } else {
+        $('#modal-signin').modal('show');
+    }
+}
+
 
 function showError(data) {
     var html = [];
@@ -5478,7 +5702,7 @@ function sidebarToggleShow() {
 }
 
 function paddingButtonInbox(paddingButtonInbox) {
-    //console.log("paddingButtonInbox before -----> " + JSON.stringify(paddingButtonInbox));
+    console.log("paddingButtonInbox before -----> " + JSON.stringify(paddingButtonInbox));
     paddingButtonInbox.showcaseButton = {
         'reply-toggle': {
             'item_id': paddingButtonInbox.item_id,
@@ -5518,7 +5742,7 @@ function paddingButtonInbox(paddingButtonInbox) {
             'updated_at': paddingButtonInbox.updated_at
         }
     };
-    //console.log("paddingButtonInbox after ----->" + JSON.stringify(paddingButtonInbox));
+    console.log("paddingButtonInbox after ----->" + JSON.stringify(paddingButtonInbox));
     return paddingButtonInbox;
 }
 
