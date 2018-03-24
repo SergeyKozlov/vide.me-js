@@ -1,6 +1,7 @@
 /***************************************************************************
  *  Jquery plugin Vide.me
  * *************************************************************************/
+console.log("Collaboration http://sergeykozlov.ru/collaboration/");
 
 (function ($) {
     var authorized = false;
@@ -181,12 +182,16 @@
                 console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
                 data = paddingUserInfo(data);
                 console.log("$.fn.userSpringInfo after paddingUserInfo: " + JSON.stringify(data));
-                $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
-                $('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
-
+                //$('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                //$('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
                 if (data) {
                     if (data.user_cover) {
                         $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                    } else {
+                        //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
+                    }
+                    if (!$.isEmptyObject(data.user_picture)) {
+                        $("#vide_spring_user_picture").attr('src', data.user_picture);
                     } else {
                         //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
                     }
@@ -1636,6 +1641,24 @@
             </div>";
     }
 
+    function showDoorbellSignSmall(showDoorbellSignSmall) {
+        console.log('showDoorbellSignSmall ---> ' + JSON.stringify(showDoorbellSignSmall));
+        console.log('showDoorbellSignSmall showDoorbellSignSmall.title ---> ' + showDoorbellSignSmall.title);
+        return "\
+            <div class=\"videme-doorbell-sign-small\">\
+            <ul class='videme-doorbell-sign-cover'>\
+            <li class='videme-doorbell-sign-image'>\
+              <img class=\"videme-doorbell-sign-img\" src=\"" + showDoorbellSignSmall.image + "\" alt=\"\" />\
+            </li>\
+                <li class=\"videme-doorbell-sign-title\">" + showDoorbellSignSmall.title + "</li>\
+                <li class=\"videme-doorbell-sign-count\">" + showDoorbellSignSmall.count + "</li>\
+                <li class=\"videme-doorbell-sign-additional\">" + showDoorbellSignSmall.additional + "</li>\
+                <li class=\"videme-doorbell-sign-date\">" + showDoorbellSignSmall.date + "</li>\
+            </ul>\
+            </div>\
+            ";
+    }
+
     function paddingUserInfo(paddingUserInfo) {
         //console.log('paddingUserInfo paddingUserInfo ---> ' + JSON.stringify(paddingUserInfo));
         var trueUserInfo = {};
@@ -1722,7 +1745,7 @@
         if (!$.isEmptyObject(paddingUserInfo.user_cover)) {
             trueUserInfo.user_cover = paddingUserInfo.user_cover;
         } else {
-            trueUserInfo.user_cover = getRandomImage();
+            trueUserInfo.user_cover = getRandomCover();
         }
         if (!$.isEmptyObject(paddingUserInfo.country)) {
             trueUserInfo.country = paddingUserInfo.country;
@@ -1801,14 +1824,31 @@
         } else {
             trueUserInfo.conference_id = '';
         }
+        /* Doorbell sign ****************************************** */
+
+        if (!$.isEmptyObject(paddingUserInfo.image)) {
+            trueUserInfo.image = paddingUserInfo.image;
+        } else {
+            trueUserInfo.image = getRandomImage();
+        }
+        if (!$.isEmptyObject(paddingUserInfo.cover)) {
+            trueUserInfo.cover = paddingUserInfo.cover;
+        } else {
+            trueUserInfo.cover = getRandomCover();
+        }
+        if (!$.isEmptyObject(paddingUserInfo.access)) {
+            trueUserInfo.access = paddingUserInfo.access;
+        } else {
+            trueUserInfo.access = '';
+        }
         //console.log('paddingUserInfo trueUserInfo ---> ' + JSON.stringify(trueUserInfo));
         return trueUserInfo;
     }
 
-    function getRandomImage() {
-        var image = [
+    function getRandomCover() {
+        var cover = [
             'https://www.japan-guide.com/thumb/interest_flowers.jpg',
-            'https://www.freewebheaders.com/wordpress/wp-content/gallery/clouds-sky/clouds-sky-header-2067-1024x300.jpg',
+            'https://thumbs.dreamstime.com/z/kiwi-fruit-228928.jpg',
             'https://assets.answersingenesis.org/img/cms/content/contentnode/header_image/aquatic-animals.jpg',
             'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX2255721.jpg',
             'https://media.mnn.com/assets/images/2014/11/burrowing-owls-parliament.jpg.653x0_q80_crop-smart.jpg',
@@ -1819,6 +1859,14 @@
             'https://media.cntraveler.com/photos/58af182429676a553e60cedf/master/w_775,c_limit/nemophila-hitachi-seaside-park-japan-GettyImages-545033958.jpg',
             'https://localtvwghp.files.wordpress.com/2015/06/hot1.jpg',
             'http://res.freestockphotos.biz/pictures/12/12734-fall-landscape-reflecting-on-a-lake-pv.jpg'
+        ];
+        return cover[Math.floor(Math.random() * cover.length)];
+    }
+    function getRandomImage() {
+        var image = [
+            'https://kolonial.no/media/uploads/public/132/24/643224-f617a-product_detail.jpg',
+            'https://www.freewebheaders.com/wordpress/wp-content/gallery/clouds-sky/clouds-sky-header-2067-1024x300.jpg',
+            'https://cdn.pixabay.com/photo/2017/08/09/17/49/orange-2615311_960_720.png'
         ];
         return image[Math.floor(Math.random() * image.length)];
     }
@@ -2019,6 +2067,25 @@
         return parseFileMySpring;
     }
 
+    function parseSignsForDoorbellSign(parseSignsForDoorbellSign) {
+        //$.each(parseSignsForDoorbellSign, function (key, value) {
+        //console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(parseSignsForDoorbellSign));
+        trueData = {
+            //'a': value.ToUserName,
+            'image': parseSignsForDoorbellSign.image,
+            'cover': parseSignsForDoorbellSign.cover,
+            'title': parseSignsForDoorbellSign.title,
+            'href': parseSignsForDoorbellSign.title,
+            'count': '',
+            'additional': parseSignsForDoorbellSign.access,
+            'date': parseSignsForDoorbellSign.updated_at
+        };
+        //});
+        //delete parseSignsForDoorbellSign.results;
+        //console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(trueData));
+        return trueData;
+    }
+
     function parseFileSpring(parseFileSpring) {
         $.each(parseFileSpring, function (key, value) {
             console.log("parseFileSpring[key] ----->" + JSON.stringify(parseFileSpring[key]));
@@ -2137,6 +2204,7 @@
             //var sourseURL = "https://gu.vide.me/vi?m=";
             var sourseURL = "https://s3.amazonaws.com/video.vide.me/";
         }
+        //console.log("$.fn.showcaseVideo urlExists: " + urlExists(sourseURL + showcaseVideoSettings.video + '.mp4'));
         if ($(this).length) {
             console.log("$.fn.showcaseVideo $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
@@ -2145,6 +2213,7 @@
             var tempObject = $(showcaseVideoSettings.showcaseVideo);
             console.log("$.fn.showcaseVideo tempObject -----> " + tempObject.length);
         }
+
         console.log("$.fn.showcaseVideo showcaseVideoSettings.video -----> " + showcaseVideoSettings.video);
         tempObject.html("<video id=\"videme-showcasevideo\" class=\"video-js vjs-default-skin\"></video>" +
             "<div id=\"videme-minivideo\"><div>");
@@ -2171,9 +2240,11 @@
             }
 
             showcasePlayerFunc.src({
-                type: "video/mp4",
+                //type: "video/mp4",
+                type: "application/x-mpegURL",
                 //src: sourseURL + showcaseVideoSettings.file + messageAdd
-                src: sourseURL + showcaseVideoSettings.video + '.mp4' // TODO: add message_id
+                //src: sourseURL + showcaseVideoSettings.video + '.mp4' // TODO: add message_id
+                src: sourseURL + showcaseVideoSettings.video + '.m3u8' // TODO: add message_id
             });
             showcasePlayerFunc.controls(true);
             showcasePlayerFunc.load();
@@ -2214,7 +2285,8 @@
                 //miniPlayer.hide();
                 miniPlayerFunc.muted(true);
                 //miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.file});
-                miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.video + '.mp4'});
+                //miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.video + '.mp4'});
+                miniPlayerFunc.src({type: "application/x-mpegURL", src: sourseURL + showcaseVideoSettings.video + '.m3u8'});
                 miniPlayerFunc.load();
                 miniPlayerFunc.play();
                 miniPlayerFunc.on('ended', function () {
@@ -2475,25 +2547,24 @@
         //if (!$.isEmptyObject(showcaseUserInfoSettings.bio)) $(".videme-showcase-bio").html(showcaseUserInfoSettings.bio);
         //if (!$.isEmptyObject(showcaseUserInfoSettings.country)) $(".videme-showcase-country").html(showcaseUserInfoSettings.country);
         //if (!$.isEmptyObject(showcaseUserInfoSettings.city)) $(".videme-showcase-city").html(showcaseUserInfoSettings.city);
-        $('#nav_form_user_name').html("<a href='" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
+        //$('#nav_form_user_name').html("<a href='" + showcaseUserInfoSettings.spring + "'>" + showcaseUserInfoSettings.from_user_name + "</a>");
         //$('#nav_form_user_email').html(showcaseUserInfoSettings.user_email);
     };
 
     $.fn.ownerSignUserInfo = function (options) {
         ownerSignUserInfoSettings = $.extend({}, options);
         console.log("$.fn.ownerSignUserInfo ownerSignUserInfoSettings -----> " + JSON.stringify(ownerSignUserInfoSettings));
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.user_picture)) {
-            $(".videme-owner-sign-user_picture").attr('src', ownerSignUserInfoSettings.user_picture);
-        }
-        //if (showcaseUserPictureSettings.user_cover.length > 0) {
         if (!$.isEmptyObject(ownerSignUserInfoSettings.user_cover)) {
             //console.log("$.fn.showcaseUserPicture user_cover.length > 0 -----> " + JSON.stringify(showcaseUserPictureSettings));
             $(".videme-owner-sign-user_cover").attr('src', ownerSignUserInfoSettings.user_cover);
         }
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.user_picture)) {
+            $(".videme-owner-sign-user_picture").attr('src', ownerSignUserInfoSettings.user_picture);
+        }
         if (!$.isEmptyObject(ownerSignUserInfoSettings.spring)) {
-            $(".videme-owner-sign-user_display_name").html("<a href='https://vide.me/" + ownerSignUserInfoSettings.spring + "'>" + ownerSignUserInfoSettings.user_display_name + "</a>");
+            $(".videme-owner-sign_display_name").html("<a href='https://vide.me/" + ownerSignUserInfoSettings.spring + "'>" + ownerSignUserInfoSettings.user_display_name + "</a>");
         } else {
-            $(".videme-owner-sign-user_display_name").html(ownerSignUserInfoSettings.user_display_name);
+            $(".videme-owner-sign_display_name").html(ownerSignUserInfoSettings.user_display_name);
         }
         if (!$.isEmptyObject(ownerSignUserInfoSettings.bio)) $(".videme-owner-sign-bio").html(ownerSignUserInfoSettings.bio);
         if (!$.isEmptyObject(ownerSignUserInfoSettings.country)) $(".videme-owner-sign-country").html(ownerSignUserInfoSettings.country);
@@ -3277,7 +3348,7 @@
                         console.log("$.fn.showList data -----> value " + value);
                         console.log("$.fn.showList data -----> value " + JSON.stringify(value));
 
-                        results.push("\
+                        /*results.push("\
 <div class='well well-lg'>\
   <span class=\"badge\">" + (key + 1) + "</span>\
 	<a href='#" + value.title + "'>\
@@ -3290,9 +3361,17 @@
 		<span class='glyphicon glyphicon-edit'></span> Edit\
 	</button>\
 </div>\
-");
+");*/
+                        tempObject.html(
+                            showDoorbellSignSmall(
+                                parseSignsForDoorbellSign(
+                                    paddingUserInfo(value)
+                                )
+                            )
+                        );
+
                     });
-                    tempObject.html(results.join(""));
+                    //tempObject.html(results.join(""));
                 } else {
                     console.log("$.fn.showList data -----> no");
                     tempObject.html("No list");
@@ -5646,6 +5725,36 @@ message-value='#" + Message.substr(1) + "'>\
 
 // Конец автозагрузки
 });
+
+function urlExists(url){
+    console.log("urlExists url:" + url);
+    $.ajax({
+        type: 'HEAD',
+        url: url,
+        success: function(data){
+            console.log("urlExists: success" + JSON.stringify(data));
+            //callback(true);
+            return true;
+        },
+        error: function(data) {
+            console.log("urlExists: error" + JSON.stringify(data));
+            //callback(false);
+            return false;
+        }
+    });
+    /*$.ajax({
+        url: url,
+        type: "HEAD"
+    }).then(
+        function() { console.log("File is present"); },
+        function() { console.log("File not present"); }
+    );*/
+    /*var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status!=404;*/
+}
+
 
 /* If User autorisid */
 function ifAutorisedGotoUrl(target) {
