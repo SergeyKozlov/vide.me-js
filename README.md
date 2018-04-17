@@ -21,3 +21,29 @@ Vide.me API v. 2
 ### list
 - #### create
 - #### update
+### message
+- #### inbox
+  - #### delete
+- #### sent
+  - #### delete
+### post
+- #### new_article
+- #### search
+- #### show_pop_tags
+- #### show_new
+- #### shownext
+- #### showpop
+### relation
+- #### connect
+- #### create
+- #### delete
+- #### relation_to_me
+- #### update
+### spring
+- #### info
+- #### items
+- #### signs
+  - #### for_friends
+  - #### private
+- #### video
+### user
