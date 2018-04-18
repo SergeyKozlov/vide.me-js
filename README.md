@@ -47,3 +47,7 @@ Vide.me API v. 2
   - #### private
 - #### video
 ### user
+- #### exit
+- #### info
+- #### login
+- #### search
