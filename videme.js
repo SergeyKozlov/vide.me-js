@@ -164,27 +164,11 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     };
 
     $.fn.userSpringInfo = function (options) {
-        userSpringInfoSettings = $.extend({}, options);
-        //console.log("$.fn.userSpringInfo -----> ok");
-        if ($(this).length) {
-            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
-            var tempObject = $(this);
-        } else {
-            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(fileSpringSettings.showcaseVideo);
-        }
         var url = parseUrl();
-        //tempObject.html(VidemeProgress);
-        //==return this.each(function () {
-        //var tempObject = $(this);
         $.getJSON("https://api.vide.me/v2/spring/info/?spring=" + url.spring + "&videmecallback=?",
             function (data) {
-                //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
-                data = paddingUserInfo(data);
-                //console.log("$.fn.userSpringInfo after paddingUserInfo: " + JSON.stringify(data));
-                //$('.header-site').css('background-image', 'url(' + data.user_cover + ')');
-                //$('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
-                if (data) {
+                if (!$.isEmptyObject(data)) {
+                    data = paddingUserInfo(data);
                     if (data.user_cover) {
                         $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
                     } else {
@@ -205,6 +189,59 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     //$.fn.ownerSignUserInfo(data);
                 } else {
                     console.log("$.fn.userSpringInfo data -----> no");
+                    //tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+
+            })
+            .fail(function (data) {
+                //tempObject.html(showError(data));
+            })
+            //$.cookie('vide_nad')
+            .always(function () {
+            });
+    };
+
+    $.fn.springActivity = function () {
+        var url = parseUrl();
+        //tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        $.getJSON("https://api.vide.me/v2/spring/activity/?spring=" + url.spring + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+                //data = paddingUserInfo(data);
+                console.log("$.fn.springActivity data: " + JSON.stringify(data));
+                //$('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                //$('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
+                if (!$.isEmptyObject(data)) {
+                    if (!$.isEmptyObject(data[0])) {
+                        $('.spring_activity_posts').attr("href", "https://www.vide.me/" + url.spring + "/?show=posts");
+
+                        $('.spring_activity_posts_value').html(data[1]);
+                    }
+                    if (!$.isEmptyObject(data[1])) {
+                        $('.spring_activity_video').attr("href", "https://www.vide.me/" + url.spring + "/?show=video");
+                        $('.spring_activity_video_value').html(data[0]);
+                    }
+                    if (!$.isEmptyObject(data[2])) {
+                        $('.spring_activity_article').attr("href", "https://www.vide.me/" + url.spring + "/?show=article");
+                        $('.spring_activity_article_value').html(data[0]);
+                    }
+                    if (!$.isEmptyObject(data[3])) {
+                        $('.spring_activity_relation_to').attr("href", "https://www.vide.me/" + url.spring + "/?show=followers");
+                        $('.spring_activity_relation_to_value').html(data[2]);
+                    }
+                    if (!$.isEmptyObject(data[4])) {
+                        $('.spring_activity_relation_from').attr("href", "https://www.vide.me/" + url.spring + "/?show=following");
+                        $('.spring_activity_relation_from_value').html(data[3]);
+                    }
+
+                    //$.fn.ownerSignUserInfo(data);
+                } else {
+                    console.log("$.fn.springActivity data -----> no");
                     //tempObject.html("No results");
                 }
             })
@@ -765,13 +802,13 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
     };
 
-    $.fn.postsOfSpring = function (options) {
-        fileSpringSettings = $.extend({
+    $.fn.itemsOfSpring = function (options) {
+        itemsOfSpringSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile"
         }, options);
-        console.log("$.fn.postsOfSpring -----> ok");
+        //console.log("$.fn.postsOfSpring -----> ok");
 
         if ($(this).length) {
             //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
@@ -787,17 +824,68 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //==return this.each(function () {
         //var tempObject = $(this);
         var url = parseUrl();
-        console.log("postsOfSpring url -----> " + JSON.stringify(url));
+        //console.log("postsOfSpring url -----> " + JSON.stringify(url));
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/spring/items/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/items/?spring=" + url.spring + "&list=" + url.list + "&limit=" + itemsOfSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                if (!$.isEmptyObject(data)) {
+                    $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                } else {
+                    console.log("$.fn.postsOfSpring data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+    $.fn.postsOfSpring = function (options) {
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        //console.log("$.fn.postsOfSpring -----> ok");
+
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        //console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
+        //console.log("$.fn.postsOfSpring spring -----> " + fileSpringSettings.spring);
+        //console.log("$.fn.postsOfSpring list -----> " + fileSpringSettings.list);
+        tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        var url = parseUrl();
+        //console.log("postsOfSpring url -----> " + JSON.stringify(url));
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/spring/posts/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
-                if (data) {
-                    console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                if (!$.isEmptyObject(data)) {
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
-                    $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                    if (data[0].type == 'video') {
+                        $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                    } else {
+                        $('.itemscope').addClass('hidden');
+                    }
                 } else {
                     console.log("$.fn.postsOfSpring data -----> no");
                     tempObject.html("No results");
@@ -815,11 +903,9 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     $.fn.postsOfSpringVideoOnly = function (options) {
         fileSpringSettings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6,
+            limit: 16,
             showcaseVideo: "#videme-tile"
         }, options);
-        console.log("$.fn.postsOfSpring -----> ok");
-
         if ($(this).length) {
             //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
@@ -827,21 +913,15 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
             var tempObject = $(fileSpringSettings.showcaseVideo);
         }
-        //console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
-        //console.log("$.fn.postsOfSpring spring -----> " + fileSpringSettings.spring);
-        //console.log("$.fn.postsOfSpring list -----> " + fileSpringSettings.list);
         tempObject.html(VidemeProgress);
-        //==return this.each(function () {
-        //var tempObject = $(this);
         var url = parseUrl();
-        console.log("postsOfSpring url -----> " + JSON.stringify(url));
         var start_time = performance.now();
         $.getJSON("https://api.vide.me/v2/spring/video/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
             function (data) {
+                //console.log("postsOfSpringVideoOnly data -----> " + JSON.stringify(data));
                 var response_time = Math.round(performance.now() - start_time);
-                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
-                if (data) {
+                if (!$.isEmptyObject(data)) {
                     console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
@@ -857,22 +937,20 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             })
             .always(function () {
             });
-        //==});
     };
     $.fn.postsOfSpringVideoOnlyForFriends = function (options) {
-        fileSpringForFriendsSettings = $.extend({
+        postsOfSpringVideoOnlyForFriendsSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
             showcaseVideo: "#videme-tile-for-friends"
         }, options);
-        console.log("$.fn.postsOfSpringVideoOnlyForFriends -----> ok");
-
+        //console.log("$.fn.postsOfSpringVideoOnlyForFriends -----> ok");
         if ($(this).length) {
             //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(fileSpringForFriendsSettings.showcaseVideo);
+            var tempObject = $(postsOfSpringVideoOnlyForFriendsSettings.showcaseVideo);
         }
         //console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
         //console.log("$.fn.postsOfSpring spring -----> " + fileSpringForFriendsSettings.spring);
@@ -883,12 +961,12 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         var url = parseUrl();
         console.log("postsOfSpringVideoOnlyForFriends url -----> " + JSON.stringify(url));
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/spring/video/for_friends/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringForFriendsSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/video/for_friends/?spring=" + url.spring + "&list=" + url.list + "&limit=" + postsOfSpringVideoOnlyForFriendsSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
                 $('#result-response-for-friends').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
-                if (data) {
+                if (!$.isEmptyObject(data)) {
                     console.log("$.fn.postsOfSpringVideoOnlyForFriends data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
@@ -904,7 +982,42 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             })
             .always(function () {
             });
-        //==});
+    };
+    $.fn.postsOfSpringArticleOnly = function (options) {
+        postsOfSpringArticleOnlySettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 16,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(postsOfSpringArticleOnlySettings.showcaseVideo);
+        }
+        tempObject.html(VidemeProgress);
+        var url = parseUrl();
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/spring/article/?spring=" + url.spring + "&list=" + url.list + "&limit=" + postsOfSpringArticleOnlySettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("postsOfSpringVideoOnly data -----> " + JSON.stringify(data));
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                } else {
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
     };
 
     $.fn.showMyTask = function (options) {
@@ -2099,7 +2212,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     }
 
     function parseSignsForDoorbellSign(parseSignsForDoorbellSign) {
-        console.log("parseSignsForDoorbellSign Before----->" + JSON.stringify(parseSignsForDoorbellSign));
+        //console.log("parseSignsForDoorbellSign Before----->" + JSON.stringify(parseSignsForDoorbellSign));
         $.each(parseSignsForDoorbellSign, function (key, value) {
             parseSignsForDoorbellSign[key] = {
                 //'a': value.ToUserName,
@@ -2110,12 +2223,13 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 'additional': value.access,
                 'count': '',
                 'date': value.created_at,
+                'access': value.access,
                 /*'buttons': {'sign'},*/
                 'dropdown': {'dd_item': 'sign'}
             };
         });
         //delete parseSignsForDoorbellSign.results;
-        console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(parseSignsForDoorbellSign));
+        //console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(parseSignsForDoorbellSign));
         return parseSignsForDoorbellSign;
     }
 
@@ -2616,8 +2730,14 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             $(".videme-owner-sign_display_name").html(ownerSignUserInfoSettings.user_display_name);
         }
         if (!$.isEmptyObject(ownerSignUserInfoSettings.bio)) $(".videme-owner-sign-bio").html(ownerSignUserInfoSettings.bio);
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.country)) $(".videme-owner-sign-country").html(ownerSignUserInfoSettings.country);
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.city)) $(".videme-owner-sign-city").html(ownerSignUserInfoSettings.city);
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.country)) $(".videme-owner-sign-country").html(
+            '<i class="fa fa-globe videme-country-marker"></i>' +
+            '<div class="videme-country-name">' + ownerSignUserInfoSettings.country + '</div>'
+        );
+        if (!$.isEmptyObject(ownerSignUserInfoSettings.city)) $(".videme-owner-sign-city").html(
+            '<i class="fa fa-map-marker videme-city-marker"></i>' +
+            '<div class="videme-city-name">' + ownerSignUserInfoSettings.city + '</div>'
+        );
     };
 
     $.fn.showcaseUserPicture = function (options) {
@@ -3367,9 +3487,9 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
      ***************************************************************************/
     $.fn.showRelationToMe = function (options) {
         //console.log("$.fn.showRelation -----> ok");
-        showRelationToMeSettings = $.extend({
+        showRelationFromSpringSettings = $.extend({
             // TODO: добавить limit в NAD
-            limit: 6,
+            limit: 100,
             showRelationToMe: "#videme-tile"
         }, options);
         if ($(this).length) {
@@ -3377,11 +3497,99 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             var tempObject = $(this);
         } else {
             //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showRelationToMeSettings.showRelationToMe);
+            var tempObject = $(showRelationFromSpringSettings.showRelationToMe);
         }
         //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("https://api.vide.me/v2/relation/relations_to_me//?limit=" + showRelationToMeSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/relation/relations_to_me/?limit=" + showRelationFromSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showRelation data -----> " + data);
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseRelationsToMeForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    console.warn("$.fn.showRelation data -----> no");
+                    tempObject.html("Relations to me empty");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     v2 Relations to Spring
+     ***************************************************************************/
+    $.fn.showRelationToSpring = function (options) {
+        //console.log("$.fn.showRelation -----> ok");
+        showRelationFromSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 100,
+            showRelationToMe: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showRelationFromSpringSettings.showRelationToSpring);
+        }
+        //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var url = parseUrl();
+
+        $.getJSON("https://api.vide.me/v2/relation/relations_to_spring/?spring=" + url.spring + "&limit=" + showRelationFromSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showRelation data -----> " + data);
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseRelationsToMeForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    console.warn("$.fn.showRelation data -----> no");
+                    tempObject.html("Relations to me empty");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     v2 Relations from Spring
+     ***************************************************************************/
+    $.fn.showRelationFromSpring = function (options) {
+        //console.log("$.fn.showRelation -----> ok");
+        showRelationFromSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 100,
+            showRelationToMe: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showRelationFromSpringSettings.showRelationToSpring);
+        }
+        //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var url = parseUrl();
+
+        $.getJSON("https://api.vide.me/v2/relation/relations_from_spring/?spring=" + url.spring + "&limit=" + showRelationFromSpringSettings.limit + "&videmecallback=?",
             function (data) {
                 //console.log("$.fn.showRelation data -----> " + data);
                 if (!$.isEmptyObject(data)) {
@@ -4765,7 +4973,7 @@ $(document).ready(function () {
 
     function imgError(image) {
         image.onerror = "";
-        image.src = "https://api.vide.me/img/?i=undefined.gif";
+        image.src = "https://scontent-sin6-1.xx.fbcdn.net/v/t1.0-9/19420853_248196038918942_1112423914215028182_n.jpg?_nc_cat=0&oh=cfd439f4f2d525976a4597cc3cce46ae&oe=5B6E3F6C";
         return true;
     }
 
@@ -4773,6 +4981,7 @@ $(document).ready(function () {
      Событие 2: нажата ссылка на файл из плитки Next
      **************************************************************/
     $(document).on('click', 'a.shownext', function (event) {
+        console.log('a.shownext click');
         event.preventDefault();
         var $this = $(this);
         var href = $this.attr('href');
@@ -5148,12 +5357,13 @@ message-value='#" + Message.substr(1) + "'>\
     $(document).on('click', '.list-edit-toggle', function (event) {
         event.preventDefault();
         var $this = $(this);
-        var list = $this.attr('list');
+        //var list = $this.attr('list');
         console.log(".list-edit-toggle click list: -----> " + $this.attr('list'));
-        list.replace(/.*(?=#[^\s]+$)/, '');
-        $('#editlist').val(list);
-        $('#newlist').val(list);
-        $(".list-del-toggle").attr("list", list);
+        //list.replace(/.*(?=#[^\s]+$)/, '');
+        $('#editlist').val($this.attr('list'));
+        $('#newlist').val($this.attr('list'));
+        $('#access').val($this.attr('access'));
+        $(".list-del-toggle").attr("list", $this.attr('access'));
     });
 
     /*************************************************************
@@ -6002,9 +6212,13 @@ function showTileDoorbellSignSmall(showTileDoorbellSignSmall, tempObject) {
 function showDoorbellSignSmall(showDoorbellSignSmall, tempObject) {
     //console.log('showDoorbellSignSmall ---> ' + JSON.stringify(showDoorbellSignSmall));
     //console.log('showDoorbellSignSmall showDoorbellSignSmall.title ---> ' + showDoorbellSignSmall.title);
-    console.log('showDoorbellSignSmall tempObject.width() ---> ' + tempObject.width());
-    if (tempObject.width() < 300) {
-        var tempObjectClass = "";
+    if (!$.isEmptyObject(tempObject)) {
+        console.log('showDoorbellSignSmall tempObject.width() ---> ' + tempObject.width());
+        if (tempObject.width() < 300) {
+            var tempObjectClass = "";
+        } else {
+            var tempObjectClass = " d-flex";
+        }
     } else {
         var tempObjectClass = " d-flex";
     }
@@ -6049,7 +6263,8 @@ function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
     <a type='button' \
         class='dropdown-item list-edit-toggle' data-toggle='modal' \
         data-target='#modal-edit-list' \
-        list='" + showDropdownForDoorbelSign.title + "'>\
+        list='" + showDropdownForDoorbelSign.title + "'\
+        access='" + showDropdownForDoorbelSign.access + "'>\
         Edit\
     </a>";
                 break;
@@ -6901,7 +7116,7 @@ function getRandomImage() {
 }
 
 function paddingButtonMySpring(paddingButtonMySpring) {
-    console.log("paddingButtonMySpring -----> " + JSON.stringify(paddingButtonMySpring));
+    //console.log("paddingButtonMySpring -----> " + JSON.stringify(paddingButtonMySpring));
     paddingButtonMySpring.showcaseButton = {
         'contact-toggle': {
             'item_id': paddingButtonMySpring.item_id,

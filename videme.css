@@ -21,6 +21,22 @@
     margin-left: 25px;
 }
 
+.videme-city-marker {
+    float: left;
+    margin: 0 .6rem;
+}
+
+.videme-city-name {
+}
+
+.videme-country-marker {
+    float: left;
+    margin: 0 .6rem;
+}
+
+.videme-country-name {
+}
+
 /* Showcase ********************************************/
 
 .videme-showcase-user_picture {
@@ -276,6 +292,7 @@
 .videme-article-center img {
     width: 100%;
     max-width: 100%;
+    min-width: 100%;
 }
 
 .videme-article-center video {
@@ -391,4 +408,105 @@
     padding: .5em;*/
     /*float: left;*/
     margin: 0 .5rem 0 .5rem;
+}
+
+/* Spring *********************************/
+.header-site{
+    height: 200px;
+    background-color: #000000;
+    /*background-image: url(https://ak3.picdn.net/shutterstock/videos/4521746/thumb/1.jpg); */
+    float: left;
+    margin:0 0 3px 0;
+    padding: 5px 0 0 0 ;
+    width: 100%;
+
+    /*vertical-align: middle;
+
+       background-repeat: no-repeat;*/
+    background: no-repeat center;
+    background-size: 100%;
+}
+
+/*div#imageContainer {
+    background: #ccc;
+
+    height: 48px;
+    vertical-align: bottom;
+    display: table-cell;
+}
+
+#imageContainer img {
+    vertical-align: bottom
+}*/
+
+.header-site {
+    position: relative;
+    /*
+      height: 300px;
+    */
+}
+
+.imageContainer {
+    position: absolute;
+    bottom: 10px;
+    left: 64px;
+}
+.imageContainer img {
+    width: 120px;
+    height: 120px;
+}
+/*.user_display_name a {
+    color: whitesmoke;
+    font-weight: bold;
+  margin-left: 64px;
+    }*/
+
+.springContainer {
+    padding: 0px 0px 0px 0px;
+
+}
+.spring_activity_posts {
+    margin: -.5rem .8rem;
+}
+.spring_activity_posts_label {
+    display: block;
+}
+.spring_activity_posts_value {
+
+}
+.spring_activity_video {
+    margin: -.5rem .8rem;
+}
+.spring_activity_video_label {
+    display: block;
+}
+.spring_activity_video_value {
+
+}
+.spring_activity_article {
+    margin: -.5rem .8rem;
+}
+.spring_activity_article_label {
+    display: block;
+}
+.spring_activity_article_value {
+
+}
+.spring_activity_relation_to {
+    margin: -.5rem .8rem;
+}
+.spring_activity_relation_to_label {
+    display: block;
+}
+.spring_activity_relation_to_value {
+
+}
+.spring_activity_relation_from {
+    margin: -.5rem .8rem;
+}
+.spring_activity_relation_from_label {
+    display: block;
+}
+.spring_activity_relation_from_value {
+
 }
