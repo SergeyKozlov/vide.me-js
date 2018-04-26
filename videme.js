@@ -220,23 +220,23 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     if (!$.isEmptyObject(data[0])) {
                         $('.spring_activity_posts').attr("href", "https://www.vide.me/" + url.spring + "/?show=posts");
 
-                        $('.spring_activity_posts_value').html(data[1]);
+                        $('.spring_activity_posts_value').html(data[0]);
                     }
                     if (!$.isEmptyObject(data[1])) {
                         $('.spring_activity_video').attr("href", "https://www.vide.me/" + url.spring + "/?show=video");
-                        $('.spring_activity_video_value').html(data[0]);
+                        $('.spring_activity_video_value').html(data[1]);
                     }
                     if (!$.isEmptyObject(data[2])) {
                         $('.spring_activity_article').attr("href", "https://www.vide.me/" + url.spring + "/?show=article");
-                        $('.spring_activity_article_value').html(data[0]);
+                        $('.spring_activity_article_value').html(data[2]);
                     }
                     if (!$.isEmptyObject(data[3])) {
                         $('.spring_activity_relation_to').attr("href", "https://www.vide.me/" + url.spring + "/?show=followers");
-                        $('.spring_activity_relation_to_value').html(data[2]);
+                        $('.spring_activity_relation_to_value').html(data[3]);
                     }
                     if (!$.isEmptyObject(data[4])) {
                         $('.spring_activity_relation_from').attr("href", "https://www.vide.me/" + url.spring + "/?show=following");
-                        $('.spring_activity_relation_from_value').html(data[3]);
+                        $('.spring_activity_relation_from_value').html(data[4]);
                     }
 
                     //$.fn.ownerSignUserInfo(data);
@@ -724,16 +724,11 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     };
 
     $.fn.showPopConnect = function (options) {
-        /*showPopConnectSettings = $.extend({
-            size: '',
-            limit: 16,
-            showcaseVideo: "#videme-tile"
-        }, options);*/
         var showPopConnectSettings = $.extend({
-            size: '',
-            limit: 16,
+            size: 'small',
+            limit: 8,
             showcaseVideo: "#videme-tile"
-        }, $.fn.showPopConnect.defaults, options);
+        }, options);
         if ($(this).length) {
             //if (jQuery.isEmptyObject($(this))) {
             //console.log("$.fn.showPopConnect $(this) -----> yes " + $(this).length);
@@ -745,17 +740,69 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //console.log("$.fn.showPopConnect tempObject -----> " + tempObject.length);
         //console.log("$.fn.showPopConnect showPopConnectSettings -----> " + JSON.stringify(showPopConnectSettings));
         tempObject.html(VidemeProgress);
-        $.getJSON("https://api.vide.me/v2/connect/pop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/connect/pop/?limit=" + showPopConnectSettings.limit + "&videmecallback=?",
             function (data) {
-                if ($.isEmptyObject(data)) {
-                    console.log("$.fn.showPopConnect data -----> no");
-                    tempObject.html("No results");
-                } else {
+                if (!$.isEmptyObject(data)) {
                     //console.log("$.fn.showPopConnect data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTileRelation(data, tempObject, showPopConnectSettings.size));
+                } else {
+                    console.log("$.fn.showPopConnect data -----> no");
+                    tempObject.html("No results");
                 }
             })
             .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.showConnectRecommended = function (options) {
+        //console.log("$.fn.showConnectRecommended -----> start ");
+        var showConnectRecommendedSettings = $.extend({
+            size: 'small',
+            limit: 16,
+            showcaseVideo: "#videme-connect-recommended"
+        }, options);
+        if ($(this).length) {
+            //if (jQuery.isEmptyObject($(this))) {
+            //console.log("$.fn.showPopConnect $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showPopConnect $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showConnectRecommendedSettings.showcaseVideo);
+        }
+        //console.log("$.fn.showPopConnect tempObject -----> " + tempObject.length);
+        //console.log("$.fn.showPopConnect showPopConnectSettings -----> " + JSON.stringify(showPopConnectSettings));
+        tempObject.html(VidemeProgress);
+        //$('#videme-connect-recommended').html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/connect/recommended/?limit=" + showConnectRecommendedSettings.limit + "&videmecallback=?",
+            //$.getJSON("https://api.vide.me/v2/connect/recommended/?videmecallback=?",
+            function (data) {
+                console.log("$.fn.showConnectRecommended data -----> " + JSON.stringify(data));
+                if (!$.isEmptyObject(data)) {
+                    $('.videme-connect-recommended-panel').removeClass('hidden');
+                    tempObject.html(showTileRelation(data, tempObject, showConnectRecommendedSettings.size));
+                    /*tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseRelationsToMeForDoorbellSign(data), tempObject
+                    ));*/
+                    //$('#videme-connect-recommended').html(showTileRelation(data, tempObject, showConnectRecommendedSettings.size));
+                    //$('#videme-connect-recommended').html(showTileRelation(data, $('.videme-connect-recommended-panel'), 'small'));
+                } else {
+                    //console.log("$.fn.showPopConnect data -----> yes" + JSON.stringify(data));
+                    $('.videme-connect-recommended-panel').removeClass('hidden');
+                    //tempObject.showPopConnect({
+                    tempObject.showPopConnect({
+                        size: 'small',
+                        limit: 18
+                    });
+                }
+            })
+            .done(function (data) {
+                console.log("$.fn.showConnectRecommended done -----> " + JSON.stringify(data));
             })
             .fail(function (data) {
                 tempObject.html(showError(data));
@@ -1397,7 +1444,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 /* Вычисилить максимальное число страниц */
                 var pagetotal = Math.ceil(jsonData.length / showNewArticlePaginationSettings.limit);
                 /* Объявить экземпляр пейджинатора */
-                $('.videme-new-article-pagination').jqPagination({
+                $('.videme-new-article-bottom-pagination').jqPagination({
                     //link_string	: '/?page={page_number}',
                     max_page: pagetotal,
                     paged: function (page) {
@@ -1414,6 +1461,62 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             })
             .fail(function (data) {
                 tempObjectNewPosts.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});
+    };
+
+    $.fn.showPopPostsPagination = function (options) {
+        console.log("$.fn.showPopVideoPagination -----> ok");
+        showPopPostsPaginationSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 3,
+            showPopVideo: ".videme-showpop-tile"
+        }, options);
+        if ($(this).length) {
+            console.log("$.fn.showPopVideoPagination $(this) -----> yes " + $(this).length);
+            var tempObjectPopPosts = $(this);
+        } else {
+            console.log("$.fn.showPopVideoPagination $(this) -----> nooo! " + $(this).length);
+            var tempObjectPopPosts = $(showPopPostsPaginationSettings.showPopVideo);
+        }
+        console.log("$.fn.showNewVideo tempObject -----> " + tempObjectPopPosts.length);
+        tempObjectPopPosts.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        /* Сделать запрос */
+        /*
+         var data = $.fn.showNewVideo({
+         //msg: msg
+         });*/
+        //console.log("$.fn.showPopVideoPagination showPopVideoPaginationSettings -----> " + JSON.stringify(showPopVideoPaginationSettings));
+        //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
+
+        //$.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/post/showpop/?videmecallback=?",
+            function (jsonData) {
+                //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
+                //tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
+                tempObjectPopPosts.html(showTile(parseDataArrayToObject(jsonData.slice(0, showPopPostsPaginationSettings.limit)), tempObjectPopPosts, "shownext"));
+                var pagetotal = Math.ceil(jsonData.length / showPopPostsPaginationSettings.limit); //example=2
+                $('.videme-showpop-pagination').jqPagination({
+                    //link_string	: '/?page={page_number}',
+                    max_page: pagetotal,
+                    paged: function (page) {
+                        var skip = (page - 1) * showPopPostsPaginationSettings.limit;
+                        skip2 = skip;
+                        limit = skip2 + showPopPostsPaginationSettings.limit;
+                        console.log("$.fn.showPopVideoPagination jqPagination -----> skip: " + skip);
+                        //tempObjectPopVideo.html(showTile(parseFileMy(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
+                        tempObjectPopPosts.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectPopPosts, "shownext"));
+                    }
+                });
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObjectPopPosts.html(showError(data));
             })
             .always(function () {
             });
@@ -1447,7 +1550,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
         //$.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
-        $.getJSON("https://api.vide.me/v2/post/showpop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/post/show_pop_video/?videmecallback=?",
             function (jsonData) {
                 //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
                 //tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
@@ -1462,7 +1565,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         limit = skip2 + showPopVideoPaginationSettings.limit;
                         console.log("$.fn.showPopVideoPagination jqPagination -----> skip: " + skip);
                         //tempObjectPopVideo.html(showTile(parseFileMy(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
-                        tempObjectPopVideo.html(showTile(parseDataArrayToObject(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
+                        tempObjectPopVideo.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
                     }
                 });
             })
@@ -1888,6 +1991,15 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 value = paddingButtonSent(value);
                 //console.log("showTile value -----> " + JSON.stringify(value));
             }
+            if (actionUrlClass == 'article') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
 
             html.push("<li class='list-group-item videme-tile-item'>" +
                 "<a href='https://www.vide.me/" + value.spring + "'>" +
@@ -1895,7 +2007,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 "</a>" +
                 "<div class='videme-tile-item-1-line'>" +
                 "<div class='font-weight-bold videme-tile-item-user'>" +
-                "<a href='https://www.vide.me/" + value.spring + "'>"
+                "<a href='https://www.vide.me/" + value.spring + "' class='tile-item-owner'>"
                 + value.user_display_name +
                 "</a>" +
                 "</div>" +
@@ -1943,7 +2055,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
 				<i class='fa fa-eye'></i>\
 				" + value.item_count_show + "\
 				<i class='fa fa-clock-o'></i>\
-				" + value.video_duration + "\
+				" + sec2str(value.video_duration) + "\
 				<i class='" + fa_icon_access + "'></i>\
 				" + value.access + "\
 				</li>\
@@ -1964,6 +2076,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         console.log('showTileRelation size ---> ' + size);
         var html = [];
         //if (tempObject.width() < 500) {
+        html.push('<div class="container">');
         if (size == 'small') {
             $.each(relationArray, function (key, value) {
                 var trueValue = paddingUserInfo(value);
@@ -1979,6 +2092,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 html.push(showRelationCard(trueValue));
             });
         }
+        html.push('</div>');
         return html;
     }
 
@@ -1988,6 +2102,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             "  <div class=\"card-body\">\n" +
             "    <h5 class=\"card-title\"><a href='https://www.vide.me/" + showRelationCard.spring + "/' target='_blank'>" + showRelationCard.user_display_name + "</a></h5>\n" +
             "    <p class=\"card-text\"></p>\n" +
+            showPostCountForRelationCardSmall(showRelationCardSmall) +
             "    <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCard.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-primary relation_connect\" user_id='" + showRelationCard.user_id + "' feedback='https://www.vide.me/\" + showRelationCardSmall.spring + \"'>Connect</a>\n" +
             "  </div>\n" +
             "</div>";
@@ -1995,12 +2110,33 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
 
     function showRelationCardSmall(showRelationCardSmall) {
         return "\
-            <div class=\"videme-ralation-card-small\">\
-              <img class=\"img-thumbnail videme-relation-card-img\" src=\"" + showRelationCardSmall.user_picture + "\" alt=\"\" />\
-                <div class=\"videme-relation-card-user\"><a href='https://www.vide.me/" + showRelationCardSmall.spring + "/' target='_blank'>" + showRelationCardSmall.user_display_name + "</a></div>\
-                <p class=\"\"></p>\
-                <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "' feedback='https://www.vide.me/" + showRelationCardSmall.spring + "'>Connect</a>\
-            </div>";
+            <div class=\"row videme-ralation-card-small\">\
+                <div class=\"col-4 videme-relation-card-1-column\">\
+                    <a href='https://www.vide.me/" + showRelationCardSmall.spring + "'><img class=\"img-thumbnail videme-relation-card-img\" src=\"" + showRelationCardSmall.user_picture + "\" alt=\"\" /></a>\
+                </div>\
+                <div class=\"col-8 videme-relation-card-2-column\">\
+                    <div class=\"row\">\
+                        <div class=\"videme-relation-card-user\">\
+                        <a href='https://www.vide.me/" + showRelationCardSmall.spring + "/' target='_blank'>" + showRelationCardSmall.user_display_name + "</a>\
+                        </div>\
+                    </div>\
+                    <div class=\"row videme-relation-card-2-line\">\
+                        " + showPostCountForRelationCardSmall(showRelationCardSmall) + "\
+                    </div>\
+                    <div class='videme-relation-card-button-connect-wrap'>\
+                        <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "' feedback='https://www.vide.me/" + showRelationCardSmall.spring + "'>Connect</a>\
+                    </div>\
+                </div>\
+            </div>\
+            ";
+    }
+    function showPostCountForRelationCardSmall(showPostCountForRelationCardSmall) {
+        //console.log('showIconForDoorbelSign ---> ' + JSON.stringify(showIconForDoorbelSign));
+        var postCount = ''
+        if (!$.isEmptyObject(showPostCountForRelationCardSmall.posts_count)) {
+            postCount = "<div class='videme-relation-card-post-count'><i class=\"fa fa-film\"></i>" + showPostCountForRelationCardSmall.posts_count + "</div>";
+        }
+        return postCount;
     }
 
     function convertTimestamp(timestamp) {
@@ -4988,11 +5124,21 @@ $(document).ready(function () {
         window.location.href = href;
     });
     /*************************************************************
+     Click on tile item owner
+     **************************************************************/
+    $(document).on('click', 'a.tile-item-owner', function (event) {
+        console.log('a.tile-item-owner');
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('href');
+        window.location.href = href;
+    });
+    /*************************************************************
      Событие 2: нажата ссылка на файл из плитки Next, New, Pop
      lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
      lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
      **************************************************************/
-    $(document).on('click', 'a.showpop-url', function (event) {
+    $(document).on('click', 'a.showpop-url', function (event) { // TODO: Remove
         event.preventDefault();
         var $this = $(this);
         var file = $this.attr('file-value');
@@ -7059,6 +7205,12 @@ function paddingUserInfo(paddingUserInfo) {
         trueUserInfo.relation = paddingUserInfo.relation;
     } else {
         trueUserInfo.relation = '';
+    }
+    /* Connect pop */
+    if (!$.isEmptyObject(paddingUserInfo.posts_count)) {
+        trueUserInfo.posts_count = paddingUserInfo.posts_count;
+    } else {
+        trueUserInfo.posts_count = '';
     }
     /* Doorbell Task ****************************************** */
 

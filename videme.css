@@ -317,14 +317,19 @@
 /* Relations ================================= */
 
 .videme-ralation-card-small {
-    display: inline-block;
-    /*vertical-align: middle;*/
+    /*display: inline-block;
+    vertical-align: middle;*/
 }
-
+.videme-relation-card-1-column {
+    padding: .2rem .5rem;
+}
 .videme-relation-card-img {
     float: left;
     width: 70px;
     height: 70px;
+}
+.videme-relation-card-2-column {
+    /*float: left;*/
 }
 .videme-relation-card-user {
     font-size: 0.9em;
@@ -334,8 +339,12 @@
     padding: 5px; /* Поля вокруг текста */
     /*text-overflow: ellipsis;*/ /* Добавляем многоточие */
 }
+.videme-relation-card-button-connect-wrap {
+    margin-top: -1rem;
+}
 .videme-relation-card-button-connect {
     /*padding: 5px;*/
+    float: right;
 }
 
 /*ul li:after { content: "==="; }*/
