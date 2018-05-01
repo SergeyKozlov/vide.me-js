@@ -128,12 +128,15 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                             $('#form_user_brand').html("<a href='" + data.user_link + "' target='_blank'> <img src='" + data.user_picture + "' alt='" + data.user_display_name + "'></a>");
                         }*/
 
-                        $('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        //==$('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        $('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='https://s3.amazonaws.com/users.vide.me/" + trueUserInfo.user_id + "_user_picture.jpg' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
                         //$('#nav_user_cover').attr('src', trueUserInfo.user_cover);
                         $('.videme-you-sign-user_cover').attr('src', trueUserInfo.user_cover);
                         //$('#nav_user_brand').attr('src', trueUserInfo.user_picture);
-                        $('.videme-you-sign-user_picture').attr('src', trueUserInfo.user_picture);
-                        $('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        //==$('.videme-you-sign-user_picture').attr('src', trueUserInfo.user_picture);
+                        $('.videme-you-sign-user_picture').attr('src', 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg');
+                        //==$('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        $('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='https://s3.amazonaws.com/users.vide.me/" + trueUserInfo.user_id + "_user_picture.jpg' alt='" + trueUserInfo.user_display_name + "'></a>");
 
                         $('#form_user_name').html("<a href='" + trueUserInfo.user_link + "' target='_blank'>" + trueUserInfo.user_display_name + "</a>");
                         $('#nav_form_user_name').html("<a href='https://www.vide.me/" + trueUserInfo.spring + "'>" + trueUserInfo.user_display_name + "</a>");
@@ -148,6 +151,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         $('.videme-form-user-info').remove();
 
                     }
+                    // asinc exec. return data;
 
                 }
             );
@@ -158,6 +162,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         } else {
             console.log("$.fn.getAuthorized -----> no cookie");
             $('.videme-form-user-info').remove();
+            return false; // TODO: ?
 
         }
         return authorized;
@@ -175,7 +180,8 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
                     }
                     if (!$.isEmptyObject(data.user_picture)) {
-                        $("#vide_spring_user_picture").attr('src', data.user_picture);
+                        //$("#vide_spring_user_picture").attr('src', data.user_picture);
+                        $("#vide_spring_user_picture").attr('src', "https://s3.amazonaws.com/users.vide.me/" + data.user_id + "_user_picture.jpg");
                     } else {
                         //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
                     }
@@ -558,8 +564,8 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         $.getJSON("https://api.vide.me/v2/message/sent/?limit=" + fileSentSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
-                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
-                if (data) {
+                if (!$.isEmptyObject(data)) {
+                    $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                     //console.log("$.fn.fileSent data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-sent-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonSent(data[0]));
@@ -597,7 +603,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
-                if (data) {
+                if (!$.isEmptyObject(data)) {
                     //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
                     tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
                     $.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
@@ -2003,7 +2009,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
 
             html.push("<li class='list-group-item videme-tile-item'>" +
                 "<a href='https://www.vide.me/" + value.spring + "'>" +
-                "<img src='" + value.user_picture + "' alt='' class='img-thumbnail videme-relation-card-img'>" +
+                "<img src='https://s3.amazonaws.com/users.vide.me/" + value.user_id + "_user_picture.jpg' alt='' class='img-thumbnail videme-relation-card-img'>" +
                 "</a>" +
                 "<div class='videme-tile-item-1-line'>" +
                 "<div class='font-weight-bold videme-tile-item-user'>" +
@@ -2032,7 +2038,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         item_id='" + value.item_id + "' \
                         post_id='" + value.post_id + "' \
                         spring='" + value.spring + "' \
-                        user_picture='" + value.user_picture + "' \
+                        user_picture='https://s3.amazonaws.com/users.vide.me/" + value.user_id + "_user_picture.jpg' \
                         to_user_id='" + value.to_user_id + "' \
                         from_user_id='" + value.from_user_id + "' \
                         from_user_display_name='" + value.from_user_display_name + "' \
@@ -2093,7 +2099,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
         }
         html.push('</div>');
-        return html;
+        return html.join('');
     }
 
     function showRelationCard(showRelationCard) {
@@ -2112,7 +2118,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         return "\
             <div class=\"row videme-ralation-card-small\">\
                 <div class=\"col-4 videme-relation-card-1-column\">\
-                    <a href='https://www.vide.me/" + showRelationCardSmall.spring + "'><img class=\"img-thumbnail videme-relation-card-img\" src=\"" + showRelationCardSmall.user_picture + "\" alt=\"\" /></a>\
+                    <a href='https://www.vide.me/" + showRelationCardSmall.spring + "'><img class=\"img-thumbnail videme-relation-card-img\" src=\"https://s3.amazonaws.com/users.vide.me/" + showRelationCardSmall.user_id + "_user_picture.jpg\" alt=\"\" /></a>\
                 </div>\
                 <div class=\"col-8 videme-relation-card-2-column\">\
                     <div class=\"row\">\
@@ -2122,9 +2128,9 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     </div>\
                     <div class=\"row videme-relation-card-2-line\">\
                         " + showPostCountForRelationCardSmall(showRelationCardSmall) + "\
-                    </div>\
-                    <div class='videme-relation-card-button-connect-wrap'>\
-                        <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "' feedback='https://www.vide.me/" + showRelationCardSmall.spring + "'>Connect</a>\
+                        <div class='videme-relation-card-button-connect-wrap'>\
+                            <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "' feedback='https://www.vide.me/" + showRelationCardSmall.spring + "'>Connect</a>\
+                        </div>\
                     </div>\
                 </div>\
             </div>\
@@ -2132,9 +2138,17 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     }
     function showPostCountForRelationCardSmall(showPostCountForRelationCardSmall) {
         //console.log('showIconForDoorbelSign ---> ' + JSON.stringify(showIconForDoorbelSign));
-        var postCount = ''
+        var postCount = ' '
         if (!$.isEmptyObject(showPostCountForRelationCardSmall.posts_count)) {
-            postCount = "<div class='videme-relation-card-post-count'><i class=\"fa fa-film\"></i>" + showPostCountForRelationCardSmall.posts_count + "</div>";
+            postCount =
+                "<div class='videme-relation-card-post-count-wrap'>" +
+                "<div class='videme-relation-card-post-count-icon'>" +
+                "<i class=\"fa fa-film\"></i>" +
+                "</div>" +
+                "<div class='videme-relation-card-post-count'>"
+                + showPostCountForRelationCardSmall.posts_count + "" +
+                "</div>" +
+                "</div>";
         }
         return postCount;
     }
@@ -2301,7 +2315,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 'content': value.content,
                 'spring': value.spring,
                 'user_email': value.user_email,
-                'user_picture': value.user_picture,
+                //'user_picture': value.user_picture,
                 'to_user_id': value.to_user_id,
                 'from_user_id': value.from_user_id,
                 'from_user_display_name': value.from_user_display_name,
@@ -2522,6 +2536,8 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         } else {
             console.log("$.fn.showcaseVideo (\"#videme-showcasevideo\").length) -----> nooo! " + $("#videme-showcasevideo").length);
         }
+        goToUrl('view-source:https://api.vide.me/system/items/item_count_add/?item=' + showcaseVideoSettings.video);
+
         var showcasePlayer = videojs('videme-showcasevideo', {
             /* Options */
         }, function () {
@@ -2853,13 +2869,16 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     $.fn.ownerSignUserInfo = function (options) {
         ownerSignUserInfoSettings = $.extend({}, options);
         //console.log("$.fn.ownerSignUserInfo ownerSignUserInfoSettings -----> " + JSON.stringify(ownerSignUserInfoSettings));
+        trueUserInfo = paddingUserInfo(ownerSignUserInfoSettings);
         if (!$.isEmptyObject(ownerSignUserInfoSettings.user_cover)) {
             //console.log("$.fn.showcaseUserPicture user_cover.length > 0 -----> " + JSON.stringify(showcaseUserPictureSettings));
             $(".videme-owner-sign-user_cover").attr('src', ownerSignUserInfoSettings.user_cover);
-        }
+        }/*
         if (!$.isEmptyObject(ownerSignUserInfoSettings.user_picture)) {
             $(".videme-owner-sign-user_picture").attr('src', ownerSignUserInfoSettings.user_picture);
-        }
+        }*/
+        $(".videme-owner-sign-user_picture").attr('src', 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg');
+
         if (!$.isEmptyObject(ownerSignUserInfoSettings.spring)) {
             $(".videme-owner-sign_display_name").html("<a href='https://vide.me/" + ownerSignUserInfoSettings.spring + "'>" + ownerSignUserInfoSettings.user_display_name + "</a>");
         } else {
@@ -2882,7 +2901,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //if (showcaseUserPictureSettings.user_picture.length > 0) {
         if (!$.isEmptyObject(showcaseUserPictureSettings.user_picture)) {
             //$(".videme-owner-sign-user_picture").attr('src', showcaseUserPictureSettings.user_picture);
-            $(".videme-showcase-user_picture").attr('src', showcaseUserPictureSettings.user_picture);
+            $(".videme-showcase-user_picture").attr('src', "https://s3.amazonaws.com/users.vide.me/" + showcaseUserPictureSettings.user_id + "_user_picture.jpg");
         }
         //if (showcaseUserPictureSettings.user_cover.length > 0) {
         if (!$.isEmptyObject(showcaseUserPictureSettings.user_cover)) {
@@ -6312,6 +6331,38 @@ message-value='#" + Message.substr(1) + "'>\
 // Конец автозагрузки
 });
 
+function pas_info() {
+    if ($.cookie('vide_nad')) {
+        $.getJSON("https://api.vide.me/v2/user/info/?videmecallback=?",
+            function (data) {
+                if (!$.isEmptyObject(data)) {
+                    var trueUserInfo = paddingUserInfo(data);
+                    $('.pas_info_heading').html(trueUserInfo.user_display_name);
+                    $('#pas_info_user_id_face_img').attr('src', 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg');
+                    $('#user_display_name').val(trueUserInfo.user_display_name);
+                    $('#user_first_name').val(trueUserInfo.user_first_name);
+                    $('#user_last_name').val(trueUserInfo.user_last_name);
+                    $('#user_link').val(trueUserInfo.user_link);
+                    $('input:radio[name=user_gender]').val([trueUserInfo.user_gender]);
+                    $('#user_locale').val(trueUserInfo.user_locale);
+                    $('#user_picture').val(trueUserInfo.user_picture);
+                    $('#user_cover').val(trueUserInfo.user_cover);
+                    $('#country').val(trueUserInfo.country);
+                    $('#city').val(trueUserInfo.city);
+                    $('#bio').val(trueUserInfo.bio);
+                } else {
+                    console.log("$.fn.getAuthorized -----> getJSON empty");
+                    $('.videme-form-user-info').remove();
+                }
+            }
+        );
+    } else {
+        console.log("$.fn.getAuthorized -----> no cookie");
+        $('.pas_info_heading').html('authorise please');
+    }
+    console.log('pas_info' + $.fn.getAuthorized());
+}
+
 /* Browser detect*/
 function detectBrowser() {
     // Opera 8.0+
@@ -6592,7 +6643,7 @@ function parseMyRelationsForDoorbellSign(parseMyRelationsForDoorbellSign) {
     console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseMyRelationsForDoorbellSign));
     $.each(parseMyRelationsForDoorbellSign, function (key, value) {
         parseMyRelationsForDoorbellSign[key] = {
-            'image': value.user_picture,
+            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
             'cover': '',
             'title': value.user_display_name,
             'additional': value.relation_email,
@@ -6614,7 +6665,7 @@ function parseRelationsToMeForDoorbellSign(parseRelationsToMeForDoorbellSign) {
     console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
     $.each(parseRelationsToMeForDoorbellSign, function (key, value) {
         parseRelationsToMeForDoorbellSign[key] = {
-            'image': value.user_picture,
+            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
             'cover': '',
             'title': value.user_display_name,
             'additional': value.relation_email,
@@ -6636,7 +6687,7 @@ function parseSearchPeoplesForDoorbellSign(parseSearchPeoplesForDoorbellSign) {
     console.log("parseSearchPeoplesForDoorbellSign ----->" + JSON.stringify(parseSearchPeoplesForDoorbellSign));
     $.each(parseSearchPeoplesForDoorbellSign, function (key, value) {
         parseSearchPeoplesForDoorbellSign[key] = {
-            'image': value.user_picture,
+            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
             'cover': '',
             'title': value.user_display_name,
             'additional': value.city,
@@ -6664,7 +6715,7 @@ function parsePopRelationsForDoorbellSign(parsePopRelationsForDoorbellSign) {
     console.log("parsePopRelationsForDoorbellSign ----->" + JSON.stringify(parsePopRelationsForDoorbellSign));
     $.each(parsePopRelationsForDoorbellSign, function (key, value) {
         parsePopRelationsForDoorbellSign[key] = {
-            'image': value.user_picture,
+            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
             'cover': '',
             'title': value.user_display_name,
             'user_id': value.user_id,
@@ -7338,6 +7389,28 @@ function sidebarToggleHidde() {
             }
         }
     );
+}
+
+function goToUrl(goToUrl) {
+    var jqxhr = $.getJSON( goToUrl, function() {
+        console.log( "goToUrl success" );
+    })
+        .done(function() {
+            console.log( "goToUrl second success" );
+        })
+        .fail(function() {
+            console.log( "goToUrl error" );
+        })
+        .always(function() {
+            console.log( "goToUrl complete" );
+        });
+
+// Perform other work here ...
+
+// Set another completion function for the request above
+    /*jqxhr.complete(function() {
+        console.log( "goToUrl second complete" );
+    });*/
 }
 
 /***************************************************************************

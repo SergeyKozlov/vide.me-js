@@ -319,9 +319,10 @@
 .videme-ralation-card-small {
     /*display: inline-block;
     vertical-align: middle;*/
+    padding: .2rem 0;
 }
 .videme-relation-card-1-column {
-    padding: .2rem .5rem;
+    padding: 0;
 }
 .videme-relation-card-img {
     float: left;
@@ -339,8 +340,21 @@
     padding: 5px; /* Поля вокруг текста */
     /*text-overflow: ellipsis;*/ /* Добавляем многоточие */
 }
+.videme-relation-card-post-count-wrap {
+    display: inline-flex;
+}
+.videme-relation-card-post-count-icon {
+    padding: 0 .2rem;
+    /*margin-top: 50%;
+    margin-bottom: auto;*/
+}
+.videme-relation-card-post-count {
+    padding: 0 .2rem;
+    /*margin-top: 50%;
+    margin-bottom: auto;*/
+}
 .videme-relation-card-button-connect-wrap {
-    margin-top: -1rem;
+    /*margin-top: -1rem;*/
 }
 .videme-relation-card-button-connect {
     /*padding: 5px;*/
@@ -518,4 +532,10 @@
 }
 .spring_activity_relation_from_value {
 
+}
+
+/* Pas User info*/
+.pas_info_user_id_face_img {
+    max-width: 50%;
+    max-height: 50%;
 }
