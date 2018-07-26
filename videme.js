@@ -129,23 +129,33 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         }*/
 
                         //==$('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
-                        $('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='https://s3.amazonaws.com/users.vide.me/" + trueUserInfo.user_id + "_user_picture.jpg' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        $('#user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='https://s3.amazonaws.com/img.vide.me/" + trueUserInfo.user_picture + "' width='48' height='48' alt='" + trueUserInfo.user_display_name + "'></a>");
                         //$('#nav_user_cover').attr('src', trueUserInfo.user_cover);
-                        $('.videme-you-sign-user_cover').attr('src', trueUserInfo.user_cover);
+                        //=$('.videme-you-sign-user_cover').attr('src', trueUserInfo.user_cover);
+                        $('.videme-you-sign-user_cover').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_cover);
                         //$('#nav_user_brand').attr('src', trueUserInfo.user_picture);
                         //==$('.videme-you-sign-user_picture').attr('src', trueUserInfo.user_picture);
-                        $('.videme-you-sign-user_picture').attr('src', 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg');
+                        $('.videme-you-sign-user_picture').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_picture);
                         //==$('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='" + trueUserInfo.user_picture + "' alt='" + trueUserInfo.user_display_name + "'></a>");
-                        $('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='https://s3.amazonaws.com/users.vide.me/" + trueUserInfo.user_id + "_user_picture.jpg' alt='" + trueUserInfo.user_display_name + "'></a>");
+                        $('#form_user_brand').html("<a href='" + trueUserInfo.user_link + "' target='_blank'> <img src='https://s3.amazonaws.com/img.vide.me/" + trueUserInfo.user_picture + "' alt='" + trueUserInfo.user_display_name + "'></a>");
 
                         $('#form_user_name').html("<a href='" + trueUserInfo.user_link + "' target='_blank'>" + trueUserInfo.user_display_name + "</a>");
                         $('#nav_form_user_name').html("<a href='https://www.vide.me/" + trueUserInfo.spring + "'>" + trueUserInfo.user_display_name + "</a>");
                         $('#form_user_email').html(trueUserInfo.user_email);
                         //$('#nav_form_user_email').html(trueUserInfo.user_email);
                         $('.videme-you-sign-bio').html(trueUserInfo.bio);
-                        $('.videme-you-sign-country').html(trueUserInfo.country);
-                        $('.videme-you-sign-city').html(trueUserInfo.city);
-                        $('#sidebar_user_name').html(trueUserInfo.user_display_name);
+                        //$('.videme-you-sign-country').html(trueUserInfo.country);
+                        //$('.videme-you-sign-city').html(trueUserInfo.city);
+                        $('#sidebar_user_name').html(trueUserInfo.user_display_name).attr('href', 'https://www.vide.me/' + trueUserInfo.spring + '/');
+                        $('#sidebar_signin').html('Options').attr('href', 'https://api.vide.me/pas/info/');
+                        $(".videme-you-sign-country").html(
+                            '<i class="fa fa-globe videme-country-marker"></i>' +
+                            '<div class="videme-country-name">' + trueUserInfo.country + '</div>'
+                        );
+                        $(".videme-you-sign-city").html(
+                            '<i class="fa fa-map-marker videme-city-marker"></i>' +
+                            '<div class="videme-city-name">' + trueUserInfo.city + '</div>'
+                        );
                     } else {
                         console.log("$.fn.getAuthorized -----> getJSON empty");
                         $('.videme-form-user-info').remove();
@@ -175,13 +185,21 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 if (!$.isEmptyObject(data)) {
                     data = paddingUserInfo(data);
                     if (data.user_cover) {
-                        $('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                        $('.header-site').css('background-image', 'url(' + 'https://s3.amazonaws.com/img.vide.me/' + data.user_cover + ')');
                     } else {
                         //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
                     }
                     if (!$.isEmptyObject(data.user_picture)) {
                         //$("#vide_spring_user_picture").attr('src', data.user_picture);
-                        $("#vide_spring_user_picture").attr('src', "https://s3.amazonaws.com/users.vide.me/" + data.user_id + "_user_picture.jpg");
+                        $("#vide_spring_user_picture").attr('src', 'https://s3.amazonaws.com/img.vide.me/' + data.user_picture);
+                    } else {
+                        //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
+                        //$("#vide_spring_user_picture").attr('src', 'https://s3.amazonaws.com/vide.me/nonname.jpg');
+
+                    }
+                    if (!$.isEmptyObject(data.slogan)) {
+                        //$("#vide_spring_user_picture").attr('src', data.user_picture);
+                        $("#videme-spring-slogan").html(data.slogan);
                     } else {
                         //$('.header-site').css('background-image', 'url("https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/300px-Starry_Night_Over_the_Rhone.jpg")');
                     }
@@ -190,11 +208,137 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     } else {
                         $('.user_display_name').html('');
                     }
-                    $('.spring_relation').html('<a class="btn btn-sm align-middle btn-outline-secondary relation_connect" user_id="' + data.user_id + '" href="https://api.vide.me/v2/relation/connect/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Connect at  ' + data.user_display_name + '</a>');
+                    //$('.spring_relation').html('<a class="btn btn-sm align-middle btn-outline-secondary relation_connect" user_id="' + data.user_id + '" href="https://api.vide.me/v2/relation/connect/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Follow</a>');
+                    //$('.spring_make_friends').html('<a class="btn btn-sm align-middle btn-outline-secondary friend_request" user_id="' + data.user_id + '" href="https://api.vide.me/v2/friendship/request/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Make friends</a>');
 
                     //$.fn.ownerSignUserInfo(data);
                 } else {
                     console.log("$.fn.userSpringInfo data -----> no");
+                    //tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+
+            })
+            .fail(function (data) {
+                //tempObject.html(showError(data));
+            })
+            //$.cookie('vide_nad')
+            .always(function () {
+            });
+    };
+
+    $.fn.userSpringForMe = function (options) {
+        var url = parseUrl();
+        $.getJSON("https://api.vide.me/v2/spring/for_me/?spring=" + url.spring + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.userSpringForMe data -----> ", JSON.stringify(data));
+                if (!$.isEmptyObject(data)) {
+                    //data = paddingUserInfo(data);
+                    if (!$.isEmptyObject(data[0])) {
+
+                        if (data[0] == '1') {
+                            $('.spring_make_friends').html('You friends');
+                        }
+                        if (data[0] == '0') {
+                            $('.spring_make_friends').html('Pending friends');
+                        }
+                        if (data[0] == '2') {
+                            $('.spring_make_friends').html('Blocked');
+                        }
+                    } else {
+                        $('.spring_make_friends').html('<a class="btn btn-sm align-middle btn-outline-secondary friend_request" user_id="' + data.user_id + '" href="https://api.vide.me/v2/friendship/request/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Make friends</a>');
+                    }
+                    if (!$.isEmptyObject(data[1])) {
+                        $('.spring_relation').html('Followed');
+                    } else {
+                        $('.spring_relation').html('<a class="btn btn-sm align-middle btn-outline-secondary relation_connect" user_id="' + data.user_id + '" href="https://api.vide.me/v2/relation/connect/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Follow</a>');
+                    }
+                } else {
+                    console.log("$.fn.userSpringForMe data -----> no");
+                    //tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+
+            })
+            .fail(function (data) {
+                //tempObject.html(showError(data));
+            })
+            //$.cookie('vide_nad')
+            .always(function () {
+            });
+    };
+
+    $.fn.userSpringForMeFollow = function (options) {
+        var url = parseUrl();
+        $.getJSON("https://api.vide.me/v2/spring/for_me/follow/?spring=" + url.spring + "&videmecallback=?",
+            function (data) {
+                console.log("$.fn.userSpringForMeFollow data -----> ", JSON.stringify(data));
+                //console.log("$.fn.userSpringForMeFriendship data[3] -----> ", JSON.stringify(data[3]));
+                //console.log("$.fn.userSpringForMeFriendship data.user_id -----> ", JSON.stringify(data.user_id));
+                //console.log("$.fn.userSpringForMeFriendship data.for_user_id -----> ", JSON.stringify(data.for_user_id));
+                if (!$.isEmptyObject(data)) {
+                    $('.spring_relation').html('<a class="btn btn-sm align-middle btn-outline-secondary relation_connect" user_id="' + data.user_id + '" href="https://api.vide.me/v2/relation/connect/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Follow</a>');
+                } else {
+                    $('.spring_relation').html('Followed');
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+
+            })
+            .fail(function (data) {
+                //tempObject.html(showError(data));
+            })
+            //$.cookie('vide_nad')
+            .always(function () {
+            });
+    };
+
+    $.fn.userSpringForMeFriendship = function (options) {
+        var url = parseUrl();
+        $.getJSON("https://api.vide.me/v2/spring/for_me/friendship/?spring=" + url.spring + "&videmecallback=?",
+            function (data) {
+                console.log("$.fn.userSpringForMeFriendship data -----> ", JSON.stringify(data));
+                //console.log("$.fn.userSpringForMeFriendship data[3] -----> ", JSON.stringify(data[3]));
+                console.log("$.fn.userSpringForMeFriendship data.user_id -----> ", JSON.stringify(data.user_id));
+                console.log("$.fn.userSpringForMeFriendship data.for_user_id -----> ", JSON.stringify(data.for_user_id));
+                if (!$.isEmptyObject(data)) {
+                    var actionDate;
+                    if (!$.isEmptyObject(data[5]) && data[5] != 'null') actionDate = timeToWord(data[5]);
+                    console.log("$.fn.userSpringForMeFriendship actionDate -----> ", actionDate);
+                    if (!$.isEmptyObject(data[6]) && data[6] != 'null') actionDate = timeToWord(data[6]);
+                    console.log("$.fn.userSpringForMeFriendship actionDate -----> ", actionDate);
+                    if (!$.isEmptyObject(data[3]) &&
+                        (!$.isEmptyObject(data.for_user_id) || !$.isEmptyObject(data.user_id))) {
+                        //console.log("$.fn.userSpringForMeFriendship data[7].user_id -----> ", JSON.stringify(data[7].user_id));
+                        if (data[4] == '0') {
+                            //if (data.for_user_id == data[3]) $('.spring_make_friends').html('You pending friends' + actionDate);
+                            //if (data.for_user_id != data[3]) $('.spring_make_friends').html('Request friends' + actionDate);
+                            $('.spring_make_friends').html('Friends');
+                        }
+                        if (data[4] == '1') {
+                            //$('.spring_make_friends').html('<p>You friends<br/><small>' + actionDate + '</small></p>');
+                            $('.spring_make_friends').html('Pending');
+                        }
+                        if (data[4] == '2') {
+                            //if (data.for_user_id == data[3]) $('.spring_make_friends').html('Blocked by you ' + actionDate);
+                            //if (data.for_user_id != data[3]) $('.spring_make_friends').html('You Blocked' + actionDate);
+                            $('.spring_make_friends').html('Declined');
+                        }
+                        if (data[4] == '3') {
+                            //if (data.for_user_id == data[3]) $('.spring_make_friends').html('Blocked by you ' + actionDate);
+                            //if (data.for_user_id != data[3]) $('.spring_make_friends').html('You Blocked' + actionDate);
+                            $('.spring_make_friends').html('Blocked');
+                        }
+                    } else {
+                        $('.spring_make_friends').html('<a class="btn btn-sm align-middle btn-outline-secondary friend_request" user_id="' + data.user_id + '" href="https://api.vide.me/v2/friendship/request/?user_id=' + data.user_id + '&nad=' + $.cookie('vide_nad') + '">Make friends</a>');
+                    }
+                } else {
+                    console.log("$.fn.userSpringForMe data -----> no");
                     //tempObject.html("No results");
                 }
             })
@@ -225,7 +369,6 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 if (!$.isEmptyObject(data)) {
                     if (!$.isEmptyObject(data[0])) {
                         $('.spring_activity_posts').attr("href", "https://www.vide.me/" + url.spring + "/?show=posts");
-
                         $('.spring_activity_posts_value').html(data[0]);
                     }
                     if (!$.isEmptyObject(data[1])) {
@@ -233,16 +376,24 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         $('.spring_activity_video_value').html(data[1]);
                     }
                     if (!$.isEmptyObject(data[2])) {
-                        $('.spring_activity_article').attr("href", "https://www.vide.me/" + url.spring + "/?show=article");
-                        $('.spring_activity_article_value').html(data[2]);
+                        $('.spring_activity_image').attr("href", "https://www.vide.me/" + url.spring + "/?show=image");
+                        $('.spring_activity_image_value').html(data[2]);
                     }
                     if (!$.isEmptyObject(data[3])) {
-                        $('.spring_activity_relation_to').attr("href", "https://www.vide.me/" + url.spring + "/?show=followers");
-                        $('.spring_activity_relation_to_value').html(data[3]);
+                        $('.spring_activity_article').attr("href", "https://www.vide.me/" + url.spring + "/?show=article");
+                        $('.spring_activity_article_value').html(data[3]);
                     }
                     if (!$.isEmptyObject(data[4])) {
+                        $('.spring_activity_friends').attr("href", "https://www.vide.me/" + url.spring + "/?show=friends");
+                        $('.spring_activity_friends_value').html(data[4]);
+                    }
+                    if (!$.isEmptyObject(data[5])) {
+                        $('.spring_activity_relation_to').attr("href", "https://www.vide.me/" + url.spring + "/?show=followers");
+                        $('.spring_activity_relation_to_value').html(data[5]);
+                    }
+                    if (!$.isEmptyObject(data[6])) {
                         $('.spring_activity_relation_from').attr("href", "https://www.vide.me/" + url.spring + "/?show=following");
-                        $('.spring_activity_relation_from_value').html(data[4]);
+                        $('.spring_activity_relation_from_value').html(data[6]);
                     }
 
                     //$.fn.ownerSignUserInfo(data);
@@ -261,6 +412,60 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             //$.cookie('vide_nad')
             .always(function () {
             });
+    };
+
+    $.fn.myNetworkActivity = function () {
+        if ($.cookie('vide_nad')) {
+
+            var url = parseUrl();
+            //tempObject.html(VidemeProgress);
+            //==return this.each(function () {
+            //var tempObject = $(this);
+            $.getJSON("https://api.vide.me/v2/network/activity/?videmecallback=?",
+                function (data) {
+                    //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+                    //data = paddingUserInfo(data);
+                    console.log("$.fn.myNetworkActivity data: " + JSON.stringify(data));
+                    //$('.header-site').css('background-image', 'url(' + data.user_cover + ')');
+                    //$('.user_display_name').html('<a href=\"https://www.vide.me/' + data.spring + '\">' + data.user_display_name + '</a>');
+
+                    if (!$.isEmptyObject(data)) {
+                        console.log("$.fn.myNetworkActivity data[1]:" + data[1]);
+
+                        if (!$.isEmptyObject(data[0])) {
+                            $('.videme_nav_network_badge_friends').html(data[0]);
+                        }
+                        if (!$.isEmptyObject(data[1])) {
+                            if (data[1] > 0) {
+                                $('.videme_nav_network_badge_pend_friends').html(data[1]);
+                            }
+                        }
+                        if (!$.isEmptyObject(data[2])) {
+                            $('.videme_nav_network_badge_req_friends').html(data[2]);
+                        }
+                        if (!$.isEmptyObject(data[3])) {
+                            $('.videme_nav_network_badge_followers').html(data[3]);
+                        }
+                        if (!$.isEmptyObject(data[4])) {
+                            $('.videme_nav_network_badge_following').html(data[4]);
+                        }
+                        //$.fn.ownerSignUserInfo(data);
+                    } else {
+                        console.log("$.fn.myNetworkActivity data -----> no");
+                        //tempObject.html("No results");
+                    }
+                })
+                .done(function (data) {
+                    //console.log("$.fn.userSpringInfo: " + JSON.stringify(data));
+
+                })
+                .fail(function (data) {
+                    //tempObject.html(showError(data));
+                })
+                //$.cookie('vide_nad')
+                .always(function () {
+                });
+        }
     };
 
     $.fn.getAuthorized(); // TODO: Убрать повторное использование
@@ -319,12 +524,12 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         $.fn.showcaseVideoTextButton(paddingButtonOneTime(oneTimeInboxSettings));
     };
 
-    $.fn.showItemCard = function (options) {
+    $.fn.showItemCard = function (options) { // TODO: remove? no
         showItemCardSettings = $.extend({
-            showcaseItemCard: '#item-card'
+            showcaseItemCard: '.videme_item_card'
         }, options);
         //console.log("$.fn.showItemCard options -----> " + JSON.stringify(options));
-        //console.log("$.fn.showItemCard showItemCardSettings -----> " + JSON.stringify(showItemCardSettings));
+        console.log("$.fn.showItemCard showItemCardSettings -----> " + JSON.stringify(showItemCardSettings));
 
         if ($(this).length) {
             //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
@@ -334,16 +539,25 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             var tempObject = $(showItemCardSettings.showcaseItemCard);
         }
         //console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
-        tempObject.html(VidemeProgress);
-        $.fn.getItemInfo(showItemCardSettings, tempObject);
-    };
-
-    $.fn.getItemInfo = function (options, tempObject) {
-        //console.log("$.fn.getItemInfo options -----> " + JSON.stringify(options));
+        //tempObject.html(VidemeProgress);
+        //$.fn.getItemInfo(showItemCardSettings, tempObject);
         $.getJSON("https://api.vide.me/v2/items/info/?item_id=" + options.item_id + "&videmecallback=?",
             function (data) {
-                //console.log("$.fn.getItemInfo data -----> " + JSON.stringify(data));
-                tempObject.html($.fn.itemCard(data));
+                if (!$.isEmptyObject(data)) {
+                    //console.log("$.fn.getItemInfo data -----> " + JSON.stringify(data));
+                    tempObject.empty();
+                    var array = [];
+                    array[0] = data;
+
+                    //var courent_id = 0;
+                    var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+                    tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+                    showTileMultipleLI(parseDataArrayToObject(array), id_list_group, "shownext", 0);
+                } else {
+                    console.log("$.fn.showItemCard data -----> no");
+                    tempObject.html("No results");
+                }
             })
             .done(function (data) {
             })
@@ -352,32 +566,53 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
     };
 
-    $.fn.itemCard = function (options) {
+    /*$.fn.getItemInfo = function (options, tempObject) {
+        //console.log("$.fn.getItemInfo options -----> " + JSON.stringify(options));
+        $.getJSON("https://api.vide.me/v2/items/info/?item_id=" + options.item_id + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.getItemInfo data -----> " + JSON.stringify(data));
+                tempObject.html($.fn.itemCard(data, tempObject));
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                return false;
+            });
+    };
+
+    $.fn.itemCard = function (options, tempObject) {
         itemCardSettings = $.extend({
             authorized: authorized
         }, options);
         console.log("$.fn.itemCard itemCardSettings -----> " + JSON.stringify(itemCardSettings));
         //var element = options,
-        /*var attributes = {};
+        /!*var attributes = {};
         //$.each(element.get(0).attributes, function(i, attrib){
         $.each(options.get(0).attributes, function (i, attrib) {
             if (attrib.value) {
                 attributes[attrib.name] = attrib.value;
             }
-        });*/
+        });*!/
         //attributes = filter_array(attributes);
         //attributes = filter_obj(attributes);
         //attributes = attributes.filter(function(e){return e});
         //attributes = jQuery.grep(attributes, function(n){ return (n); });
-        /*var my_array = attributes.filter(function(x){
+        /!*var my_array = attributes.filter(function(x){
             return (x !== (undefined || null || ''));
-        });*/
+        });*!/
         //var tempObject = $(this);
-        options = paddingUserInfo(options);
+        var array = [];
+        array[0] = options;
+
+        showTileMultiple(parseDataArrayToObject(array), tempObject, "shownext");
+
+
+        /!*options = paddingUserInfo(options);
         console.log("$.fn.itemCard options -----> " + JSON.stringify(options));
 
-        if (options.type == 'article') var img = options.cover;
-        if (options.type == 'video') var img = 'https://s3.amazonaws.com/img.vide.me/' + options.item_id + '.jpg';
+        if (options.type == 'article') var img = 'https://s3.amazonaws.com/img.vide.me/' + options.cover;
+        if (options.type == 'video') var img = 'https://s3.amazonaws.com/img.vide.me/' + options.item_id + ".jpg";
+        if (options.type == 'image') var img = 'https://s3.amazonaws.com/img.vide.me/' + options.cover;
         //this.html(
         return (
             "<div class=\"card\" style=\"width: 18rem;\">\n" +
@@ -388,11 +623,11 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             "    <p class=\"card-text\">" + options.content + "</p>\n" +
             "    <p class=\"card-text\">" + options.created_at + "</p>\n" +
             "  </div>\n" +
-            "</div>");
+            "</div>");*!/
         //tempObject.html("$.fn.itemCard attributes -----> " + JSON.stringify(attributes));
         //return this;
         //return tempObject;
-    };
+    };*/
 
     $.fn.showNewRec = function (options) {
         showNewRecSettings = $.extend({
@@ -545,7 +780,288 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //==});
     };
 
-    $.fn.fileSent = function (options) {
+    $.fn.itemsInboxScroll = function (options) {
+        console.log("$.fn.itemsInboxScroll -----> ok");
+        fileInboxSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileInboxSettings.showcaseVideo);
+        }
+        console.log("$.fn.fileInbox tempObject -----> " + tempObject.length);
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        tempObject.html("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/message/inbox/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'message-inbox-url',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/message/inbox/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'message-inbox-url',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.itemsSentScroll = function (options) {
+        console.log("$.fn.itemsSentScroll -----> ok");
+        fileInboxSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileInboxSettings.showcaseVideo);
+        }
+        console.log("$.fn.itemsSentScroll tempObject -----> " + tempObject.length);
+        //tempObject.html(VidemeProgress);
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        tempObject.html("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/message/sent/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'message-sent-url',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/message/sent/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'message-sent-url',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.itemsMyVideosScroll = function (options) {
+        console.log("$.fn.itemsMyVideosScroll -----> ok");
+        fileInboxSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileInboxSettings.showcaseVideo);
+        }
+        console.log("$.fn.itemsMyVideosScroll tempObject -----> " + tempObject.length);
+        //tempObject.html(VidemeProgress);
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        tempObject.html("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/items/my/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'file-my-url',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                //$('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/items/my/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'file-my-url',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.itemsMyImagesScroll = function (options) {
+        console.log("$.fn.itemsMyImagesScroll -----> ok");
+        fileInboxSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileInboxSettings.showcaseVideo);
+        }
+        console.log("$.fn.itemsMyImagesScroll tempObject -----> " + tempObject.length);
+        //tempObject.html(VidemeProgress);
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        tempObject.html("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/items/my_images/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'file-my-url',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                //$('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/items/my_images/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'file-my-url',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.itemsMyArticlesScroll = function (options) {
+        console.log("$.fn.itemsMyArticlesScroll -----> ok");
+        fileInboxSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileInboxSettings.showcaseVideo);
+        }
+        console.log("$.fn.itemsMyArticlesScroll tempObject -----> " + tempObject.length);
+        //tempObject.html(VidemeProgress);
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        tempObject.html("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/items/my_article/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'article-my-url',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                //$('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/items/my_article/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'article-my-url',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.itemsMyPostsScroll = function (options) {
+        console.log("$.fn.itemsMyPostsScroll -----> ok");
+        fileInboxSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileInbox $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileInbox $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileInboxSettings.showcaseVideo);
+        }
+        console.log("$.fn.fileInbox tempObject -----> " + tempObject.length);
+        //tempObject.html(VidemeProgress);
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        tempObject.html("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/posts/my/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'post-my-url',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                //$('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/posts/my/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'post-my-url',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.fileSent = function (options) { // TODO: remove
         fileSentSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
@@ -583,7 +1099,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
     };
 
-    $.fn.fileMy = function (options) {
+    $.fn.fileMy = function (options) { // TODO: remove
         fileMySettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
@@ -621,7 +1137,287 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
     };
 
-    $.fn.fileMyConnectForFriends = function (options) {
+    $.fn.fileMyImages = function (options) { // TODO: remove
+        fileMyImagesSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseImages: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileMyImagesSettings.showcaseImages);
+        }
+        console.log("$.fn.fileMy tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/items/my_images/?limit=" + fileMyImagesSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-my-url"));
+                    //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+                } else {
+                    console.log("$.fn.fileMy data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.selectFromMyImages = function (options) {
+        // https://github.com/rvera/image-picker
+        selectFromMyImagessSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseImages: "#select-from-my-image"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(selectFromMyImagessSettings.showcaseImages);
+        }
+        console.log("$.fn.selectFromMyImages tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/items/my_images/?limit=" + selectFromMyImagessSettings.limit + "&videmecallback=?",
+            function (data) {
+                //var response_time = Math.round(performance.now() - start_time);
+                //$('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    //tempObject.imagepicker();
+
+                    //tempObject.html(showItemPrev(data));
+                    showItemPrev(data);
+                    //tempObject.html(showItemPrev(data)).imagepicker();
+                    //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+                    //$(".image-picker").imagepicker();
+                    /*$(".image-picker").append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + obj.cover + "'></option>")
+                        .attr("value", obj.item_id)
+                        .text(obj.title));*/
+                    /*$.each(data, function(i, obj) {
+
+                        /!*if(obj.image != null)
+                        {
+                            var imgSrc = obj.image;
+                        }else{
+                            imgSrc = '';
+                        }*!/
+                        //html.push("<img src=\"https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "\" alt=\"" + trueValue.title + "\" class=\"videme-item-prev-img_zzz img-thumbnail\">");
+
+                        $('.image-picker')
+                            .append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + obj.cover + "'></option>")
+                                .attr("value", obj.item_id)
+                                .text(obj.title));
+                    });*/
+                    $(".image-picker").imagepicker();
+
+                    //tempObject.imagepicker();
+                    //$(".image-picker").data('picker').sync_picker_with_select();
+                    //$(tempObject).imagepicker();
+                    //tempObject.imagepicker();
+                    //tempObject.data('picker').sync_picker_with_select();
+                } else {
+                    console.log("$.fn.selectFromMyImages data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //tempObject.html(showItemPrev(data)).imagepicker();
+        /*$.ajax({
+            type: "GET",
+            url: "https://api.vide.me/v2/items/my_images/",
+            dataType: 'json',
+            success: function(result){
+
+               $(".image-picker").empty();
+
+                $.each(result, function(i, obj) {
+
+                    if(obj.image != null)
+                    {
+                        var imgSrc = obj.image;
+                    }else{
+                        imgSrc = '';
+                    }
+                    //html.push("<img src=\"https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "\" alt=\"" + trueValue.title + "\" class=\"videme-item-prev-img_zzz img-thumbnail\">");
+
+           $('.image-picker')
+              .append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + obj.cover + "'></option>")
+                      .attr("value", obj.item_id)
+                       .text(obj.title));
+                });
+
+                $(".image-picker").imagepicker({
+                    show_label  : true
+                });
+
+            }});*/
+    };
+
+    $.fn.fileMyPosts = function (options) { // TODO: remove
+        fileMyPostsSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileMyPostsSettings.showcaseVideo);
+        }
+        console.log("$.fn.fileMyPosts tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/posts/my/?limit=" + fileMyPostsSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "my-posts-url"));
+                    //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+
+                    //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    if (data[0].type == 'video') {
+                        $.fn.showcaseVideoTextButton(paddingButtonMyPosts(data[0]));
+                    } else {
+                        $('.itemscope').addClass('hidden');
+                    }
+                } else {
+                    console.log("$.fn.fileMy data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.selectFromMyImagesCreateAlbum = function (options) {
+        selectFromMyImagessSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseImages: "#select-from-my-image-create-album"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.fileMy $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.fileMy $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(selectFromMyImagessSettings.showcaseImages);
+        }
+        console.log("$.fn.selectFromMyImages tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        //var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/items/my_images/?limit=" + selectFromMyImagessSettings.limit + "&videmecallback=?",
+            function (data) {
+                //var response_time = Math.round(performance.now() - start_time);
+                //$('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
+                    //tempObject.imagepicker();
+
+                    //tempObject.html(showItemPrev(data));
+                    showItemPrevCreateAlbum(data);
+                    //tempObject.html(showItemPrev(data)).imagepicker();
+                    //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
+                    //$(".image-picker").imagepicker();
+                    /*$(".image-picker").append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + obj.cover + "'></option>")
+                        .attr("value", obj.item_id)
+                        .text(obj.title));*/
+                    /*$.each(data, function(i, obj) {
+
+                        /!*if(obj.image != null)
+                        {
+                            var imgSrc = obj.image;
+                        }else{
+                            imgSrc = '';
+                        }*!/
+                        //html.push("<img src=\"https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "\" alt=\"" + trueValue.title + "\" class=\"videme-item-prev-img_zzz img-thumbnail\">");
+
+                        $('.image-picker')
+                            .append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + obj.cover + "'></option>")
+                                .attr("value", obj.item_id)
+                                .text(obj.title));
+                    });*/
+                    $(".image-picker-create-album").imagepicker();
+
+                    //tempObject.imagepicker();
+                    //$(".image-picker").data('picker').sync_picker_with_select();
+                    //$(tempObject).imagepicker();
+                    //tempObject.imagepicker();
+                    //tempObject.data('picker').sync_picker_with_select();
+                } else {
+                    console.log("$.fn.selectFromMyImages data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //tempObject.html(showItemPrev(data)).imagepicker();
+        /*$.ajax({
+            type: "GET",
+            url: "https://api.vide.me/v2/items/my_images/",
+            dataType: 'json',
+            success: function(result){
+
+               $(".image-picker").empty();
+
+                $.each(result, function(i, obj) {
+
+                    if(obj.image != null)
+                    {
+                        var imgSrc = obj.image;
+                    }else{
+                        imgSrc = '';
+                    }
+                    //html.push("<img src=\"https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "\" alt=\"" + trueValue.title + "\" class=\"videme-item-prev-img_zzz img-thumbnail\">");
+
+           $('.image-picker')
+              .append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + obj.cover + "'></option>")
+                      .attr("value", obj.item_id)
+                       .text(obj.title));
+                });
+
+                $(".image-picker").imagepicker({
+                    show_label  : true
+                });
+
+            }});*/
+    };
+
+    $.fn.fileMyConnectForFriends = function (options) { // IODO: remove
         fileMyConnectForFriendsSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
@@ -645,7 +1441,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     //if (data.length > 0) {
                     if ($.isEmptyObject(data)) {
                         //console.log("$.fn.fileMyConnect data -----> no");
-                        tempObject.html('');
+                        tempObject.empty();
                         $('.itemscope').hide();
                         tempObject.append('Create new connect:');
                         $('#videme-connect').removeClass('hidden');
@@ -657,7 +1453,23 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         var response_time = Math.round(performance.now() - start_time);
                         $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                         //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
-                        tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                        //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                        showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                        /*$(".video-js").each(function (videoIndex) {
+                            console.log("video-js each ");
+                            var videoId = $(this).attr("id");
+                            videojs(videoId).ready(function(){
+                                this.on("play", function(e) {
+                                    //pause other video
+                                    $(".video-js").each(function (index) {
+                                        if (videoIndex !== index) {
+                                            this.player.pause();
+                                        }
+                                    });
+                                    videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                                });
+                            });
+                        });*/
                         //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
                     }
                 })
@@ -698,6 +1510,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     //if (typeof data  !== 'undefined' && data.length > 0) {
                     //if (data.length > 0) {
                     if ($.isEmptyObject(data)) {
+                        tempObject.empty();
                         //console.log("$.fn.fileMyConnect data -----> no");
                         tempObject.html('');
                         $('.itemscope').hide();
@@ -710,8 +1523,25 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     } else {
                         var response_time = Math.round(performance.now() - start_time);
                         $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                        tempObject.empty();
                         //console.log("$.fn.fileMy data -----> yes" + JSON.stringify(data));
-                        tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                        //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                        showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                        /*$(".video-js").each(function (videoIndex) {
+                            console.log("video-js each ");
+                            var videoId = $(this).attr("id");
+                            videojs(videoId).ready(function(){
+                                this.on("play", function(e) {
+                                    //pause other video
+                                    $(".video-js").each(function (index) {
+                                        if (videoIndex !== index) {
+                                            this.player.pause();
+                                        }
+                                    });
+                                    videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                                });
+                            });
+                        });*/
                         //$.fn.showcaseVideoTextButton(paddingButtonMy(data[0]));
                     }
                 })
@@ -750,7 +1580,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             function (data) {
                 if (!$.isEmptyObject(data)) {
                     //console.log("$.fn.showPopConnect data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTileRelation(data, tempObject, showPopConnectSettings.size));
+                    tempObject.html(showTileRelation(data, tempObject, showPopConnectSettings.size, 'connect'));
                 } else {
                     console.log("$.fn.showPopConnect data -----> no");
                     tempObject.html("No results");
@@ -787,10 +1617,15 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         $.getJSON("https://api.vide.me/v2/connect/recommended/?limit=" + showConnectRecommendedSettings.limit + "&videmecallback=?",
             //$.getJSON("https://api.vide.me/v2/connect/recommended/?videmecallback=?",
             function (data) {
-                console.log("$.fn.showConnectRecommended data -----> " + JSON.stringify(data));
+                //console.log("$.fn.showConnectRecommended data -----> " + JSON.stringify(data));
                 if (!$.isEmptyObject(data)) {
                     $('.videme-connect-recommended-panel').removeClass('hidden');
-                    tempObject.html(showTileRelation(data, tempObject, showConnectRecommendedSettings.size));
+                    tempObject.html(showTileRelation(data, tempObject, showConnectRecommendedSettings.size, 'connect'));
+                    /*tempObject.html( // work
+                        showTileDoorbellSignSmall(
+                            parseRecommConnectForDoorbellSign(data), tempObject
+                        )
+                    );*/
                     /*tempObject.html(
                         showTileDoorbellSignSmall(
                             parseRelationsToMeForDoorbellSign(data), tempObject
@@ -808,7 +1643,161 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 }
             })
             .done(function (data) {
-                console.log("$.fn.showConnectRecommended done -----> " + JSON.stringify(data));
+                //console.log("$.fn.showConnectRecommended done -----> " + JSON.stringify(data));
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.showConnectRecommendedDBS = function (options) {
+        //console.log("$.fn.showConnectRecommended -----> start ");
+        var showConnectRecommendedSettings = $.extend({
+            size: 'small',
+            limit: 16,
+            showcaseVideo: "#videme-connect-recommended"
+        }, options);
+        if ($(this).length) {
+            //if (jQuery.isEmptyObject($(this))) {
+            //console.log("$.fn.showPopConnect $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showPopConnect $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showConnectRecommendedSettings.showcaseVideo);
+        }
+        //console.log("$.fn.showPopConnect tempObject -----> " + tempObject.length);
+        //console.log("$.fn.showPopConnect showPopConnectSettings -----> " + JSON.stringify(showPopConnectSettings));
+        tempObject.html(VidemeProgress);
+        //$('#videme-connect-recommended').html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/connect/recommended/?limit=" + showConnectRecommendedSettings.limit + "&videmecallback=?",
+            //$.getJSON("https://api.vide.me/v2/connect/recommended/?videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showConnectRecommended data -----> " + JSON.stringify(data));
+                if (!$.isEmptyObject(data)) {
+                    $('.videme-connect-recommended-panel').removeClass('hidden');
+                    //tempObject.html(showTileRelation(data, tempObject, showConnectRecommendedSettings.size, 'connect'));
+                    tempObject.html( // work
+                        showTileDoorbellSignSmall(
+                            parseRecommConnectForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    //console.log("$.fn.showPopConnect data -----> yes" + JSON.stringify(data));
+                    $('.videme-connect-recommended-panel').removeClass('hidden');
+                    //tempObject.showPopConnect({
+                    tempObject.showPopConnect({
+                        size: 'small',
+                        limit: 18
+                    });
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.showConnectRecommended done -----> " + JSON.stringify(data));
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.showFriendsRecommended = function (options) {
+        //console.log("$.fn.showConnectRecommended -----> start ");
+        var showFriendsRecommendedSettings = $.extend({
+            size: 'small',
+            limit: 16,
+            showcaseVideo: "#videme-friends-recommended"
+        }, options);
+        if ($(this).length) {
+            //if (jQuery.isEmptyObject($(this))) {
+            //console.log("$.fn.showPopConnect $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showPopConnect $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showFriendsRecommendedSettings.showcaseVideo);
+        }
+        //console.log("$.fn.showPopConnect tempObject -----> " + tempObject.length);
+        //console.log("$.fn.showPopConnect showPopConnectSettings -----> " + JSON.stringify(showPopConnectSettings));
+        tempObject.html(VidemeProgress);
+        //$('#videme-connect-recommended').html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/friendship/recommended/?limit=" + showFriendsRecommendedSettings.limit + "&videmecallback=?",
+            //$.getJSON("https://api.vide.me/v2/connect/recommended/?videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showFriendsRecommended data -----> " + JSON.stringify(data));
+                if (!$.isEmptyObject(data)) {
+                    $('.videme-friends-recommended-panel').removeClass('hidden');
+                    tempObject.html(showTileRelation(data, tempObject, showFriendsRecommendedSettings.size, 'friends-recommended'));
+                    /*tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseRelationsToMeForDoorbellSign(data), tempObject
+                    ));*/
+                    //$('#videme-connect-recommended').html(showTileRelation(data, tempObject, showConnectRecommendedSettings.size));
+                    //$('#videme-connect-recommended').html(showTileRelation(data, $('.videme-connect-recommended-panel'), 'small'));
+                } else {
+                    //console.log("$.fn.showPopConnect data -----> yes" + JSON.stringify(data));
+                    /*$('.videme-friends-recommended-panel').removeClass('hidden');
+                    //tempObject.showPopConnect({
+                    tempObject.showPopConnect({
+                        size: 'small',
+                        limit: 18
+                    });*/
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.showFriendsRecommended done -----> " + JSON.stringify(data));
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.showFriendsRecommendedDBS = function (options) {
+        //console.log("$.fn.showConnectRecommended -----> start ");
+        var showFriendsRecommendedSettings = $.extend({
+            size: 'small',
+            limit: 16,
+            showcaseVideo: "#videme-friends-recommended"
+        }, options);
+        if ($(this).length) {
+            //if (jQuery.isEmptyObject($(this))) {
+            //console.log("$.fn.showPopConnect $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showPopConnect $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showFriendsRecommendedSettings.showcaseVideo);
+        }
+        //console.log("$.fn.showPopConnect tempObject -----> " + tempObject.length);
+        //console.log("$.fn.showPopConnect showPopConnectSettings -----> " + JSON.stringify(showPopConnectSettings));
+        tempObject.html(VidemeProgress);
+        //$('#videme-connect-recommended').html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/friendship/recommended/?limit=" + showFriendsRecommendedSettings.limit + "&videmecallback=?",
+            //$.getJSON("https://api.vide.me/v2/connect/recommended/?videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showFriendsRecommended data -----> " + JSON.stringify(data));
+                if (!$.isEmptyObject(data)) {
+                    $('.videme-friends-recommended-panel').removeClass('hidden');
+                    tempObject.html(showTileRelation(data, tempObject, showFriendsRecommendedSettings.size, 'friends-recommended'));
+                    tempObject.html( // work
+                        showTileDoorbellSignSmall(
+                            parseRecommFriendsForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    //console.log("$.fn.showPopConnect data -----> yes" + JSON.stringify(data));
+                    $('.videme-friends-recommended-panel').removeClass('hidden');
+                    //tempObject.showPopConnect({
+                    tempObject.showPopConnect({
+                        size: 'small',
+                        limit: 18
+                    });
+                }
+            })
+            .done(function (data) {
+                //console.log("$.fn.showFriendsRecommended done -----> " + JSON.stringify(data));
             })
             .fail(function (data) {
                 tempObject.html(showError(data));
@@ -855,7 +1844,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
     };
 
-    $.fn.itemsOfSpring = function (options) {
+    $.fn.itemsOfSpring = function (options) { // TODO: remove
         itemsOfSpringSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
@@ -886,7 +1875,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 if (!$.isEmptyObject(data)) {
                     $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                     //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
                     $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
                 } else {
                     console.log("$.fn.postsOfSpring data -----> no");
@@ -902,7 +1891,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
         //==});
     };
-    $.fn.postsOfSpring = function (options) {
+    $.fn.postsOfSpring = function (options) { // TODO: remove
         fileSpringSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 6,
@@ -926,19 +1915,36 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         var url = parseUrl();
         //console.log("postsOfSpring url -----> " + JSON.stringify(url));
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/spring/posts/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/posts/?spring=" + url.spring + "&album=" + url.album + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
             function (data) {
                 var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (!$.isEmptyObject(data)) {
+                    tempObject.empty();
                     //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
-                    if (data[0].type == 'video') {
+                    //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    showTileMultiple(parseDataArrayToObject(data), tempObject, "file-spring-url");
+                    /*$(".video-js").each(function (videoIndex) {
+                        console.log("video-js each ");
+                        var videoId = $(this).attr("id");
+                        videojs(videoId).ready(function(){
+                            this.on("play", function(e) {
+                                //pause other video
+                                $(".video-js").each(function (index) {
+                                    if (videoIndex !== index) {
+                                        this.player.pause();
+                                    }
+                                });
+                                videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                            });
+                        });
+                    });*/
+                    /*if (data[0].type == 'video') {
                         $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
                     } else {
                         $('.itemscope').addClass('hidden');
-                    }
+                    }*/
                 } else {
                     console.log("$.fn.postsOfSpring data -----> no");
                     tempObject.html("No results");
@@ -953,7 +1959,470 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
         //==});
     };
-    $.fn.postsOfSpringVideoOnly = function (options) {
+    $.fn.postsShowNewScroll = function (options) { // TODO: remove ???
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        //console.log("$.fn.postsOfSpring -----> ok");
+
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        //console.log("$.fn.postsOfSpring tempObject -----> " + tempObject.length);
+        //console.log("$.fn.postsOfSpring spring -----> " + fileSpringSettings.spring);
+        //console.log("$.fn.postsOfSpring list -----> " + fileSpringSettings.list);
+        /*tempObject.html(VidemeProgress);
+        //==return this.each(function () {
+        //var tempObject = $(this);
+        var url = parseUrl();
+        //console.log("postsOfSpring url -----> " + JSON.stringify(url));
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/spring/posts/?spring=" + url.spring + "&album=" + url.album + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                var response_time = Math.round(performance.now() - start_time);
+                //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    tempObject.empty();
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
+                    showTileMultiple(parseDataArrayToObject(data), tempObject, "file-spring-url");
+                    /!*$(".video-js").each(function (videoIndex) {
+                        console.log("video-js each ");
+                        var videoId = $(this).attr("id");
+                        videojs(videoId).ready(function(){
+                            this.on("play", function(e) {
+                                //pause other video
+                                $(".video-js").each(function (index) {
+                                    if (videoIndex !== index) {
+                                        this.player.pause();
+                                    }
+                                });
+                                videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                            });
+                        });
+                    });*!/
+                    /!*if (data[0].type == 'video') {
+                        $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                    } else {
+                        $('.itemscope').addClass('hidden');
+                    }*!/
+                } else {
+                    console.log("$.fn.postsOfSpring data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+        //==});*/
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        var videmeUIpostShowNew = new Thing('Joe');
+
+        //==$('.tile').append("<ul class='list-group' id='" + id_list_group +"'>Page " + getItemOpt.page + "</ul>");
+        tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUIpostShowNew.doGetJSONTileMultipleLI(emptyConnectData,
+            "https://api.vide.me/v2/posts/shownew/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'showmulti',
+            offset,
+            tempObject);  // Alerts "Hi Joe" via `foo`
+
+        offset = offset + limit;
+
+// Each time the user scrolls
+        win.scroll(function () {
+// End of the document reached?
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+
+                /*$.ajax({
+                    url: 'https://api.vide.me/system/test/scroll_pagination.php?page=' + page,
+                    dataType: 'html',
+                    success: function (html) {
+                        $('#posts').append(html);
+                        $('#loading').hide();
+                    }
+                });*/
+                /*getItem("zzzzzzhttps://api.vide.me/v2/posts/shownew/?page=" + getItemOpt.page + "&limit=" + getItemOpt.limit + "&videmecallback=?",
+                    id_list_group,
+                    'shownext',
+                    page,
+                    showRecomendConnect);*/
+                /*===getItem("https://api.vide.me/v2/posts/shownew/?page=" + getItemOpt.page + "&limit=" + getItemOpt.limit + "&videmecallback=?",
+                    id_list_group,
+                    'shownext',
+                    page,
+                    showRecomendConnect());*/
+                videmeUIpostShowNew.doGetJSONTileMultipleLI(emptyConnectData,
+                    "https://api.vide.me/v2/posts/shownew/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'showmulti',
+                    offset,
+                    tempObject);  // Alerts "Hi Joe" via `foo`
+                offset = offset + limit;
+            }
+        });
+        /*===getItem("https://api.vide.me/v2/posts/shownew/?page=" + getItemOpt.page + "&limit=" + getItemOpt.limit + "&videmecallback=?",
+            id_list_group,
+            'shownext',
+            page,
+            showRecomendConnect());*/
+        /*getItem("https://zzzzzzapi.vide.me/v2/posts/shownew/?page=" + getItemOpt.page + "&limit=" + getItemOpt.limit + "&videmecallback=?",
+            id_list_group,
+            page,
+            showRecomendConnect);*/
+        /*getItem(
+            showRecomendConnect('zzz'));*/
+        /*var callback = function () {
+            showRecomendConnect(grading_company);
+        };*/
+    };
+
+    $.fn.postsMyConnectScroll = function (options) {
+        fileSpringSettings = $.extend({
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        //console.log("$.fn.postsOfSpring -----> ok");
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+        //var target = "https://api.vide.me/v2/items/connect/?offset=" + getItemOpt.offset + "&limit=" + getItemOpt.limit + "&videmecallback=?";
+        //==========================================
+        /*win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyConnectData,
+                    "https://api.vide.me/v2/items/connect/?offset=" + getItemOpt.offset + "&limit=" + getItemOpt.limit + "&videmecallback=?",
+                    id_list_group,
+                    'shownext',
+                    offset,
+                    tempObject);
+                offset = offset + getItemOpt.limit;
+                getItemOpt.offset = getItemOpt.offset + getItemOpt.limit;
+            }
+        });
+        videmeUI.doGetJSONTileMultipleLI(emptyConnectData,
+            "https://api.vide.me/v2/items/connect/?offset=" + getItemOpt.offset + "&limit=" + getItemOpt.limit + "&videmecallback=?",
+            id_list_group,
+            'shownext',
+            offset,
+            tempObject);
+        offset = offset + getItemOpt.limit;
+        getItemOpt.offset = getItemOpt.offset + getItemOpt.limit;*/
+        //==================
+        $.getJSON("https://api.vide.me/v2/items/connect/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            function (data) {
+                //console.log("postsOfSpringVideoOnlyMultiple data -----> " + JSON.stringify(data));
+                //var response_time = Math.round(performance.now() - start_time);
+                //$('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    //tempObject.empty();
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    //tempObject.html(showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext"));
+                    //===showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                    $('.videme-tile-title').html('Updates');
+
+                    showTileMultipleLI(parseDataArrayToObject(data), id_list_group, 'showmulti', offset);
+                    //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                    offset = offset + limit;
+
+                    win.scroll(function () {
+                        if ($(document).height() - win.height() == win.scrollTop()) {
+                            //$('#loading').show();
+                            $('.videme-scroll-progress').html(VidemeProgress);
+                            videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                                "https://api.vide.me/v2/items/connect/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                                id_list_group,
+                                'showmulti',
+                                offset,
+                                tempObject);
+                            offset = offset + limit;
+                        }
+                    });
+                } else {
+                    console.log("$.fn.postsMyConnectScroll data -----> no");
+                    //$('.videme-connect').showPopConnect({});
+                    $('.videme-tile-title').html('New posts');
+                    if ($.cookie('vide_nad')) {
+                        //$('<div class="alert alert-primary" role="alert">You do not yet have connections. <a href="https://www.vide.me/web/recommended_friends/">Add new connection</a></div>').appendTo('.videme-tile-title');
+                        $('.videme-tile-title').before('<div class="alert alert-primary videme-tips-alert" role="alert">You do not yet have connections. <a href="https://www.vide.me/web/recommended_friends/">Add new connection</a></div><br/>');
+                    }
+
+
+                    var videmeUIpostShowNew = new Thing('Joe');
+
+                    videmeUIpostShowNew.doGetJSONTileMultipleLI(emptyConnectData,
+                        "https://api.vide.me/v2/posts/shownew/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                        id_list_group,
+                        'showmulti',
+                        offset,
+                        tempObject);  // Alerts "Hi Joe" via `foo`
+
+                    offset = offset + limit;
+                    win.scroll(function () {
+// End of the document reached?
+                        if ($(document).height() - win.height() == win.scrollTop()) {
+                            //$('#loading').show();
+                            $('.videme-scroll-progress').html(VidemeProgress);
+                            videmeUIpostShowNew.doGetJSONTileMultipleLI(emptyConnectData,
+                                "https://api.vide.me/v2/posts/shownew/?offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                                id_list_group,
+                                'showmulti',
+                                offset,
+                                tempObject);  // Alerts "Hi Joe" via `foo`
+
+                            offset = offset + limit;
+                        }
+                    });
+                }
+
+            })
+            .done(function (data) {
+                $('.videme-scroll-progress').empty();
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+                //callback.call(self, url, id_list_group);
+                //==Xcallback.call(self, url, tempObject);
+            })
+            .always(function () {
+            });
+    };
+
+    $.fn.postsOfSpringScroll = function (options) {
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        //console.log("$.fn.postsOfSpring -----> ok");
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        var url = parseUrl();
+        tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/spring/posts/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'showmulti',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/spring/posts/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'showmulti',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.postsOfSpringVideoScroll = function (options) {
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        //console.log("$.fn.postsOfSpring -----> ok");
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        var url = parseUrl();
+        tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/spring/video/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'showmulti',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/spring/video/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'showmulti',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.postsOfSpringImageScroll = function (options) {
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        //console.log("$.fn.postsOfSpring -----> ok");
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        var url = parseUrl();
+        tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/spring/image/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'showmulti',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/spring/image/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'showmulti',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    $.fn.postsOfSpringArticleScroll = function (options) {
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 6,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        //console.log("$.fn.postsOfSpring -----> ok");
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        var li = 1;
+        var win = $(window);
+        var getItemOpt = [];
+        var offset = 0;
+        var limit = 4;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        var url = parseUrl();
+        tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+        videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+            "https://api.vide.me/v2/spring/article/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+            id_list_group,
+            'showmulti',
+            offset,
+            tempObject);
+        offset = offset + limit;
+
+        win.scroll(function () {
+            if ($(document).height() - win.height() == win.scrollTop()) {
+                //$('#loading').show();
+                $('.videme-scroll-progress').html(VidemeProgress);
+                videmeUI.doGetJSONTileMultipleLI(emptyItemsData,
+                    "https://api.vide.me/v2/spring/article/?spring=" + url.spring + "&album=" + url.album + "&offset=" + offset + "&limit=" + limit + "&videmecallback=?",
+                    id_list_group,
+                    'showmulti',
+                    offset,
+                    tempObject);
+                offset = offset + limit;
+            }
+        });
+    };
+
+    function emptyConnectData(salutation, tempObject) {
+        //alert(salutation + " " + this.name);
+        console.log(salutation + " " + this.name333);
+        //$('#' + id_list_group).html('dddsd');
+        //tempObject.html('dddsd');
+        $('.videme-connect').showPopConnect({});
+        tempObject.append($.fn.postsShowNewScroll({}));
+    }
+
+    function emptyItemsData(salutation, tempObject) {
+        //alert(salutation + " " + this.name);
+        console.log(salutation + " " + this.name333);
+        //$('#' + id_list_group).html('dddsd');
+        //tempObject.html('No public items ');
+        //$('.videme-connect').showPopConnect({});
+        // erase of tile tempObject.html('No items');
+    }
+
+    $.fn.postsOfSpringVideoOnly = function (options) { // TODO: remove
         fileSpringSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 16,
@@ -969,15 +2438,181 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         tempObject.html(VidemeProgress);
         var url = parseUrl();
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/spring/video/?spring=" + url.spring + "&list=" + url.list + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/video/?spring=" + url.spring + "&album=" + url.album + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
             function (data) {
                 //console.log("postsOfSpringVideoOnly data -----> " + JSON.stringify(data));
                 var response_time = Math.round(performance.now() - start_time);
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (!$.isEmptyObject(data)) {
-                    console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
-                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
-                    $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                    tempObject.empty();
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                    showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                    //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                } else {
+                    console.log("$.fn.postsOfSpring data -----> no");
+                    tempObject.html("No results");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+    $.fn.postsOfSpringVideoOnlyMultiple = function (options) {
+        //console.log("$.fn.postsOfSpringVideoOnlyMultiple -----> yes");
+
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 16,
+            showcaseVideo: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseVideo);
+        }
+        tempObject.html(VidemeProgress);
+        var url = parseUrl();
+        var start_time = performance.now();
+        //$.getJSON("https://api.vide.me/v2/spring/video/?spring=" + url.spring + "&album=" + url.album + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/video/?spring=julianoferreira&album=" + url.album + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("postsOfSpringVideoOnlyMultiple data -----> " + JSON.stringify(data));
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    tempObject.empty();
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    //tempObject.html(showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext"));
+                    showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                    //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                } else {
+                    console.log("$.fn.postsOfSpring data -----> no");
+                    tempObject.html("No results");
+                }
+                /*$(".video-js").each(function (videoIndex) {
+                    // true place
+                    console.log("video-js each ");
+
+                    var videoId = $(this).attr("id");
+
+                    //var video_player = videojs(videoId).ready(function(){
+                    videojs(videoId).ready(function(){
+                        this.on("play", function(e) {
+                            //pause other video
+                            $(".video-js").each(function (index) {
+                                if (videoIndex !== index) {
+                                    this.player.pause();
+                                }
+                            });
+                            //var pl = this;
+                            videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                            //videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.player.currentTime());
+                            //videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentTime());
+                            //scrollSetting(miniPlayer);                            //miniPlayer.hide();
+                            /!*miniPlayer.muted(true);
+                            miniPlayer.src({
+                                //type: "video/mp4",
+                                type: "application/x-mpegURL",
+                                //src: sourseURL + showcaseVideoSettings.file + messageAdd
+                                //src: sourseURL + showcaseVideoSettings.video + '.mp4' // TODO: add message_id
+                                src: this.currentSrc()
+                                /!*"width": width,
+                                "height": width * (360 / 640)*!/
+                            });
+                            miniPlayer.load();
+                            miniPlayer.play();*!/
+
+                        });
+
+                    });
+
+                    /!*video_player.src({
+                        //type: "video/mp4",
+                        type: "application/x-mpegURL",
+                        //src: sourseURL + showcaseVideoSettings.file + messageAdd
+                        //src: sourseURL + showcaseVideoSettings.video + '.mp4' // TODO: add message_id
+                        src: 'https://s3.amazonaws.com/video.vide.me/' + showcaseVideoSettings.video + '.m3u8' // TODO: add message_id
+                    });
+                    video_player.controls(true);
+                    video_player.load();
+                    video_player.play();
+                    /!*video_player.on('ended', function () {
+                        /!*
+                         showcasePlayerFunc.src({
+                         type: "video/mp4",
+                         src: "https://r7.cf1.rackcdn.com/.mp4"
+                         });
+                         showcasePlayerFunc.load();
+                         showcasePlayerFunc.play();*!/
+                    });*!/
+
+                    video_player.on('ended', function() {
+                        videojs.log('Awww...over so soon?!');
+                    });*!/
+
+                });*/
+
+                //var miniPlayer = videojs('my_video2');
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+
+        /*function resizeVideoJS(myPlayer) { // TODO: Их два тут
+            // TODO: На как-то так $(this).parent().width()
+            var width = document.getElementById(myPlayer.id()).parentElement.offsetWidth;
+            myPlayer.width(width).height(width * (360 / 640));
+        }*/
+
+        function scrollSetting(miniPlayer) {
+            if ($(window).scrollTop() > 100) {
+                $("#closevideo").removeClass('hidden');
+                miniPlayer.show();
+            } else {
+                $("#closevideo").addClass('hidden');
+                // $( \"video-down\" ).addClass(\"my_video_hidden\");
+                miniPlayer.hide();
+            }
+        }
+    };
+    $.fn.postsOfSpringImageOnly = function (options) { // TODO: remove
+        fileSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 16,
+            showcaseImage: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.postsOfSpring $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.postsOfSpring $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(fileSpringSettings.showcaseImage);
+        }
+        tempObject.html(VidemeProgress);
+        var url = parseUrl();
+        var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/spring/image/?spring=" + url.spring + "&album=" + url.album + "&limit=" + fileSpringSettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("postsOfSpringVideoOnly data -----> " + JSON.stringify(data));
+                var response_time = Math.round(performance.now() - start_time);
+                $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    tempObject.empty();
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                    showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                    //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
                 } else {
                     console.log("$.fn.postsOfSpring data -----> no");
                     tempObject.html("No results");
@@ -1036,7 +2671,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             .always(function () {
             });
     };
-    $.fn.postsOfSpringArticleOnly = function (options) {
+    $.fn.postsOfSpringArticleOnly = function (options) { // TODOL remove
         postsOfSpringArticleOnlySettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 16,
@@ -1052,14 +2687,16 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         tempObject.html(VidemeProgress);
         var url = parseUrl();
         var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/spring/article/?spring=" + url.spring + "&list=" + url.list + "&limit=" + postsOfSpringArticleOnlySettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/spring/article/?spring=" + url.spring + "&album=" + url.album + "&limit=" + postsOfSpringArticleOnlySettings.limit + "&videmecallback=?",
             function (data) {
                 //console.log("postsOfSpringVideoOnly data -----> " + JSON.stringify(data));
                 var response_time = Math.round(performance.now() - start_time);
                 $('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
                 if (!$.isEmptyObject(data)) {
-                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "file-spring-url"));
-                    $.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                    tempObject.empty();
+                    //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                    showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                    //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
                 } else {
                     tempObject.html("No results");
                 }
@@ -1169,17 +2806,12 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         $.getJSON("https://api.vide.me/upload/getmytask/sendmail/?limit=" + showMyTaskVideoSettings.limit + "&videmecallback=?",
             function (data) {
                 if (data) {
-                    var htmlResult = [];
-                    var rowClass;
-
-                    var db = (
-                        showTileDoorbellSignSmall(
-                            parseMyTaskSendmailForDoorbellSign(data), tempObject
-                        )
-                    );
-                    tempObject.html(db);
+                    //var htmlResult = [];
+                    //var rowClass;
+                    tempObject.html(showTileDoorbellSignSmall(parseMyTaskSendmailForDoorbellSign(data), tempObject));
+                    //tempObject.html(db);
                 } else {
-                    tempObject.html("No results");
+                    tempObject.html("");
                 }
             })
             .done(function (data) {
@@ -1377,29 +3009,64 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
         // TODO: Add limit
-        $.getJSON("https://api.vide.me/v2/post/shownew/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/posts/shownew/?videmecallback=?",
             function (jsonData) {
                 //console.log("$.fn.showNewPostsPagination data -----> " + JSON.stringify(jsonData));
+                tempObjectNewPosts.empty();
+                if (!$.isEmptyObject(jsonData)) {
 
-                /* Показать первый расклад */
+                    /* Показать первый расклад */
 
-                /* Всё слепить и показать */
-                tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(0, showNewPostsPaginationSettings.limit)), tempObjectNewPosts, "shownext"));
-
-                /* Вычисилить максимальное число страниц */
-                var pagetotal = Math.ceil(jsonData.length / showNewPostsPaginationSettings.limit);
-                /* Объявить экземпляр пейджинатора */
-                $('.videme-shownew-pagination').jqPagination({
-                    //link_string	: '/?page={page_number}',
-                    max_page: pagetotal,
-                    paged: function (page) {
-                        var skip = (page - 1) * showNewPostsPaginationSettings.limit;
-                        skip2 = skip;
-                        limit = skip2 + showNewPostsPaginationSettings.limit;
-                        console.log("$.fn.showNewPostsPagination jqPagination -----> skip: " + skip);
-                        tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectNewPosts, "shownext"));
-                    }
-                });
+                    /* Всё слепить и показать */
+                    //tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(0, showNewPostsPaginationSettings.limit)), tempObjectNewPosts, "shownext"));
+                    showTileMultiple(parseDataArrayToObject(jsonData.slice(0, showNewPostsPaginationSettings.limit)), tempObjectNewPosts, "shownext");
+                    /*$(".video-js").each(function (videoIndex) {
+                        console.log("video-js each ");
+                        var videoId = $(this).attr("id");
+                        videojs(videoId).ready(function(){
+                            this.on("play", function(e) {
+                                //pause other video
+                                $(".video-js").each(function (index) {
+                                    if (videoIndex !== index) {
+                                        this.player.pause();
+                                        //--this.pause();
+                                    }
+                                });
+                                videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                            });
+                        });
+                    });*/
+                    /* Вычисилить максимальное число страниц */
+                    var pagetotal = Math.ceil(jsonData.length / showNewPostsPaginationSettings.limit);
+                    /* Объявить экземпляр пейджинатора */
+                    $('.videme-shownew-pagination').jqPagination({
+                        //link_string	: '/?page={page_number}',
+                        max_page: pagetotal,
+                        paged: function (page) {
+                            var skip = (page - 1) * showNewPostsPaginationSettings.limit;
+                            skip2 = skip;
+                            limit = skip2 + showNewPostsPaginationSettings.limit;
+                            console.log("$.fn.showNewPostsPagination jqPagination -----> skip: " + skip);
+                            //tempObjectNewPosts.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectNewPosts, "shownext"));
+                            showTileMultiple(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectNewPosts, "shownext");
+                            /*$(".video-js").each(function (videoIndex) {
+                                console.log("video-js each ");
+                                var videoId = $(this).attr("id");
+                                videojs(videoId).ready(function(){
+                                    this.on("play", function(e) {
+                                        //pause other video
+                                        $(".video-js").each(function (index) {
+                                            if (videoIndex !== index) {
+                                                this.player.pause();
+                                            }
+                                        });
+                                        videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                                    });
+                                });
+                            });*/
+                        }
+                    });
+                }
             })
             .done(function (data) {
             })
@@ -1437,7 +3104,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //console.log("$.fn.showNewVideoPagination showNewVideoSettings -----> " + JSON.stringify(showNewVideoSettings));
         //console.log("$.fn.showNewVideoPagination data -----> " + JSON.stringify(data));
         // TODO: Add limit
-        $.getJSON("https://api.vide.me/v2/post/new_article/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/posts/new_article/?videmecallback=?",
             function (jsonData) {
                 //console.log("$.fn.showNewArticlePagination data -----> " + JSON.stringify(jsonData));
 
@@ -1500,7 +3167,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
         //$.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
-        $.getJSON("https://api.vide.me/v2/post/showpop/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/posts/showpop/?videmecallback=?",
             function (jsonData) {
                 //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
                 //tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
@@ -1556,24 +3223,61 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(data));
 
         //$.getJSON("https://api.vide.me/file/showpop/?videmecallback=?",
-        $.getJSON("https://api.vide.me/v2/post/show_pop_video/?videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/posts/show_pop_video/?videmecallback=?",
             function (jsonData) {
-                //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
-                //tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
-                tempObjectPopVideo.html(showTile(parseDataArrayToObject(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
-                var pagetotal = Math.ceil(jsonData.length / showPopVideoPaginationSettings.limit); //example=2
-                $('.videme-showpop-pagination').jqPagination({
-                    //link_string	: '/?page={page_number}',
-                    max_page: pagetotal,
-                    paged: function (page) {
-                        var skip = (page - 1) * showPopVideoPaginationSettings.limit;
-                        skip2 = skip;
-                        limit = skip2 + showPopVideoPaginationSettings.limit;
-                        console.log("$.fn.showPopVideoPagination jqPagination -----> skip: " + skip);
-                        //tempObjectPopVideo.html(showTile(parseFileMy(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
-                        tempObjectPopVideo.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
-                    }
-                });
+                tempObjectPopVideo.empty();
+                if (!$.isEmptyObject(jsonData)) {
+
+                    //console.log("$.fn.showPopVideoPagination data -----> " + JSON.stringify(jsonData));
+                    //tempObjectPopVideo.html(showTile(parseFileMy(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
+                    //tempObjectPopVideo.html(showTile(parseDataArrayToObject(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext"));
+                    showTileMultiple(parseDataArrayToObject(jsonData.slice(0, showPopVideoPaginationSettings.limit)), tempObjectPopVideo, "shownext");
+                    /*$(".video-js").each(function (videoIndex) {
+                        console.log("video-js each ");
+                        var videoId = $(this).attr("id");
+                        videojs(videoId).ready(function(){
+                            this.on("play", function(e) {
+                                //pause other video
+                                $(".video-js").each(function (index) {
+                                    if (videoIndex !== index) {
+                                        this.player.pause();
+                                        //this.pause();
+                                    }
+                                });
+                                videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                            });
+                        });
+                    });*/
+                    var pagetotal = Math.ceil(jsonData.length / showPopVideoPaginationSettings.limit); //example=2
+                    $('.videme-showpop-pagination').jqPagination({
+                        //link_string	: '/?page={page_number}',
+                        max_page: pagetotal,
+                        paged: function (page) {
+                            var skip = (page - 1) * showPopVideoPaginationSettings.limit;
+                            skip2 = skip;
+                            limit = skip2 + showPopVideoPaginationSettings.limit;
+                            console.log("$.fn.showPopVideoPagination jqPagination -----> skip: " + skip);
+                            //tempObjectPopVideo.html(showTile(parseFileMy(b.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
+                            //tempObjectPopVideo.html(showTile(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectPopVideo, "shownext"));
+                            showTileMultiple(parseDataArrayToObject(jsonData.slice(skip2, limit)), tempObjectPopVideo, "shownext");
+                            /*$(".video-js").each(function (videoIndex) {
+                                console.log("video-js each ");
+                                var videoId = $(this).attr("id");
+                                videojs(videoId).ready(function(){
+                                    this.on("play", function(e) {
+                                        //pause other video
+                                        $(".video-js").each(function (index) {
+                                            if (videoIndex !== index) {
+                                                this.player.pause();
+                                            }
+                                        });
+                                        videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                                    });
+                                });
+                            });*/
+                        }
+                    });
+                }
             })
             .done(function (data) {
             })
@@ -1585,7 +3289,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //==});
     };
 
-    $.fn.showNextVideoPagination = function (options) {
+    $.fn.showNextVideoPagination = function (options) { // TOOD: recreate
         console.log("$.fn.showNextVideoPagination -----> ok");
         showNextVideoPaginationSettings = $.extend({
             // TODO: добавить limit в NAD
@@ -1617,7 +3321,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //==$.cookie("vide_prev_file", file, {expires: 14, path: '/', domain: 'vide.me', secure: true});
 
         //$.getJSON("https://api.vide.me/file/shownext/?prevfile=" + prevfile + "&file=" + file + "&videmecallback=?",
-        $.getJSON("https://api.vide.me/v2/post/shownext/?prev_item_id=" + showNextVideoPaginationSettings.prev_item_id + "&next_item_id=" + showNextVideoPaginationSettings.next_item_id + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/posts/shownext/?prev_item_id=" + showNextVideoPaginationSettings.prev_item_id + "&next_item_id=" + showNextVideoPaginationSettings.next_item_id + "&videmecallback=?",
 
             function (jsonData) {
                 console.log("$.fn.showNextVideoPagination data -----> " + JSON.stringify(jsonData));
@@ -1642,6 +3346,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     });
                 } else {
                     tempObjectNextVideo.parent().hide("slow");
+                    //$('.videme-shownext-pagination').parent().hide("slow");
                 }
             })
             .done(function (data) {
@@ -1806,7 +3511,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         };
     */
 
-    function showTile(showFile, tempObject, actionUrlClass) {
+    function showTile(showFile, tempObject, actionUrlClass) { // TODO: remove
         console.log("showTile tempObject.width() -----> " + tempObject.width());
         if (tempObject.width() < 500) {
             var tempObjectClass = " videme-narrow-tile";
@@ -1819,7 +3524,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //showFile = $.parseJSON(showFile);
         //console.log("showTile showFile parseJSON -----> " + JSON.stringify(showFile));
         //maxTile = (maxTile - 1) || 18;
-        html.push("<ul class=\'list-group\'>");
+        html.push("<ul class='list-group'>");
         $.each(showFile, function (key, value) {
             //console.log("value.Message --- " + JSON.stringify(value.Message));
             //console.log("showTile value ---> " + JSON.stringify(value));
@@ -1872,6 +3577,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             }*/
             var href;
             var img;
+            var trueActionClass;
             //if (value.messageid) {
             //if (value.indexOf("messageid")) {
             //if ("messageid" in value) {
@@ -1881,8 +3587,10 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 } else {
                     href = "https://www.vide.me/a/?a=" + value.href;
                 }
-                img = value.cover;
-            } else {
+                //img = value.cover;
+                img = 'https://s3.amazonaws.com/img.vide.me/' + value.cover;
+                trueActionClass = 'article-url';
+            } else if (value.type === 'video') {
                 if (value.message_id && value.message_id != "undefined") {
                     href = "https://www.vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
                 } else {
@@ -1893,7 +3601,21 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 } else {
                     href = "https://www.vide.me/v?m=" + value.href;
                 }
-                img = "https://s3.amazonaws.com/img.vide.me/" + value.img + ".jpg";
+                img = "https://s3.amazonaws.com/img.vide.me/" + value.item_id + ".jpg";
+                trueActionClass = actionUrlClass;
+            } else if (value.type === 'image') {
+                if (value.message_id && value.message_id != "undefined") {
+                    href = "https://www.vide.me/i/?i=" + value.href + "&message_id=" + value.message_id;
+                } else {
+                    href = "https://www.vide.me/i/?i=" + value.href;
+                }
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://www.vide.me/i/?i=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://www.vide.me/i/?i=" + value.href;
+                }
+                img = "https://s3.amazonaws.com/img.vide.me/" + value.cover;
+                trueActionClass = 'image-url';
             }
             if (value.tags) {
                 //console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
@@ -1997,6 +3719,15 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 value = paddingButtonSent(value);
                 //console.log("showTile value -----> " + JSON.stringify(value));
             }
+            if (actionUrlClass == 'file-spring-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
             if (actionUrlClass == 'article') {
                 value.dropdown = {
                     'dd_item_1': 'send',
@@ -2007,9 +3738,20 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 //console.log("showTile value -----> " + JSON.stringify(value));
             }
 
+            if (actionUrlClass == 'my-posts-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': 'share',
+                    'dd_item_3': 'delete-my-post'
+                };
+                value.key = key;
+                value = paddingButtonMyPosts(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+
             html.push("<li class='list-group-item videme-tile-item'>" +
                 "<a href='https://www.vide.me/" + value.spring + "'>" +
-                "<img src='https://s3.amazonaws.com/users.vide.me/" + value.user_id + "_user_picture.jpg' alt='' class='img-thumbnail videme-relation-card-img'>" +
+                "<img src='https://s3.amazonaws.com/img.vide.me/" + value.user_picture + "' alt='' class='img-thumbnail videme-relation-card-img'>" +
                 "</a>" +
                 "<div class='videme-tile-item-1-line'>" +
                 "<div class='font-weight-bold videme-tile-item-user'>" +
@@ -2026,7 +3768,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 "</div>" +
                 "<div class='box" + tempObjectClass + "'>\
                 <div class='boxInner'>\
-				<a class='" + actionUrlClass + "' \
+				<a class='" + trueActionClass + "' \
 						video='" + value.video + "' \
 						message_id='" + value.message_id + "' \
 						user_display_name='" + value.user_display_name + "' \
@@ -2038,7 +3780,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                         item_id='" + value.item_id + "' \
                         post_id='" + value.post_id + "' \
                         spring='" + value.spring + "' \
-                        user_picture='https://s3.amazonaws.com/users.vide.me/" + value.user_id + "_user_picture.jpg' \
+                        user_picture='https://s3.amazonaws.com/img.vide.me/" + value.user_picture + "'\
                         to_user_id='" + value.to_user_id + "' \
                         from_user_id='" + value.from_user_id + "' \
                         from_user_display_name='" + value.from_user_display_name + "' \
@@ -2077,16 +3819,1116 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         return html.join('');
     }
 
-    function showTileRelation(relationArray, tempObject, size) {
-        console.log('showTileRelation tempObject.width ---> ' + tempObject.width());
-        console.log('showTileRelation size ---> ' + size);
+    function showTileMultiple(showFile, tempObject, actionUrlClass) { // TODO: remove
+        //console.log("showTile tempObject.width() -----> " + tempObject.width());
+        if (tempObject.width() < 500) {
+            var tempObjectClass = " videme-narrow-tile";
+        } else {
+            var tempObjectClass = "";
+        }
+        var html = [];
+        var courent_id = 0;
+        var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+        //var $newdiv1 = $( "<ul class='list-group'>" ),
+        //    newdiv2 = document.createElement( "li" )/*,
+        //    existingdiv1 = document.getElementById( "foo" )*/;
+
+        //var cList = $('ul.videme-list-g');
+
+        console.log("showTile showFile.length -----> " + showFile.length);
+        //console.log("showTile showFile -----> " + JSON.stringify(showFile));
+        //showFile = $.parseJSON(showFile);
+        //console.log("showTile showFile parseJSON -----> " + JSON.stringify(showFile));
+        //maxTile = (maxTile - 1) || 18;
+        //html.push("<ul class='list-group' id='" + id_list_group +"'>ddd");
+        //html.push("<ul class='list-group' id='tile_video'>");
+        //==tempObject.append("<ul class='list-group' id='tile_video'>ttteeesssttt</ul>");
+        //tempObject.append("<p>test</p>");
+        tempObject.append("<ul class='list-group' id='" + id_list_group + "'></ul>");
+        $.each(showFile, function (key, value) {
+            courent_id = courent_id + 1;
+            //console.log("value.Message --- " + JSON.stringify(value.Message));
+            //console.log("showTile value ---> " + JSON.stringify(value));
+            //console.log("showTile value.video_duration ---> " + JSON.stringify(value.created_at));
+            //if (d > maxTile) return false;
+            var a;
+            if (value.a) {
+                a = value.a + "<br>";
+            } else {
+                a = "";
+            }
+            var b;
+            if (value.b) {
+                b = value.b + "<br>";
+            } else {
+                b = "";
+            }
+            var c;
+            if (value.c) {
+                c = value.c + "<br>";
+            } else {
+                c = "";
+            }
+            var d;
+            if (value.d) {
+                //d = convertTimestamp(value.d) + "<br>";
+                d = value.d + "<br>";
+            } else {
+                d = "";
+            }
+            /*var spring;
+            if (value.spring) {
+                spring = value.spring;
+            } else {
+                spring = '';
+            }
+            var videoDuration;
+            if (value.video_duration) {
+                videoDuration = sec2str(value.video_duration) + "<br>";
+            } else {
+                videoDuration = "";
+            }
+            var created_at;
+            if (value.created_at) {
+                var currentTime = Date();
+                //created_at = timeToWord(value.created_at);
+                created_at = value.created_at;
+            } else {
+                created_at = "";
+            }*/
+            var href;
+            var img;
+            var trueActionClass;
+            var likes = '';
+            var post_type = '';
+            var reposts_count = '';
+            if (value.likes_count == 0) {
+                likes = '';
+            } else {
+                likes = value.likes_count;
+            }
+            if (value.reposts_count == 0) {
+                reposts_count = '';
+            } else {
+                reposts_count = value.reposts_count;
+            }
+            if (value.post_type == 'update') {
+                post_type = 'Update';
+            } else if (value.post_type == 'item_like') {
+                post_type = 'Liked';
+            } else if (value.post_type == 'item_repost') {
+                post_type = 'Repost';
+            }
+            //if (value.messageid) {
+            //if (value.indexOf("messageid")) {
+            //if ("messageid" in value) {
+            if (value.type === 'article') {
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://www.vide.me/a/?a=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://www.vide.me/a/?a=" + value.href;
+                }
+                //img = value.cover;
+                img = 'https://s3.amazonaws.com/img.vide.me/' + value.cover;
+                trueActionClass = 'article-url';
+            } else if (value.type === 'video') {
+                if (value.message_id && value.message_id != "undefined") {
+                    href = "https://www.vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
+                } else {
+                    href = "https://www.vide.me/v?m=" + value.href;
+                }
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://www.vide.me/v?m=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://www.vide.me/v?m=" + value.href;
+                }
+                img = "https://s3.amazonaws.com/img.vide.me/" + value.item_id + ".jpg";
+                //trueActionClass = actionUrlClass;
+                if (actionUrlClass == 'shownext') {
+                    trueActionClass = actionUrlClass;
+                }
+                if (actionUrlClass == 'showmulti') {
+                    trueActionClass = 'multi_video';
+                }
+            } else if (value.type === 'image') {
+                if (value.message_id && value.message_id != "undefined") {
+                    href = "https://www.vide.me/i/?i=" + value.href + "&message_id=" + value.message_id;
+                } else {
+                    href = "https://www.vide.me/i/?i=" + value.href;
+                }
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://www.vide.me/i/?i=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://www.vide.me/i/?i=" + value.href;
+                }
+                img = "https://s3.amazonaws.com/img.vide.me/" + value.cover;
+                trueActionClass = 'image-url';
+            }
+            if (value.tags) {
+                //console.log("showTile value.tags -----> " + JSON.stringify(value.tags));
+            } else {
+                //console.log("showTile value.tags -----> empty");
+            }
+            if (value.count) {
+                count = value.count
+            } else {
+                count = '' + '<br>';
+            }
+            //console.log("showTile spring -----> <a href='https://www.vide.me/" + spring + "'>" + a + "</a>");
+            /*html.push("<div class='box" + tempObjectClass + "'>\
+                <div class='boxInner'>\
+				<a class='" + actionUrlClass + "' \
+						video='" + value.video + "' \
+						message_id='" + value.message_id + "' \
+						user_display_name='" + value.user_display_name + "' \
+						created_at='" + value.created_at + "' \
+						updated_at='" + value.updated_at + "' \
+						title='" + value.title + "' \
+						content='" + value.content + "' \
+                        cover='" + value.cover + "' \
+                        item_id='" + value.item_id + "' \
+                        post_id='" + value.post_id + "' \
+                        spring='" + value.spring + "' \
+                        user_picture='" + value.user_picture + "' \
+                        to_user_id='" + value.to_user_id + "' \
+                        from_user_id='" + value.from_user_id + "' \
+                        from_user_display_name='" + value.from_user_display_name + "' \
+                        from_user_name='" + value.user_display_name + "' \
+                        file='" + value.item_id + "' \
+                        video_duration='" + value.video_duration + "' \
+                        count='" + value.item_count_show + "' \
+                        access='" + value.access + "' \
+                        tags='" + JSON.stringify(value.tags) + "' \
+						href='" + href + "' id='el_" + key + "' target='_blank'>\
+			<div class='titleTop'>\
+						 " + a + "\
+						 " + b + "\
+						 " + c + "\
+						 " + d + "\
+						 " + videoDuration + "\
+						 " + count + "\
+			</div>\
+						 <img src='" + img + "' alt=''>\
+						 </img>\
+                <div class='videme-tile-signboard-true'></div>\
+				</a>\
+			</div>\
+				</div>");
+            //$("#el_" + key).attr(value);
+        });*/
+            if (value.access == 'public') {
+                var share = 'share';
+                var fa_icon_access = 'fa fa-unlock';
+            } else {
+                var share = '';
+                var fa_icon_access = 'fa fa-lock';
+                //value.access = 'private';
+            }
+            if (actionUrlClass == 'file-my-url') {
+                value.dropdown = {
+                    'dd_item_1': 'edit_my_video',
+                    'dd_item_2': 'send',
+                    'dd_item_3': 'share',
+                    'dd_item_4': 'delete'
+                };
+                value.key = key;
+                value = paddingButtonMy(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+
+            if (actionUrlClass == 'file-inbox-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share,
+                    'dd_item_3': 'delete'
+                };
+                value.key = key;
+                value = paddingButtonInbox(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+
+            if (actionUrlClass == 'file-sent-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share,
+                    'dd_item_3': 'delete'
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+            if (actionUrlClass == 'shownext') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+            if (actionUrlClass == 'showmulti') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+            if (actionUrlClass == 'file-spring-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+            if (actionUrlClass == 'article') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+
+            if (actionUrlClass == 'my-posts-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': 'share',
+                    'dd_item_3': 'delete-my-post'
+                };
+                value.key = key;
+                value = paddingButtonMyPosts(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+
+            if (actionUrlClass == 'item-card') {
+                value.dropdown = {};
+                //value.key = key;
+                //value = paddingButtonMyPosts(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }
+            //html.push("<li class='list-group-item videme-tile-item'>");
+            //tempObject.append("<li class='list-group-item videme-tile-item' id='li_" + courent_id + "'>");
+            $('#' + id_list_group).append("<li class='list-group-item videme-tile-item' id='li_" + id_list_group + "_" + courent_id + "'></li>");
+            if (value.type !== 'video') {
+                $('#li_' + id_list_group + '_' + courent_id).append("<a href='https://www.vide.me/" + value.spring + "'>" +
+                    "<img src='https://s3.amazonaws.com/img.vide.me/" + value.user_picture + "' alt='' class='img-thumbnail videme-relation-card-img'>" +
+                    "</a>" +
+                    "<div class='videme-tile-item-1-line'>" +
+                    "<div class='font-weight-bold videme-tile-item-user'>" +
+                    "<a href='https://www.vide.me/" + value.spring + "' class='tile-item-owner'>"
+                    + value.user_display_name +
+                    "</a>" +
+                    "</div>" +
+                    "<div class='post_type'> " + post_type + "</div>" +
+                    "<div class='text-right videme-tile-item-created-at'>" + timeToWord(value.created_at) + "</div>" +
+                    showDropdownForDoorbelSign(value) +
+                    "</div>" +
+                    "<div class='videme-tile-item-2-line'>" +
+                    "<div class='videme-tile-item-title'>" + value.title + "</div>" +
+                    "<span class='iconic' data-glyph='star' title='star' aria-hidden='true'></span>" +
+                    "</div>" +
+                    "<div class='box" + tempObjectClass + "'>\
+                <div class='boxInner'>\
+				<a class='" + trueActionClass + "' \
+						video='" + value.video + "' \
+						message_id='" + value.message_id + "' \
+						user_display_name='" + value.user_display_name + "' \
+						created_at='" + value.created_at + "' \
+						updated_at='" + value.updated_at + "' \
+						title='" + value.title + "' \
+						content='" + value.content + "' \
+                        cover='" + value.cover + "' \
+                        item_id='" + value.item_id + "' \
+                        post_id='" + value.post_id + "' \
+                        spring='" + value.spring + "' \
+                        user_picture='https://s3.amazonaws.com/img.vide.me/" + value.user_picture + "'\
+                        to_user_id='" + value.to_user_id + "' \
+                        from_user_id='" + value.from_user_id + "' \
+                        from_user_display_name='" + value.from_user_display_name + "' \
+                        from_user_name='" + value.user_display_name + "' \
+                        file='" + value.item_id + "' \
+                        video_duration='" + value.video_duration + "' \
+                        count='" + value.item_count_show + "' \
+                        access='" + value.access + "' \
+                        tags='" + JSON.stringify(value.tags) + "' \
+						href='" + href + "' id='el_" + key + "'>\
+			<div class='titleTop'>\
+						 " + value.type + "\
+			</div>\
+						 <img src='" + img + "' alt=''>\
+						 </img>\
+                <div class='videme-tile-signboard-true'></div>\
+				</a>\
+			</div>\
+				</div>\
+				<i class='fa fa-eye'></i>\
+				" + value.item_count_show + "\
+				<i class='fa fa-clock-o'></i>\
+				" + sec2str(value.video_duration) + "\
+				<i class='" + fa_icon_access + "'></i>\
+				" + value.access + "\
+                <i class='fa fa-thumbs-o-up'></i>\
+				" + likes + "\
+            <button type='button' class='btn btn-primary btn-sm set_like' id='like_" + id_list_group + "_" + courent_id + "' item_id='" + value.item_id + "'>Like</button>\
+            <a href='https://api.vide.me/v2/items/share/?item_id=" + value.item_id + "&nad=" + $.cookie('vide_nad') + "' class='btn btn-outline-secondary btn-sm list-url'>Repost</a>");
+
+                //$("#el_" + key).attr(value);
+            } else {
+                //tempObject.append("<li class='list-group-item videme-tile-item' id='li_" + courent_id + "'>");
+
+                //$('.videme-tile').append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //$('#tile_video').append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //html.push("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //tempObject.append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //$('#' + id_list_group).appendTo("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //--$('#tile_video').appendTo("<p>" + courent_id + "</p>");
+                //==$('#tile_video').append("<p>" + courent_id + "</p>");
+                //===$('#' + id_list_group).append("<p>" + courent_id + "</p>");
+                //$('#tile_video').append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //===$('#' + id_list_group).append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //$('#videme-tile').appendTo("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //$("#" + id_list_group + "").append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //document.getElementById(id_list_group).append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+                //var ligrid = document.getElementById(id_list_group);
+                //var ligrid = document.getElementById("li_" + courent_id);
+                //ligrid.append("<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>");
+
+                //document.getElementById("li_" + courent_id).innerHTML = "<video id='tile_multiple_video" + courent_id + "' class='video-js' controls  preload='auto' width='220' height='100'></video>";
+
+                $('#li_' + id_list_group + '_' + courent_id).append("<a href='https://www.vide.me/" + value.spring + "'>" +
+                    "<img src='https://s3.amazonaws.com/img.vide.me/" + value.user_picture + "' alt='' class='img-thumbnail videme-relation-card-img'>" +
+                    "</a>" +
+                    "<div class='videme-tile-item-1-line'>" +
+                    "<div class='font-weight-bold videme-tile-item-user'>" +
+                    "<a href='https://www.vide.me/" + value.spring + "' class='tile-item-owner'>"
+                    + value.user_display_name +
+                    "</a>" +
+                    "</div>" +
+                    "<div class='post_type'> " + post_type + "</div>" +
+                    "<div class='text-right videme-tile-item-created-at'>" + timeToWord(value.created_at) + "</div>" +
+                    showDropdownForDoorbelSign(value) +
+                    "</div>" +
+                    "<div class='videme-tile-item-2-line'>" +
+                    "<div class='videme-tile-item-title'>" + value.title + "</div>" +
+                    "<span class='iconic' data-glyph='star' title='star' aria-hidden='true'></span>" +
+                    "</div>" +
+                    "<div class='box" + tempObjectClass + "'>\
+                <div class='boxInner'>\
+				<a class='" + trueActionClass + "' \
+						video='" + value.video + "' \
+						message_id='" + value.message_id + "' \
+						user_display_name='" + value.user_display_name + "' \
+						created_at='" + value.created_at + "' \
+						updated_at='" + value.updated_at + "' \
+						title='" + value.title + "' \
+						content='" + value.content + "' \
+                        cover='" + value.cover + "' \
+                        item_id='" + value.item_id + "' \
+                        post_id='" + value.post_id + "' \
+                        spring='" + value.spring + "' \
+                        user_picture='https://s3.amazonaws.com/img.vide.me/" + value.user_picture + "'\
+                        to_user_id='" + value.to_user_id + "' \
+                        from_user_id='" + value.from_user_id + "' \
+                        from_user_display_name='" + value.from_user_display_name + "' \
+                        from_user_name='" + value.user_display_name + "' \
+                        file='" + value.item_id + "' \
+                        video_duration='" + value.video_duration + "' \
+                        count='" + value.item_count_show + "' \
+                        access='" + value.access + "' \
+                        tags='" + JSON.stringify(value.tags) + "' \
+						href='" + href + "' id='el_" + key + "'>\
+			<div class='titleTop'>\
+						 " + value.type + "\
+			</div>\
+			<div class='videme-tile-signboard-true'></div>\
+						 <video id='tile_multiple_video_" + id_list_group + "_" + courent_id + "' class='video-js vjs-default-skin vjs-big-play-centered' controls  preload='auto'></video>\
+						 <!--<div id='videme-minivideo'><div>-->\
+				</a>\
+			</div>\
+				</div>\
+				<i class='fa fa-eye'></i>\
+				" + value.item_count_show + "\
+				<i class='fa fa-clock-o'></i>\
+				" + sec2str(value.video_duration) + "\
+				<i class='" + fa_icon_access + "'></i>\
+				" + value.access + "\
+				<i class='fa fa-thumbs-o-up'></i>\
+				" + likes + "\
+				<button type='button' class='btn btn-primary btn-sm set_like' id='like_" + id_list_group + "_" + courent_id + "' item_id='" + value.item_id + "'>Like</button>\
+                    <a href='https://api.vide.me/v2/items/share/?item_id=" + value.item_id + "&nad=" + $.cookie('vide_nad') + "' class=\"btn btn-outline-secondary btn-sm list-url\">Repost</a>"
+                );
+
+                /*var li = $('<li/>')
+                    .addClass('list-group-item')
+                    .attr('role', 'menuitem')
+                    .appendTo(cList);
+
+                /!*var aaa = $('<a/>')
+                    .addClass('ui-all')
+                    .text(countries[i])
+                    .appendTo(li);*!/
+
+                var aaa = $('<a/>')
+                    .addClass('ui-all')
+                    .text('test')
+                    .appendTo(li);*/
+
+                /*$("#videme-minivideo").html("<video id=\"my_video2\" class=\"video-js vjs-default-skin video-down\"></video> \
+				<button id=\"closevideo\" type=\"button\" class=\"close closevideo hidden\" aria-label=\"Close\"> \
+					<span aria-hidden=\"true\">&times;</span> \
+				</button> \
+			");*/
+
+                //var width = document.getElementById('tile_multiple_video' + courent_id).parentElement.offsetWidth;
+                var width = document.getElementById('li_' + id_list_group + '_' + courent_id).parentElement.offsetWidth;
+                //var video_player = videojs('tile_multiple_video' + courent_id);
+                console.log('width ---> ' + width);
+
+                var opions = {
+                    "width": width,
+                    "height": width * (360 / 640)
+                };
+                //var video_player = videojs('tile_multiple_video' + courent_id);
+                //var video_player = videojs('tile_multiple_video' + courent_id, opions);
+                var video_player = videojs('tile_multiple_video_' + id_list_group + '_' + courent_id, opions, function onPlayerReady() {
+                    videojs.log('Your player is ready!');
+
+                    // In this context, `this` is the player that was created by Video.js.
+                    //this.play();
+
+                    // How about an event listener?
+                    this.on('ended', function () {
+                        videojs.log('Awww...over so soon?!');
+                    })
+                    this.on('play', function () {
+                        videojs.log('play ' + value.item_id);
+                        videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                        //videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.player.currentTime());
+                        //videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentTime());
+                        //scrollSetting(miniPlayer);                            //miniPlayer.hide();
+                        /*                     miniPlayer.muted(true);
+                                             miniPlayer.src({
+                                                 //type: "video/mp4",
+                                                 type: "application/x-mpegURL",
+                                                 //src: sourseURL + showcaseVideoSettings.file + messageAdd
+                                                 //src: sourseURL + showcaseVideoSettings.video + '.mp4' // TODO: add message_id
+                                                 src: this.currentSrc()
+                                                 /!*"width": width,
+                                                 "height": width * (360 / 640)*!/
+                                             });
+                                             miniPlayer.load();
+                                             miniPlayer.play();*/
+                    });
+                });
+                video_player.on("play", function () {
+                    goToUrl('https://api.vide.me/system/items/item_count_add/?item=' + value.item_id);
+
+                    /*miniPlayer.muted(true);
+                    miniPlayer.src({
+                        //type: "video/mp4",
+                        type: "application/x-mpegURL",
+                        //src: sourseURL + showcaseVideoSettings.file + messageAdd
+                        //src: sourseURL + showcaseVideoSettings.video + '.mp4' // TODO: add message_id
+                        src: this.currentSrc()
+                        /!*"width": width,
+                        "height": width * (360 / 640)*!/
+                    });
+                    miniPlayer.load();
+                    miniPlayer.play();*/
+                });
+                //myPlayer.width(width).height(width * (360 / 640));
+
+
+                video_player.src({
+                    //type: "video/mp4",
+                    type: "application/x-mpegURL",
+                    //src: sourseURL + showcaseVideoSettings.file + messageAdd
+                    //src: sourseURL + showcaseVideoSettings.video + '.mp4' // TODO: add message_id
+                    src: 'https://s3.amazonaws.com/video.vide.me/' + value.item_id + '.m3u8', // TODO: add message_id
+                    /*"width": width,
+                    "height": width * (360 / 640)*/
+                });
+                video_player.controls(true);
+                //video_player.load(); // TODO: preload??? no
+                //video_player.play();
+                /*video_player.on('ended', function () {
+                    /!*
+                     showcasePlayerFunc.src({
+                     type: "video/mp4",
+                     src: "https://r7.cf1.rackcdn.com/.mp4"
+                     });
+                     showcasePlayerFunc.load();
+                     showcasePlayerFunc.play();*!/
+                });*/
+
+                video_player.on('ended', function () {
+                    videojs.log('Awww...over so soon?!');
+                });
+
+            }
+            //html.push("</li>\
+            //tempObject.append("</li>\
+            //	");
+        });
+
+        $(".video-js").each(function (videoIndex) {
+            // wrong place
+            console.log("video-js each ");
+            var videoId = $(this).attr("id");
+            videojs(videoId).ready(function () {
+                this.on("play", function (e) {
+                    //pause other video
+                    $(".video-js").each(function (index) {
+                        if (videoIndex !== index) {
+                            this.player.pause();
+                        }
+                    });
+                    videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                });
+            });
+        });
+        //html.push("</ul>");
+        //tempObject.append("</ul>");
+
+
+        //console.log("showTile html -----> " + html);
+
+        //return "<ul class='list-group'>" + html + "</ul>";
+        //return html;
+        //return html.join('');
+    }
+
+
+    function getItem(getItemURL, id_list_group, classM, page, callback) { // TODO: remove
+        $.getJSON(getItemURL,
+            function (data) {
+                //console.log("postsOfSpringVideoOnlyMultiple data -----> " + JSON.stringify(data));
+                //var response_time = Math.round(performance.now() - start_time);
+                //$('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    //tempObject.empty();
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    //tempObject.html(showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext"));
+                    //===showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                    showTileMultipleLI(parseDataArrayToObject(data), id_list_group, classM, page);
+                    //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                } else {
+                    console.log("$.fn.postsOfSpring data -----> no");
+                    //tempObject.html("No results");
+                    //$('#' + id_list_group).html("No results");
+                    callback();
+                }
+
+            })
+            .done(function (data) {
+                $('.videme-scroll-progress').empty();
+            })
+            .fail(function (data) {
+                //tempObject.html(showError(data));
+                callback();
+
+            })
+            .always(function () {
+            });
+
+    }
+
+    /*function showRecomendConnect(msg) {/!*========================================================= remove ======*!/
+
+        //tempObject.html('Recomend connect:')
+        //$('.videme-newpost-scroll').html(msg);
+        //alert('sdfsdf');
+        console.log('showRecomendConnect');
+    }*/
+
+    /*    function Thing(name333) {
+            this.name333 = name333;
+        }*/
+
+    Thing.prototype.doGetJSONTileMultipleLI = function (callback, url, id_list_group, classM, offset, tempObject) {
+        // Call our callback, but using our own instance as the context
+        //callback.call(this, salutation);
+        var self = $(this); // using self to store $(this)
+        $.getJSON(url,
+            function (data) {
+                //console.log("postsOfSpringVideoOnlyMultiple data -----> " + JSON.stringify(data));
+                //var response_time = Math.round(performance.now() - start_time);
+                //$('#result-response').append('<p><small>' + data.length + ' messages. API response time: ' + response_time + ' milliseconds</small></p>');
+                if (!$.isEmptyObject(data)) {
+                    //tempObject.empty();
+                    //console.log("$.fn.postsOfSpring data -----> yes" + JSON.stringify(data));
+                    //tempObject.html(showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext"));
+                    //===showTileMultiple(parseDataArrayToObject(data), tempObject, "shownext");
+                    showTileMultipleLI(parseDataArrayToObject(data), id_list_group, classM, offset);
+                    //$.fn.showcaseVideoTextButton(paddingButtonMySpring(data[0]));
+                } else {
+                    console.log("$.fn.postsOfSpring data -----> no");
+                    //tempObject.html("No results");
+                    //$('#' + id_list_group).html("No results");
+                    //callback();
+                    //callback.call(this, url);
+                    callback.call(self, url, tempObject);
+                }
+
+            })
+            .done(function (data) {
+                $('.videme-scroll-progress').empty();
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+                //callback.call(self, url, id_list_group);
+                //==Xcallback.call(self, url, tempObject);
+            })
+            .always(function () {
+            });
+        //callback.call(this, url);
+    }
+
+    function showTileMultipleLI(showFile, id_list_group, actionUrlClass, offset) {
+        var html = [];
+        var courent_id = offset;
+        $.each(showFile, function (key, value) {
+            //console.log("showTileMultipleLI each value -----> " + JSON.stringify(value));
+            var a;
+            if (value.a) {
+                a = value.a + "<br>";
+            } else {
+                a = "";
+            }
+            var b;
+            if (value.b) {
+                b = value.b + "<br>";
+            } else {
+                b = "";
+            }
+            var c;
+            if (value.c) {
+                c = value.c + "<br>";
+            } else {
+                c = "";
+            }
+            var d;
+            if (value.d) {
+                d = value.d + "<br>";
+            } else {
+                d = "";
+            }
+            var href;
+            var img;
+            var trueActionClass;
+            var likes = '';
+            var post_type = '';
+            var reposts_count = '';
+            var mainInsert = '';
+
+            var item_user_display_name = '';
+            var item_user_picture = '';
+            var item_spring = '';
+
+            var post_user_display_name = '';
+            var post_user_picture = '';
+            var post_spring = '';
+
+            if (!$.isEmptyObject(value.item_user_display_name) &&
+                value.post_type != 'update') {
+                item_user_display_name = value.item_user_display_name;
+            }
+            if (!$.isEmptyObject(value.item_user_picture) &&
+                value.post_type != 'update') {
+                item_user_picture = value.item_user_picture;
+            }
+            if (!$.isEmptyObject(value.item_spring) &&
+                value.post_type != 'update') {
+                item_spring = value.item_spring;
+            }
+            if (!$.isEmptyObject(value.post_user_display_name)) {
+                post_user_display_name = value.post_user_display_name;
+            } else {
+                post_user_display_name = value.user_display_name;
+            }
+            if (!$.isEmptyObject(value.post_user_picture)) {
+                post_user_picture = value.post_user_picture;
+            } else {
+                post_user_picture = value.user_picture;
+            }
+            if (!$.isEmptyObject(value.post_spring)) {
+                post_spring = value.post_spring;
+            } else {
+                post_spring = value.spring;
+            }
+
+            if (!$.isEmptyObject(value.post_user_picture)) {
+                post_user_picture = value.post_user_picture;
+            }
+            if (!$.isEmptyObject(value.post_spring)) {
+                post_spring = value.post_spring;
+            }
+
+            if (value.likes_count == 0) {
+                likes = '';
+            } else {
+                likes = value.likes_count;
+            }
+            if (value.reposts_count == 0) {
+                reposts_count = '';
+            } else {
+                reposts_count = value.reposts_count;
+            }
+            if (value.post_type == 'update') {
+                post_type = 'update';
+            } else if (value.post_type == 'item_like') {
+                post_type = 'liked';
+            } else if (value.post_type == 'item_repost') {
+                post_type = 'repost';
+            }
+            if (value.type === 'article') {
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://www.vide.me/a/?a=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://www.vide.me/a/?a=" + value.href;
+                }
+                //img = value.cover;
+                img = 'https://s3.amazonaws.com/img.vide.me/' + value.cover;
+                trueActionClass = 'article-url';
+                mainInsert = "<img src='" + img + "' alt=''></img>";
+
+            } else if (value.type === 'video') {
+                if (value.message_id && value.message_id != "undefined") {
+                    href = "https://www.vide.me/v?m=" + value.href + "&message_id=" + value.message_id;
+                } else {
+                    href = "https://www.vide.me/v?m=" + value.href;
+                }
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://www.vide.me/v?m=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://www.vide.me/v?m=" + value.href;
+                }
+                if (!$.isEmptyObject(value.cover)) {
+                    img = "https://s3.amazonaws.com/img.vide.me/" + value.cover;
+                } else {
+                    img = "https://s3.amazonaws.com/img.vide.me/" + value.item_id + ".jpg";
+                }
+                trueActionClass = 'multi_video';
+                mainInsert = "<video id='tile_multiple_video_" + id_list_group + "_" + courent_id + "' class='video-js vjs-default-skin vjs-big-play-centered' controls preload='auto' poster='" + img + "'></video>";
+
+            } else if (value.type === 'image') {
+                if (value.message_id && value.message_id != "undefined") {
+                    href = "https://www.vide.me/i/?i=" + value.href + "&message_id=" + value.message_id;
+                } else {
+                    href = "https://www.vide.me/i/?i=" + value.href;
+                }
+                if (value.post_id && value.post_id != "undefined") {
+                    href = "https://www.vide.me/i/?i=" + value.href + "&post_id=" + value.post_id;
+                } else {
+                    href = "https://www.vide.me/i/?i=" + value.href;
+                }
+                img = "https://s3.amazonaws.com/img.vide.me/" + value.cover;
+                trueActionClass = 'image-url';
+                mainInsert = "<img src='" + img + "' alt=''></img>";
+
+            }
+            if (value.tags) {
+            } else {
+            }
+            if (value.count) { // TODO: remove?
+                count = value.count
+            } else {
+                count = '' + '<br>';
+            }
+            if (value.access == 'public') { // TODO: remove?
+                var share = 'share';
+                var fa_icon_access = 'fa fa-unlock';
+            } else {
+                var share = '';
+                var fa_icon_access = 'fa fa-lock';
+            }
+            if (actionUrlClass == 'file-my-url') {
+                value.dropdown = {
+                    'dd_item_1': 'edit_my_video',
+                    'dd_item_2': 'send',
+                    'dd_item_3': 'share',
+                    'dd_item_4': 'delete'
+                };
+                value.key = key;
+                value = paddingButtonMy(value);
+            }
+            if (actionUrlClass == 'article-my-url') {
+                value.dropdown = {
+                    'dd_item_1': 'edit_my_article',
+                    'dd_item_2': 'send',
+                    'dd_item_3': 'share',
+                    'dd_item_4': 'delete'
+                };
+                value.key = key;
+                value = paddingButtonMy(value);
+            }
+            if (actionUrlClass == 'post-my-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': 'share',
+                    'dd_item_3': 'delete_my_post'
+                };
+                value.key = key;
+                value = paddingButtonMy(value);
+            }
+            if (actionUrlClass == 'file-inbox-url') { // TODO: remove
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share,
+                    'dd_item_3': 'delete'
+                };
+                value.key = key;
+                value = paddingButtonInbox(value);
+            }
+            if (actionUrlClass == 'message-inbox-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share,
+                    'dd_item_3': 'delete_inbox'
+                };
+                value.key = key;
+                value = paddingButtonInbox(value);
+            }
+            if (actionUrlClass == 'file-sent-url') { // TODO: remove
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share,
+                    'dd_item_3': 'delete'
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+            }
+            if (actionUrlClass == 'message-sent-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share,
+                    'dd_item_3': 'delete_sent'
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+            }
+            if (actionUrlClass == 'showmulti') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share,
+                    'dd_item_3': 'embed'
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+            }
+            if (actionUrlClass == 'shownext') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+            }
+            if (actionUrlClass == 'file-spring-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+            }
+            if (actionUrlClass == 'article') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': share
+                };
+                value.key = key;
+                value = paddingButtonSent(value);
+            }
+            /*if (actionUrlClass == 'my-posts-url') {
+                value.dropdown = {
+                    'dd_item_1': 'send',
+                    'dd_item_2': 'share',
+                    'dd_item_3': 'delete-my-post'
+                };
+                value.key = key;
+                value = paddingButtonMyPosts(value);
+                //console.log("showTile value -----> " + JSON.stringify(value));
+            }*/
+            if (actionUrlClass == 'item-card') {
+                value.dropdown = {};
+            }
+            $('#' + id_list_group).append("<li class='list-group-item videme-tile-item' id='li_" + id_list_group + "_" + courent_id + "'></li>");
+            $('#li_' + id_list_group + '_' + courent_id).append("<a href='https://www.vide.me/" + post_spring + "'>" +
+                "<img src='https://s3.amazonaws.com/img.vide.me/" + post_user_picture + "' alt='' class='img-thumbnail videme-relation-card-img-tile'>" +
+                "</a>" +
+                "<div class='videme-tile-item-1-line'>" +
+                "<div class='font-weight-bold videme-tile-item-user'>" +
+                "<a href='https://www.vide.me/" + post_spring + "' class='videme-tile-post-owner'>"
+                + post_user_display_name +
+                "</a>" +
+                "</div>" +
+                "<div class='videme-tile-post-type'>&nbsp;" + post_type + "</div>" +
+                "&nbsp;" + "<a href='https://www.vide.me/" + item_spring + "' class='videme-tile-item-owner'>"
+                + item_user_display_name +
+                "</a>"  +
+                "<div class='text-right videme-tile-item-created-at'>" + timeToWord(value.created_at) + "</div>" +
+                showDropdownForDoorbelSign(value) +
+                "</div>" +
+                "<div class='videme-tile-item-2-line'>" +
+                "<div class='videme-tile-item-title'>" + value.title + "</div>" +
+                "<span class='iconic' data-glyph='star' title='star' aria-hidden='true'></span>" +
+                "</div>" +
+                "<div class='videme-tile-box'>\
+            <div class='videme-tile-boxInner'>\
+            <a class='" + trueActionClass + "' \
+						video='" + value.video + "' \
+						message_id='" + value.message_id + "' \
+						user_display_name='" + value.user_display_name + "' \
+						created_at='" + value.created_at + "' \
+						updated_at='" + value.updated_at + "' \
+						title='" + value.title + "' \
+						content='" + value.content + "' \
+                        cover='" + value.cover + "' \
+                        item_id='" + value.item_id + "' \
+                        post_id='" + value.post_id + "' \
+                        spring='" + value.spring + "' \
+                        user_picture='https://s3.amazonaws.com/img.vide.me/" + value.user_picture + "'\
+                        to_user_id='" + value.to_user_id + "' \
+                        from_user_id='" + value.from_user_id + "' \
+                        from_user_display_name='" + value.from_user_display_name + "' \
+                        from_user_name='" + value.user_display_name + "' \
+                        file='" + value.item_id + "' \
+                        video_duration='" + value.video_duration + "' \
+                        count='" + value.item_count_show + "' \
+                        access='" + value.access + "' \
+                        tags='" + JSON.stringify(value.tags) + "' \
+						href='" + href + "' id='el_" + key + "'>\
+			<div class='titleTop'>\
+						 " + value.type + "\
+			</div>\
+			<div class='videme-tile-signboard-true'></div>\
+						 " + mainInsert + "\
+				</a>\
+			</div>\
+				</div>\
+				" + showItemInfo(value));
+            if (value.type == 'video') {
+                var width = document.getElementById('li_' + id_list_group + '_' + courent_id).parentElement.offsetWidth;
+                var opions = {
+                    "width": width,
+                    "height": width * (360 / 640),
+                    "poster": img
+                };
+                var video_player = videojs('tile_multiple_video_' + id_list_group + '_' + courent_id, opions, function onPlayerReady() {
+                    videojs.log('tile_multiple_video_' + id_list_group + '_' + courent_id, ' is ready!');
+                    this.on('ended', function () {
+                        videojs.log('end');
+                    })
+                    this.on('play', function () {
+                        videojs.log('play ' + value.item_id);
+                        videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                        //videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.player.currentTime());
+                        //videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentTime());
+                    });
+                });
+                video_player.on("play", function () {
+                    goToUrl('https://api.vide.me/system/items/item_count_add/?item=' + value.item_id);
+                });
+                video_player.src({
+                    type: "application/x-mpegURL",
+                    src: 'https://s3.amazonaws.com/video.vide.me/' + value.item_id + '.m3u8', // TODO: add message_id
+                });
+                video_player.controls(true);
+                video_player.on('ended', function () {
+                    videojs.log('end');
+                });
+            }
+            courent_id = courent_id + 1;
+        });
+
+        $(".video-js").each(function (videoIndex) {
+            // wrong place
+            console.log("video-js each ");
+            var videoId = $(this).attr("id");
+            videojs(videoId).ready(function () {
+                this.on("play", function (e) {
+                    //pause other video
+                    $(".video-js").each(function (index) {
+                        if (videoIndex !== index) {
+                            this.player.pause();
+                        }
+                    });
+                    videojs.log('postsOfSpringVideoOnlyMultiple play ' + this.currentSrc());
+                });
+            });
+        });
+    }
+
+    function showItemPrev(showItemPrev) {
+        var html = [];
+        //html.push('<div class="container"><select class="image-picker" multiple>');
+        $.each(showItemPrev, function (key, value) {
+            //console.log('showTileRelation each key ---> ' + key);
+            //console.log('showTileRelation each value ---> ' + JSON.stringify(value));
+            var trueValue = paddingUserInfo(value);
+            //var trueValue = JSON.stringify(value);
+            //html.push("<option data-img-src=\"https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "\" alt=\"" + trueValue.title + "\" class=\"videme-item-prev-img img-thumbnail\" value='" + trueValue.item_id + "'>");
+            $('.image-picker')
+            //tempObject
+                .append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "' data-img-class=\"\"></option>")
+                    .attr("name", 'cover')
+                    .attr("value", trueValue.cover)
+                    .text(trueValue.title));
+            /*html.push(
+                showTileDoorbellSignSmall(
+                    parsePopRelationsForDoorbellSign(relationArray)
+            ));*/
+        });
+        //html.push('</select></div>');
+        //console.log('showSelectImage html ---> ' + html);
+        //return html.join('');
+    }
+
+    function showItemPrevCreateAlbum(showItemPrev) {
+        var html = [];
+        //html.push('<div class="container"><select class="image-picker" multiple>');
+        $.each(showItemPrev, function (key, value) {
+            //console.log('showTileRelation each key ---> ' + key);
+            //console.log('showTileRelation each value ---> ' + JSON.stringify(value));
+            var trueValue = paddingUserInfo(value);
+            //var trueValue = JSON.stringify(value);
+            //html.push("<option data-img-src=\"https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "\" alt=\"" + trueValue.title + "\" class=\"videme-item-prev-img img-thumbnail\" value='" + trueValue.item_id + "'>");
+            $('.image-picker-create-album')
+            //tempObject
+                .append($("<option data-img-src='https://s3.amazonaws.com/img.vide.me/" + trueValue.cover + "' data-img-class=\"\"></option>")
+                    .attr("name", 'cover')
+                    .attr("value", trueValue.cover)
+                    .text(trueValue.title));
+            /*html.push(
+                showTileDoorbellSignSmall(
+                    parsePopRelationsForDoorbellSign(relationArray)
+            ));*/
+        });
+        //html.push('</select></div>');
+        //console.log('showSelectImage html ---> ' + html);
+        //return html.join('');
+    }
+
+    function showTileRelation(relationArray, tempObject, size, typeCard) { // TODO: remove ???
+        //console.log('showTileRelation relationArray ---> ' + JSON.stringify(relationArray));
+        //console.log('showTileRelation tempObject.width ---> ' + tempObject.width());
+        //console.log('showTileRelation size ---> ' + size);
         var html = [];
         //if (tempObject.width() < 500) {
         html.push('<div class="container">');
         if (size == 'small') {
             $.each(relationArray, function (key, value) {
+                //console.log('showTileRelation each key ---> ' + key);
+                //console.log('showTileRelation each value ---> ' + JSON.stringify(value));
                 var trueValue = paddingUserInfo(value);
-                html.push(showRelationCardSmall(trueValue));
+                //var trueValue = JSON.stringify(value);
+                html.push(showRelationCardSmall(trueValue, typeCard));
                 /*html.push(
                     showTileDoorbellSignSmall(
                         parsePopRelationsForDoorbellSign(relationArray)
@@ -2095,47 +4937,77 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         } else {
             $.each(relationArray, function (key, value) {
                 var trueValue = paddingUserInfo(value);
-                html.push(showRelationCard(trueValue));
+                html.push(showRelationCard(trueValue, typeCard));
             });
         }
         html.push('</div>');
         return html.join('');
     }
 
-    function showRelationCard(showRelationCard) {
+    function showRelationCard(showRelationCard, typeCard) {
         return "<div class=\"card\" style=\"width: 50%;float: left;\">\n" +
-            "  <img class=\"card-img-top\" src=\"" + showRelationCard.user_cover + "\" alt=\"Card image cap\">\n" +
+            "  <img class=\"card-img-top\" src=\"" + 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_picture + "\" alt=\"Card image cap\">\n" +
             "  <div class=\"card-body\">\n" +
             "    <h5 class=\"card-title\"><a href='https://www.vide.me/" + showRelationCard.spring + "/' target='_blank'>" + showRelationCard.user_display_name + "</a></h5>\n" +
             "    <p class=\"card-text\"></p>\n" +
             showPostCountForRelationCardSmall(showRelationCardSmall) +
-            "    <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCard.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-primary relation_connect\" user_id='" + showRelationCard.user_id + "' feedback='https://www.vide.me/\" + showRelationCardSmall.spring + \"'>Connect</a>\n" +
+            RelationCardButton(showRelationCardSmall, typeCard) +
             "  </div>\n" +
             "</div>";
     }
 
-    function showRelationCardSmall(showRelationCardSmall) {
+    function showRelationCardSmall(showRelationCardSmall, typeCard) {
+        //console.log('showRelationCardSmall ---> ' + JSON.stringify(showRelationCardSmall));
+        /*var action_url = '';
+        var action_button = '';
+        var class_button = '';
+        if (typeCard === 'connect') {
+            action_url = 'https://api.vide.me/v2/relation/connect/?user_id=';
+            action_button = 'Connect';
+            class_button = 'relation_connect';
+        }
+        if (typeCard === 'friends-recommended') {
+            action_url = 'https://api.vide.me/v2/friendship/request/?user_id=';
+            action_button = 'Frindship';
+            class_button = 'friend_request';
+        }*/
         return "\
             <div class=\"row videme-ralation-card-small\">\
                 <div class=\"col-4 videme-relation-card-1-column\">\
-                    <a href='https://www.vide.me/" + showRelationCardSmall.spring + "'><img class=\"img-thumbnail videme-relation-card-img\" src=\"https://s3.amazonaws.com/users.vide.me/" + showRelationCardSmall.user_id + "_user_picture.jpg\" alt=\"\" /></a>\
+                    <a href='https://www.vide.me/" + showRelationCardSmall.spring + "'><img class=\"img-thumbnail videme-relation-card-img\" src=\"https://s3.amazonaws.com/img.vide.me/" + showRelationCardSmall.user_picture + "\" alt=\"\" /></a>\
                 </div>\
                 <div class=\"col-8 videme-relation-card-2-column\">\
                     <div class=\"row\">\
                         <div class=\"videme-relation-card-user\">\
-                        <a href='https://www.vide.me/" + showRelationCardSmall.spring + "/' target='_blank'>" + showRelationCardSmall.user_display_name + "</a>\
+                        <a href='https://www.vide.me/" + showRelationCardSmall.spring + "/'>" + showRelationCardSmall.user_display_name + "</a>\
                         </div>\
                     </div>\
                     <div class=\"row videme-relation-card-2-line\">\
                         " + showPostCountForRelationCardSmall(showRelationCardSmall) + "\
-                        <div class='videme-relation-card-button-connect-wrap'>\
-                            <a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showRelationCardSmall.user_id + "' feedback='https://www.vide.me/" + showRelationCardSmall.spring + "'>Connect</a>\
-                        </div>\
+                        " + RelationCardButton(showRelationCardSmall, typeCard) + "\
                     </div>\
                 </div>\
             </div>\
             ";
     }
+
+    function RelationCardButton(showRelationCardSmall, typeCard) {
+        var action_url = '';
+        var action_button = '';
+        var class_button = '';
+        if (typeCard === 'connect') {
+            action_url = 'https://api.vide.me/v2/relation/connect/?user_id=';
+            action_button = 'Follow';
+            class_button = 'relation_connect';
+        }
+        if (typeCard === 'friends-recommended') {
+            action_url = 'https://api.vide.me/v2/friendship/request/?user_id=';
+            action_button = 'Frindship';
+            class_button = 'friend_request';
+        }
+        return "<a href=\"" + action_url + showRelationCardSmall.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect " + class_button + "\" user_id='" + showRelationCardSmall.user_id + "' feedback='https://www.vide.me/" + showRelationCardSmall.spring + "'>" + action_button + "</a>"
+    }
+
     function showPostCountForRelationCardSmall(showPostCountForRelationCardSmall) {
         //console.log('showIconForDoorbelSign ---> ' + JSON.stringify(showIconForDoorbelSign));
         var postCount = ' '
@@ -2178,15 +5050,6 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         time = yyyy + '-' + mm + '-' + dd + ', ' + h + ':' + min + ' ' + ampm;
 
         return time;
-    }
-
-    function sec2str(t) {
-        var d = Math.floor(t / 86400),
-            h = ('0' + Math.floor(t / 3600) % 24).slice(-2),
-            m = ('0' + Math.floor(t / 60) % 60).slice(-2),
-            s = ('0' + t % 60).slice(-2);
-        //return (d>0?d+'d ':'')+(h>0?h+':':'')+(m>0?m+':':'')+(t>60?s:s+'s');
-        return (d > 0 ? d + 'd ' : '') + (h > 0 ? h + ':' : '') + (m > 0 ? m + ':' : '') + (t > 60 ? s : s + 's');
     }
 
     function parseFileInbox(parseFileInbox) {
@@ -2309,11 +5172,16 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 'video': value.item_id,
                 'post_id': value.post_id,
                 'message_id': value.message_id,
+                'user_picture': value.user_picture,
+                'item_user_picture': value.item_user_picture,
+                'post_user_picture': value.post_user_picture,
                 'created_at': value.created_at,
                 'updated_at': value.updated_at,
                 'title': value.title,
                 'content': value.content,
                 'spring': value.spring,
+                'item_spring': value.item_spring,
+                'post_spring': value.post_spring,
                 'user_email': value.user_email,
                 //'user_picture': value.user_picture,
                 'to_user_id': value.to_user_id,
@@ -2321,10 +5189,16 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 'from_user_display_name': value.from_user_display_name,
                 'from_user_name': value.user_display_name,
                 'user_display_name': value.user_display_name,
+                'item_user_display_name': value.item_user_display_name,
+                'post_user_display_name': value.post_user_display_name,
                 'file': value.item_id, // TODO: remove
                 'video_duration': value.video_duration,
                 'item_count_show': value.item_count_show,
                 'count': value.item_count_show,
+                'likes_count': value.likes_count,
+                'reposts_count': value.reposts_count,
+                'its_like': value.its_like,
+                'post_type': value.post_type,
                 'access': value.access,
                 'tags': value.tags,
                 'dropdown': value.dropdown
@@ -2359,28 +5233,6 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         delete parseFileMySpring.results;
         console.log("parseFileMySpring ----->" + JSON.stringify(parseFileMySpring));
         return parseFileMySpring;
-    }
-
-    function parseSignsForDoorbellSign(parseSignsForDoorbellSign) {
-        //console.log("parseSignsForDoorbellSign Before----->" + JSON.stringify(parseSignsForDoorbellSign));
-        $.each(parseSignsForDoorbellSign, function (key, value) {
-            parseSignsForDoorbellSign[key] = {
-                //'a': value.ToUserName,
-                'image': value.image,
-                'cover': value.cover,
-                'title': value.title,
-                'href': value.spring + '/?list=' + value.title,
-                'additional': value.access,
-                'count': '',
-                'date': value.created_at,
-                'access': value.access,
-                /*'buttons': {'sign'},*/
-                'dropdown': {'dd_item': 'sign'}
-            };
-        });
-        //delete parseSignsForDoorbellSign.results;
-        //console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(parseSignsForDoorbellSign));
-        return parseSignsForDoorbellSign;
     }
 
     function parseFileSpring(parseFileSpring) {
@@ -2437,10 +5289,10 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         parseUrl.path = parseUrl.location.substring(0, parseUrl.location.lastIndexOf("/"));
         //springRaw = parseUrl.path.substring(parseUrl.path.lastIndexOf("/")+1);
         parseUrl.spring = parseUrl.location.replace(/^\/|\/$/g, '');
-        if (getParameterByName('list')) {
-            parseUrl.list = getParameterByName('list');
+        if (getParameterByName('album')) {
+            parseUrl.album = getParameterByName('album');
         } else {
-            parseUrl.list = '';
+            parseUrl.album = '';
         }
         return parseUrl;
     }
@@ -2525,7 +5377,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         }
 
         console.log("$.fn.showcaseVideo showcaseVideoSettings.video -----> " + showcaseVideoSettings.video);
-        tempObject.html("<video id=\"videme-showcasevideo\" class=\"video-js vjs-default-skin\"></video>" +
+        tempObject.html("<video id=\"videme-showcasevideo\" class=\"video-js vjs-default-skin\" autoplay></video>" +
             "<div id=\"videme-minivideo\"><div>");
         var oldShowcasePlayer = document.getElementById('videme-showcasevideo');
         videojs(oldShowcasePlayer).dispose();
@@ -2536,13 +5388,21 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         } else {
             console.log("$.fn.showcaseVideo (\"#videme-showcasevideo\").length) -----> nooo! " + $("#videme-showcasevideo").length);
         }
-        goToUrl('view-source:https://api.vide.me/system/items/item_count_add/?item=' + showcaseVideoSettings.video);
+        goToUrl('https://api.vide.me/system/items/item_count_add/?item=' + showcaseVideoSettings.video);
+
+        var width = document.getElementById('videme-showcasevideo').parentElement.offsetWidth;
+        //myPlayer.width(width).height(width * (360 / 640));
 
         var showcasePlayer = videojs('videme-showcasevideo', {
             /* Options */
+            /*autoHeight: true*/
+            "autoplay": true,
+            "width": width,
+            "height": width * (360 / 640)
+
         }, function () {
             var showcasePlayerFunc = this;
-            resizeVideoJS(showcasePlayerFunc);
+            //resizeVideoJS(showcasePlayerFunc); // TODO: Remove ?
 
             //if (showcaseVideoSettings.messageid.length > 0) {
             if (showcaseVideoSettings.message_id && showcaseVideoSettings.message_id != "undefined") {
@@ -2572,10 +5432,11 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
         });
         $(window).resize(function () {
-            resizeVideoJS(showcasePlayer);
+            //resizeVideoJS(showcasePlayer); // TODO: Remove ?
         });
         console.log("$.fn.showcaseVideo showcaseVideoSettings.miniVideo -----> " + showcaseVideoSettings.miniVideo);
-        if (showcaseVideoSettings.miniVideo) {
+
+        /*if (showcaseVideoSettings.miniVideo) {
             $("#videme-minivideo").html("<video id=\"my_video2\" class=\"video-js vjs-default-skin video-down\"></video> \
 				<button id=\"closevideo\" type=\"button\" class=\"close closevideo hidden\" aria-label=\"Close\"> \
 					<span aria-hidden=\"true\">&times;</span> \
@@ -2590,7 +5451,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
 				</button> \
 			");
             var miniPlayer = videojs('my_video2', {
-                /* Options */
+                /!* Options *!/
             }, function () {
                 var miniPlayerFunc = this;
                 scrollSetting(miniPlayerFunc);
@@ -2605,13 +5466,13 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 miniPlayerFunc.load();
                 miniPlayerFunc.play();
                 miniPlayerFunc.on('ended', function () {
-                    /*
+                    /!*
                      miniPlayerFunc.src({
                      type: "video/mp4",
                      src: "https://r7.cf1.rackcdn.com/.mp4"
                      });
                      miniPlayerFunc.load();
-                     miniPlayerFunc.play();*/
+                     miniPlayerFunc.play();*!/
                 });
             });
             showcasePlayer.on('pause', function () {
@@ -2628,7 +5489,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             });
         } else {
             console.log("$.fn.showcaseVideo -----> no miniVideo");
-        }
+        }*/
 
         function checkPausePlay(myPlayer) {
             var isPaused = myPlayer.paused();
@@ -2641,7 +5502,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             }
         }
 
-        function resizeVideoJS(myPlayer) {
+        function resizeVideoJS(myPlayer) { // TODO: Их два тут 3
             // TODO: На как-то так $(this).parent().width()
             var width = document.getElementById(myPlayer.id()).parentElement.offsetWidth;
             myPlayer.width(width).height(width * (360 / 640));
@@ -2769,7 +5630,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                 var miniPlayerFunc = this;
                 scrollSetting(miniPlayerFunc);
                 //miniPlayer.hide();
-                miniPlayerFunc.muted(true);
+                //miniPlayerFunc.muted(true);
                 miniPlayerFunc.src({type: "video/mp4", src: sourseURL + showcaseVideoSettings.file});
                 miniPlayerFunc.load();
                 miniPlayerFunc.play();
@@ -2835,14 +5696,21 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         $(".videme-showcase-message").html(showcaseTextSettings.content);
         //$(".videme-showcase-createdat").html(convertTimestamp(showcaseTextSettings.created_at));
         $(".videme-showcase-createdat").html(timeToWord(showcaseTextSettings.created_at));
-        if (showcaseTextSettings.tags) {
+        $(".videme_showcase_item_info").html(showItemInfo(showcaseTextSettings));
+
+        //if (showcaseTextSettings.tags) {
+        if (!$.isEmptyObject(showcaseTextSettings.tags)) {
+
             console.log("$.fn.showcaseText showcaseTextSettings.tags -----> " + JSON.stringify(showcaseTextSettings.tags));
+            $(".videme-showcase-tags").removeClass('hidden');
+
             var tags = [];
-            tags = $.parseJSON(showcaseTextSettings.tags);
+            //tags = $.parseJSON(showcaseTextSettings.tags);
             //console.log("$.fn.showcaseText tags -----> " + tags);
-            $.each(tags, function (key, value) {
+            //$.each(tags, function (key, value) {
+            $.each(showcaseTextSettings.tags, function (key, value) {
                 //console.log("$.fn.showcaseText tags -----> " + value);
-                $(".videme-showcase-tags").append('<a href="https://vide.me/search/?q=' + value + '" class="badge badge-primary">' + value + '</span> ');
+                $(".videme-showcase-tags").append('&nbsp;<a href="https://vide.me/search/?q=' + value + '" class="badge badge-primary">' + value + '</span> ');
 
             });
         } else {
@@ -2870,28 +5738,40 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         ownerSignUserInfoSettings = $.extend({}, options);
         //console.log("$.fn.ownerSignUserInfo ownerSignUserInfoSettings -----> " + JSON.stringify(ownerSignUserInfoSettings));
         trueUserInfo = paddingUserInfo(ownerSignUserInfoSettings);
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.user_cover)) {
+        /*if (!$.isEmptyObject(ownerSignUserInfoSettings.user_cover)) {
             //console.log("$.fn.showcaseUserPicture user_cover.length > 0 -----> " + JSON.stringify(showcaseUserPictureSettings));
-            $(".videme-owner-sign-user_cover").attr('src', ownerSignUserInfoSettings.user_cover);
-        }/*
+            $(".videme-owner-sign-user_cover").attr('src', 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_cover);
+        }*/
+        $(".videme-owner-sign-user_cover").attr('src', 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_cover);
+        /*
         if (!$.isEmptyObject(ownerSignUserInfoSettings.user_picture)) {
             $(".videme-owner-sign-user_picture").attr('src', ownerSignUserInfoSettings.user_picture);
         }*/
-        $(".videme-owner-sign-user_picture").attr('src', 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg');
+        $(".videme-owner-sign-user_picture").attr('src', 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_picture);
 
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.spring)) {
+        /*if (!$.isEmptyObject(ownerSignUserInfoSettings.spring)) {
             $(".videme-owner-sign_display_name").html("<a href='https://vide.me/" + ownerSignUserInfoSettings.spring + "'>" + ownerSignUserInfoSettings.user_display_name + "</a>");
         } else {
             $(".videme-owner-sign_display_name").html(ownerSignUserInfoSettings.user_display_name);
-        }
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.bio)) $(".videme-owner-sign-bio").html(ownerSignUserInfoSettings.bio);
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.country)) $(".videme-owner-sign-country").html(
+        }*/
+        $(".videme-owner-sign_display_name").html("<a href='https://vide.me/" + trueUserInfo.spring + "'>" + trueUserInfo.user_display_name + "</a>");
+        //if (!$.isEmptyObject(ownerSignUserInfoSettings.bio)) $(".videme-owner-sign-bio").html(ownerSignUserInfoSettings.bio);
+        $(".videme-owner-sign-bio").html(trueUserInfo.bio);
+        /*if (!$.isEmptyObject(ownerSignUserInfoSettings.country)) $(".videme-owner-sign-country").html(
             '<i class="fa fa-globe videme-country-marker"></i>' +
             '<div class="videme-country-name">' + ownerSignUserInfoSettings.country + '</div>'
+        );*/
+        $(".videme-owner-sign-country").html(
+            '<i class="fa fa-globe videme-country-marker"></i>' +
+            '<div class="videme-country-name">' + trueUserInfo.country + '</div>'
         );
-        if (!$.isEmptyObject(ownerSignUserInfoSettings.city)) $(".videme-owner-sign-city").html(
+        /*if (!$.isEmptyObject(ownerSignUserInfoSettings.city)) $(".videme-owner-sign-city").html(
             '<i class="fa fa-map-marker videme-city-marker"></i>' +
             '<div class="videme-city-name">' + ownerSignUserInfoSettings.city + '</div>'
+        );*/
+        $(".videme-owner-sign-city").html(
+            '<i class="fa fa-map-marker videme-city-marker"></i>' +
+            '<div class="videme-city-name">' + trueUserInfo.city + '</div>'
         );
     };
 
@@ -2901,7 +5781,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //if (showcaseUserPictureSettings.user_picture.length > 0) {
         if (!$.isEmptyObject(showcaseUserPictureSettings.user_picture)) {
             //$(".videme-owner-sign-user_picture").attr('src', showcaseUserPictureSettings.user_picture);
-            $(".videme-showcase-user_picture").attr('src', "https://s3.amazonaws.com/users.vide.me/" + showcaseUserPictureSettings.user_id + "_user_picture.jpg");
+            $("#videme_showcase_user_picture").attr('src', "https://s3.amazonaws.com/img.vide.me/" + showcaseUserPictureSettings.user_picture);
         }
         //if (showcaseUserPictureSettings.user_cover.length > 0) {
         if (!$.isEmptyObject(showcaseUserPictureSettings.user_cover)) {
@@ -3264,11 +6144,11 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             var tempObject = $(showSearchPeoplesSettings.showcaseResultSearchPeoples);
         }
         tempObject.html(VidemeProgress);
-        var start_time = performance.now();
+        //var start_time = performance.now();
         $.getJSON("https://api.vide.me/v2/user/search/?q=" + showSearchPeoplesSettings.q + "&limit=" + showSearchPeoplesSettings.limit + "&videmecallback=?",
             function (data) {
-                var response_time = Math.round(performance.now() - start_time);
-                $(showSearchItemByTextSettings.showcaseResultResponse).append('<small>API response time: ' + response_time + ' milliseconds. ' + data.length + ' items. </small>');
+                //var response_time = Math.round(performance.now() - start_time);
+                //$(showSearchItemByTextSettings.showcaseResultResponse).append('<small>API response time: ' + response_time + ' milliseconds. ' + data.length + ' items. </small>');
                 if (!$.isEmptyObject(data)) {
                     tempObject.html(
                         showTileDoorbellSignSmall(
@@ -3299,13 +6179,20 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             var tempObject = $(showSearchItemByTextSettings.showcaseSearchArticle);
         }
         tempObject.html(VidemeProgress);
-        var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/post/search/?q=" + showSearchItemByTextSettings.q + "&limit=" + showSearchItemByTextSettings.limit + "&videmecallback=?",
+        //var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/posts/search/?q=" + showSearchItemByTextSettings.q + "&limit=" + showSearchItemByTextSettings.limit + "&videmecallback=?",
             function (data) {
                 if (!$.isEmptyObject(data)) {
-                    var response_time = Math.round(performance.now() - start_time);
-                    $(showSearchItemByTextSettings.showcaseResultResponse).append('<small>API response time: ' + response_time + ' milliseconds. ' + data.length + ' items. </small>');
-                    tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));            } else {
+                    //var response_time = Math.round(performance.now() - start_time);
+                    //$(showSearchItemByTextSettings.showcaseResultResponse).append('<small>API response time: ' + response_time + ' milliseconds. ' + data.length + ' items. </small>');
+                    //tempObject.html(showTile(parseDataArrayToObject(data), tempObject, "shownext"));
+                    var id_list_group = 'list-group_' + Math.floor(Math.random() * 100);
+
+                    tempObject.html("<ul class='list-group' id='" + id_list_group + "'></ul>");
+
+                    showTileMultipleLI(parseDataArrayToObject(data), id_list_group, 'showmulti', 0);
+
+                } else {
                     tempObject.html("No results");
                 }
             })
@@ -3336,14 +6223,14 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         //console.log("$.fn.showPopTags tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         var html = [];
-        var start_time = performance.now();
-        $.getJSON("https://api.vide.me/v2/post/show_pop_tags/?videmecallback=?",
+        //==var start_time = performance.now();
+        $.getJSON("https://api.vide.me/v2/posts/show_pop_tags/?videmecallback=?",
             function (data) {
                 //console.log("$.fn.showPopTags getJSON -----> " + JSON.stringify(data));
                 //console.log("$.fn.showPopTags getJSON data.tags -----> " + JSON.stringify(data.tags));
-                var response_time = Math.round(performance.now() - start_time);
+                //==var response_time = Math.round(performance.now() - start_time);
                 //console.log('doTasks took ' + response_time + ' milliseconds to execute.');
-                $(showMostPopTagsSettings.showcaseResultResponse).append('<p><small>API response time: ' + response_time + ' milliseconds</small></p>');
+                //==$(showMostPopTagsSettings.showcaseResultResponse).append('<p><small>API response time: ' + response_time + ' milliseconds</small></p>');
                 //if (data.tags) {
                 if (!$.isEmptyObject(data)) {
                     //console.log("$.fn.showPopTags data.tags -----> yes");
@@ -3638,25 +6525,23 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     };
 
     /***************************************************************************
-     v2 Relations to me
+     v2 I'm following
      ***************************************************************************/
-    $.fn.showRelationToMe = function (options) {
+    $.fn.showImFollowing = function (options) {
         //console.log("$.fn.showRelation -----> ok");
-        showRelationFromSpringSettings = $.extend({
+        showImFollowingSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 100,
-            showRelationToMe: "#videme-tile"
+            showImFollowing: "#videme-tile"
         }, options);
         if ($(this).length) {
-            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
-            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showRelationFromSpringSettings.showRelationToMe);
+            var tempObject = $(showImFollowingSettings.showImFollowing);
         }
         //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("https://api.vide.me/v2/relation/relations_to_me/?limit=" + showRelationFromSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/relation/from_me/?limit=" + showImFollowingSettings.limit + "&videmecallback=?",
             function (data) {
                 //console.log("$.fn.showRelation data -----> " + data);
                 if (!$.isEmptyObject(data)) {
@@ -3667,7 +6552,221 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     );
                 } else {
                     console.warn("$.fn.showRelation data -----> no");
-                    tempObject.html("Relations to me empty");
+                    tempObject.html("empty");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     v2 My followers
+     ***************************************************************************/
+    $.fn.showMyFollowers = function (options) {
+        //console.log("$.fn.showRelation -----> ok");
+        showMyFollowersSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 100,
+            showMyFollowers: "#videme-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showMyFollowersSettings.showMyFollowers);
+        }
+        //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/relation/relations_to_me/?limit=" + showMyFollowersSettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showRelation data -----> " + data);
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseRelationsToMeForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    console.warn("$.fn.showRelation data -----> no");
+                    tempObject.html("empty");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     v2 Friends of Spring
+     ***************************************************************************/
+    $.fn.showFriendsOfSpring = function (options) {
+        //console.log("$.fn.showRelation -----> ok");
+        showFriendsOfSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 100,
+            showFriendsMy: "#videme-my-friends-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showFriendsOfSpringSettings.showFriendsMy);
+        }
+        //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var url = parseUrl();
+
+        $.getJSON("https://api.vide.me/v2/spring/friends/?spring=" + url.spring + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showRelation data -----> " + data);
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseFriendshipMyForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    console.warn("$.fn.showFriendsOfSpringSettings data -----> no");
+                    //tempObject.html("No friends");
+                    tempObject.html("");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     v2 Friends My
+     ***************************************************************************/
+    $.fn.showFriendsMy = function (options) {
+        //console.log("$.fn.showRelation -----> ok");
+        showFriendsMySettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 100,
+            showFriendsMy: "#videme-my-friends-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showFriendsMySettings.showFriendsMy);
+        }
+        //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/friendship/my/?limit=" + showFriendsMySettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showRelation data -----> " + data);
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseFriendshipMyForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    console.warn("$.fn.showFriendsMy data -----> no");
+                    //tempObject.html("No friends");
+                    tempObject.html("");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     v2 Friends Pending request for me
+     ***************************************************************************/
+    $.fn.showFriendsMyPendingRequest = function (options) {
+        //console.log("$.fn.showRelation -----> ok");
+        showFriendsMyPendingRequestCountSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 100,
+            showFriendsMyPendingRequest: "#videme-friends-my-pending-request-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showFriendsMyPendingRequestCountSettings.showFriendsMyPendingRequest);
+        }
+        //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/friendship/my_pending_request/?limit=" + showFriendsMyPendingRequestCountSettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showRelation data -----> " + data);
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseFriendshipAcceptForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    console.warn("$.fn.showFriendsMyPendingRequest data -----> no");
+                    tempObject.html("No pending request");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     v2 Friends Requests friendships
+     ***************************************************************************/
+    $.fn.showRequestsFriendships = function (options) {
+        //console.log("$.fn.showRelation -----> ok");
+        showRequestsFriendshipsSettings = $.extend({
+            // TODO: добавить limit в NAD
+            limit: 100,
+            showRequestsFriendships: "#videme-friends-my-pending-request-tile"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showRequestsFriendshipsSettings.showRequestsFriendships);
+        }
+        //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        $.getJSON("https://api.vide.me/v2/friendship/my_request/?limit=" + showRequestsFriendshipsSettings.limit + "&videmecallback=?",
+            function (data) {
+                //console.log("$.fn.showRelation data -----> " + data);
+                if (!$.isEmptyObject(data)) {
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseMyRequestsFriendshipForDoorbellSign(data), tempObject
+                        )
+                    );
+                } else {
+                    console.warn("$.fn.showFriendsMyPendingRequest data -----> no");
+                    tempObject.html("No pending request");
                 }
             })
             .done(function (data) {
@@ -3684,23 +6783,23 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
      ***************************************************************************/
     $.fn.showRelationToSpring = function (options) {
         //console.log("$.fn.showRelation -----> ok");
-        showRelationFromSpringSettings = $.extend({
+        showMyFollowersSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 100,
-            showRelationToMe: "#videme-tile"
+            showMyFollowers: "#videme-tile"
         }, options);
         if ($(this).length) {
             //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showRelationFromSpringSettings.showRelationToSpring);
+            var tempObject = $(showMyFollowersSettings.showRelationToSpring);
         }
         //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         var url = parseUrl();
 
-        $.getJSON("https://api.vide.me/v2/relation/relations_to_spring/?spring=" + url.spring + "&limit=" + showRelationFromSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/relation/relations_to_spring/?spring=" + url.spring + "&limit=" + showMyFollowersSettings.limit + "&videmecallback=?",
             function (data) {
                 //console.log("$.fn.showRelation data -----> " + data);
                 if (!$.isEmptyObject(data)) {
@@ -3711,7 +6810,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     );
                 } else {
                     console.warn("$.fn.showRelation data -----> no");
-                    tempObject.html("Relations to me empty");
+                    tempObject.html("empty");
                 }
             })
             .done(function (data) {
@@ -3728,23 +6827,23 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
      ***************************************************************************/
     $.fn.showRelationFromSpring = function (options) {
         //console.log("$.fn.showRelation -----> ok");
-        showRelationFromSpringSettings = $.extend({
+        showMyFollowersSettings = $.extend({
             // TODO: добавить limit в NAD
             limit: 100,
-            showRelationToMe: "#videme-tile"
+            showMyFollowers: "#videme-tile"
         }, options);
         if ($(this).length) {
             //console.log("$.fn.showRelation $(this) -----> yes " + $(this).length);
             var tempObject = $(this);
         } else {
             //console.log("$.fn.showRelation $(this) -----> nooo! " + $(this).length);
-            var tempObject = $(showRelationFromSpringSettings.showRelationToSpring);
+            var tempObject = $(showMyFollowersSettings.showRelationToSpring);
         }
         //console.log("$.fn.showRelation tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
         var url = parseUrl();
 
-        $.getJSON("https://api.vide.me/v2/relation/relations_from_spring/?spring=" + url.spring + "&limit=" + showRelationFromSpringSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/relation/relations_from_spring/?spring=" + url.spring + "&limit=" + showMyFollowersSettings.limit + "&videmecallback=?",
             function (data) {
                 //console.log("$.fn.showRelation data -----> " + data);
                 if (!$.isEmptyObject(data)) {
@@ -3755,7 +6854,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     );
                 } else {
                     console.warn("$.fn.showRelation data -----> no");
-                    tempObject.html("Relations to me empty");
+                    tempObject.html("empty");
                 }
             })
             .done(function (data) {
@@ -3768,7 +6867,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     };
 
     /***************************************************************************
-     v2 Функция показать List
+     v2 Show Albums
      ***************************************************************************/
     $.fn.showList = function (options) {
         //console.log("$.fn.showList -----> ok");
@@ -3786,7 +6885,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         }
         //console.log("$.fn.showList tempObject -----> " + tempObject.length);
         tempObject.html(VidemeProgress);
-        $.getJSON("https://api.vide.me/v2/list/?limit=" + showListSettings.limit + "&videmecallback=?",
+        $.getJSON("https://api.vide.me/v2/albums/?limit=" + showListSettings.limit + "&videmecallback=?",
             function (data) {
                 if (!$.isEmptyObject(data)) {
                     //console.log("$.fn.showList data -----> yes " + JSON.stringify(data));
@@ -3797,7 +6896,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
                     );
                 } else {
                     console.log("$.fn.showList data -----> no");
-                    tempObject.html("No list");
+                    tempObject.html("");
                 }
             })
             .done(function (data) {
@@ -3811,6 +6910,66 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
 
 
     /***************************************************************************
+     v2 Show Album of Spring
+     ***************************************************************************/
+    $.fn.showAlbumOfSpring = function (options) {
+        console.log("$.fn.showAlbumOfSpring -----> ok");
+        showListOfSpringSettings = $.extend({
+            // TODO: добавить limit в NAD
+            //limit: 6,
+            showSignsOfSpringForPublic: "#videme-list-of-spring-public"
+        }, options);
+        if ($(this).length) {
+            //console.log("$.fn.showSignsOfSpringForPublic $(this) -----> yes " + $(this).length);
+            var tempObject = $(this);
+        } else {
+            //console.log("$.fn.showSignsOfSpringForPublic $(this) -----> nooo! " + $(this).length);
+            var tempObject = $(showListOfSpringSettings.showSignsOfSpringForPublic);
+        }
+        //console.log("$.fn.showSignsOfSpringForPublic tempObject -----> " + tempObject.length);
+        tempObject.html(VidemeProgress);
+        var url = parseUrl();
+        $.getJSON("https://api.vide.me/v2/spring/albums/?spring=" + url.spring + "&videmecallback=?",
+            function (data) {
+                if (!$.isEmptyObject(data)) {
+                    /*console.log("$.fn.showSignsOfSpringForPublic data -----> yes" + JSON.stringify(data));
+                    $('.videme-showcase-list-of-spring-public').removeClass('hidden');
+                    var results = [];
+                    //$.each(data['results'], function (key, value) {
+                    results.push("<ul class=\"list-group\">");
+                    $.each(data, function (key, value) {
+                        results.push("\
+                        <li class=\"list-group-item\">\
+                            <a href='https://www.vide.me/" + url.spring + "/?list=" + value.title + "'>\
+                                " + value.title + "\
+                            </a>\
+                        </li>\
+                        ");
+                    });
+                    results.push("</ul>");
+                    tempObject.html(results.join(""));*/
+                    $('.videme-album-of-spring').removeClass('hidden');
+                    tempObject.html(
+                        showTileDoorbellSignSmall(
+                            parseSignsForDoorbellSignSpring(data), tempObject
+                        )
+                    );
+                } else {
+                    console.log("$.fn.showList data -----> no");
+                    tempObject.html("No albums");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                tempObject.html(showError(data));
+            })
+            .always(function () {
+            });
+    };
+
+    /***************************************************************************
+     * REMOVE
      v2 Show List of Spring
      https://github.com/SergeyKozlov/vide.me-js/wiki/en:API_All#show-list-of-spring
      ***************************************************************************/
@@ -3871,6 +7030,8 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     };
 
     /***************************************************************************
+     *      * REMOVE
+
      v2 Show List of Spring For Friends
      ***************************************************************************/
     $.fn.showSignsOfSpringForFriends = function (options) {
@@ -3927,6 +7088,8 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
     };
 
     /***************************************************************************
+     *      * REMOVE
+
      v2 Show List of Spring Private
      ***************************************************************************/
     $.fn.showSignsOfSpringForPrivate = function (options) {
@@ -4047,7 +7210,7 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
             tempObject.addClass('in');
             setTimeout(function () {
                 tempObject.removeClass('in');
-            }, 3200);
+            }, 2200);
         }
     };
 
@@ -4073,7 +7236,8 @@ console.log("Collaboration http://sergeykozlov.ru/collaboration/");
         $.fn.lastNotification({
             msg: successNotificationSettings.msg
         });
-        tempObject.append(successNotificationSettings.msg + "<br>");
+        //tempObject.append(successNotificationSettings.msg + "<br>");
+        tempObject.html(successNotificationSettings.msg + "<br>");
         if (!tempObject.is('.in')) {
             tempObject.addClass('in');
             setTimeout(function () {
@@ -4227,6 +7391,17 @@ $(document).on('click', 'a.file-my-url', function (event) {
 });
 
 /*************************************************************
+ v2 my-posts-url
+ **************************************************************/
+$(document).on('click', 'a.my-posts-url', function (event) {
+    console.log("a.my-posts-url -----> click");
+    event.preventDefault();
+    $('html, body').animate({scrollTop: '0px'}, 300);
+    $('.itemscope').removeClass('hidden');
+    $.fn.showcaseVideoTextButton(paddingButtonMy($(this).getAttributes()));
+});
+
+/*************************************************************
  v2 Событие 2: нажата ссылка на файл из плитки MySpring,
  отрисовка текста и кнопок в панель
  **************************************************************/
@@ -4245,7 +7420,184 @@ $(document).on('click', 'a.file-spring-url', function (event) {
     console.log("a.file-spring-url -----> click");
     event.preventDefault();
     $('html, body').animate({scrollTop: '0px'}, 300);
+    $('.itemscope').removeClass('hidden');
     $.fn.showcaseVideoTextButton(paddingButtonSpring($(this).getAttributes()));
+});
+/*************************************************************
+ image-url for modal
+ **************************************************************/
+$(document).on('click', '.image-url', function (event) {
+    console.log(".image-url -----> click");
+    //event.stopPropagation();
+    event.preventDefault();
+
+    var $this = $(this);
+    $('#modal-show-image').modal('show');
+
+    //if ($.cookie('vide_nad')) {
+    if ($this.attr('item_id')) {
+        //goToUrl('https://api.vide.me/system/items/item_count_add/?item=' + $this.attr('item_id'));
+
+        //$(".videme-list-list").html(VidemeProgress);
+        $(".videme-modal-item-image-place").html(VidemeProgress);
+        $(".videme-modal-item-image-place").html("<img src='https://s3.amazonaws.com/img.vide.me/" + $this.attr('item_id') + ".jpg' class='videme-modal-item-image'>");
+        if ($this.attr('title')) $(".videme-modal-item-title-place").html("<b>" + $this.attr('title') + "</b><br>");
+        if ($this.attr('content')) $(".videme-modal-item-content-place").html($this.attr('content') + "<br>");
+        if ($this.attr('created_at')) $(".videme-modal-item-created_at-place").html($this.attr('created_at') + "<br>");
+
+        //$(".videme-file-info").html("<b>" + $this.attr('title') + "</b><br>" + $this.attr('content') + "<br>" + $this.attr('created_at') + "<br>");
+        $('#file').val($this.attr('file'));
+        /*$.getJSON("https://api.vide.me/v2/albums/?videmecallback=?",
+            function (data) {
+                if (data) {
+                    console.log(".list-toggle data -----> yes" + JSON.stringify(data));
+                    var results = [];
+                    $.each(data, function (key, value) {
+                        results.push("<a class='list-url' href='https://api.vide.me/v2/items/share/?item_id=" + $this.attr('item_id') + "&album_id=" + value.album_id + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.title + "</span></a> ");
+                    });
+                    //$(".videme-list-list").html("empty");
+                    $('.videme-list-list').html(results.join(""));
+                } else {
+                    console.log(".list-toggle data -----> no");
+                    $('.videme-list-list').html("No list");
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                $('.videme-list-list').html(showError(data));
+            })
+            .always(function () {
+            });*/
+    } else {
+        console.log(".image-url -----> no item_id");
+        $('.videme-list-list').html(showError("No file"));
+    }
+    /*} else {
+        $('#modal-list').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
+    }*/
+});
+
+/*************************************************************
+ article-url for modal
+ **************************************************************/
+$(document).on('click', '.article-url', function (event) {
+    console.log(".article-url -----> click");
+    //event.stopPropagation();
+    event.preventDefault();
+
+    var $this = $(this);
+    $('#modal-show-article').modal('show');
+
+    //if ($.cookie('vide_nad')) {
+    if ($this.attr('item_id')) {
+
+        /*var cover = '';
+        var category = '';
+        var title = '';*/
+        //goToUrl('https://api.vide.me/system/items/item_count_add/?item=' + $this.attr('item_id'));
+
+        //$(".videme-list-list").html(VidemeProgress);
+        //$(".videme-modal-article-content-place").html(VidemeProgress);
+        $(".videme-modal-article-content-place").html("<img src='data:image/gif;base64,R0lGODlhQAAwAPQAAAAAAHx8fHl9j5WVlaCjraqqqrGxsby8vL+/v8jIyMvLy9ra2t3d3eLi4urq6vPz8/b29vf39/j4+Pn5+fr6+vz8/P7+/v///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH+EUNyZWF0ZWQgd2l0aCBHSU1QACwAAAAAQAAwAAAF/6AgjmRpnmiqosTqvvDbxnQNz3auk/ju172f0BUcGk/Fo1KUXB6bziE0+ptSd9ZrLqsFdpXc701sDJNX5nMqrUa2fYSLfE6v2+/4vD6vAPj/gIGCg4SFhoIBFwwDjI2Oj5CRkpOUkAYXFA+am5ydnp+goaKeEBd9h6ipqoaJDQWvsLGys7S1trezCHu7vL2+FQvBwsPExcbHyMnFDhcTB8/Q0dLT1NXW19MLvtvc3BQK4OHi4+Tl5ufo5A2Y6e3u7+nr3fP09fb3dRAB+/z9/v8AAwoc+E8XvoMIEyLUR7Chw4cDDSqcSLFingiVMmrcWCnBBQujQoocOUqCxZMMIQ2qXElQ4smXMGPK9BUCADs=' />");
+        /*if ($this.attr('cover')) cover = $this.attr('cover');
+        if ($this.attr('category')) category = $this.attr('category');
+        if ($this.attr('title')) title = $this.attr('title');*/
+        //$(".videme-modal-item-image-place").html("<img src='https://s3.amazonaws.com/img.vide.me/" + $this.attr('item_id') + ".jpg' class='videme-modal-item-image'>");
+        //console.log(".article-url -----> ", '"https://s3.amazonaws.com/img.vide.me/' + cover + '"');
+        /*if ($this.attr('title')) $(".videme-modal-item-title-place").append("<b>" + $this.attr('title') + "</b><br>");
+        if ($this.attr('content')) $(".videme-modal-item-content-place").append($this.attr('content') + "<br>");
+        if ($this.attr('created_at')) $(".videme-modal-item-created_at-place").append($this.attr('created_at') + "<br>");*/
+
+        $.getJSON("https://api.vide.me/v2/items/info/?item_id=" + $this.attr('item_id') + "&videmecallback=?",
+            function (data) {
+                $(".videme-modal-article-content-place").empty();
+
+                //console.log("article-url data -----> " + JSON.stringify(data));
+
+                //var data = parseDataArrayToObject(data);
+                //data = JSON.stringify(data);
+                //if ($.isEmptyObject(data)) {
+                if (!$.isEmptyObject(data)) {
+                    //console.log("article-url data -----> " + JSON.stringify(data));
+                    $(".videme-modal-article-content-place").append(
+                        '<div class="videme-cover-image" style="background-image: url(\'https://s3.amazonaws.com/img.vide.me/' + data.cover + '\')">' +
+                        /*'<div class="category">' + data.category + '</div>' +*/
+                        '</div>' +
+                        '<h3>' + data.title + '</h3>' +
+                        '<div class="videme-article-center">');
+
+                    var body = $.parseJSON(data.body);
+                    //tags = $.parseJSON(tagsR);
+
+                    $.each(body, function (key, value) {
+                        $.each(value, function (key2, value2) {
+                            /*if (value.text) {
+                                $(".videme-modal-article-content-place").append('<p>' + value.text + '</p>');
+                            }*/
+                            //console.log("article-url value2 -----> " + JSON.stringify(value2));
+
+                            switch (key2) {
+
+                                case 'text':
+                                    $(".videme-modal-article-content-place").append('<p>' + value.text + '</p>');
+
+                                    break;
+                                case 'video':
+                                    $(".videme-modal-article-content-place").append('<video controls="" autoplay="">  <source src="https://gu.vide.me/vi/?m=' + value.video + '" type=\"video/mp4\">  Your browser does not support the <code>video</code> element.</video>');
+
+                                    break;
+                                case 'YTVideo':
+                                    $(".videme-modal-article-content-place").append('<div class="videoWrapper">' +
+                                        '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + value.YTVideo + '" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div>');
+
+                                    break;
+                                case 'url':
+                                    $(".videme-modal-article-content-place").append('<div class="videoWrapper">' +
+                                        '<iframe width="560" height="315" src="' + value.url + '" frameborder="0" allowfullscreen="allowfullscreen"></iframe></div>');
+
+                                    break;
+                                case 'img':
+                                    $(".videme-modal-article-content-place").append('<img src="' + value.img + '" alt="" title="" />');
+
+                                    break;
+                                //default:
+                                //dropdownDS = " ";
+                            }
+                        });
+
+
+                    });
+                    if (!$.isEmptyObject(data.tags)) {
+                        $(".videme-modal-article-content-place").append('<h5>Tags:</h5>');
+                        var tags = $.parseJSON(data.tags);
+                        $.each(tags, function (key3, value3) {
+                            $(".videme-modal-article-content-place").append('<a href=\"https://vide.me/search/?q=' + value3 + '" class=\"badge badge-primary\"> ' + value3 + ' </a>&nbsp;');
+
+                        });
+                    }
+                } else {
+                    $('.videme-modal-article-content-place').html('No data');
+                }
+            })
+            .done(function (data) {
+            })
+            .fail(function (data) {
+                return false;
+            });
+
+
+    } else {
+        console.log(".article-url -----> no item_id");
+        $('.videme-modal-article-content-place').html(showError("No file"));
+    }
+    /*} else {
+        $('#modal-list').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
+    }*/
 });
 
 /*************************************************************
@@ -4265,15 +7617,18 @@ $(document).on('click', '.contact-toggle', function (event) {
     //var feedback = $this.attr('feedback');
     if ($.cookie('vide_nad')) {
         if ($this.attr('item_id')) {
-            $("#item-card").showItemCard({'item_id': $this.attr('item_id')});
+            var item_id = $this.attr('item_id');
+            console.log(".contact-toggle -----> item_id: ", item_id);
+
+            $(".videme_item_card_contact").showItemCard({'item_id': $this.attr('item_id')});
             //$(".videme_item_card").itemCard($this);
             $(".videme-contact-list").html(VidemeProgress);
             $.getJSON("https://api.vide.me/v2/relation/?videmecallback=?",
                 function (data) {
                     // TODO: Попробовать без куки nad
-                    if (data) {
+                    if (!$.isEmptyObject(data)) {
                         console.log(".contact-toggle data -----> yes" + JSON.stringify(data));
-                        results = [];
+                        /*results = [];
                         $.each(data, function (key, value) {
                             if ($.isEmptyObject(value.user_display_name)) {
                                 var user_display_name = value.user_email;
@@ -4282,7 +7637,15 @@ $(document).on('click', '.contact-toggle', function (event) {
                             }
                             results.push("<a class='badge badge-primary contact-url' href='https://api.vide.me/v2/email/share/?user_id=" + value.user_id + "&item_id=" + $this.attr('item_id') + "&subject=Re: " + $this.attr('title') + "&message=" + $this.attr('content') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>" + user_display_name + "</a> ");
                         });
-                        $('.videme-contact-list').html(results.join(""));
+                        $('.videme-contact-list').html(results.join(""));*/
+                        $('.videme-contact-list').html(
+                            /*showTileDoorbellSignSmall(
+                                parseSignsForDoorbellSignShare(data, item_id), $('.videme-list-list')
+                            )*/
+                            showTileDoorbellSignSmall(
+                                parseMyRelationsForDoorbellSignShare(data, item_id), $('.videme-contact-list')
+                            )
+                        );
                     } else {
                         console.log(".contact-toggle data -----> no");
                         $('.videme-contact-list').html("No contact");
@@ -4314,22 +7677,29 @@ $(document).on('click', '.list-toggle', function (event) {
     var $this = $(this);
     if ($.cookie('vide_nad')) {
         if ($this.attr('item_id')) {
-            $(".videme-list-list").html(VidemeProgress);
+            /*$(".videme-list-list").html(VidemeProgress);
             $(".videme-mini-img").html(VidemeProgress);
             $(".videme-mini-img").html("<img src='https://s3.amazonaws.com/img.vide.me/" + $this.attr('item_id') + ".jpg' class='videme-img-tile-my' width='190' height='108'>");
             if ($this.attr('title')) $(".videme-file-info").append("<b>" + $this.attr('title') + "</b><br>");
             if ($this.attr('content')) $(".videme-file-info").append($this.attr('content') + "<br>");
-            if ($this.attr('created_at')) $(".videme-file-info").append($this.attr('created_at') + "<br>");
+            if ($this.attr('created_at')) $(".videme-file-info").append($this.attr('created_at') + "<br>");*/
+
+            var item_id = $this.attr('item_id');
+            $(".videme_item_card_album").showItemCard({'item_id': $this.attr('item_id')});
+            /*$("#videme-soc-share-all-modal").jsSocials({
+                shares: ["twitter", "facebook", "googleplus", "linkedin", "email",  "pinterest", "stumbleupon", "whatsapp"],
+                url: "https://www.vide.me/a/?a=" + $this.attr('item_id')
+            });*/
 
             //$(".videme-file-info").html("<b>" + $this.attr('title') + "</b><br>" + $this.attr('content') + "<br>" + $this.attr('created_at') + "<br>");
             $('#file').val($this.attr('file'));
-            $.getJSON("https://api.vide.me/v2/list/?videmecallback=?",
+            /*$.getJSON("https://api.vide.me/v2/albums/?videmecallback=?",
                 function (data) {
                     if (data) {
                         console.log(".list-toggle data -----> yes" + JSON.stringify(data));
                         var results = [];
                         $.each(data, function (key, value) {
-                            results.push("<a class='list-url' href='https://api.vide.me/v2/items/share/?item=" + $this.attr('item_id') + "&list=" + value.title + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.title + "</span></a> ");
+                            results.push("<a class='list-url' href='https://api.vide.me/v2/items/share/?item_id=" + $this.attr('item_id') + "&album_id=" + value.album_id + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.title + "</span></a> ");
                         });
                         //$(".videme-list-list").html("empty");
                         $('.videme-list-list').html(results.join(""));
@@ -4344,12 +7714,105 @@ $(document).on('click', '.list-toggle', function (event) {
                     $('.videme-list-list').html(showError(data));
                 })
                 .always(function () {
+                });*/
+            $.getJSON("https://api.vide.me/v2/albums/?videmecallback=?",
+                function (data) {
+                    if (!$.isEmptyObject(data)) {
+                        //console.log("$.fn.showList data -----> yes " + JSON.stringify(data));
+                        $('.videme-list-list').html(
+                            showTileDoorbellSignSmall(
+                                parseSignsForDoorbellSignShare(data, item_id), $('.videme-list-list')
+                            )
+                        );
+                    } else {
+                        console.log("$.fn.showList data -----> no");
+                        tempObject.html("No list");
+                    }
+                })
+                .done(function (data) {
+                })
+                .fail(function (data) {
+                    tempObject.html(showError(data));
+                })
+                .always(function () {
                 });
+            /*$('.videme-list-list').showList({
+                //limit: 6
+            });*/
         } else {
             $('.videme-list-list').html(showError("No file"));
         }
     } else {
         $('#modal-list').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
+    }
+});
+
+/*************************************************************
+ v2 Событие 3: нажата кнопка вызова и отрисовки листов в модальном окне
+ **************************************************************/
+$(document).on('click', '.share-to-fb-toggle', function (event) {
+    console.log(".share-to-fb-toggle -----> click");
+    event.stopPropagation();
+    var $this = $(this);
+    if ($this.attr('item_id')) {
+        var item_id = $this.attr('item_id');
+        $(".videme_item_card_share_to_fb").showItemCard({'item_id': $this.attr('item_id')});
+        $("#videme-soc-share-all-modal").jsSocials({
+            shares: ["twitter", "facebook", "googleplus", "linkedin", "email", "pinterest", "stumbleupon", "whatsapp"],
+            url: "https://www.vide.me/a/?a=" + $this.attr('item_id'),
+            showLabel: true,
+            showCount: true,
+            shareIn: 'popup'
+        });
+    }
+});
+
+/*************************************************************
+ v2 Set Like
+ **************************************************************/
+$(document).on('click', '.set_like', function (event) {
+    console.log(".set_like -----> click");
+    event.stopPropagation();
+    var $this = $(this);
+    if ($.cookie('vide_nad')) {
+        if ($this.attr('item_id')) {
+            $this.html(VidemeProgress);
+            //$(".videme-mini-img").html(VidemeProgress);
+
+
+            //$(".videme-file-info").html("<b>" + $this.attr('title') + "</b><br>" + $this.attr('content') + "<br>" + $this.attr('created_at') + "<br>");
+            $('#file').val($this.attr('file'));
+            $.getJSON("https://api.vide.me/v2/likes/set/?item_id=" + $this.attr('item_id') + "&videmecallback=?",
+                function (data) {
+                    if (data) {
+                        console.log(".set_like data -----> yes" + JSON.stringify(data));
+                        /*var results = [];
+                        $.each(data, function (key, value) {
+                            results.push("<a class='list-url' href='https://api.vide.me/v2/items/share/?item_id=" + $this.attr('item_id') + "&album_id=" + value.album_id + "&nad=" + $.cookie('vide_nad') + "' target='_blank'><span class='label label-primary'>" + value.title + "</span></a> ");
+                        });*/
+                        //$(".videme-list-list").html("empty");
+                        //$('.videme-list-list').html(results.join(""));
+                    } else {
+                        console.log(".list-toggle data -----> no");
+                        $this.html('You did it!');
+                    }
+                })
+                .done(function (data) {
+                    $this.html('Liked');
+                    $this.addClass('disabled');
+                })
+                .fail(function (data) {
+                    $this.html('You did it!');
+                })
+                .always(function () {
+                });
+        } else {
+            //$('.videme-list-list').html(showError("No file"));
+        }
+    } else {
+        //$('#modal-list').modal('hide');
         $('#modal-signin').modal('show');
         $('#feedback').val(window.location.href);
     }
@@ -4363,20 +7826,26 @@ $(document).on('click', '.del-inbox-toggle', function (event) {
     console.log(".del-inbox-toggle -----> click");
     event.stopPropagation();
     var $this = $(this);
-    if ($this.attr('message_id')) {
-        $(".videme_item_card").itemCard($this);
-        $('.videme-del-list').html("\
+    if ($.cookie('vide_nad')) {
+        if ($this.attr('message_id')) {
+            $(".videme_item_card_messages").showItemCard({'item_id': $this.attr('item_id')});
+            $('.videme-del-list').html("\
+                <div class='videme-progress'></div>\
                 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
-                    Сancel\
+                Сancel\
                 </button> \
-                <a class='del-inbox-url' message_id='https://api.vide.me/v2/message/inbox/delete/?message_id=" + $this.attr('message_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+                <a class='del-inbox-url' href='https://api.vide.me/v2/message/inbox/delete/?message_id=" + $this.attr('message_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
                 <button type='button' class='btn btn-danger' id='do'>\
                 Delete\
-                <div class='videme-progress'></div>\
                 </button>\
                 </a>");
+        } else {
+            $('.videme-del-list').html(showError("No message"));
+        }
     } else {
-        $('.videme-del-list').html(showError("No file"));
+        $('#modal-del-inbox').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
     }
 });
 
@@ -4387,20 +7856,27 @@ $(document).on('click', '.del-inbox-toggle', function (event) {
 $(document).on('click', '.del-sent-toggle', function (event) {
     console.log(".del-sent-toggle -----> click");
     event.stopPropagation();
-    if ($('.del-sent-toggle').attr('message_id')) {
-        $(".videme_item_card").itemCard($('.del-sent-toggle'));
-        $('.videme-del-list').html("\
+    var $this = $(this);
+    if ($.cookie('vide_nad')) {
+        if ($('.del-sent-toggle').attr('message_id')) {
+            $(".videme_item_card_messages").showItemCard({'item_id': $this.attr('item_id')});
+            $('.videme-del-list').html("\
+                <div class='videme-progress'></div>\
                 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
-                    Сancel\
+                Сancel\
                 </button> \
-                <a class='del-sent-url' item_id='https://api.vide.me/v2/message/sent/delete/?message_id=" + $('.del-sent-toggle').attr('message_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+                <a class='del-sent-url' href='https://api.vide.me/v2/message/sent/delete/?message_id=" + $('.del-sent-toggle').attr('message_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
                 <button type='button' class='btn btn-danger' id='do'>\
                 Delete\
-                <div class='videme-progress'></div>\
                 </button>\
                 </a>");
+        } else {
+            $('.videme-del-list').html(showError("No file"));
+        }
     } else {
-        $('.videme-del-list').html(showError("No file"));
+        $('#modal-del-sent').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
     }
 });
 
@@ -4412,19 +7888,74 @@ $(document).on('click', '.del-my-toggle', function (event) {
     console.log(".del-my-toggle -----> click");
     event.stopPropagation();
     var $this = $(this);
-
-    if ($this.attr('item_id')) {
-        $(".videme_item_card").itemCard($this);
-        $('.videme-del-list').html("\
+    if ($.cookie('vide_nad')) {
+        if ($this.attr('item_id')) {
+            var item_id = $this.attr('item_id');
+            console.log(".del-my-toggle -----> item_id: ", item_id);
+            $(".videme_item_card_del").showItemCard({'item_id': $this.attr('item_id')});
+            $('.videme-del-list').html("\
+                <div class='videme-progress'></div>\
                 <button type='button' class='btn btn-primary' data-dismiss='modal'>\
                     Сancel\
                 </button> \
                 <a class='del-my-url' item_id='https://api.vide.me/v2/items/my/delete/?item_id=" + $this.attr('item_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
                 <button type='button' class='btn btn-danger' id='do'>\
                 Delete\
-                <div class='videme-progress'></div>\
                 </button>\
                 </a>");
+        } else {
+            $('.videme-contact-list').html(showError("No file"));
+        }
+    } else {
+        $('#modal-del').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
+    }
+});
+
+/*************************************************************
+ v2 del-my-post-toggle
+ **************************************************************/
+$(document).on('click', '.del-my-post-toggle', function (event) {
+    console.log(".del-my-post-toggle -----> click");
+    event.stopPropagation();
+    var $this = $(this);
+    if ($.cookie('vide_nad')) {
+        if ($this.attr('item_id')) {
+            //$(".videme_item_card").itemCard($this);
+            $('.videme-del-list').html("\
+                <div class='videme-progress'></div>\
+                <button type='button' class='btn btn-primary' data-dismiss='modal'>\
+                    Сancel\
+                </button> \
+                <a class='del-my-post-url' href='https://api.vide.me/v2/posts/my/delete/?post_id=" + $this.attr('post_id') + "&nad=" + $.cookie('vide_nad') + "' target='_blank'>\
+                <button type='button' class='btn btn-danger' id='do'>\
+                Delete\
+                </button>\
+                </a>");
+        } else {
+            $('.videme-del-list').html(showError("No file"));
+        }
+    } else {
+        $('#modal-del-post').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
+    }
+});
+
+/*************************************************************
+ v2 embed-code-toggle
+ **************************************************************/
+$(document).on('click', '.embed-code-toggle', function (event) {
+    console.log(".embed-code-toggle -----> click");
+    event.stopPropagation();
+    var $this = $(this);
+    if ($this.attr('item_id')) {
+        //$(".videme_item_card").itemCard($this);
+        $('.videme-embed-code').html("<textarea name='embed' rows='3' class='input_embed'>" +
+            "<iframe src='https://api.vide.me/embed/?m=" + $this.attr('item_id') + "' width='640' height='360' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>\n" +
+            "<p><a href='https://vide.me/v/?m=" + $this.attr('item_id') + "'>" + $this.attr('title') + "</a> from user <a href=\"https://vide.me/" + $this.attr('spring') + "\">" + $this.attr('user_display_name') + "</a> on <a href=\"https://vide.me\">Vide.me</a>.</p>" +
+            "</textarea></p>");
     } else {
         $('.videme-del-list').html(showError("No file"));
     }
@@ -4438,38 +7969,168 @@ $(document).on('click', '.item-edit-toggle', function (event) {
     console.log(".item-edit-toggle -----> click");
     event.stopPropagation();
     var $this = $(this);
-    if ($this.attr('item_id')) {
-        if ($.cookie('vide_nad')) {
-            $('#nad').val($.cookie('vide_nad'));
-        } else {
-            console.log("item-edit-toggle -----> no cookie");
-        }
-        $('#item_id').val($this.attr('item_id'));
-        $('#cover').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('item_id') + '.jpg');
-        $('#title').val($this.attr('title'));
-        $('#content').val($this.attr('content'));
-        $('#access').val($this.attr('access'));
-        $('.del-my-toggle').attr('item_id', $this.attr('item_id'));
-        $('.del-my-toggle').attr('user_display_name', $this.attr('user_display_name'));
-        $('.del-my-toggle').attr('title', $this.attr('title'));
-        $('.del-my-toggle').attr('content', $this.attr('content'));
-        $('.del-my-toggle').attr('created_at', $this.attr('created_at'));
-        var tagsR = $this.attr('tags');
-        if (tags) {
-            var tags = [];
-            tags = $.parseJSON(tagsR);
-            //console.log("$.fn.showcaseText tags -----> " + tags);
-            $.each(tags, function (key, value) {
-                //console.log("$.fn.showcaseText tags -----> " + value);
-                $("#tags").append('<a href="https://www.vide.me/search/?q=' + value + '" class="badge badge-primary">' + value + '</span> ');
+    /*    if ($this.attr('item_id')) {
+            if ($.cookie('vide_nad')) {
+                $('#nad').val($.cookie('vide_nad'));
+            } else {
+                console.log("item-edit-toggle -----> no cookie");
+            }
+            $('#item_id').val($this.attr('item_id'));
+            $('#cover').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('item_id') + '.jpg');
+            $('#title').val($this.attr('title'));
+            $('#content').val($this.attr('content'));
+            $('#access').val($this.attr('access'));
+            $('.del-my-toggle').attr('item_id', $this.attr('item_id'));
+            $('.del-my-toggle').attr('user_display_name', $this.attr('user_display_name'));
+            $('.del-my-toggle').attr('title', $this.attr('title'));
+            $('.del-my-toggle').attr('content', $this.attr('content'));
+            $('.del-my-toggle').attr('created_at', $this.attr('created_at'));
+            var tagsR = $this.attr('tags');
+            if (tags) {
+                var tags = [];
+                tags = $.parseJSON(tagsR);
+                //console.log("$.fn.showcaseText tags -----> " + tags);
+                $.each(tags, function (key, value) {
+                    //console.log("$.fn.showcaseText tags -----> " + value);
+                    $("#tags").append('<a href="https://www.vide.me/search/?q=' + value + '" class="badge badge-primary">' + value + '</span> ');
 
-            });
+                });
+            } else {
+                //console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
+            }
         } else {
-            //console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
+            $('.title').html(showError("No file"));
+        }*/
+
+    if ($.cookie('vide_nad')) {
+        if ($this.attr('item_id')) {
+            var item_id = $this.attr('item_id');
+            console.log(".contact-toggle -----> item_id: ", item_id);
+
+            $(".videme_item_card_edit").showItemCard({'item_id': $this.attr('item_id')});
+            //$(".videme_item_card").itemCard($this);
+            $('#nad').val($.cookie('vide_nad'));
+            $('#item_id').val($this.attr('item_id'));
+
+            if ($this.attr('cover')) {
+                $('#videme_item_edit_image').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('cover'));
+                //$('#videme_item_edit_image_now').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('cover'));
+            } else {
+                $('#videme_item_edit_image').attr('src', 'https://s3.amazonaws.com/vide.me/select_image.png');
+                //$('#videme_item_edit_image_now').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('item_id') + '.jpg');
+            }
+            $('#videme_item_edit_image_item').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('item_id') + '.jpg');
+
+            $('#cover').val($this.attr('cover'));
+            $('#title').val($this.attr('title'));
+            $('#content').val($this.attr('content'));
+            $('#access').val($this.attr('access'));
+            $('.del-my-toggle').attr('item_id', $this.attr('item_id'));
+            $('.del-my-toggle').attr('user_display_name', $this.attr('user_display_name'));
+            $('.del-my-toggle').attr('title', $this.attr('title'));
+            $('.del-my-toggle').attr('content', $this.attr('content'));
+            $('.del-my-toggle').attr('created_at', $this.attr('created_at'));
+            var tagsR = $this.attr('tags');
+            if (tags) {
+                var tags = [];
+                tags = $.parseJSON(tagsR);
+                //console.log("$.fn.showcaseText tags -----> " + tags);
+                $.each(tags, function (key, value) {
+                    //console.log("$.fn.showcaseText tags -----> " + value);
+                    $("#tags").append('<a href="https://www.vide.me/search/?q=' + value + '" class="badge badge-primary">' + value + '</span> ');
+
+                });
+            } else {
+                //console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
+            }
+        } else {
+            $('.videme-contact-list').html(showError("No file"));
         }
     } else {
-        $('.title').html(showError("No file"));
+        $('#modal-item-edit').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
     }
+});
+
+$(document).on('click', '.article-edit-toggle', function (event) {
+    console.log(".article-edit-toggle -----> click");
+    event.stopPropagation();
+    var $this = $(this);
+
+    if ($.cookie('vide_nad')) {
+        if ($this.attr('item_id')) {
+            var item_id = $this.attr('item_id');
+            console.log(".contact-toggle -----> item_id: ", item_id);
+
+            $(".videme_item_card_edit").showItemCard({'item_id': $this.attr('item_id')});
+            //$(".videme_item_card").itemCard($this);
+            $('#nad').val($.cookie('vide_nad'));
+            $('#item_id').val($this.attr('item_id'));
+
+            if ($this.attr('cover')) {
+                $('#videme_item_edit_image').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('cover'));
+                //$('#videme_item_edit_image_now').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('cover'));
+            } else {
+                $('#videme_item_edit_image').attr('src', 'https://s3.amazonaws.com/vide.me/select_image.png');
+                //$('#videme_item_edit_image_now').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('item_id') + '.jpg');
+            }
+            $('#videme_item_edit_image_item').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $this.attr('item_id') + '.jpg');
+
+            $('#cover').val($this.attr('cover'));
+            $('#title').val($this.attr('title'));
+            $('#content').val($this.attr('content'));
+            $('#access').val($this.attr('access'));
+            $('.del-my-toggle').attr('item_id', $this.attr('item_id'));
+            $('.del-my-toggle').attr('user_display_name', $this.attr('user_display_name'));
+            $('.del-my-toggle').attr('title', $this.attr('title'));
+            $('.del-my-toggle').attr('content', $this.attr('content'));
+            $('.del-my-toggle').attr('created_at', $this.attr('created_at'));
+            var tagsR = $this.attr('tags');
+            if (tags) {
+                var tags = [];
+                tags = $.parseJSON(tagsR);
+                //console.log("$.fn.showcaseText tags -----> " + tags);
+                $.each(tags, function (key, value) {
+                    //console.log("$.fn.showcaseText tags -----> " + value);
+                    $("#tags").append('<a href="https://www.vide.me/search/?q=' + value + '" class="badge badge-primary">' + value + '</span> ');
+
+                });
+            } else {
+                //console.log("$.fn.showcaseText showcaseTextSettings.tags -----> empty");
+            }
+        } else {
+            $('.videme-contact-list').html(showError("No file"));
+        }
+    } else {
+        $('#modal-item-edit').modal('hide');
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
+    }
+});
+
+$(document).on('click', '.videme_select_image_submit', function (event) {
+    console.log(".videme_select_image_submit -----> click");
+    //event.stopPropagation();
+    //var $this = $(this);
+    //if ($this.attr('item_id')) {
+    //$('#modal-select-image').modal('hide');
+    $('.sel-image').html($(".image-picker").val());
+    $('#cover').val($(".image-picker").val());
+    //$('.card-img-top').attr('src', $( ".image-picker" ).val());
+    $('#videme_item_edit_image').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $(".image-picker").val());
+    $('#videme_item_edit_image_now').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + $(".image-picker").val());
+
+    console.log(".videme_select_image_submit -----> click", $(".image-picker").val());
+    console.log(".videme_select_image_submit -----> cover", $(".image-picker").val('cover'));
+    console.log(".videme_select_image_submit -----> text", $(".image-picker").text());
+
+    //$( ".image-picker" ).val();
+    //} else {
+    $('#modal-select-image').modal('hide');
+    //$('#modal-signin').modal('show');
+    //$('#feedback').val(window.location.href);
+    //}
 });
 
 /*************************************************************
@@ -4498,7 +8159,7 @@ Delete\
  v2 Событие 3: нажата кнопка вызова и отрисовки
  кнопки удалить article
  **************************************************************/
-$(document).on('click', '.del-article-toggle', function (event) {
+$(document).on('click', '.del-article-toggle', function (event) { // TODO: remove
     console.log(".del-article-toggle -----> click");
     event.stopPropagation();
     if ($('.del-article-toggle').attr('article')) {
@@ -4557,6 +8218,165 @@ $(document).on('click', 'a.relation_connect', function (event) {
         $('#feedback').val(feedback);
     }
 });
+
+/*************************************************************
+ v2 Press button friend request
+ **************************************************************/
+$(document).on('click', 'a.friend_request', function (event) {
+    console.log("a.friend_request -----> click");
+    event.preventDefault();
+    var $this = $(this);
+    var feedback = $this.attr('feedback');
+    if ($.cookie('vide_nad')) {
+        var user_id = $this.attr('user_id');
+        user_id.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+            //type: 'post',
+            url: 'https://api.vide.me/v2/friendship/request/?user_id=' + user_id + '&nad=' + $.cookie('vide_nad'),
+            beforeSend: function () {
+                $.fn.processNotification();
+            },
+            success: function (msg) {
+                //$('#modal-del').modal('hide');
+                //$.fn.showRelation();
+                /*$.fn.successNotification({
+                    msg: msg
+                });*/
+                $this.addClass('hidden');
+            },
+            error: function (msg) {
+                //$('#modal-del').modal('hide');
+                //$.fn.showRelation();
+                $.fn.errorNotification({
+                    msg: msg
+                });
+            }
+        });
+    } else {
+        $('#modal-signin').modal('show');
+        $('#feedback').val(feedback);
+    }
+});
+/*************************************************************
+ v2 Press button friend accept
+ **************************************************************/
+$(document).on('click', 'a.friendship_accept', function (event) {
+    console.log("a.friendship_accept -----> click");
+    event.preventDefault();
+    var $this = $(this);
+    var feedback = $this.attr('feedback');
+    if ($.cookie('vide_nad')) {
+        var user_id = $this.attr('user_id');
+        user_id.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+            //type: 'post',
+            url: 'https://api.vide.me/v2/friendship/accept/?user_id=' + user_id + '&nad=' + $.cookie('vide_nad'),
+            beforeSend: function () {
+                $.fn.processNotification();
+            },
+            success: function (msg) {
+                //$('#modal-del').modal('hide');
+                //$.fn.showRelation();
+                $.fn.successNotification({
+                    msg: msg
+                });
+                $this.addClass('hidden');
+                $.fn.myNetworkActivity();
+            },
+            error: function (msg) {
+                //$('#modal-del').modal('hide');
+                //$.fn.showRelation();
+                $.fn.errorNotification({
+                    msg: msg
+                });
+            }
+        });
+    } else {
+        $('#modal-signin').modal('show');
+        $('#feedback').val(feedback);
+    }
+});
+/*************************************************************
+ v2 Press button friend declined
+ **************************************************************/
+$(document).on('click', 'a.friendship_declined', function (event) {
+    console.log("a.friendship_declined -----> click");
+    event.preventDefault();
+    var $this = $(this);
+    var feedback = $this.attr('feedback');
+    if ($.cookie('vide_nad')) {
+        var user_id = $this.attr('user_id');
+        user_id.replace(/.*(?=#[^\s]+$)/, '');
+        $.ajax({
+            //type: 'post',
+            url: 'https://api.vide.me/v2/friendship/declined/?user_id=' + user_id + '&nad=' + $.cookie('vide_nad'),
+            beforeSend: function () {
+                $.fn.processNotification();
+            },
+            success: function (msg) {
+                //$('#modal-del').modal('hide');
+                //$.fn.showRelation();
+                $.fn.successNotification({
+                    msg: msg
+                });
+                $this.addClass('hidden');
+            },
+            error: function (msg) {
+                //$('#modal-del').modal('hide');
+                //$.fn.showRelation();
+                $.fn.errorNotification({
+                    msg: msg
+                });
+            }
+        });
+    } else {
+        $('#modal-signin').modal('show');
+        $('#feedback').val(feedback);
+    }
+});
+/******************************************************
+ v2 share-panel-button
+ **************************************************************/
+$(document).on('click', 'a.share-panel-button', function (event) {
+    console.log("a.share-panel-button -----> click");
+    event.preventDefault();
+    var $this = $(this);
+    var href = $this.attr('href');
+    var feedback = $this.attr('feedback');
+    if ($.cookie('vide_nad')) {
+        window.location.href = href;
+    } else {
+        $('#modal-signin').modal('show');
+        $('#feedback').val(href);
+    }
+});
+/******************************************************
+ v2 videme_select_image
+ **************************************************************/
+$(document).on('click', 'input.videme_select_image', function (event) {
+    console.log("a.videme_select_image -----> click");
+    //event.preventDefault();
+    var $this = $(this);
+    //var href = $this.attr('href');
+    //var feedback = $this.attr('feedback');
+    if ($.cookie('vide_nad')) {
+        //window.location.href = href;
+        $('#modal-select-image').modal('show');
+
+    } else {
+        $('#modal-signin').modal('show');
+        $('#feedback').val(href);
+    }
+});
+
+$(document).on('click', 'input.videme_select_image_item', function (event) {
+    console.log("a.videme_select_image_item -----> click");
+    //event.preventDefault();
+    var $this = $(this);
+    $('#cover').val('');
+});
+
+
 /*************************************************************
  v2 click on create_new_article
  **************************************************************/
@@ -4572,24 +8392,25 @@ $(document).on('click', 'a.del-inbox-url', function (event) {
     console.log("a.del-inbox-url -----> click");
     event.preventDefault();
     var $this = $(this);
-    var href = $this.attr('message_id');
-    href.replace(/.*(?=#[^\s]+$)/, '');
+    //var href = $this.attr('message_id');
+    //var href = $this.attr('href');
+    //href.replace(/.*(?=#[^\s]+$)/, '');
     $.ajax({
         //type: 'post',
-        url: href,
+        url: $this.attr('href'),
         beforeSend: function () {
             $.fn.processNotification();
         },
         success: function (msg) {
-            $('#modal-del').modal('hide');
-            $.fn.fileInbox();
+            $('#modal-del-inbox').modal('hide');
+            $.fn.itemsInboxScroll();
             $.fn.successNotification({
                 msg: msg
             });
         },
         error: function (msg) {
-            $('#modal-del').modal('hide');
-            $.fn.fileInbox();
+            $('#modal-del-inbox').modal('hide');
+            $.fn.itemsInboxScroll();
             $.fn.errorNotification({
                 msg: msg
             });
@@ -4604,24 +8425,24 @@ $(document).on('click', 'a.del-sent-url', function (event) {
     console.log("a.del-sent-url -----> click");
     event.preventDefault();
     var $this = $(this);
-    var href = $this.attr('message_id');
-    href.replace(/.*(?=#[^\s]+$)/, '');
+    //var href = $this.attr('message_id');
+    //href.replace(/.*(?=#[^\s]+$)/, '');
     $.ajax({
         type: 'post',
-        url: href,
+        url: $this.attr('href'),
         beforeSend: function () {
             $.fn.processNotification();
         },
         success: function (msg) {
-            $('#modal-del').modal('hide');
-            $.fn.fileSent();
+            $('#modal-del-sent').modal('hide');
+            $.fn.itemsSentScroll();
             $.fn.successNotification({
                 msg: msg
             });
         },
         error: function (msg) {
-            $('#modal-del').modal('hide');
-            $.fn.fileSent();
+            $('#modal-del-sent').modal('hide');
+            $.fn.itemsSentScroll();
             $.fn.errorNotification({
                 msg: msg
             });
@@ -4646,14 +8467,48 @@ $(document).on('click', 'a.del-my-url', function (event) {
         },
         success: function (msg) {
             $('#modal-del').modal('hide');
-            $.fn.fileMy();
+            //$.fn.fileMy();
+            window.location.reload()
             $.fn.successNotification({
                 msg: msg
             });
         },
         error: function (msg) {
             $('#modal-del').modal('hide');
-            $.fn.fileMy();
+            //$.fn.fileMy();
+            window.location.reload()
+            $.fn.errorNotification({
+                msg: msg
+            });
+        }
+    });
+});
+
+/*************************************************************
+ v2 del-my-post-url
+ **************************************************************/
+$(document).on('click', 'a.del-my-post-url', function (event) {
+    console.log("a.del-my-post-url -----> click");
+    event.preventDefault();
+    var $this = $(this);
+    var href = $this.attr('href');
+    href.replace(/.*(?=#[^\s]+$)/, '');
+    $.ajax({
+        type: 'post',
+        url: href,
+        beforeSend: function () {
+            $.fn.processNotification();
+        },
+        success: function (msg) {
+            $('#modal-del-post').modal('hide');
+            $.fn.itemsMyPostsScroll();
+            $.fn.successNotification({
+                msg: msg
+            });
+        },
+        error: function (msg) {
+            $('#modal-del-post').modal('hide');
+            $.fn.itemsMyPostsScroll();
             $.fn.errorNotification({
                 msg: msg
             });
@@ -4743,7 +8598,7 @@ $(document).on('click', 'a.contact-url', function (event) {
         success: function (msg) {
             $('#modal-contact').modal('hide');
             $.fn.successNotification({
-                msg: msg
+                msg: ''
             });
         },
         error: function (msg) {
@@ -4763,24 +8618,29 @@ $(document).on('click', 'a.list-url', function (event) {
     var href = $this.attr('href');
     event.preventDefault();
     href.replace(/.*(?=#[^\s]+$)/, '');
-    $.ajax({
-        url: href,
-        beforeSend: function () {
-            $.fn.processNotification();
-        },
-        success: function (msg) {
-            $('#modal-list').modal('hide');
-            $.fn.successNotification({
-                msg: msg
-            });
-        },
-        error: function (msg) {
-            $('#modal-list').modal('hide');
-            $.fn.errorNotification({
-                msg: msg
-            });
-        }
-    });
+    if ($.cookie('vide_nad')) {
+        $.ajax({
+            url: href,
+            beforeSend: function () {
+                $.fn.processNotification();
+            },
+            success: function (msg) {
+                $('#modal-list').modal('hide');
+                $.fn.successNotification({
+                    msg: msg
+                });
+            },
+            error: function (msg) {
+                $('#modal-list').modal('hide');
+                $.fn.errorNotification({
+                    msg: msg
+                });
+            }
+        });
+    } else {
+        $('#modal-signin').modal('show');
+        $('#feedback').val(window.location.href);
+    }
 });
 
 
@@ -5143,6 +9003,16 @@ $(document).ready(function () {
         window.location.href = href;
     });
     /*************************************************************
+     Событие 2: multi_video
+     **************************************************************/
+    $(document).on('click', 'a.multi_video', function (event) {
+        console.log('a.multi_video click');
+        event.preventDefault();
+        var $this = $(this);
+        var href = $this.attr('href');
+        //window.location.href = href;
+    });
+    /*************************************************************
      Click on tile item owner
      **************************************************************/
     $(document).on('click', 'a.tile-item-owner', function (event) {
@@ -5297,7 +9167,7 @@ target='_blank'>\
      Событие 2: нажата ссылка на файл из плитки Spring,
      отрисовка текста и кнопок в панель
      **************************************************************/
-    $(document).on('click', 'a.file-spring-url', function (event) {
+    /*$(document).on('click', 'a.file-spring-url', function (event) {
         event.preventDefault();
         var $this = $(this);
         var file = $this.attr('file-value');
@@ -5342,13 +9212,13 @@ message-value='#" + Message.substr(1) + "'>\
 <span class='glyphicon glyphicon-envelope'></span> contact\
 </button>\
 ");
-    });
+    });*/
 
     /*************************************************************
      v2 Событие 4: нажата кнопка Сохранить Contact в первом модальном окне
      **************************************************************/
     $('#item-edit-form').validate({
-        rules: {
+        /*rules: {
             "title": {
                 required: true,
                 maxlength: 40
@@ -5359,7 +9229,7 @@ message-value='#" + Message.substr(1) + "'>\
                 required: "<-",
                 //email: "Enter true title"
             }
-        },
+        },*/
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
@@ -5519,16 +9389,17 @@ message-value='#" + Message.substr(1) + "'>\
      v2 Событие 2: нажата кнопка Редактировать лист,
      отрисовка формы и кнопок в модальное окно
      **************************************************************/
-    $(document).on('click', '.list-edit-toggle', function (event) {
+    $(document).on('click', '.album-edit-toggle', function (event) {
         event.preventDefault();
         var $this = $(this);
         //var list = $this.attr('list');
-        console.log(".list-edit-toggle click list: -----> " + $this.attr('list'));
+        console.log(".album-edit-toggle click list: -----> " + $this.attr('title'));
         //list.replace(/.*(?=#[^\s]+$)/, '');
-        $('#editlist').val($this.attr('list'));
-        $('#newlist').val($this.attr('list'));
+        $('#nad').val($.cookie('vide_nad'));
+        $('#edit_album').val($this.attr('title'));
+        $('#new_title').val($this.attr('title'));
         $('#access').val($this.attr('access'));
-        $(".list-del-toggle").attr("list", $this.attr('access'));
+        $(".list-del-toggle").attr("title", $this.attr('title'));
     });
 
     /*************************************************************
@@ -5551,9 +9422,10 @@ message-value='#" + Message.substr(1) + "'>\
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://api.vide.me/v2/list/update/',
+                url: 'https://api.vide.me/v2/albums/update/',
                 timeout: 20000,
-                data: $(form).serialize(),
+                //data: $(form).serialize(),
+                data: $(form).serialize() + "&cover=" + $(".image-picker").val(),
                 beforeSend: function () {
                     $.fn.processNotification();
                 },
@@ -5580,15 +9452,15 @@ message-value='#" + Message.substr(1) + "'>\
      **************************************************************/
     $(document).on('click', '.list-del-toggle', function (event) {
         event.stopPropagation();
-        $('.videme-display').html($(".list-del-toggle").attr("list"));
-        $('#del-list').val($(".list-del-toggle").attr("list"));
+        $('.videme-display').html($(".list-del-toggle").attr("title"));
+        $('#del-list').val($(".list-del-toggle").attr("title"));
     });
 
     /*************************************************************
      v2 Событие 5: нажата кнопка удалить List во втором модальном окне
      **************************************************************/
     $('#list-del-form').validate({
-        rules: {
+        /*rules: {
             "list": {
                 required: true,
                 //email:true,
@@ -5599,11 +9471,11 @@ message-value='#" + Message.substr(1) + "'>\
             "list": {
                 required: "<-"
             }
-        },
+        },*/
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://api.vide.me/v2/list/remove/',
+                url: 'https://api.vide.me/v2/albums/delete/',
                 timeout: 20000,
                 data: $(form).serialize(),
                 beforeSend: function () {
@@ -5633,23 +9505,23 @@ message-value='#" + Message.substr(1) + "'>\
      **************************************************************/
     $('#list-create-form').validate({
         rules: {
-            "list": {
+            "album": {
                 required: true,
                 //email:true,
                 maxlength: 40
             }
         },
         messages: {
-            "list": {
+            "album": {
                 required: "<-"
             }
         },
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
-                url: 'https://api.vide.me/v2/list/create/',
+                url: 'https://api.vide.me/v2/albums/create/',
                 timeout: 20000,
-                data: $(form).serialize(),
+                data: $(form).serialize() + "&cover=" + $(".image-picker-create-album").val(),
                 beforeSend: function () {
                     $.fn.processNotification();
                 },
@@ -6048,13 +9920,15 @@ message-value='#" + Message.substr(1) + "'>\
 
         $("#NewItemTag").click(function (event) {
             event.preventDefault();
-            var element = $("\
+            if ($("#TagValue").val()) {
+                var element = $("\
 <input type=\"hidden\" name=\"article[tags][" + $("#TagValue").val() + "]\" value=\"" + $("#TagValue").val() + "\">\
-<span class=\"label label-primary\">" + $("#TagValue").val() + "</span>\
+<span class=\"badge badge-primary\"> " + $("#TagValue").val() + "</span>\
 ");
 
-            $(".tag").append(element);
-            element.hide().slideDown(500);
+                $(".tag").append('&nbsp;', element);
+                element.hide().slideDown(500);
+            }
         });
 
         /*
@@ -6130,7 +10004,7 @@ message-value='#" + Message.substr(1) + "'>\
         }
     });
 
-    $('#article-new').validate({
+    $('#article-new').validate({ // TODO: remove
         submitHandler: function (form) {
             $.ajax({
                 type: "POST",
@@ -6141,6 +10015,7 @@ message-value='#" + Message.substr(1) + "'>\
                     $.fn.processNotification();
                 },
                 success: function (msg) {
+                    window.location.href = 'https://www.vide.me/web/my_article/';
                     $.fn.successNotification({
                         msg: msg
                     });
@@ -6310,7 +10185,6 @@ message-value='#" + Message.substr(1) + "'>\
 
     });
 
-
     /*************************************************************
      Событие 1: Click button FB send message
      **************************************************************/
@@ -6327,6 +10201,39 @@ message-value='#" + Message.substr(1) + "'>\
         });
     });
 
+    /*************************************************************
+     Upload user_picture
+     **************************************************************/
+    $("#upload_user_picture").click(function () {
+        $('#upload_type').val('upload_user_picture');
+        $('#nad').val($.cookie('vide_nad'));
+        $('#access').val('friends');
+        setUploadModal();
+    });
+    /*************************************************************
+     Upload user_cover
+     **************************************************************/
+    $("#upload_user_cover").click(function () {
+        $('#upload_type').val('upload_user_cover');
+        $('#nad').val($.cookie('vide_nad'));
+        $('#access').val('friends');
+        setUploadModal();
+    });
+    /*************************************************************
+     Upload image
+     **************************************************************/
+    $("#upload_image").click(function () {
+        if ($.cookie('vide_nad')) {
+            $('#modal-cropper').modal('show');
+            $('#upload_type').val('upload_image');
+            $('#nad').val($.cookie('vide_nad'));
+            $('#access').val('public');
+            setUploadModal();
+        } else {
+            $('#modal-signin').modal('show');
+            $('#feedback').val(window.location.href);
+        }
+    });
 
 // Конец автозагрузки
 });
@@ -6338,18 +10245,20 @@ function pas_info() {
                 if (!$.isEmptyObject(data)) {
                     var trueUserInfo = paddingUserInfo(data);
                     $('.pas_info_heading').html(trueUserInfo.user_display_name);
-                    $('#pas_info_user_id_face_img').attr('src', 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg');
+                    $('.pas_info_user_id_face_img').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_picture);
+                    $('.pas_info_user_cover').attr('src', 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_cover);
                     $('#user_display_name').val(trueUserInfo.user_display_name);
                     $('#user_first_name').val(trueUserInfo.user_first_name);
                     $('#user_last_name').val(trueUserInfo.user_last_name);
                     $('#user_link').val(trueUserInfo.user_link);
                     $('input:radio[name=user_gender]').val([trueUserInfo.user_gender]);
                     $('#user_locale').val(trueUserInfo.user_locale);
-                    $('#user_picture').val(trueUserInfo.user_picture);
-                    $('#user_cover').val(trueUserInfo.user_cover);
+                    //$('#user_picture').val(trueUserInfo.user_picture);
+                    //$('#user_cover').val(trueUserInfo.user_cover);
                     $('#country').val(trueUserInfo.country);
                     $('#city').val(trueUserInfo.city);
                     $('#bio').val(trueUserInfo.bio);
+                    $('#slogan').val(trueUserInfo.slogan);
                 } else {
                     console.log("$.fn.getAuthorized -----> getJSON empty");
                     $('.videme-form-user-info').remove();
@@ -6372,7 +10281,9 @@ function detectBrowser() {
     var isFirefox = typeof InstallTrigger !== 'undefined';
 
 // Safari 3.0+ "[object HTMLElementConstructor]"
-    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+    var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) {
+        return p.toString() === "[object SafariRemoteNotification]";
+    })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 
 // Internet Explorer 6-11
     var isIE = /*@cc_on!@*/false || !!document.documentMode;
@@ -6394,12 +10305,13 @@ function detectBrowser() {
     if (isChrome) return 'chrome';
     if (isBlink) return 'blink';
 }
+
 function showTileDoorbellSignSmall(showTileDoorbellSignSmall, tempObject) {
     //console.log('showTileDoorbellSignSmall ---> ' + JSON.stringify(showTileDoorbellSignSmall));
     var html = [];
     html.push("<ul class=\"list-group videme-doorbell-sign-small\">");
     $.each(showTileDoorbellSignSmall, function (key, value) {
-        var trueValue = paddingUserInfo(value);
+        var trueValue = paddingUserInfo(value); // TODO: Dobble?
         html.push(showDoorbellSignSmall(trueValue, tempObject));
     });
     html.push("</ul>");
@@ -6409,6 +10321,7 @@ function showTileDoorbellSignSmall(showTileDoorbellSignSmall, tempObject) {
 function showDoorbellSignSmall(showDoorbellSignSmall, tempObject) {
     //console.log('showDoorbellSignSmall ---> ' + JSON.stringify(showDoorbellSignSmall));
     //console.log('showDoorbellSignSmall showDoorbellSignSmall.title ---> ' + showDoorbellSignSmall.title);
+    //var accessIcon;
     if (!$.isEmptyObject(tempObject)) {
         console.log('showDoorbellSignSmall tempObject.width() ---> ' + tempObject.width());
         if (tempObject.width() < 300) {
@@ -6424,25 +10337,29 @@ function showDoorbellSignSmall(showDoorbellSignSmall, tempObject) {
     } else {
         var title = showDoorbellSignSmall.title;
     }
+    /*if (!$.isEmptyObject(showDoorbellSignSmall.access)) {
+        accessIcon = accessToIcon(showDoorbellSignSmall);
+    } else {
+        var title = showDoorbellSignSmall.title;
+    }*/
     return "\
-        <li type=\"button\" class=\"list-group-item list-group-item-action\">\
+        <li type=\"button\" class=\"list-group-item list-group-item-action videme-list-group\">\
             <div class='videme-doorbell-sign-image'>\
               " + showIconForDoorbelSign(showDoorbellSignSmall) + "\
             </div>\
             <div class='videme-doorbell-sign-1st-line'>\
                 <div class='videme-doorbell-sign-1st-line-title-date" + tempObjectClass + "'>\
                     <div class=\"videme-doorbell-sign-title\">" + title + "</div>\
-                    <div class=\"text-muted videme-doorbell-sign-date\">" + showDoorbellSignSmall.date + "</div>\
+                <div class='videme-doorbell-sign-additional'>" + accessToIcon(showDoorbellSignSmall) + "</div>\
+                    <div class='text-muted videme-doorbell-sign-count'>" + showDoorbellSignSmall.count + "</div>\
                 </div>\
                 " + showDropdownForDoorbelSign(showDoorbellSignSmall) + "\
             </div>\
             <div class='videme-doorbell-sign-2st-line'>\
-                <div class=\"videme-doorbell-sign-additional\">" + showDoorbellSignSmall.additional + "</div>\
-                <div class=\"text-muted videme-doorbell-sign-count\">" + showDoorbellSignSmall.count + "</div>\
+                <div class='text-muted videme-doorbell-sign-date'>" + showDoorbellSignSmall.date + "</div>\
             </div>\
                 " + showButtonForDoorbelSign(showDoorbellSignSmall) + "\
-        </li>\
-            ";
+        </li>";
 }
 
 function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
@@ -6455,19 +10372,19 @@ function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
     var dropdownMain = '';
     $.each(showDropdownForDoorbelSign.dropdown, function (key, value) {
         switch (value) {
-            case 'sign':
+            case 'album':
                 dropdownDS += "\
-    <a type='button' \
-        class='dropdown-item list-edit-toggle' data-toggle='modal' \
+    <a \
+        class='dropdown-item album-edit-toggle' data-toggle='modal' \
         data-target='#modal-edit-list' \
-        list='" + showDropdownForDoorbelSign.title + "'\
+        title='" + showDropdownForDoorbelSign.title + "'\
         access='" + showDropdownForDoorbelSign.access + "'>\
         Edit\
     </a>";
                 break;
             case 'edit_relation':
                 dropdownDS += "\
-	<a type='button' \
+	<a \
 		class='dropdown-item contact-edit-toggle' data-toggle='modal' \
 		data-target='#modal-edit-contact' \
 		from_user_id='" + showDropdownForDoorbelSign.from_user_id + "'\
@@ -6479,12 +10396,13 @@ function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
                 break;
             case 'edit_my_video':
                 dropdownDS += "\
-	<a type='button' \
+	<a \
 		class='dropdown-item item-edit-toggle'\
 		id='" + showDropdownForDoorbelSign.key + "' \
 		data-toggle='modal' \
 		data-target='#modal-item-edit'\
 		item_id='" + showDropdownForDoorbelSign.item_id + "'\
+		cover='" + showDropdownForDoorbelSign.cover + "'\
 		title='" + showDropdownForDoorbelSign.title + "'\
 		content='" + showDropdownForDoorbelSign.content + "'\
 		access='" + showDropdownForDoorbelSign.access + "'\
@@ -6492,9 +10410,25 @@ function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
 		Edit\
 	</a>";
                 break;
+            case 'edit_my_article':
+                dropdownDS += "\
+	<a \
+		class='dropdown-item article-edit-toggle'\
+		href='https://api.vide.me/article/update/html/?a=" + showDropdownForDoorbelSign.item_id + "' \
+		id='" + showDropdownForDoorbelSign.key + "' \
+		item_id='" + showDropdownForDoorbelSign.item_id + "'\
+		cover='" + showDropdownForDoorbelSign.cover + "'\
+		title='" + showDropdownForDoorbelSign.title + "'\
+		content='" + showDropdownForDoorbelSign.content + "'\
+		access='" + showDropdownForDoorbelSign.access + "'\
+		tags='" + showDropdownForDoorbelSign.tags + "'>\
+		Edit\
+	</a>";
+                // TODO: remove id ... tags
+                break;
             case 'send':
                 dropdownDS += "\
-	<a type='button' \
+	<a \
 		class='dropdown-item contact-toggle'\
 		id='" + showDropdownForDoorbelSign.key + "' \
 		data-toggle='modal' \
@@ -6508,7 +10442,7 @@ function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
                 break;
             case 'share':
                 dropdownDS += "\
-	<a type='button' \
+	<a \
 		class='dropdown-item list-toggle'\
 		id='" + showDropdownForDoorbelSign.key + "' \
 		data-toggle='modal' \
@@ -6517,12 +10451,12 @@ function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
 		title='" + showDropdownForDoorbelSign.title + "'\
 		content='" + showDropdownForDoorbelSign.content + "'\
 		created_at='" + showDropdownForDoorbelSign.created_at + "'>\
-		Share\
+		Save to album\
 	</a>";
                 break;
             case 'delete':
                 dropdownDS += "\
-	<a type='button' \
+	<a \
 		class='dropdown-item del-my-toggle'\
 		id='" + showDropdownForDoorbelSign.key + "' \
 		data-toggle='modal' \
@@ -6533,6 +10467,86 @@ function showDropdownForDoorbelSign(showDropdownForDoorbelSign) {
 		content='" + showDropdownForDoorbelSign.content + "'\
 		created_at='" + showDropdownForDoorbelSign.created_at + "'>\
 		Delete\
+	</a>";
+                break;
+            case 'delete-my-post': // TODO: remove
+                dropdownDS += "\
+	<a \
+		class='dropdown-item del-my-post-toggle'\
+		id='" + showDropdownForDoorbelSign.key + "' \
+		data-toggle='modal' \
+		data-target='#modal-del-post'\
+		item_id='" + showDropdownForDoorbelSign.item_id + "'\
+		post_id='" + showDropdownForDoorbelSign.post_id + "'\
+		user_display_name='" + showDropdownForDoorbelSign.user_display_name + "'\
+		title='" + showDropdownForDoorbelSign.title + "'\
+		content='" + showDropdownForDoorbelSign.content + "'\
+		created_at='" + showDropdownForDoorbelSign.created_at + "'>\
+		Delete\
+	</a>";
+                break;
+            case 'delete_my_post':
+                dropdownDS += "\
+	<a \
+		class='dropdown-item del-my-post-toggle'\
+		id='" + showDropdownForDoorbelSign.key + "' \
+		data-toggle='modal' \
+		data-target='#modal-del-post'\
+		item_id='" + showDropdownForDoorbelSign.item_id + "'\
+		post_id='" + showDropdownForDoorbelSign.post_id + "'\
+		user_display_name='" + showDropdownForDoorbelSign.user_display_name + "'\
+		title='" + showDropdownForDoorbelSign.title + "'\
+		content='" + showDropdownForDoorbelSign.content + "'\
+		created_at='" + showDropdownForDoorbelSign.created_at + "'>\
+		Delete\
+	</a>";
+                break;
+            case 'delete_inbox':
+                dropdownDS += "\
+	<a \
+		class='dropdown-item del-inbox-toggle'\
+		id='" + showDropdownForDoorbelSign.key + "' \
+		data-toggle='modal' \
+		data-target='#modal-del-inbox'\
+		item_id='" + showDropdownForDoorbelSign.item_id + "'\
+		message_id='" + showDropdownForDoorbelSign.message_id + "'\
+		user_display_name='" + showDropdownForDoorbelSign.user_display_name + "'\
+		title='" + showDropdownForDoorbelSign.title + "'\
+		content='" + showDropdownForDoorbelSign.content + "'\
+		created_at='" + showDropdownForDoorbelSign.created_at + "'>\
+		Delete\
+	</a>";
+                break;
+            case 'delete_sent':
+                dropdownDS += "\
+	<a \
+		class='dropdown-item del-sent-toggle'\
+		id='" + showDropdownForDoorbelSign.key + "' \
+		data-toggle='modal' \
+		data-target='#modal-del-sent'\
+		item_id='" + showDropdownForDoorbelSign.item_id + "'\
+		message_id='" + showDropdownForDoorbelSign.message_id + "'\
+		user_display_name='" + showDropdownForDoorbelSign.user_display_name + "'\
+		title='" + showDropdownForDoorbelSign.title + "'\
+		content='" + showDropdownForDoorbelSign.content + "'\
+		created_at='" + showDropdownForDoorbelSign.created_at + "'>\
+		Delete\
+	</a>";
+                break;
+            case 'embed':
+                dropdownDS += "\
+	<a \
+		class='dropdown-item embed-code-toggle'\
+		id='" + showDropdownForDoorbelSign.key + "' \
+		data-toggle='modal' \
+		data-target='#modal-show-embed-code'\
+		item_id='" + showDropdownForDoorbelSign.item_id + "'\
+		spring='" + showDropdownForDoorbelSign.spring + "'\
+		user_display_name='" + showDropdownForDoorbelSign.user_display_name + "'\
+		title='" + showDropdownForDoorbelSign.title + "'\
+		content='" + showDropdownForDoorbelSign.content + "'\
+		created_at='" + showDropdownForDoorbelSign.created_at + "'>\
+		Embed\
 	</a>";
                 break;
             //default:
@@ -6566,9 +10580,33 @@ function showButtonForDoorbelSign(showButtonForDoorbelSign) {
                 buttonDS += "\
 		<a class=\"btn btn-primary pull-right btn-sm\" href=\"https://vide.me/rec/?email=" + showButtonForDoorbelSign.relation_email + "\" role=\"button\">Send video email</a>";
                 break;
+            case 'item_send_message':
+                buttonDS += "\
+		<a class=\"btn btn-primary pull-right btn-sm contact-url\" href='https://api.vide.me/v2/email/share/?user_id=" + showButtonForDoorbelSign.to_user_id + "&item_id=" + showButtonForDoorbelSign.item_id + "&subject=Re: " + showButtonForDoorbelSign.title + "&message=" + showButtonForDoorbelSign.content + "&nad=" + $.cookie('vide_nad') + "' role='button'>Send to user</a>";
+                break;
             case 'pop_relations':
                 buttonDS += "\
 	<a href=\"https://api.vide.me/v2/relation/connect/?user_id=" + showButtonForDoorbelSign.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm videme-relation-card-button-connect relation_connect\" user_id='" + showButtonForDoorbelSign.user_id + "' feedback='https://www.vide.me/" + showButtonForDoorbelSign.spring + "'>Connect</a>";
+                break;
+            case 'friendship_accept':
+                buttonDS += "\
+	<a href=\"https://api.vide.me/v2/friendship/accept/?user_id=" + showButtonForDoorbelSign.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-primary btn-sm friendship_accept\" user_id='" + showButtonForDoorbelSign.user_id + "' feedback='https://www.vide.me/" + showButtonForDoorbelSign.spring + "'>Accept</a>";
+                break;
+            case 'friendship_declined':
+                buttonDS += "\
+	<a href=\"https://api.vide.me/v2/friendship/declined/?user_id=" + showButtonForDoorbelSign.user_id + "&nad=" + $.cookie('vide_nad') + "\" class=\"btn btn-outline-secondary btn-sm friendship_declined\" user_id='" + showButtonForDoorbelSign.user_id + "' feedback='https://www.vide.me/" + showButtonForDoorbelSign.spring + "'>Declined</a>";
+                break;
+            case 'item_add_to_album':
+                buttonDS += "\
+	<a href='https://api.vide.me/v2/items/share/?item_id=" + showButtonForDoorbelSign.item_id + "&album_id=" + showButtonForDoorbelSign.album_id + "&nad=" + $.cookie('vide_nad') + "' class=\"btn btn-outline-secondary btn-sm list-url\">Add to album</a>";
+                break;
+            case 'friendship':
+                buttonDS += "\
+	<a href='https://api.vide.me/v2/friendship/request/?user_id=" + showButtonForDoorbelSign.user_id + "nad=" + $.cookie('vide_nad') + "' class=\"btn btn-outline-secondary btn-sm list-url\">Frindship</a>";
+                break;
+            case 'follow':
+                buttonDS += "\
+	<a href='https://api.vide.me/v2/relation/connect/?user_id=" + showButtonForDoorbelSign.user_id + "&nad=" + $.cookie('vide_nad') + "' class=\"btn btn-outline-secondary btn-sm list-url\">Follow</a>";
                 break;
             case 'new':
                 // share button
@@ -6596,8 +10634,76 @@ function showIconForDoorbelSign(showIconForDoorbelSign) {
     return dbImage;
 }
 
+function showItemInfo(showItemInfo) {
+    //console.log('showItemInfo ---> ' + JSON.stringify(showItemInfo));
+    var trueInfo = '';
+    //var accessIcon = '';
+    var likeButton = '';
+    if (!$.isEmptyObject(showItemInfo.item_count_show)) {
+        trueInfo += '<i class="fa fa-eye"></i> ' + showItemInfo.item_count_show + ' ';
+    } else {
+        trueInfo += '<i class="fa fa-eye"></i> 0 ';
+    }
+    if (!$.isEmptyObject(showItemInfo.video_duration)) {
+        trueInfo += '<i class="fa fa-clock-o"></i> ' + sec2str(showItemInfo.video_duration) + ' ';
+    } else {
+        trueInfo += '<i class="fa fa-clock-o"></i> - ';
+    }
+    //if (!$.isEmptyObject(showItemInfo.access)) {
+    /*if (showItemInfo.access == 'public')
+        trueInfo += '<i class="fa fa fa-unlock"></i> ' + showItemInfo.access + ' ';
+    if (showItemInfo.access == 'friends')
+        trueInfo += '<i class="fa fa fa-users"></i> ' + showItemInfo.access + ' ';
+    if (showItemInfo.access == 'private')
+        trueInfo += '<i class="fa fa fa-unlock-alt"></i> ' + showItemInfo.access + ' ';*/
+    trueInfo += accessToIcon(showItemInfo) + '&nbsp;';
+    //}
+    if (!$.isEmptyObject(showItemInfo.likes_count)) {
+        trueInfo += '<i class="fa fa-thumbs-o-up"></i> ' + showItemInfo.likes_count + ' ';
+    } else {
+        trueInfo += '<i class="fa fa-thumbs-o-up"></i> 0 ';
+    }
+    if (!$.isEmptyObject(showItemInfo.reposts_count)) {
+        trueInfo += '<i class="fa fa-share-alt"></i> ' + showItemInfo.reposts_count + ' ';
+    } else {
+        trueInfo += '<i class="fa fa-share-alt"></i> 0 ';
+    }
+    if (!$.isEmptyObject(showItemInfo.its_like)) {
+        likeButton = '<button type="button" class="btn btn-primary btn-sm set_like disabled" id="like_list-group_13_0" >You did like</button>';
+    } else {
+        likeButton = '<button type="button" class="btn btn-primary btn-sm set_like" id="like_list-group_13_0" item_id="' + showItemInfo.item_id + '">Like</button>';
+    }
+    trueInfo += likeButton +
+        '&nbsp;<a href="https://api.vide.me/v2/items/share/?item_id=' + showItemInfo.item_id + '&nad=' + $.cookie('vide_nad') + '" class="btn btn-outline-secondary btn-sm list-url">Repost</a>' +
+        '&nbsp;<button type="button" class="btn btn-outline-secondary btn-sm share-to-fb-toggle" data-toggle="modal" data-target="#modal-share-to-fb" item_id="' + showItemInfo.item_id + '">Share</button>';
+    //console.log('showItemInfo trueInfo ---> ' + trueInfo);
+    return trueInfo;
+}
+
+function accessToIcon(accessToIcon) {
+    if (!$.isEmptyObject(accessToIcon.access)) {
+        if (accessToIcon.access == 'public')
+            return '<i class="fa fa fa-unlock"></i>';
+        if (accessToIcon.access == 'friends')
+            return '<i class="fa fa fa-users"></i>';
+        if (accessToIcon.access == 'private')
+            return '<i class="fa fa fa-unlock-alt"></i>';
+    } else {
+        return false;
+    }
+}
+
+function sec2str(t) {
+    var d = Math.floor(t / 86400),
+        h = ('0' + Math.floor(t / 3600) % 24).slice(-2),
+        m = ('0' + Math.floor(t / 60) % 60).slice(-2),
+        s = ('0' + t % 60).slice(-2);
+    //return (d>0?d+'d ':'')+(h>0?h+':':'')+(m>0?m+':':'')+(t>60?s:s+'s');
+    return (d > 0 ? d + 'd ' : '') + (h > 0 ? h + ':' : '') + (m > 0 ? m + ':' : '') + (t > 60 ? s : s + 's');
+}
+
 function parseMyTaskForDoorbellSign(parseMyTaskForDoorbellSign) {
-    console.log("parseMyTaskForDoorbellSign ----->" + JSON.stringify(parseMyTaskForDoorbellSign));
+    //console.log("parseMyTaskForDoorbellSign ----->" + JSON.stringify(parseMyTaskForDoorbellSign));
     //if ($.isPlainObject(parseMyTaskForDoorbellSign)) {
     $.each(parseMyTaskForDoorbellSign, function (key, value) {
         var taskImage = '';
@@ -6611,7 +10717,7 @@ function parseMyTaskForDoorbellSign(parseMyTaskForDoorbellSign) {
                 taskIcon = 'cogs';
             }
             if (value.task_status == 'success') {
-                taskImage = 'https://s3.amazonaws.com/img.vide.me/' + value.task_item_id + '.jpg';
+                taskImage = value.task_item_id + '.jpg';
             }
             if (value.task_status == 'error') {
                 taskIcon = 'frown-o';
@@ -6640,20 +10746,21 @@ function parseMyTaskForDoorbellSign(parseMyTaskForDoorbellSign) {
 }
 
 function parseMyRelationsForDoorbellSign(parseMyRelationsForDoorbellSign) {
-    console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseMyRelationsForDoorbellSign));
+    //console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseMyRelationsForDoorbellSign));
     $.each(parseMyRelationsForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
         parseMyRelationsForDoorbellSign[key] = {
-            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
+            'image': 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_picture,
             'cover': '',
-            'title': value.user_display_name,
-            'additional': value.relation_email,
-            'from_user_id': value.from_user_id,
-            'to_user_id': value.to_user_id,
-            'relation': value.relation,
-            'relation_email': value.relation_email,
-            /*'additional': value.task_status,
-            'count': value.video_duration,*/
-            'date': value.created_at,
+            'title': trueUserInfo.user_display_name,
+            'additional': trueUserInfo.relation_email,
+            'from_user_id': trueUserInfo.from_user_id,
+            'to_user_id': trueUserInfo.to_user_id,
+            'relation': trueUserInfo.relation,
+            'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
             'dropdown': {'dd_item': 'edit_relation'}, // <-- work
             'buttons': {'button': 'send_message'}
         };
@@ -6661,21 +10768,48 @@ function parseMyRelationsForDoorbellSign(parseMyRelationsForDoorbellSign) {
     return parseMyRelationsForDoorbellSign;
 }
 
-function parseRelationsToMeForDoorbellSign(parseRelationsToMeForDoorbellSign) {
-    console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
-    $.each(parseRelationsToMeForDoorbellSign, function (key, value) {
-        parseRelationsToMeForDoorbellSign[key] = {
-            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
+function parseMyRelationsForDoorbellSignShare(parseMyRelationsForDoorbellSignShare, item_id) {
+    //console.log("parseMyRelationsForDoorbellSignShare ----->" + JSON.stringify(parseMyRelationsForDoorbellSignShare));
+    $.each(parseMyRelationsForDoorbellSignShare, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseMyRelationsForDoorbellSignShare[key] = {
+            'image': 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_picture,
             'cover': '',
-            'title': value.user_display_name,
-            'additional': value.relation_email,
-            'from_user_id': value.from_user_id,
-            'to_user_id': value.to_user_id,
-            'relation': value.relation,
-            'relation_email': value.relation_email,
-            /*'additional': value.task_status,
-            'count': value.video_duration,*/
-            'date': value.created_at,
+            'title': trueUserInfo.user_display_name,
+            'additional': trueUserInfo.relation_email,
+            'item_id': item_id,
+            'href': value.spring + '/?album=' + value.title,
+            'from_user_id': trueUserInfo.from_user_id,
+            'to_user_id': trueUserInfo.to_user_id,
+            'relation': trueUserInfo.relation,
+            'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
+            //'dropdown': {'dd_item': 'edit_relation'}, // <-- work
+            'buttons': {'button': 'item_send_message'}
+        };
+    });
+    return parseMyRelationsForDoorbellSignShare;
+}
+
+function parseRelationsToMeForDoorbellSign(parseRelationsToMeForDoorbellSign) {
+    //console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
+    $.each(parseRelationsToMeForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseRelationsToMeForDoorbellSign[key] = {
+            'image': trueUserInfo.user_picture,
+            'cover': '',
+            'href': trueUserInfo.spring,
+            'title': trueUserInfo.user_display_name,
+            'additional': trueUserInfo.relation_email,
+            'from_user_id': trueUserInfo.from_user_id,
+            'to_user_id': trueUserInfo.to_user_id,
+            'relation': trueUserInfo.relation,
+            'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
             /*'dropdown': {'dd_item': 'edit_relation'}, // <-- work
             'buttons': {'button': 'send_message'}*/
         };
@@ -6683,27 +10817,163 @@ function parseRelationsToMeForDoorbellSign(parseRelationsToMeForDoorbellSign) {
     return parseRelationsToMeForDoorbellSign;
 }
 
-function parseSearchPeoplesForDoorbellSign(parseSearchPeoplesForDoorbellSign) {
-    console.log("parseSearchPeoplesForDoorbellSign ----->" + JSON.stringify(parseSearchPeoplesForDoorbellSign));
-    $.each(parseSearchPeoplesForDoorbellSign, function (key, value) {
-        parseSearchPeoplesForDoorbellSign[key] = {
-            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
+function parseFriendshipMyForDoorbellSign(parseFriendshipMyForDoorbellSign) {
+    //console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
+    $.each(parseFriendshipMyForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseFriendshipMyForDoorbellSign[key] = {
+            'image': trueUserInfo.user_picture,
             'cover': '',
-            'title': value.user_display_name,
-            'additional': value.city,
-            'count': value.country,
-            /*'from_user_id': value.from_user_id,
-            'to_user_id': value.to_user_id,
-            'relation': value.relation,
-            'relation_email': value.relation_email,
-            'additional': value.task_status,
-            'count': value.video_duration,*/
-            'date': value.created_at,
-            'spring': value.spring,
-            'href': value.spring,
-            'country': value.country,
-            'city': value.city,
-            'bio': value.bio
+            'href': trueUserInfo.spring,
+            'title': trueUserInfo.user_display_name,
+            //'additional': trueUserInfo.relation_email,
+            //'from_user_id': trueUserInfo.from_user_id,
+            'user_id': trueUserInfo.user_id,
+            //'to_user_id': trueUserInfo.to_user_id,
+            //'relation': trueUserInfo.relation,
+            //'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
+            /*'dropdown': {'dd_item': 'edit_relation'}, // <-- work
+            'buttons': {'button': 'friendship_accept'}*/
+        };
+    });
+    return parseFriendshipMyForDoorbellSign;
+}
+
+function parseFriendshipAcceptForDoorbellSign(parseFriendshipAcceptForDoorbellSign) {
+    //console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
+    $.each(parseFriendshipAcceptForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseFriendshipAcceptForDoorbellSign[key] = {
+            'image': trueUserInfo.user_picture,
+            'cover': '',
+            'title': trueUserInfo.user_display_name,
+            'href': trueUserInfo.spring,
+            //'additional': trueUserInfo.relation_email,
+            //'from_user_id': trueUserInfo.from_user_id,
+            'user_id': trueUserInfo.user_id,
+            //'to_user_id': trueUserInfo.to_user_id,
+            //'relation': trueUserInfo.relation,
+            //'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
+            /*'dropdown': {'dd_item': 'edit_relation'}, // <-- work */
+            'buttons': {
+                'button': 'friendship_accept',
+                'button2': 'friendship_declined'
+            }
+        };
+    });
+    return parseFriendshipAcceptForDoorbellSign;
+}
+
+function parseRecommConnectForDoorbellSign(parseRecommConnectForDoorbellSign) {
+    //console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
+    $.each(parseRecommConnectForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseRecommConnectForDoorbellSign[key] = {
+            'image': trueUserInfo.user_picture,
+            'cover': '',
+            'title': trueUserInfo.user_display_name,
+            'href': trueUserInfo.spring,
+            //'additional': trueUserInfo.relation_email,
+            //'from_user_id': trueUserInfo.from_user_id,
+            'user_id': trueUserInfo.user_id,
+            //'to_user_id': trueUserInfo.to_user_id,
+            //'relation': trueUserInfo.relation,
+            //'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
+            /*'dropdown': {'dd_item': 'edit_relation'}, // <-- work */
+            'buttons': {
+                'button': 'follow'
+            }
+        };
+    });
+    return parseRecommConnectForDoorbellSign;
+}
+
+function parseRecommFriendsForDoorbellSign(parseRecommFriendsForDoorbellSign) {
+    //console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
+    $.each(parseRecommFriendsForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseRecommFriendsForDoorbellSign[key] = {
+            'image': trueUserInfo.user_picture,
+            'cover': '',
+            'title': trueUserInfo.user_display_name,
+            'href': trueUserInfo.spring,
+            //'additional': trueUserInfo.relation_email,
+            //'from_user_id': trueUserInfo.from_user_id,
+            'user_id': trueUserInfo.user_id,
+            //'to_user_id': trueUserInfo.to_user_id,
+            //'relation': trueUserInfo.relation,
+            //'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
+            /*'dropdown': {'dd_item': 'edit_relation'}, // <-- work */
+            'buttons': {
+                'button': 'friendship'
+            }
+        };
+    });
+    return parseRecommFriendsForDoorbellSign;
+}
+
+function parseMyRequestsFriendshipForDoorbellSign(parseFriendshipAcceptForDoorbellSign) {
+    //console.log("parseMyRelationsForDoorbellSign ----->" + JSON.stringify(parseRelationsToMeForDoorbellSign));
+    $.each(parseFriendshipAcceptForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseFriendshipAcceptForDoorbellSign[key] = {
+            'image': trueUserInfo.user_picture,
+            'cover': '',
+            'title': trueUserInfo.user_display_name,
+            'href': trueUserInfo.spring,
+            //'additional': trueUserInfo.relation_email,
+            //'from_user_id': trueUserInfo.from_user_id,
+            'user_id': trueUserInfo.user_id,
+            //'to_user_id': trueUserInfo.to_user_id,
+            //'relation': trueUserInfo.relation,
+            //'relation_email': trueUserInfo.relation_email,
+            /*'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
+            /*'dropdown': {'dd_item': 'edit_relation'}, // <-- work */
+            /*'buttons': {
+                'button': 'friendship_accept',
+                'button2': 'friendship_declined'
+            }*/
+        };
+    });
+    return parseFriendshipAcceptForDoorbellSign;
+}
+
+function parseSearchPeoplesForDoorbellSign(parseSearchPeoplesForDoorbellSign) {
+    //console.log("parseSearchPeoplesForDoorbellSign ----->" + JSON.stringify(parseSearchPeoplesForDoorbellSign));
+    $.each(parseSearchPeoplesForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
+        parseSearchPeoplesForDoorbellSign[key] = {
+            'image': trueUserInfo.user_picture,
+            'cover': '',
+            'title': trueUserInfo.user_display_name,
+            'additional': trueUserInfo.city,
+            'count': trueUserInfo.country,
+            /*'from_user_id': trueUserInfo.from_user_id,
+            'to_user_id': trueUserInfo.to_user_id,
+            'relation': trueUserInfo.relation,
+            'relation_email': trueUserInfo.relation_email,
+            'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,*/
+            'date': trueUserInfo.created_at,
+            'spring': trueUserInfo.spring,
+            'href': trueUserInfo.spring,
+            'country': trueUserInfo.country,
+            'city': trueUserInfo.city,
+            'bio': trueUserInfo.bio
             /*'dropdown': {'dd_item': 'edit_relation'}, // <-- work
             'buttons': {'button': 'send_message'}*/
         };
@@ -6712,18 +10982,19 @@ function parseSearchPeoplesForDoorbellSign(parseSearchPeoplesForDoorbellSign) {
 }
 
 function parsePopRelationsForDoorbellSign(parsePopRelationsForDoorbellSign) {
-    console.log("parsePopRelationsForDoorbellSign ----->" + JSON.stringify(parsePopRelationsForDoorbellSign));
+    //console.log("parsePopRelationsForDoorbellSign ----->" + JSON.stringify(parsePopRelationsForDoorbellSign));
     $.each(parsePopRelationsForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
         parsePopRelationsForDoorbellSign[key] = {
-            'image': 'https://s3.amazonaws.com/users.vide.me/' + trueUserInfo.user_id + '_user_picture.jpg',
+            'image': 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.user_picture,
             'cover': '',
-            'title': value.user_display_name,
-            'user_id': value.user_id,
-            'spring': value.spring,
-            /*'href': value.relation_email,
-            'additional': value.task_status,
-            'count': value.video_duration,
-            'date': value.created_at,*/
+            'title': trueUserInfo.user_display_name,
+            'user_id': trueUserInfo.user_id,
+            'spring': trueUserInfo.spring,
+            /*'href': trueUserInfo.relation_email,
+            'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.video_duration,
+            'date': trueUserInfo.created_at,*/
             'edit_button': 'pop_relations'
         };
     });
@@ -6734,34 +11005,36 @@ function parseMyTaskSendmailForDoorbellSign(parseMyTaskSendmailForDoorbellSign) 
     //console.log("parseMyTaskSendmailForDoorbellSign ----->" + JSON.stringify(parseMyTaskSendmailForDoorbellSign));
     //if ($.isPlainObject(parseMyTaskSendmailForDoorbellSign)) {
     $.each(parseMyTaskSendmailForDoorbellSign, function (key, value) {
+        var trueUserInfo = paddingUserInfo(value);
         var taskImage = '';
         var taskIcon = '';
-        if (!$.isEmptyObject(value.task_status)) {
-            if (value.task_status == 'awaiting') {
+        if (!$.isEmptyObject(trueUserInfo.task_status)) {
+            if (trueUserInfo.task_status == 'awaiting') {
                 //taskImage = 'https://lh3.googleusercontent.com/Q-TyP-0iMexxAQDt7N81PLjLCrkoBkZVuSxP_1laOHxmctHhwJKsOXC9DYeBGXs8NIM=w300';
                 taskIcon = 'clock-o';
             }
-            if (value.task_status == 'worked') {
+            if (trueUserInfo.task_status == 'worked') {
                 //taskImage = 'https://lh3.googleusercontent.com/Q-TyP-0iMexxAQDt7N81PLjLCrkoBkZVuSxP_1laOHxmctHhwJKsOXC9DYeBGXs8NIM=w300';
                 taskIcon = 'cogs';
             }
-            if (value.task_status == 'success') {
-                taskImage = 'https://s3.amazonaws.com/img.vide.me/' + value.task_item_id + '.jpg';
+            if (trueUserInfo.task_status == 'success') {
+                //taskImage = 'https://s3.amazonaws.com/img.vide.me/' + trueUserInfo.task_item_id + '.jpg';
+                taskImage = trueUserInfo.task_item_id + '.jpg';
             }
-            if (value.task_status == 'error') {
+            if (trueUserInfo.task_status == 'error') {
                 taskIcon = 'frown-o';
             }
         }
         parseMyTaskSendmailForDoorbellSign[key] = {
-            //'a': value.ToUserName,
+            //'a': trueUserInfo.ToUserName,
             'image': taskImage,
             'icon': taskIcon,
             'cover': '',
-            'title': value.title,
-            'href': value.title,
-            'additional': value.task_status,
-            'count': value.to_user_email,
-            'date': value.created_at,
+            'title': trueUserInfo.title,
+            'href': trueUserInfo.title,
+            'additional': trueUserInfo.task_status,
+            'count': trueUserInfo.to_user_email,
+            'date': trueUserInfo.created_at,
             'edit_button': ''
         };
 
@@ -6788,6 +11061,75 @@ function parseSendForDoorbellSign(parseSendForDoorbellSign) {
         'edit_button': ''
     };
     return parseSendForDoorbellSign;
+}
+
+function parseSignsForDoorbellSign(parseSignsForDoorbellSign) {
+    console.log("parseSignsForDoorbellSign Before----->" + JSON.stringify(parseSignsForDoorbellSign));
+    $.each(parseSignsForDoorbellSign, function (key, value) {
+        parseSignsForDoorbellSign[key] = {
+            //'a': value.ToUserName,
+            'image': value.cover,
+            /*'cover': value.cover,*/
+            'title': value.title,
+            'href': value.spring + '/?album=' + value.title,
+            'additional': value.access,
+            'count': value.count,
+            'date': value.created_at,
+            'access': value.access,
+            /*'buttons': {'sign'},*/
+            'dropdown': {'dd_item': 'album'}
+        };
+    });
+    //delete parseSignsForDoorbellSign.results;
+    console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(parseSignsForDoorbellSign));
+    return parseSignsForDoorbellSign;
+}
+
+function parseSignsForDoorbellSignSpring(parseSignsForDoorbellSignSpring) {
+    //console.log("parseSignsForDoorbellSign Before----->" + JSON.stringify(parseSignsForDoorbellSign));
+    $.each(parseSignsForDoorbellSignSpring, function (key, value) {
+        parseSignsForDoorbellSignSpring[key] = {
+            //'a': value.ToUserName,
+            'image': value.cover,
+            /*'image': value.image,
+            'cover': value.cover,*/
+            'title': value.title,
+            'href': value.spring + '/?album=' + value.title,
+            'additional': value.access,
+            'count': value.count,
+            'date': value.created_at,
+            'access': value.access,
+            /*'buttons': {'sign'},
+            'dropdown': {'dd_item': 'album'}*/
+        };
+    });
+    //delete parseSignsForDoorbellSign.results;
+    //console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(parseSignsForDoorbellSign));
+    return parseSignsForDoorbellSignSpring;
+}
+
+function parseSignsForDoorbellSignShare(parseSignsForDoorbellSignShare, item_id) {
+    //console.log("parseSignsForDoorbellSignShare ----->");
+    //console.log("parseSignsForDoorbellSignShare Before----->" + JSON.stringify(parseSignsForDoorbellSignShare));
+    $.each(parseSignsForDoorbellSignShare, function (key, value) {
+        parseSignsForDoorbellSignShare[key] = {
+            //'a': value.ToUserName,
+            'image': value.cover,
+            /*'cover': value.cover,*/
+            'title': value.title,
+            'href': value.spring + '/?album=' + value.title,
+            //'additional': value.access,
+            'count': value.count,
+            'date': value.created_at,
+            'access': value.access,
+            'item_id': item_id,
+            'album_id': value.album_id,
+            'buttons': {'button': 'item_add_to_album'}
+        };
+    });
+    //delete parseSignsForDoorbellSign.results;
+    //console.log("parseSignsForDoorbellSign ----->" + JSON.stringify(parseSignsForDoorbellSign));
+    return parseSignsForDoorbellSignShare;
 }
 
 function showSendVideo(showSendVideo) {
@@ -6997,6 +11339,7 @@ function paddingButtonMy(paddingButtonMy) {
         },
         'item-edit-toggle': {
             'item_id': paddingButtonMy.item_id,
+            'cover': paddingButtonMy.cover,
             'title': paddingButtonMy.title,
             'content': paddingButtonMy.content,
             'access': paddingButtonMy.access,
@@ -7004,6 +11347,40 @@ function paddingButtonMy(paddingButtonMy) {
         }
     };
     return paddingButtonMy;
+}
+
+function paddingButtonMyPosts(paddingButtonMyPosts) {
+    //console.log("paddingButtonMy -----> " + JSON.stringify(paddingButtonMy));
+    paddingButtonMyPosts.showcaseButton = {
+        'contact-toggle': {
+            'item_id': paddingButtonMyPosts.item_id,
+            'title': paddingButtonMyPosts.title,
+            'content': paddingButtonMyPosts.content,
+            'created_at': paddingButtonMyPosts.created_at,
+            'updated_at': paddingButtonMyPosts.updated_at
+        },
+        'fb-send-message': {
+            'item_id': paddingButtonMyPosts.item_id,
+            'created_at': paddingButtonMyPosts.created_at,
+            'updated_at': paddingButtonMyPosts.updated_at
+        },
+        'list-toggle': {
+            'item_id': paddingButtonMyPosts.item_id,
+            'title': paddingButtonMyPosts.title,
+            'content': paddingButtonMyPosts.content,
+            'created_at': paddingButtonMyPosts.created_at,
+            'updated_at': paddingButtonMyPosts.updated_at
+        },
+        'del-my-post-toggle': {
+            'item_id': paddingButtonMyPosts.item_id,
+            'user_display_name': paddingButtonMyPosts.user_display_name,
+            'title': paddingButtonMyPosts.title,
+            'content': paddingButtonMyPosts.content,
+            'created_at': paddingButtonMyPosts.created_at,
+            'updated_at': paddingButtonMyPosts.updated_at
+        }
+    };
+    return paddingButtonMyPosts;
 }
 
 function paddingUserInfo(paddingUserInfo) {
@@ -7023,6 +11400,16 @@ function paddingUserInfo(paddingUserInfo) {
         trueUserInfo.user_display_name = paddingUserInfo.user_display_name;
     } else {
         trueUserInfo.user_display_name = 'No name';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.item_user_display_name)) {
+        trueUserInfo.item_user_display_name = paddingUserInfo.item_user_display_name;
+    } else {
+        //trueUserInfo.item_user_display_name = 'No name';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.post_user_display_name)) {
+        trueUserInfo.post_user_display_name = paddingUserInfo.post_user_display_name;
+    } else {
+        //trueUserInfo.post_user_display_name = 'No name';
     }
     if (!$.isEmptyObject(paddingUserInfo.user_first_name)) {
         trueUserInfo.user_first_name = paddingUserInfo.user_first_name;
@@ -7057,12 +11444,32 @@ function paddingUserInfo(paddingUserInfo) {
     if (!$.isEmptyObject(paddingUserInfo.user_picture)) {
         trueUserInfo.user_picture = paddingUserInfo.user_picture;
     } else {
-        trueUserInfo.user_picture = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Antu_im-invisible-user.svg/2000px-Antu_im-invisible-user.svg.png';
+        trueUserInfo.user_picture = 'nonname.jpg';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.item_user_picture)) {
+        trueUserInfo.item_user_picture = paddingUserInfo.item_user_picture;
+    } else {
+        //trueUserInfo.item_user_picture = 'nonname.jpg';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.post_user_picture)) {
+        trueUserInfo.post_user_picture = paddingUserInfo.post_user_picture;
+    } else {
+        //trueUserInfo.post_user_picture = 'nonname.jpg';
     }
     if (!$.isEmptyObject(paddingUserInfo.spring)) {
         trueUserInfo.spring = paddingUserInfo.spring;
     } else {
         trueUserInfo.spring = '';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.item_spring)) {
+        trueUserInfo.item_spring = paddingUserInfo.item_spring;
+    } else {
+        trueUserInfo.item_spring = '';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.post_spring)) {
+        trueUserInfo.post_spring = paddingUserInfo.post_spring;
+    } else {
+        trueUserInfo.post_spring = '';
     }
     if (!$.isEmptyObject(paddingUserInfo.facebook)) {
         trueUserInfo.facebook = paddingUserInfo.facebook;
@@ -7109,6 +11516,11 @@ function paddingUserInfo(paddingUserInfo) {
     } else {
         trueUserInfo.bio = '';
     }
+    if (!$.isEmptyObject(paddingUserInfo.slogan)) {
+        trueUserInfo.slogan = paddingUserInfo.slogan;
+    } else {
+        trueUserInfo.slogan = '';
+    }
     /* Tile ************************************ */
 
     if (!$.isEmptyObject(paddingUserInfo.item_id)) {
@@ -7130,6 +11542,11 @@ function paddingUserInfo(paddingUserInfo) {
         trueUserInfo.item_count_show = paddingUserInfo.item_count_show;
     } else {
         trueUserInfo.item_count_show = '';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.post_type)) {
+        trueUserInfo.post_type = paddingUserInfo.post_type;
+    } else {
+        trueUserInfo.post_type = '';
     }
     /* ****************************************** */
     if (!$.isEmptyObject(paddingUserInfo.video)) {
@@ -7201,14 +11618,19 @@ function paddingUserInfo(paddingUserInfo) {
         trueUserInfo.href = '';
     }
     if (!$.isEmptyObject(paddingUserInfo.image)) {
-        trueUserInfo.image = paddingUserInfo.image;
+        trueUserInfo.image = 'https://s3.amazonaws.com/img.vide.me/' + paddingUserInfo.image;
     } else {
         trueUserInfo.image = getRandomImage();
     }
-    if (!$.isEmptyObject(paddingUserInfo.cover)) {
+    /*if (!$.isEmptyObject(paddingUserInfo.cover)) {
         trueUserInfo.cover = paddingUserInfo.cover;
     } else {
         trueUserInfo.cover = getRandomCover();
+    }*/
+    if (!$.isEmptyObject(paddingUserInfo.cover)) {
+        trueUserInfo.cover = paddingUserInfo.cover;
+    } else {
+        trueUserInfo.cover = '';
     }
     if (!$.isEmptyObject(paddingUserInfo.access)) {
         trueUserInfo.access = paddingUserInfo.access;
@@ -7229,6 +11651,11 @@ function paddingUserInfo(paddingUserInfo) {
         trueUserInfo.count = paddingUserInfo.count;
     } else {
         trueUserInfo.count = '';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.album_id)) {
+        trueUserInfo.album_id = paddingUserInfo.album_id;
+    } else {
+        trueUserInfo.album_id = '';
     }
     if (!$.isEmptyObject(paddingUserInfo.dropdown)) {
         trueUserInfo.dropdown = paddingUserInfo.dropdown;
@@ -7258,6 +11685,11 @@ function paddingUserInfo(paddingUserInfo) {
         trueUserInfo.relation = '';
     }
     /* Connect pop */
+    if (!$.isEmptyObject(paddingUserInfo.post_owner_id)) {
+        trueUserInfo.post_owner_id = paddingUserInfo.post_owner_id;
+    } else {
+        trueUserInfo.post_owner_id = '';
+    }
     if (!$.isEmptyObject(paddingUserInfo.posts_count)) {
         trueUserInfo.posts_count = paddingUserInfo.posts_count;
     } else {
@@ -7275,6 +11707,11 @@ function paddingUserInfo(paddingUserInfo) {
     } else {
         trueUserInfo.task_status = '';
     }
+    if (!$.isEmptyObject(paddingUserInfo.task_item_id)) {
+        trueUserInfo.task_item_id = paddingUserInfo.task_item_id;
+    } else {
+        trueUserInfo.task_item_id = '';
+    }
     /* Doorbell Icon ****************************************** */
     if (!$.isEmptyObject(paddingUserInfo.icon)) {
         trueUserInfo.icon = paddingUserInfo.icon;
@@ -7287,12 +11724,29 @@ function paddingUserInfo(paddingUserInfo) {
     } else {
         trueUserInfo.relation_email = '';
     }
+    /* likes ****************************************** */
+    if (!$.isEmptyObject(paddingUserInfo.likes_count)) {
+        trueUserInfo.likes_count = paddingUserInfo.likes_count;
+    } else {
+        trueUserInfo.likes_count = '';
+    }
+    if (!$.isEmptyObject(paddingUserInfo.its_like)) {
+        trueUserInfo.its_like = paddingUserInfo.its_like;
+    } else {
+        trueUserInfo.its_like = '';
+    }
+    /* Reposts  ****************************************** */
+    if (!$.isEmptyObject(paddingUserInfo.reposts_count)) {
+        trueUserInfo.reposts_count = paddingUserInfo.reposts_count;
+    } else {
+        trueUserInfo.reposts_count = '';
+    }
     //console.log('paddingUserInfo trueUserInfo ---> ' + JSON.stringify(trueUserInfo));
     return trueUserInfo;
 }
 
 function getRandomCover() {
-    var cover = [
+    /*var cover = [
         'https://www.japan-guide.com/thumb/interest_flowers.jpg',
         'https://thumbs.dreamstime.com/z/kiwi-fruit-228928.jpg',
         'https://assets.answersingenesis.org/img/cms/content/contentnode/header_image/aquatic-animals.jpg',
@@ -7305,6 +11759,24 @@ function getRandomCover() {
         'https://media.cntraveler.com/photos/58af182429676a553e60cedf/master/w_775,c_limit/nemophila-hitachi-seaside-park-japan-GettyImages-545033958.jpg',
         'https://localtvwghp.files.wordpress.com/2015/06/hot1.jpg',
         'http://res.freestockphotos.biz/pictures/12/12734-fall-landscape-reflecting-on-a-lake-pv.jpg'
+    ];*/
+    /*var cover = [
+        'https://s3.amazonaws.com/img.vide.me/interest_flowers.jpg',
+        'https://s3.amazonaws.com/img.vide.me/kiwi-fruit-228928.jpg',
+        'https://s3.amazonaws.com/img.vide.me/aquatic-animals.jpg',
+        'https://s3.amazonaws.com/img.vide.me/800px_COLOURBOX2255721.jpg',
+        'https://s3.amazonaws.com/img.vide.me/burrowing-owls-parliament.jpg.653x0_q80_crop-smart.jpg',
+        'https://s3.amazonaws.com/img.vide.me/trees.jpg',
+        'https://s3.amazonaws.com/img.vide.me/78809294.jpg',
+        'https://s3.amazonaws.com/img.vide.me/sand-01_1024x1024.jpg',
+        'https://s3.amazonaws.com/img.vide.me/winter-scene.jpg',
+        'https://s3.amazonaws.com/img.vide.me/nemophila-hitachi-seaside-park-japan-GettyImages-545033958.jpg',
+        'https://s3.amazonaws.com/img.vide.me/hot1.jpg',
+        'https://s3.amazonaws.com/img.vide.me/12734-fall-landscape-reflecting-on-a-lake-pv.jpg'
+    ];*/
+    var cover = [
+        'ocean3.jpg',
+        'ocean2.jpg'
     ];
     return cover[Math.floor(Math.random() * cover.length)];
 }
@@ -7392,17 +11864,17 @@ function sidebarToggleHidde() {
 }
 
 function goToUrl(goToUrl) {
-    var jqxhr = $.getJSON( goToUrl, function() {
-        console.log( "goToUrl success" );
+    var jqxhr = $.getJSON(goToUrl, function () {
+        console.log("goToUrl success");
     })
-        .done(function() {
-            console.log( "goToUrl second success" );
+        .done(function () {
+            console.log("goToUrl second success");
         })
-        .fail(function() {
-            console.log( "goToUrl error" );
+        .fail(function () {
+            console.log("goToUrl error");
         })
-        .always(function() {
-            console.log( "goToUrl complete" );
+        .always(function () {
+            console.log("goToUrl complete");
         });
 
 // Perform other work here ...
@@ -7609,12 +12081,14 @@ function filter_obj(obj) {
         }
     }
 }
+
 function bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return '0 Byte';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 };
+
 function padding_item_object(padding_item_object) { // TODO: delete
     if (padding_item_object.item_id)
         true_item.item_id = padding_item_object.item_id;
@@ -7654,4 +12128,14 @@ function padding_item_object(padding_item_object) { // TODO: delete
         true_item.count = padding_item_object.count;
     if (padding_item_object.tags)
         true_item.tags = padding_item_object.tags;
+}
+
+var videmeUI = new Thing('Joe');
+
+function Thing(name333) {
+    console.log('Thing this ' + this);
+
+    this.name333 = name333;
+    console.log('Thing this.name333 ' + this.name333);
+
 }

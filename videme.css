@@ -9,6 +9,29 @@
     display: block !important;
 }
 
+/* Sidebar ********************************************/
+
+.videme-sidebar-title {
+    color: #14171a;
+    line-height: 22px;
+    text-rendering: optimizeLegibility;
+    margin-top: -.3rem;
+    margin-left: -.3rem;
+}
+
+/* Sign ********************************************/
+
+.videme-you-sign-user_cover, .videme-owner-sign-user_cover {
+    object-fit: cover;
+}
+
+.videme-sign-sign-in {
+    color: #14171a;
+    line-height: 22px;
+    text-rendering: optimizeLegibility;
+    margin-left: 1.5rem;
+}
+
 /* Owner sign ********************************************/
 
 .videme-owner-sign-user_picture {
@@ -35,7 +58,57 @@
 }
 
 .videme-country-name {
+    float: left;
 }
+
+.videme-user_link-name {
+}
+
+.videme-user_link-marker {
+    float: left;
+    margin: 0 .6rem;
+}
+
+/* Spring sign ********************************************/
+
+.videme-sign-text {
+    /*position: relative;*/
+    font-size: 1rem;
+    /*color: black;
+    font-family: sans-serif;*/
+}
+
+.videme-sign-text-concat {
+    /*position: relative;
+    display: inline-block;*/
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 4.5rem; /* (Number of lines you want visible) * (line-height) */
+    /*line-height: 1.2em;
+    text-align:justify;*/
+}
+
+.videme-sign-text.ellipsis::after {
+    /*content: "...";
+    position: absolute;
+    right: -12px;
+    bottom: 5px;*/
+}
+.videme-owner-sign-country {
+    /*line-height: .2rem;*/
+}
+
+.videme-owner-sign-city {
+    /*line-height: .2rem;*/
+}
+
+.videme-owner-sign-user_link {
+    /*line-height: .2rem;*/
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 /* Showcase ********************************************/
 
@@ -44,6 +117,24 @@
     max-width: 36px;
 
 }
+
+/*.videme-showcase-video {
+    !*height: 500px;*!
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.videme-showcase-video > video {
+    width: 100%;
+}*/
+
+/*video {
+    width: 100%    !important;
+    height: auto   !important;
+}*/
+
+/* Nav bar sign*/
 
 /* Video mini player ********************************* */
 
@@ -80,21 +171,21 @@
 
 /* Notification flyover ================================= */
 .flyover {
-    left: 150%;
+    left: 120%;
     overflow: hidden;
     position: fixed;
-    width: 50%;
-    opacity: 0.9;
+    width: 20%;
+    opacity: 0.6;
     z-index: 1050;
     transition: left 0.6s ease-out 0s;
 }
 
 .flyover-centered {
-    top: 50%;
+    top: 20%;
     transform: translate(-50%, -50%);
 }
 .flyover.in {
-    left: 50%;
+    left: 78%;
 }
 .flyover-bottom {
     bottom: 10px;
@@ -108,6 +199,14 @@
     margin-right: auto;
     margin-left: auto;
 }
+.videme-tile-title {
+
+}
+
+.videme-tips-alert {
+    width: 100%;
+    margin-bottom: .1rem;
+}
 
 .videme-narrow-tile {
     width: 100%;
@@ -115,9 +214,14 @@
 }
 
 
+.videme-relation-card-img-tile {
+    float: left;
+    width: 48px;
+    height: 48px;
+}
 /* Box ================================= */
 .videme-tile-item {
-    padding: .75rem 0rem;
+    padding: .5rem 0rem;
 }
 
 /* https://developer.mozilla.org/ru/docs/Web/CSS/flex */
@@ -132,6 +236,18 @@
     /* Grow to rest of container */
     /*background: lightgreen;*/
     /* Just so it's visible */
+}
+.videme-tile-item-owner {
+
+}
+.videme-tile-post-owner {
+
+}
+.videme-tile-post-type {
+    /*font-size: 14px;
+    color: black;
+    !*font-family: sans-serif;*!
+    margin-top: .2rem;*/
 }
 .videme-tile-item-created-at {
     /*width: 200px;*/
@@ -152,23 +268,25 @@
     /* Just so it's visible */
 }
 
-.box {
+.videme-tile-box {
     float: left;
     position: relative;
-//background-color: #F8F8F8;
-//border-bottom: 1px solid #C6C6C6;
-//border-right: 1px solid #C6C6C6;
-    /*border: 1px solid #C6C6C6;*/
-    /*width: 20%;*/
-    width: 33.333%;
-////padding-bottom: 20%;
-//=padding-bottom: 16.4%;
-//==padding-bottom: 14%;
-    padding-bottom: 18.644%;
-    /*background-color: white;*/
+    /*//background-color: #F8F8F8;
+    //border-bottom: 1px solid #C6C6C6;
+    //border-right: 1px solid #C6C6C6;
+        /!*border: 1px solid #C6C6C6;*!/
+        /!*width: 20%;*!/
+        width: 33.333%;
+    ////padding-bottom: 20%;
+    //=padding-bottom: 16.4%;
+    //==padding-bottom: 14%;
+        padding-bottom: 18.644%;
+        /*background-color: white;*/
+    width: 100%;
+    padding-bottom: 56.25%;
 }
 
-.boxInner {
+.videme-tile-boxInner {
     position: absolute;
     /*left: 1%;
     right: 1%;*/
@@ -176,9 +294,10 @@
     bottom: 0%;
     overflow: hidden;
     border: 1px solid #BCE8F1;
+    width: 100%;
 
 }
-.boxInner img {
+.videme-tile-boxInner img {
     width: 100%;
 }
 
@@ -364,7 +483,9 @@
 /*ul li:after { content: "==="; }*/
 
 /* videme-doorbell-sign-small ================================= */
-
+.videme-list-group {
+    padding: .5rem 1rem;
+}
 .videme-doorbell-sign-small {
 
 }
@@ -395,10 +516,9 @@
 }
 .videme-doorbell-sign-1st-line {
     display: flex;
-
 }
 .videme-doorbell-sign-2st-line {
-    /*display: inline-flex;*/
+    display: inline-flex;
     /*justify-content: center;*/
     align-items: flex-end;
 }
@@ -414,6 +534,7 @@
     background: tomato;
     padding: .5em;*/
     margin: 0 0 0 .5em;
+    font-size: .9rem;
 }
 .videme-doorbell-sign-action{
     margin: auto .7rem auto auto;
@@ -429,7 +550,7 @@
     /*display: inline-block;
     background: tomato;
     padding: .5em;*/
-    /*float: left;*/
+    float: left;
     margin: 0 .5rem 0 .5rem;
 }
 
@@ -478,6 +599,14 @@
     width: 120px;
     height: 120px;
 }
+.videme-spring-slogan {
+    bottom: 0;
+    position: absolute;
+    right: 1rem;
+    color: white;
+    background: gray;
+}
+
 /*.user_display_name a {
     color: whitesmoke;
     font-weight: bold;
@@ -506,6 +635,15 @@
 .spring_activity_video_value {
 
 }
+.spring_activity_image {
+    margin: -.5rem .8rem;
+}
+.spring_activity_image_label {
+    display: block;
+}
+.spring_activity_image_value {
+
+}
 .spring_activity_article {
     margin: -.5rem .8rem;
 }
@@ -513,6 +651,15 @@
     display: block;
 }
 .spring_activity_article_value {
+
+}
+.spring_activity_friends {
+    margin: -.5rem .8rem;
+}
+.spring_activity_friends_label {
+    display: block;
+}
+.spring_activity_friends_value {
 
 }
 .spring_activity_relation_to {
@@ -538,4 +685,75 @@
 .pas_info_user_id_face_img {
     max-width: 50%;
     max-height: 50%;
+    display: flex;
+}
+.pas_info_user_cover {
+    max-width: 75%;
+    max-height: 75%;
+    display: flex;
+}
+
+/* Item preview*/
+/*
+.videme-item-prev-img {
+    max-width: 6rem;
+    max-height: 6rem;
+    min-width: 6rem;
+    min-height: 6rem;
+}*/
+
+/* Modal */
+
+.modal{
+    /*display: block !important;  I added this to see the modal, you don't need this */
+}
+
+/* Important part */
+.modal-dialog{
+    /*overflow-y: initial !important*/
+}
+.modal-body{
+    /*height: 250px;*/
+    /*overflow-y: auto;*/
+}
+
+/* Modal image */
+
+.videme-modal-item-image {
+    min-width: 100%;
+    min-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Modal article */
+
+.videme-modal-article-content-place {
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+/* videojs */
+
+/* Item Edit */
+
+.videme_item_edit_image {
+    max-width: 10rem;
+    min-width: 10rem;
+    max-height: 5.5rem;
+    min-height: 5.5rem;
+}
+
+/* embed */
+.input_embed {
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing: border-box;
+}
+
+/* Image Cropper*/
+
+.modal-body img {
+    max-width: 100%;
 }
