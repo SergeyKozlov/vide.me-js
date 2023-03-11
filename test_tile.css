@@ -1,0 +1,356 @@
+/*html {
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+h5 {
+    font-size: 1.28571429em;
+    font-weight: 700;
+    line-height: 1.2857em;
+    margin: 0;
+}*/
+
+.videme-tile-v3-card {
+    font-size: 1em;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    /*border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;*/
+    /*width: 210px; YT*/
+    width: 222px;
+    /*background-color: lightskyblue;*/
+    /*background-color: #e5f1f9;*/
+}
+
+.videme-tile-v3-card-block {
+    font-size: 1em;
+    position: relative;
+    margin: 0;
+    /*padding: 1em;*/
+    border: none;
+    border-top: 1px solid rgba(34, 36, 38, .1);
+    box-shadow: none;
+    background-color: #f5f5f5;
+}
+
+.videme-tile-v3-card-img-top {
+    display: block;
+    width: 100%;
+    /*height: auto;*/
+    border-radius: .28571429rem;
+}
+
+.videme-tile-v3-card-title { /* TODO: Why???*/
+    /*font-size: 1.28571429em;*/
+    /*font-weight: 700;*/
+    font-weight: bold;
+    line-height: 1.2857em;
+    margin-bottom: -.8rem;
+}
+
+.videme-v3-relation-card-1-column {
+    /*padding: 0;*/
+}
+.videme-relation-card-img-tile-v3 {
+
+    float: left;
+    width: 2rem;
+    height: 2rem;
+    /*padding: .15rem;
+    margin: .3rem;*/
+
+}
+.videme-v3-relation-card-img {
+
+    float: left;
+    width: 3rem;
+    height: 3rem;
+    /*padding: .15rem;
+    margin: .3rem;*/
+    /*float: left;
+    width: 49px;
+    height: 49px;*/
+    /*padding: .15rem;*/
+    margin: .3rem;
+
+}
+.videme-tile-v3-card-text-user_display_name {
+    clear: both;
+    /*margin-top: .5em;*/
+    color: rgba(0, 0, 0, .68);
+    margin-top: -1rem;
+}
+.videme-tile-v3-card-text-date {
+    clear: both;
+    /*margin-top: .5em;*/
+    color: rgba(0, 0, 0, .68);
+    margin-top: -.5rem;
+}
+
+.videme-tile-v3-card-footer {
+    font-size: 1em;
+    position: static;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    /*padding: .75em 1em;*/
+    color: rgba(0, 0, 0, .4);
+    /*border-top: 1px solid rgba(0, 0, 0, .05) !important;*/
+    border-bottom: 1px solid rgba(0, 0, 0, .1) !important;
+    /*background: #a656ff;*/
+    margin-top: -1rem;
+    display: flex;
+}
+
+.card-inverse .btn {
+    border: 1px solid rgba(0, 0, 0, .05);
+}
+
+.videme-tile-v3-profile {
+    position: absolute;
+    top: -2rem;
+    display: inline-block;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 3rem;
+    height: 3rem;
+    margin: 0;
+    border: 1px solid #fff;
+    border-radius: 50%;
+}
+.videme-tile-v3-card-user-place {
+    /*margin-top: -.8rem;*/
+}
+.profile-avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.profile-inline {
+    position: relative;
+    top: 0;
+    display: inline-block;
+}
+
+.profile-inline ~ .card-title {
+    display: inline-block;
+    margin-left: 4px;
+    vertical-align: top;
+}
+
+.text-bold {
+    font-weight: 700;
+}
+
+.meta {
+    font-size: 1em;
+    color: rgba(0, 0, 0, .4);
+}
+
+.meta a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, .4);
+}
+
+.meta a:hover {
+    color: rgba(0, 0, 0, .87);
+}
+
+.videme-tile-v3-card-title {
+    /*font-size: 18px;*/
+    /*height: 40px;*/
+    /*height: 2.52rem;
+    border: 1px solid silver;
+    overflow: hidden;
+    position: relative;
+    background: white;
+    !*margin-bottom: 1em;*!
+    flex: 1;
+    white-space: nowrap;
+    !*overflow: hidden;*!
+    text-overflow: ellipsis;
+    color: black;*/
+}
+
+/*
+.videme-tile-v3-card-title:after {
+    content: '...';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0 0.3em;
+    background: inherit;
+}
+
+.videme-tile-v3-card-title span:after {
+    content: '\0000a0';
+    position: absolute;
+    width: 1000px;
+    z-index: 1;
+    background: white;
+}*/
+
+
+.videme-tile-v3-item_info_element {
+
+    /*margin-left: .8rem;
+    margin-left: 1.2rem;
+    margin-left: 1.8rem;*/
+    margin-left: 1rem;
+    cursor: pointer;
+    float: left;
+    /*font-size: larger;*/
+    /*margin-top: .5rem;*/
+
+}
+.videme-tile-v3-item_info_val {
+
+    margin-left: .5rem;
+    float: right;
+
+}
+
+.videme-owner-sign-user_cover-v3 {
+    background-image: url("https://s3.amazonaws.com/img.vide.me/videme_cover.png");
+    /*height: 13rem;*/
+    background-size: 100%;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    /*padding-bottom: 56.274%;*/
+    /*padding-bottom: 25%;*/
+    padding-bottom: 45%;
+}
+/* rrrrrr *************************************************************/
+.videme-v3-owner-sign-user-brand {
+    display: block;
+}
+.videme-v3-spring_activity_starred {
+    /*position: absolute;*/
+    bottom: 10px;
+    /*left: 200px;*/
+    left: 12rem;
+    display: flex;
+    /*color: rgba(0, 0, 0, 0.66);
+    text-shadow: 0 0 1px rgba(255,255,255,.5), 0 0 1px rgba(8, 8, 8, 0.5);*/
+    color: white;
+
+    text-shadow:
+        /*3px 3px 0 #000,*/
+        /* Simulated effect for Firefox and Opera
+           and nice enhancement for WebKit */
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px  1px 0 #000,
+            1px  1px 0 #000;
+    float: left;
+
+}
+.videme-v3-spring_activity_starred_label {
+    /*color: darkgrey;*/
+    float: left;
+    font-size: xx-large;
+}
+.videme-v3-spring_activity_starred_value {
+    /*color: cornsilk;*/
+    margin-left: .5rem;
+    font-size: x-large;
+}
+.videme-v3-spring_activity_liked {
+    /*position: absolute;*/
+    bottom: 10px;
+    /*left: 270px;*/
+    left: 17rem;
+    display: flex;
+    /*color: rgba(0, 0, 0, 0.66);
+    text-shadow: 0 0 1px rgba(255,255,255,.5), 0 0 1px rgba(8, 8, 8, 0.5);*/
+    color: white;
+
+    text-shadow:
+        /*3px 3px 0 #000,*/
+        /* Simulated effect for Firefox and Opera
+           and nice enhancement for WebKit */
+            -1px -1px 0 #000,
+            1px -1px 0 #000,
+            -1px  1px 0 #000,
+            1px  1px 0 #000;
+    float: left;
+    margin-left: 1rem;
+
+}
+.videme-v3-spring_activity_liked_label {
+    /*color: darkgrey;*/
+    float: left;
+    font-size: xx-large;
+}
+.videme-v3-spring_activity_liked_value {
+    /*color: cornsilk;*/
+    margin-left: .5rem;
+    font-size: x-large;
+}
+/**************************************************************/
+/*.video-js {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+}
+.vjs-poster {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}*/
+/**************************************************************/
+
+/* landscape*/
+.videme-tile-v3-card-landscape {
+    /*font-size: 1em;
+    overflow: hidden;
+    padding: 0;
+    border: none;*/
+    /*border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;*/
+    /*width: 210px; YT*/
+    width: 222px;
+    /*background-color: lightskyblue;*/
+    /*background-color: #e5f1f9;*/
+}
+.videme-tile-v3-card-landscape-a {
+    /*font-size: 1em;
+    overflow: hidden;
+    padding: 0;
+    border: none;*/
+    /*border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;*/
+    /*width: 210px; YT*/
+    /*width: 222px;*/
+    /*background-color: lightskyblue;*/
+    /*background-color: #e5f1f9;*/
+    font-size: 1em;
+}
+.videme-tile-v3-wrap-card-img-top-landscape {
+    /*display: block;
+    width: 100%;
+    position: relative;
+    height: 0;
+    padding: 56.25% 0 0 0;
+    overflow: hidden;
+
+    background-position: center center;
+    background-size: cover;*/
+    font-size: 1em;
+}
+.videme-tile-v3-card-block-landscape {
+    font-size: 1em;
+    /*position: relative;*/
+    margin: 0;
+    /*padding: 1em;*/
+    border: none;
+    border-top: 1px solid rgba(34, 36, 38, .1);
+    box-shadow: none;
+    background-color: #f5f5f5;
+}
